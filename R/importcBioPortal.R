@@ -13,14 +13,19 @@
 #' @export importcBioPortal
 #'
 #' @examples
-#' # mae <- importcBioPortal("blca_mskcc_solit_2012.tar.gz") (not run)
-importcBioPortal <- function(tgzfile,
+#'
+#' data(studiesTable)
+#'
+#' lamltar <- studiesTable[["cancer_study_id"]][3L]
+#' mae <- importcBioPortal(lamltar)
+importcBioPortal <- function(cancer_study_id, cancer_file = NULL,
                              split.field = c("Tumor_Sample_Barcode", "ID"),
                              names.field = c("Hugo_Symbol", "Entrez_Gene_Id"))
 {
-    orig.dir <- getwd()
-    setwd(dirname(tgzfile))
-    untar(tgzfile)
+    url_location <-
+      "https://media.githubusercontent.com/media/cBioPortal/datahub/master/public/"
+    tempDir <- tempdir()
+    untar(cancer_file, exdir = tempDir)
     fullpaths <- untar(tgzfile, list=TRUE)
     fullpaths <- grep(fullpaths,
             pattern = "data.+\\.(txt|seg)$", val=TRUE)
