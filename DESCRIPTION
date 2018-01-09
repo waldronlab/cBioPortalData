@@ -1,7 +1,7 @@
 Package: MultiAssayExperimentData
 Type: Package
 Title: Exposes and makes available data from web resources such as cBioPortal
-Version: 0.99.1
+Version: 0.99.2
 Authors@R: c(person("Levi", "Waldron", email = "lwaldron.research@gmail.com",
     role = "aut"),
     person("Marcel", "Ramos", email = "marcel.ramos@roswellpark.org",
