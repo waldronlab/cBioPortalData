@@ -1,11 +1,14 @@
 Package: MultiAssayExperimentData
 Type: Package
-Title: What the Package Does (Title Case)
-Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Title: Exposes and makes available data from web resources such as cBioPortal
+Version: 0.99.1
+Authors@R: c(person("Levi", "Waldron", email = "lwaldron.research@gmail.com",
+    role = "aut"),
+    person("Marcel", "Ramos", email = "marcel.ramos@roswellpark.org",
+    role = c("aut", "cre")))
+Description: The MultiAssayExperimentData package takes compressed resources
+    from repositories such as cBioPortal and assembles a MultiAssayExperiment
+    object with Bioconductor classes.
+License: Artistic-2.0
 Encoding: UTF-8
 LazyData: true
