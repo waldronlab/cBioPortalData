@@ -16,23 +16,50 @@
 #'
 #' data(studiesTable)
 #'
-#' lamltar <- studiesTable[["cancer_study_id"]][3L]
-#' mae <- importcBioPortal(lamltar)
+#' (laml <- studiesTable[["cancer_study_id"]][3L])
+#' mae <- importcBioPortal(laml)
+#'
+#' @export
 importcBioPortal <- function(cancer_study_id, cancer_file = NULL,
-                             split.field = c("Tumor_Sample_Barcode", "ID"),
-                             names.field = c("Hugo_Symbol", "Entrez_Gene_Id"))
-{
-    url_location <-
-      "https://media.githubusercontent.com/media/cBioPortal/datahub/master/public/"
-    tempDir <- tempdir()
-    untar(cancer_file, exdir = tempDir)
-    fullpaths <- untar(tgzfile, list=TRUE)
-    fullpaths <- grep(fullpaths,
-            pattern = "data.+\\.(txt|seg)$", val=TRUE)
-    setwd(unique(dirname(fullpaths)))
-    datafiles <- dir(pattern = "data")
-    datafiles = grep("clinical", datafiles, invert = TRUE, value = TRUE)
-    exptlist <- lapply(datafiles, function(file) {
+    dir_location = tempdir(), split.field = c("Tumor_Sample_Barcode", "ID"),
+    names.field = c("Hugo_Symbol", "Entrez_Gene_Id")) {
+
+    ## Load dataset to envir
+    loc_data <- new.env(parent = emptyenv())
+    data("studiesTable", envir = loc_data)
+    studiesTable <- loc_data[["studiesTable"]]
+
+    url_location <- paste0("https://media.githubusercontent.com/media/",
+        "cBioPortal/datahub/master/public")
+
+    if (!missing(cancer_study_id)) {
+    if (!S4Vectors::isSingleString(cancer_study_id))
+        stop("Provide a single study identifier")
+    if (!cancer_study_id %in% studiesTable[["cancer_study_id"]])
+        stop("Provide a valid study identifier")
+    }
+
+    if (is.null(cancer_file)) {
+        cancer_file <- file.path(dir_location,
+            paste0(cancer_study_id, ".tar.gz"))
+        download.file(file.path(url_location, cancer_file),
+            destfile = cancer_file)
+    } else if (!file.exists(cancer_file)) {
+        stop("'cancer_file' must exist")
+    } else {
+        dir_location <- dirname(cancer_file)
+    }
+
+    fileList <- untar(cancer_file, list = TRUE)
+    datafiles <- file.path(dir_location,
+        grep(fileList, pattern = "data.+\\.(txt|seg)$", val=TRUE))
+    untar(cancer_file, files = dataFiles, exdir = dir_location)
+
+    exptfiles <- grep("clinical", datafiles, invert = TRUE, value = TRUE)
+    clinicalfiles <- grep("clinical", datafiles, value = TRUE)
+
+    ## Perhaps a modified RTCGAToolbox::biocExtract needed here
+    exptlist <- lapply(exptfiles, function(file) {
         message(paste0("Working on: ", file))
         fun <- get(.getFUN(file))
         fun(file, split.field=split.field, names.field=names.field)
@@ -40,21 +67,18 @@ importcBioPortal <- function(cancer_study_id, cancer_file = NULL,
     names(exptlist) <-
         sub(".*data_", "", sub("\\.txt", "", basename(datafiles)))
     exptlist <- exptlist[!is.null(exptlist)]
-    clindatfile <- grep("clinical", dir(pattern = "data"), val=TRUE)
-    clindatfile <- grep("sample", clindatfile, invert=TRUE, val=TRUE)
+
+    clindatfile <- grep("sample", clinicalfiles, invert=TRUE, val=TRUE)
+
     if(length(clindatfile) > 1){
-        res <- sapply(clindatfile, function(x) ncol(readr::read_tsv(x)))
+        res <- sapply(clindatfile, function(x)
+            ncol(readr::read_tsv(x, n_max = 3L)))
         clindatfile <- clindatfile[which.max(res)]
     }
     pdat <- cbioportal2clinicaldf(clindatfile)
     mdat <- cbioportal2metadata("meta_study.txt")
-    setwd(orig.dir)
-    library(MultiAssayExperiment)
-    mae <-
-        MultiAssayExperiment(experiments = exptlist,
-                             colData = pdat,
-                             metadata = mdat)
-    return(mae)
+    MultiAssayExperiment(experiments = exptlist,
+        colData = pdat, metadata = mdat)
 }
 
 cbioportal2metadata <- function(file) {
