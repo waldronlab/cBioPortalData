@@ -1,7 +1,6 @@
 Package: MultiAssayExperimentData
-Type: Package
 Title: Exposes and makes available data from web resources such as cBioPortal
-Version: 0.99.5
+Version: 0.99.6
 Authors@R: c(person("Levi", "Waldron", email = "lwaldron.research@gmail.com",
     role = "aut"),
     person("Marcel", "Ramos", email = "marcel.ramos@roswellpark.org",
@@ -9,7 +8,15 @@ Authors@R: c(person("Levi", "Waldron", email = "lwaldron.research@gmail.com",
 Description: The MultiAssayExperimentData package takes compressed resources
     from repositories such as cBioPortal and assembles a MultiAssayExperiment
     object with Bioconductor classes.
+Depends: R (>= 3.5.0)
+Imports:
+    S4Vectors
+Suggests:
+    BiocStyle,
+    knitr
 License: Artistic-2.0
 Encoding: UTF-8
 LazyData: true
+VignetteBuilder: knitr
+BugReports: https://github.com/waldronlab/MultiAssayExperimentData/issues
 RoxygenNote: 6.0.1
