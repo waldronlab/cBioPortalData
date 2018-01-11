@@ -1,16 +1,19 @@
 #' Title importcBioPortal: convert a .tar.gz file downloaded from
 #' http://www.cbioportal.org/data_sets.jsp to a MultiAssayExperiment object
 #'
-#' @param tgzfile Path to the .tar.gz file as downloaded from cBioPortal web
-#' page.
+#' @param cancer_study_id The cBioPortal study identifier
+#' @param cancer_file The (optional) location of a previously downloaded tar
+#' file
+#' @param dir_location If no tar.gz file provided, the location to download
+#' and untar the study files
 #' @param split.field A character vector of possible column names for the column
 #' that is used to identify samples in a mutations or copy number file.
 #' @param names.field A character vector of possible column names for the column
 #' that is used to label ranges from a mutations or copy number file.
 #'
-#' @return A MultiAssayExperiment object
-#' @author Levi Waldron
-#' @export importcBioPortal
+#' @return A \code{MultiAssayExperiment} object
+#'
+#' @author Levi Waldron, M. Ramos
 #'
 #' @examples
 #'
@@ -19,7 +22,7 @@
 #' (laml <- studiesTable[["cancer_study_id"]][3L])
 #' mae <- importcBioPortal(laml)
 #'
-#' @export
+#' @export importcBioPortal
 importcBioPortal <- function(cancer_study_id, cancer_file = NULL,
     dir_location = tempdir(), split.field = c("Tumor_Sample_Barcode", "ID"),
     names.field = c("Hugo_Symbol", "Entrez_Gene_Id")) {
