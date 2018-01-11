@@ -1,5 +1,6 @@
-#' Title importcBioPortal: convert a .tar.gz file downloaded from
-#' http://www.cbioportal.org/data_sets.jsp to a MultiAssayExperiment object
+#' @title Convert a data file downloaded from MSKCC's cBioPortal to
+#' a MultiAssayExperiment object
+#'
 #'
 #' @param cancer_study_id The cBioPortal study identifier
 #' @param cancer_file The (optional) location of a previously downloaded tar
@@ -12,6 +13,7 @@
 #' that is used to label ranges from a mutations or copy number file.
 #'
 #' @return A \code{MultiAssayExperiment} object
+#' @seealso \url{http://cbioportal.org/data_sets.jsp}
 #'
 #' @author Levi Waldron, M. Ramos
 #'

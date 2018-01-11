@@ -2,8 +2,8 @@
 % Please edit documentation in R/importcBioPortal.R
 \name{importcBioPortal}
 \alias{importcBioPortal}
-\title{Title importcBioPortal: convert a .tar.gz file downloaded from
-http://www.cbioportal.org/data_sets.jsp to a MultiAssayExperiment object}
+\title{Convert a data file downloaded from MSKCC's cBioPortal to
+a MultiAssayExperiment object}
 \usage{
 importcBioPortal(cancer_study_id, cancer_file = NULL,
   dir_location = tempdir(), split.field = c("Tumor_Sample_Barcode", "ID"),
@@ -27,10 +27,6 @@ that is used to label ranges from a mutations or copy number file.}
 \value{
 A \code{MultiAssayExperiment} object
 }
-\description{
-Title importcBioPortal: convert a .tar.gz file downloaded from
-http://www.cbioportal.org/data_sets.jsp to a MultiAssayExperiment object
-}
 \examples{
 
 data(studiesTable)
@@ -38,6 +34,9 @@ data(studiesTable)
 (laml <- studiesTable[["cancer_study_id"]][3L])
 mae <- importcBioPortal(laml)
 
+}
+\seealso{
+\url{http://cbioportal.org/data_sets.jsp}
 }
 \author{
 Levi Waldron, M. Ramos
