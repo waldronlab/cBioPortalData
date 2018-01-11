@@ -1,7 +1,7 @@
 Package: MultiAssayExperimentData
 Type: Package
 Title: Exposes and makes available data from web resources such as cBioPortal
-Version: 0.99.3
+Version: 0.99.4
 Authors@R: c(person("Levi", "Waldron", email = "lwaldron.research@gmail.com",
     role = "aut"),
     person("Marcel", "Ramos", email = "marcel.ramos@roswellpark.org",
@@ -12,3 +12,4 @@ Description: The MultiAssayExperimentData package takes compressed resources
 License: Artistic-2.0
 Encoding: UTF-8
 LazyData: true
+RoxygenNote: 6.0.1
