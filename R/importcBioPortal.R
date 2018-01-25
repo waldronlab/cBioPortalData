@@ -16,13 +16,15 @@
 #' @seealso \url{http://cbioportal.org/data_sets.jsp}
 #'
 #' @author Levi Waldron, M. Ramos
+#' @include utils.R
 #'
 #' @examples
 #'
 #' data(studiesTable)
 #'
 #' (laml <- studiesTable[["cancer_study_id"]][3L])
-#' mae <- importcBioPortal(laml)
+#' mae <- importcBioPortal(laml, dir_location = "data")
+#' mae <- importcBioPortal(laml, cancer_file = "data/laml_tcga.tar.gz")
 #'
 #' @export importcBioPortal
 importcBioPortal <- function(cancer_study_id, cancer_file = NULL,
@@ -47,7 +49,7 @@ importcBioPortal <- function(cancer_study_id, cancer_file = NULL,
     if (is.null(cancer_file)) {
         cancer_file <- file.path(dir_location,
             paste0(cancer_study_id, ".tar.gz"))
-        download.file(file.path(url_location, cancer_file),
+        download.file(file.path(url_location, basename(cancer_file)),
             destfile = cancer_file)
     } else if (!file.exists(cancer_file)) {
         stop("'cancer_file' must exist")
@@ -56,19 +58,35 @@ importcBioPortal <- function(cancer_study_id, cancer_file = NULL,
     }
 
     fileList <- untar(cancer_file, list = TRUE)
-    datafiles <- file.path(dir_location,
-        grep(fileList, pattern = "data.+\\.(txt|seg)$", val=TRUE))
-    untar(cancer_file, files = dataFiles, exdir = dir_location)
+    datafiles <- grep(fileList, pattern = "data.+\\.(txt|seg)$", value = TRUE)
+    untar(cancer_file, files = datafiles, exdir = dir_location)
 
-    exptfiles <- grep("clinical", datafiles, invert = TRUE, value = TRUE)
-    clinicalfiles <- grep("clinical", datafiles, value = TRUE)
+    exptfiles <- file.path(dir_location,
+        grep("clinical", datafiles, invert = TRUE, value = TRUE))
+    clinicalfiles <- file.path(dir_location,
+        grep("clinical", datafiles, value = TRUE))
 
     ## Perhaps a modified RTCGAToolbox::biocExtract needed here
-    exptlist <- lapply(exptfiles, function(file) {
-        message(paste0("Working on: ", file))
-        fun <- get(.getFUN(file))
-        fun(file, split.field=split.field, names.field=names.field)
-    })
+
+    expnames <- sub(".*data_", "", sub("\\.txt", "", basename(exptfiles)))
+    expseq <- seq_along(exptfiles)
+    names(expseq) <- expnames
+
+    exptlist <- lapply(expseq, function(i, files, xpnames) {
+        fname <- files[[i]]
+        message(paste0("Working on: ", fname))
+        dat <- readr::read_delim(fname, delim = "\t")
+        dat <- as(as.data.frame(dat, check.names = FALSE), "DataFrame")
+        cexp <- xpnames[[i]]
+        if (grepl("meth", cexp)) {
+            .getMethyl(dat)
+        } else if (grepl("gist", cexp)) {
+            .getGISTIC(dat)
+        } else {
+            .biocExtract(dat)
+        }
+    }, files = exptfiles, xpnames = expnames)
+
     names(exptlist) <-
         sub(".*data_", "", sub("\\.txt", "", basename(datafiles)))
     exptlist <- exptlist[!is.null(exptlist)]
@@ -196,17 +214,4 @@ cbioportal2clinicaldf <- function(file) {
   metadata(clin) <- clinmeta
   rownames(clin) <- clin$SAMPLE_ID
   return(clin)
-}
-
-.getFUN <- function(file) {
-  cn <- colnames(read.delim(file, comment.char = "#", nrow = 1))
-  is.gr <-
-    any(c(
-      "Start_Position",
-      "loc.start",
-      "Chromosome",
-      "chrom",
-      "Strand"
-    ) %in% cn)
-  ifelse(is.gr, "cbioportal2grl", "cbioportal2se")
 }
