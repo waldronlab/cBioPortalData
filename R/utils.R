@@ -20,7 +20,7 @@
                 object, build = bld)
         }
         split.field <- RTCGAToolbox:::.findSampleCol(object)
-        if (is.na(split.field)) {
+        if (is.na(split.field) || !length(split.field)) {
             object <- RTCGAToolbox:::.makeGRangesFromDataFrame(object)
         } else {
             object <- RTCGAToolbox:::.makeRaggedExperimentFromDataFrame(
