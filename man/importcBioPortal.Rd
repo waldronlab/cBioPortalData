@@ -32,7 +32,7 @@ A \code{MultiAssayExperiment} object
 data(studiesTable)
 
 (laml <- studiesTable[["cancer_study_id"]][3L])
-mae <- importcBioPortal(laml, dir_location = "data")
+
 mae <- importcBioPortal(laml, cancer_file = "data/laml_tcga.tar.gz")
 
 }
