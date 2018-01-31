@@ -90,20 +90,22 @@ importcBioPortal <- function(cancer_study_id, cancer_file = NULL,
     }, files = exptfiles, xpnames = expnames)
 
     names(exptlist) <-
-        sub(".*data_", "", sub("\\.txt", "", basename(datafiles)))
-    exptlist <- exptlist[!is.null(exptlist)]
+        sub(".*data_", "", sub("\\.txt", "", basename(exptfiles)))
 
-    clindatfile <- grep("sample", clinicalfiles, invert=TRUE, val=TRUE)
+    clindatfile <- grep("sample", clinicalfiles, invert = TRUE, value = TRUE)
 
-    if(length(clindatfile) > 1){
-        res <- sapply(clindatfile, function(x)
-            ncol(readr::read_tsv(x, n_max = 3L)))
-        clindatfile <- clindatfile[which.max(res)]
+    if (length(clindatfile) > 1) {
+        ncols <- vapply(clindatfile, function(x)
+            ncol(readr::read_tsv(x, n_max = 3L)), integer(1L))
+        clindatfile <- clindatfile[which.max(ncols)]
     }
-    pdat <- cbioportal2clinicaldf(clindatfile)
-    mdat <- cbioportal2metadata("meta_study.txt")
+
+    coldata <- cbioportal2clinicaldf(clindatfile)
+    mdat <- cbioportal2metadata(mdatafile)
+    gmap <- TCGAutils::generateMap(exptlist, coldata, TCGAbarcode)
+
     MultiAssayExperiment(experiments = exptlist,
-        colData = pdat, metadata = mdat)
+        colData = coldata, sampleMap = gmap, metadata = mdat)
 }
 
 cbioportal2metadata <- function(file) {
