@@ -23,7 +23,7 @@
 #' data(studiesTable)
 #'
 #' (laml <- studiesTable[["cancer_study_id"]][3L])
-#' mae <- importcBioPortal(laml, dir_location = "data")
+#'
 #' mae <- importcBioPortal(laml, cancer_file = "data/laml_tcga.tar.gz")
 #'
 #' @export importcBioPortal
@@ -59,14 +59,16 @@ importcBioPortal <- function(cancer_study_id, cancer_file = NULL,
 
     fileList <- untar(cancer_file, list = TRUE)
     datafiles <- grep(fileList, pattern = "data.+\\.(txt|seg)$", value = TRUE)
+    datafiles <- append(datafiles, grep("meta_study", fileList, value = TRUE))
+
     untar(cancer_file, files = datafiles, exdir = dir_location)
 
     exptfiles <- file.path(dir_location,
-        grep("clinical", datafiles, invert = TRUE, value = TRUE))
+        grep("clinical|study", datafiles, invert = TRUE, value = TRUE))
     clinicalfiles <- file.path(dir_location,
         grep("clinical", datafiles, value = TRUE))
-
-    ## Perhaps a modified RTCGAToolbox::biocExtract needed here
+    mdatafile <- file.path(dir_location,
+        grep("meta_study", datafiles, value = TRUE))
 
     expnames <- sub(".*data_", "", sub("\\.txt", "", basename(exptfiles)))
     expseq <- seq_along(exptfiles)
@@ -88,30 +90,31 @@ importcBioPortal <- function(cancer_study_id, cancer_file = NULL,
     }, files = exptfiles, xpnames = expnames)
 
     names(exptlist) <-
-        sub(".*data_", "", sub("\\.txt", "", basename(datafiles)))
-    exptlist <- exptlist[!is.null(exptlist)]
+        sub(".*data_", "", sub("\\.txt", "", basename(exptfiles)))
 
-    clindatfile <- grep("sample", clinicalfiles, invert=TRUE, val=TRUE)
+    clindatfile <- grep("sample", clinicalfiles, invert = TRUE, value = TRUE)
 
-    if(length(clindatfile) > 1){
-        res <- sapply(clindatfile, function(x)
-            ncol(readr::read_tsv(x, n_max = 3L)))
-        clindatfile <- clindatfile[which.max(res)]
+    if (length(clindatfile) > 1) {
+        ncols <- vapply(clindatfile, function(x)
+            ncol(readr::read_tsv(x, n_max = 3L)), integer(1L))
+        clindatfile <- clindatfile[which.max(ncols)]
     }
-    pdat <- cbioportal2clinicaldf(clindatfile)
-    mdat <- cbioportal2metadata("meta_study.txt")
+
+    coldata <- cbioportal2clinicaldf(clindatfile)
+    mdat <- cbioportal2metadata(mdatafile)
+    gmap <- TCGAutils::generateMap(exptlist, coldata, TCGAbarcode)
+
     MultiAssayExperiment(experiments = exptlist,
-        colData = pdat, metadata = mdat)
+        colData = coldata, sampleMap = gmap, metadata = mdat)
 }
 
 cbioportal2metadata <- function(file) {
-  file <- grep(file, dir(), val=TRUE)
-  md <- readLines(file, warn = FALSE)
-  mdl <- lapply(seq_along(md), function(i) {
-    sub(".+: ", "", md[[i]])
-  })
-  names(mdl) <- sub(":.+", "", md)
-  return(mdl)
+    md <- readLines(file, warn = FALSE)
+    mdl <- lapply(seq_along(md), function(i) {
+      sub(".+: ", "", md[[i]])
+    })
+    names(mdl) <- sub(":.+", "", md)
+    return(mdl)
 }
 
 cbioportal2se <- function(file, ...) {
@@ -201,17 +204,17 @@ cbioportal2grl <-
   }
 
 cbioportal2clinicaldf <- function(file) {
-  clin <- readr::read_tsv(file, comment = "#")
-  clinmeta <- readr::read_tsv(file, col_names = FALSE, n_max = 2)
-  clinmeta <- t(clinmeta)
-  clinmeta <- sub("^\\#", "", clinmeta)
-  colnames(clinmeta) <- c("column", "definition")
-  clinmeta <- lapply(seq_along(colnames(clin)), function(i) {
-    clinmeta[i, ]
-  })
-  names(clinmeta) <- colnames(clin)
-  clin <- DataFrame(clin)
-  metadata(clin) <- clinmeta
-  rownames(clin) <- clin$SAMPLE_ID
-  return(clin)
+    clin <- readr::read_tsv(file, comment = "#")
+    clinmeta <- readr::read_tsv(file, col_names = FALSE, n_max = 2)
+    clinmeta <- t(clinmeta)
+    clinmeta <- sub("^\\#", "", clinmeta)
+    colnames(clinmeta) <- c("column", "definition")
+    clinmeta <- lapply(seq_along(colnames(clin)), function(i) {
+      clinmeta[i, ]
+    })
+    names(clinmeta) <- colnames(clin)
+    clin <- DataFrame(clin)
+    metadata(clin) <- clinmeta
+    rownames(clin) <- clin[["PATIENT_ID"]]
+    return(clin)
 }

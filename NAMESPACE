@@ -2,3 +2,5 @@
 
 export(importcBioPortal)
 importFrom(S4Vectors,isSingleString)
+importFrom(S4Vectors,metadata)
+importFrom(readr,read_tsv)

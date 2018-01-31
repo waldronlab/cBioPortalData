@@ -1,2 +1,3 @@
-#' @importFrom S4Vectors isSingleString
+#' @importFrom S4Vectors isSingleString metadata
+#' @importFrom readr read_tsv
 NULL
