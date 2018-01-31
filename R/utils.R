@@ -27,10 +27,7 @@
                 object, build = bld)
         }
     } else {
-        object <- RTCGAToolbox:::.standardizeBC(object)
-        metadat <- metadata(object)
-        object <- SummarizedExperiment::SummarizedExperiment(assays = SimpleList(object))
-        metadata(object) <- metadat
+        object <- RTCGAToolbox:::.makeSummarizedExperimentFromDataFrame(object)
     }
     return(object)
 }
