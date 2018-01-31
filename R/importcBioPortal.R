@@ -109,13 +109,12 @@ importcBioPortal <- function(cancer_study_id, cancer_file = NULL,
 }
 
 cbioportal2metadata <- function(file) {
-  file <- grep(file, dir(), val=TRUE)
-  md <- readLines(file, warn = FALSE)
-  mdl <- lapply(seq_along(md), function(i) {
-    sub(".+: ", "", md[[i]])
-  })
-  names(mdl) <- sub(":.+", "", md)
-  return(mdl)
+    md <- readLines(file, warn = FALSE)
+    mdl <- lapply(seq_along(md), function(i) {
+      sub(".+: ", "", md[[i]])
+    })
+    names(mdl) <- sub(":.+", "", md)
+    return(mdl)
 }
 
 cbioportal2se <- function(file, ...) {
@@ -205,17 +204,17 @@ cbioportal2grl <-
   }
 
 cbioportal2clinicaldf <- function(file) {
-  clin <- readr::read_tsv(file, comment = "#")
-  clinmeta <- readr::read_tsv(file, col_names = FALSE, n_max = 2)
-  clinmeta <- t(clinmeta)
-  clinmeta <- sub("^\\#", "", clinmeta)
-  colnames(clinmeta) <- c("column", "definition")
-  clinmeta <- lapply(seq_along(colnames(clin)), function(i) {
-    clinmeta[i, ]
-  })
-  names(clinmeta) <- colnames(clin)
-  clin <- DataFrame(clin)
-  metadata(clin) <- clinmeta
-  rownames(clin) <- clin$SAMPLE_ID
-  return(clin)
+    clin <- readr::read_tsv(file, comment = "#")
+    clinmeta <- readr::read_tsv(file, col_names = FALSE, n_max = 2)
+    clinmeta <- t(clinmeta)
+    clinmeta <- sub("^\\#", "", clinmeta)
+    colnames(clinmeta) <- c("column", "definition")
+    clinmeta <- lapply(seq_along(colnames(clin)), function(i) {
+      clinmeta[i, ]
+    })
+    names(clinmeta) <- colnames(clin)
+    clin <- DataFrame(clin)
+    metadata(clin) <- clinmeta
+    rownames(clin) <- clin[["PATIENT_ID"]]
+    return(clin)
 }
