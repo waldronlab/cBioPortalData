@@ -95,6 +95,9 @@ importcBioPortal <- function(cancer_study_id, cancer_file = NULL,
     names(exptlist) <-
         sub(".*data_", "", sub("\\.txt", "", basename(exptfiles)))
 
+    metagr <- Filter(function(expt) {is(expt, "GRanges")}, exptlist)
+    exptlist <- Filter(function(expt) {!is(expt, "GRanges")}, exptlist)
+
     clindatfile <- grep("sample", clinicalfiles, invert = TRUE, value = TRUE)
 
     if (length(clindatfile) > 1) {
@@ -105,6 +108,8 @@ importcBioPortal <- function(cancer_study_id, cancer_file = NULL,
 
     coldata <- cbioportal2clinicaldf(clindatfile)
     mdat <- cbioportal2metadata(mdatafile, licensefile)
+    mdat <- c(mdat, metagr)
+
     gmap <- TCGAutils::generateMap(exptlist, coldata, TCGAbarcode)
 
     MultiAssayExperiment(experiments = exptlist,
