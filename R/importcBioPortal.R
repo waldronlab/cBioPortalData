@@ -59,16 +59,19 @@ importcBioPortal <- function(cancer_study_id, cancer_file = NULL,
 
     fileList <- untar(cancer_file, list = TRUE)
     datafiles <- grep(fileList, pattern = "data.+\\.(txt|seg)$", value = TRUE)
-    datafiles <- append(datafiles, grep("meta_study", fileList, value = TRUE))
+    datafiles <- c(datafiles, grep("meta_study", fileList, value = TRUE),
+        grep("/LICENSE", fileList, value = TRUE))
 
     untar(cancer_file, files = datafiles, exdir = dir_location)
 
     exptfiles <- file.path(dir_location,
-        grep("clinical|study", datafiles, invert = TRUE, value = TRUE))
+        grep("clinical|study|LICENSE", datafiles, invert = TRUE, value = TRUE))
     clinicalfiles <- file.path(dir_location,
         grep("clinical", datafiles, value = TRUE))
     mdatafile <- file.path(dir_location,
         grep("meta_study", datafiles, value = TRUE))
+    licensefile <- file.path(dir_location,
+        grep("/LICENSE", datafiles, value = TRUE))
 
     expnames <- sub(".*data_", "", sub("\\.txt", "", basename(exptfiles)))
     expseq <- seq_along(exptfiles)
@@ -101,20 +104,22 @@ importcBioPortal <- function(cancer_study_id, cancer_file = NULL,
     }
 
     coldata <- cbioportal2clinicaldf(clindatfile)
-    mdat <- cbioportal2metadata(mdatafile)
+    mdat <- cbioportal2metadata(mdatafile, licensefile)
     gmap <- TCGAutils::generateMap(exptlist, coldata, TCGAbarcode)
 
     MultiAssayExperiment(experiments = exptlist,
         colData = coldata, sampleMap = gmap, metadata = mdat)
 }
 
-cbioportal2metadata <- function(file) {
+cbioportal2metadata <- function(file, license) {
     md <- readLines(file, warn = FALSE)
     mdl <- lapply(seq_along(md), function(i) {
       sub(".+: ", "", md[[i]])
     })
     names(mdl) <- sub(":.+", "", md)
-    return(mdl)
+    lic <- readLines(license, warn = FALSE)
+    lic <- paste0(lic[lic != ""], collapse = "\n")
+    c(mdl, LICENSE = lic)
 }
 
 cbioportal2se <- function(file, ...) {
