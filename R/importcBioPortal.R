@@ -24,7 +24,7 @@
 #'
 #' (laml <- studiesTable[["cancer_study_id"]][3L])
 #'
-#' mae <- importcBioPortal(laml, cancer_file = "data/laml_tcga.tar.gz")
+#' mae <- importcBioPortal(laml)
 #'
 #' @export importcBioPortal
 importcBioPortal <- function(cancer_study_id, cancer_file = NULL,
