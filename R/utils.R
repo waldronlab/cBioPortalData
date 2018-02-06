@@ -10,25 +10,21 @@
 .biocExtract <- function(object) {
     hasRanged <- .hasRangeNames(object)
     if (hasRanged) {
-        if (RTCGAToolbox:::.hasBuildInfo(object)) {
+        if (RTCGAToolbox:::.hasBuildInfo(object))
             GBuild <- RTCGAToolbox:::.getBuild(object)
-        }
         bld <- if (exists("GBuild")) { GBuild } else { NULL }
-        if (RTCGAToolbox:::.hasConsistentRanges(object)) {
+        if (RTCGAToolbox:::.hasConsistentRanges(object))
             object <-
-            RTCGAToolbox:::.makeRangedSummarizedExperimentFromDataFrame(
-                object, build = bld)
-        }
+                RTCGAToolbox:::.makeRangedSummarizedExperimentFromDataFrame(
+                    object, build = bld)
         split.field <- RTCGAToolbox:::.findSampleCol(object)
-        if (is.na(split.field) || !length(split.field)) {
+        if (is.na(split.field) || !length(split.field))
             object <- RTCGAToolbox:::.makeGRangesFromDataFrame(object)
-        } else {
+        else
             object <- RTCGAToolbox:::.makeRaggedExperimentFromDataFrame(
                 object, build = bld)
-        }
-    } else {
+    } else
         object <- RTCGAToolbox:::.makeSummarizedExperimentFromDataFrame(object)
-    }
     return(object)
 }
 
