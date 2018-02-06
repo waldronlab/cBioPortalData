@@ -62,7 +62,7 @@
     hugodata <- RTCGAToolbox:::.hasHugoInfo(x)
     if (hugodata) {
         hugoname <- RTCGAToolbox:::.findCol(x, "Hugo_Symbol")
-        compref <- grep("Composite Element REF", x[, hugoname, drop = TRUE],
+        compref <- grep("Composite.Element.REF", x[, hugoname, drop = TRUE],
             ignore.case = TRUE)
         if (length(compref))
             x <- x[-compref, , drop = FALSE]
