@@ -58,8 +58,9 @@ importcBioPortal <- function(cancer_study_id, cancer_file = NULL,
     }
 
     fileList <- untar(cancer_file, list = TRUE)
-    datafiles <- grep(fileList, pattern = "data.+\\.(txt|seg)$", value = TRUE)
-    datafiles <- c(datafiles, grep("meta_study", fileList, value = TRUE),
+    ## Remove files that are corrupt / hidden (start with ._)
+    datafiles <- grep(fileList, pattern = "[^\\._]data.+\\.(txt|seg)$", value = TRUE)
+    datafiles <- c(datafiles, grep("[^\\._]meta_study", fileList, value = TRUE),
         grep("/LICENSE", fileList, value = TRUE))
 
     untar(cancer_file, files = datafiles, exdir = dir_location)
