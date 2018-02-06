@@ -87,10 +87,8 @@ importcBioPortal <- function(cancer_study_id, cancer_file = NULL,
         if (!RTCGAToolbox:::.hasExperimentData(dat))
             return(dat)
         cexp <- xpnames[[i]]
-        if (grepl("meth", cexp)) {
-            .getMethyl(dat)
-        } else if (grepl("gist", cexp)) {
-            .getGISTIC(dat)
+        if (grepl("meth", cexp) || grepl("gist", cexp)) {
+            .getMixedData(dat)
         } else {
             .biocExtract(dat)
         }

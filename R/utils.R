@@ -28,18 +28,34 @@
     return(object)
 }
 
-.getGISTIC <- function(x) {
-    annoteCols <- !startsWith(names(x), "TCGA")
-    if (all(annoteCols)) {
+.nonuniquesymbols <- function(vect) {
+    as.logical(anyDuplicated(vect))
+}
+
+.getMixedData <- function(x) {
+    annotecols <- !startsWith(names(x), "TCGA")
+    if (all(annotecols)) {
         return(.biocExtract(x))
     }
-    annoteRowDF <- x[, annoteCols]
-    genecol <- grepl("^gene", names(annoteRowDF), ignore.case = TRUE)
-    rownames(annoteRowDF) <- annoteRowDF[, genecol]
-    x <- x[, !annoteCols]
-    x <- vapply(x, type.convert, numeric(nrow(x)))
+    annote <- x[, annotecols]
+
+    hugodata <- RTCGAToolbox:::.hasHugoInfo(x)
+    genecol <- grepl("^gene", names(annote), ignore.case = TRUE)
+
+    x <- data.matrix(x[, !annotecols])
+    if (hugodata) {
+        hugoname <- RTCGAToolbox:::.findCol(annote, "Hugo_Symbol")
+        geneSymbols <- annote[[hugoname]]
+        if (!.nonuniquesymbols(geneSymbols))
+            rownames(x) <- geneSymbols
+    } else if (any(genecol)) {
+        if (sum(genecol) == 1L)
+        genenames <- annote[, genecol]
+        if (!.nonuniquesymbols(genenames))
+            rownames(x) <- genenames
+    }
     x <- RTCGAToolbox:::.standardizeBC(x)
-    SummarizedExperiment::SummarizedExperiment(SimpleList(x), rowData = annoteRowDF)
+    SummarizedExperiment::SummarizedExperiment(SimpleList(x), rowData = annote)
 }
 
 .cleanHugo <- function(x) {
