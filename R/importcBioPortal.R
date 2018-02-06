@@ -80,8 +80,12 @@ importcBioPortal <- function(cancer_study_id, cancer_file = NULL,
     exptlist <- lapply(expseq, function(i, files, xpnames) {
         fname <- files[[i]]
         message(paste0("Working on: ", fname))
-        dat <- readr::read_delim(fname, delim = "\t")
-        dat <- as(as.data.frame(dat, check.names = FALSE), "DataFrame")
+        dat <- as.data.frame(readr::read_delim(fname, delim = "\t"),
+            check.names = FALSE)
+        dat <- .cleanHugo(dat)
+        dat <- as(dat, "DataFrame")
+        if (!RTCGAToolbox:::.hasExperimentData(dat))
+            return(dat)
         cexp <- xpnames[[i]]
         if (grepl("meth", cexp)) {
             .getMethyl(dat)
@@ -152,7 +156,6 @@ cbioportal2grl <-
   function(file,
            split.field,
            names.field) {
-    library(GenomicRanges)
     df <- readr::read_tsv(file, comment = "#")
     if ("Strand" %in% colnames(df) && any(c(1L, -1L) %in% df$Strand)){
         newstrand <- rep("*", nrow(df))

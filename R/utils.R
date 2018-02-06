@@ -42,18 +42,18 @@
     SummarizedExperiment::SummarizedExperiment(SimpleList(x), rowData = annoteRowDF)
 }
 
-.getMethyl <- function(x) {
-    x <- as.data.frame(x)
-    annote <- x[, !startsWith(names(x), "TCGA")]
-    isNumRow <- all(grepl("^[0-9]*$",
-        sample(rownames(x), size = 100L, replace = TRUE)))
-    if (isNumRow) {
-        geneSymbols <- annote[, grep("symbol", names(annote),
-            ignore.case = TRUE, value = TRUE)]
-        rNames <- geneSymbols
-    } else { rNames <- rownames(x) }
-    dm <- data.matrix(x[, startsWith(names(x), "TCGA")])
-    rownames(dm) <- rNames
-    dm <- RTCGAToolbox:::.standardizeBC(dm)
-    SummarizedExperiment::SummarizedExperiment(SimpleList(dm), rowData = annote)
+.cleanHugo <- function(x) {
+    hugodata <- RTCGAToolbox:::.hasHugoInfo(x)
+    if (hugodata) {
+        hugoname <- RTCGAToolbox:::.findCol(x, "Hugo_Symbol")
+        compref <- grep("Composite Element REF", x[, hugoname, drop = TRUE],
+            ignore.case = TRUE)
+        if (length(compref))
+            x <- x[-compref, , drop = FALSE]
+        hugos <- x[, hugoname, drop = TRUE]
+        hugos <- vapply(strsplit(hugos, "|", TRUE), `[`, character(1L), 1L)
+        x[, hugoname] <- hugos
+        x <- readr::type_convert(x)
+    }
+    return(x)
 }
