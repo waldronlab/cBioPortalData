@@ -97,8 +97,12 @@ importcBioPortal <- function(cancer_study_id, cancer_file = NULL,
     names(exptlist) <-
         sub(".*data_", "", sub("\\.txt", "", basename(exptfiles)))
 
-    metagr <- Filter(function(expt) {is(expt, "GRanges")}, exptlist)
-    exptlist <- Filter(function(expt) {!is(expt, "GRanges")}, exptlist)
+    .checkNonExpData <- function(exp) {
+        is(exp, "GRanges") || is(exp, "DataFrame")
+    }
+
+    metadats <- Filter(.checkNonExpData, exptlist)
+    exptlist <- Filter(function(expt) {!.checkNonExpData(expt)}, exptlist)
 
     clindatfile <- grep("sample", clinicalfiles, invert = TRUE, value = TRUE)
 
@@ -110,7 +114,7 @@ importcBioPortal <- function(cancer_study_id, cancer_file = NULL,
 
     coldata <- cbioportal2clinicaldf(clindatfile)
     mdat <- cbioportal2metadata(mdatafile, licensefile)
-    mdat <- c(mdat, metagr)
+    mdat <- c(mdat, metadats)
 
     gmap <- TCGAutils::generateMap(exptlist, coldata, TCGAbarcode)
 
