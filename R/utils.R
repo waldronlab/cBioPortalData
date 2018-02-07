@@ -7,7 +7,7 @@
     !all(is.na(TCGAutils::findGRangesCols(names(x))))
 }
 
-.biocExtract <- function(object) {
+.biocExtract <- function(object, names.field) {
     hasRanged <- .hasRangeNames(object)
     if (hasRanged) {
         if (RTCGAToolbox:::.hasBuildInfo(object))
@@ -16,44 +16,33 @@
         if (RTCGAToolbox:::.hasConsistentRanges(object))
             object <-
                 RTCGAToolbox:::.makeRangedSummarizedExperimentFromDataFrame(
-                    object, build = bld)
+                    object, build = bld, names.field = names.field)
         split.field <- RTCGAToolbox:::.findSampleCol(object)
         if (is.na(split.field) || !length(split.field))
             object <- RTCGAToolbox:::.makeGRangesFromDataFrame(object)
         else
             object <- RTCGAToolbox:::.makeRaggedExperimentFromDataFrame(
-                object, build = bld)
+                object, build = bld, names.field = names.field)
     } else
-        object <- RTCGAToolbox:::.makeSummarizedExperimentFromDataFrame(object)
+        object <- RTCGAToolbox:::.makeSummarizedExperimentFromDataFrame(object,
+            names.field = names.field)
     return(object)
 }
 
-.nonuniquesymbols <- function(vect) {
-    as.logical(anyDuplicated(vect))
-}
 
-.getMixedData <- function(x) {
+.getMixedData <- function(x, name.field) {
     annotecols <- !startsWith(names(x), "TCGA")
     if (all(annotecols)) {
         return(.biocExtract(x))
     }
     annote <- x[, annotecols]
 
-    hugodata <- RTCGAToolbox:::.hasHugoInfo(x)
-    genecol <- grepl("^gene", names(annote), ignore.case = TRUE)
-
     x <- data.matrix(x[, !annotecols])
-    if (hugodata) {
-        hugoname <- RTCGAToolbox:::.findCol(annote, "Hugo_Symbol")
-        geneSymbols <- annote[[hugoname]]
-        if (!.nonuniquesymbols(geneSymbols))
-            rownames(x) <- geneSymbols
-    } else if (any(genecol)) {
-        if (sum(genecol) == 1L)
-        genenames <- annote[, genecol]
-        if (!.nonuniquesymbols(genenames))
-            rownames(x) <- genenames
+
+    if (!is.null(name.field)) {
+        rownames(x) <- annote[[name.field]]
     }
+
     x <- RTCGAToolbox:::.standardizeBC(x)
     SummarizedExperiment::SummarizedExperiment(SimpleList(x), rowData = annote)
 }
@@ -72,4 +61,31 @@
         x <- readr::type_convert(x)
     }
     return(x)
+}
+
+.nonuniquesymbols <- function(vect) {
+    if (is.null(vect))
+        return(FALSE)
+    as.logical(anyDuplicated(vect))
+}
+
+.findNameFields <- function(x, names.field) {
+    names.results <- Filter(length, lapply(names.field, function(nf)
+        RTCGAToolbox:::.findCol(x, nf)))
+    name.fields <- unlist(names.results, use.names = FALSE)
+    if (!length(name.fields))
+        name.fields <- NULL
+    name.fields
+}
+
+.getNameField <- function(x, names.field) {
+    names.fields <- .findNameFields(x, names.field = names.field)
+    vnames <- vapply(names.fields, function(ids) {
+            !.nonuniquesymbols(x[[ids]])
+        }, logical(1L))
+    rname <- which(vnames)
+    if (length(rname)) {
+        return(names.fields[rname[[1L]]])
+    }
+    NULL
 }
