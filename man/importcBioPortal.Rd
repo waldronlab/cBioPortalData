@@ -7,7 +7,7 @@ a MultiAssayExperiment object}
 \usage{
 importcBioPortal(cancer_study_id, cancer_file = NULL,
   dir_location = tempdir(), split.field = c("Tumor_Sample_Barcode", "ID"),
-  names.field = c("Hugo_Symbol", "Entrez_Gene_Id"))
+  names.field = c("Hugo_Symbol", "Entrez_Gene_Id", "Gene"))
 }
 \arguments{
 \item{cancer_study_id}{The cBioPortal study identifier}

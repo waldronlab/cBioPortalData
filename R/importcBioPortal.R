@@ -29,7 +29,7 @@
 #' @export importcBioPortal
 importcBioPortal <- function(cancer_study_id, cancer_file = NULL,
     dir_location = tempdir(), split.field = c("Tumor_Sample_Barcode", "ID"),
-    names.field = c("Hugo_Symbol", "Entrez_Gene_Id")) {
+    names.field = c("Hugo_Symbol", "Entrez_Gene_Id", "Gene")) {
 
     ## Load dataset to envir
     loc_data <- new.env(parent = emptyenv())
@@ -84,14 +84,16 @@ importcBioPortal <- function(cancer_study_id, cancer_file = NULL,
         dat <- as.data.frame(readr::read_delim(fname, delim = "\t"),
             check.names = FALSE)
         dat <- .cleanHugo(dat)
+
+        name.field <- .getNameField(dat, names.field = names.field)
         dat <- as(dat, "DataFrame")
         if (!RTCGAToolbox:::.hasExperimentData(dat))
             return(dat)
         cexp <- xpnames[[i]]
         if (grepl("meth", cexp) || grepl("gist", cexp)) {
-            .getMixedData(dat)
+            .getMixedData(dat, name.field)
         } else {
-            .biocExtract(dat)
+            .biocExtract(dat, name.field)
         }
     }, files = exptfiles, xpnames = expnames)
 
