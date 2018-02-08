@@ -46,7 +46,7 @@
 }
 
 .cleanHugo <- function(x) {
-    hugodata <- RTCGAToolbox:::.hasHugoInfo(x)
+    hugodata <- RTCGAToolbox:::.hasInfo(x, "Hugo_Symbol")
     if (hugodata) {
         hugoname <- RTCGAToolbox:::.findCol(x, "Hugo_Symbol")
         compref <- grep("Composite.Element.REF", x[, hugoname, drop = TRUE],
