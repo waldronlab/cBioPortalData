@@ -4,7 +4,7 @@
     if (tcgacols) { return(FALSE) }
     if (!any(is.data.frame(x), is(x, "DataFrame"), is.matrix(x)))
         stop("(internal) 'x' must be rectangular")
-    !all(is.na(TCGAutils::findGRangesCols(names(x))))
+    !all(is.na(RTCGAToolbox:::.findGRangesCols(names(x))))
 }
 
 .biocExtract <- function(object, names.field) {
@@ -17,7 +17,8 @@
                     object, build = build, names.field = names.field)
         split.field <- RTCGAToolbox:::.findSampleCol(object)
         if (is.na(split.field) || !length(split.field))
-            object <- RTCGAToolbox:::.makeGRangesFromDataFrame(object)
+            object <- RTCGAToolbox:::.makeGRangesFromDataFrame(object,
+                build = build)
         else
             object <- RTCGAToolbox:::.makeRaggedExperimentFromDataFrame(
                 object, build = build, names.field = names.field)
