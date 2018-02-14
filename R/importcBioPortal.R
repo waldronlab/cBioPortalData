@@ -81,7 +81,8 @@ importcBioPortal <- function(cancer_study_id, cancer_file = NULL,
     exptlist <- lapply(expseq, function(i, files, xpnames) {
         fname <- files[[i]]
         message(paste0("Working on: ", fname))
-        dat <- as.data.frame(readr::read_delim(fname, delim = "\t"),
+        dat <- as.data.frame(
+            readr::read_tsv(fname, comment = "#"),
             check.names = FALSE)
         dat <- .cleanHugo(dat)
 
@@ -137,7 +138,6 @@ cbioportal2metadata <- function(file, license) {
 }
 
 cbioportal2se <- function(file, ...) {
-  library(SummarizedExperiment)
   df <- readr::read_tsv(file, comment = "#")
   looks.like.cn <- sapply(seq_along(df), function(i) {
     all(na.omit(df[[i]]) %in% -2:2)
