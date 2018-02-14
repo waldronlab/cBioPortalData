@@ -88,3 +88,16 @@
     }
     NULL
 }
+
+.hasTCGA <- function(coldat) {
+    tcgacols <- apply(coldat, 2L, function(col) {
+        all(startsWith(col, "TCGA"))
+    })
+    any(tcgacols)
+}
+
+.hasMappers <- function(coldat) {
+    pt <- RTCGAToolbox:::.findCol(coldat, "PATIENT_ID")
+    samp <- RTCGAToolbox:::.findCol(coldat, "SAMPLE_ID")
+    length(pt) && length(samp)
+}

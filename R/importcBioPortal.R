@@ -120,7 +120,14 @@ importcBioPortal <- function(cancer_study_id, cancer_file = NULL,
     mdat <- cbioportal2metadata(mdatafile, licensefile)
     mdat <- c(mdat, metadats)
 
-    gmap <- TCGAutils::generateMap(exptlist, coldata, TCGAbarcode)
+    if (.hasTCGA(coldata)) {
+        gmap <- TCGAutils::generateMap(exptlist, coldata, TCGAbarcode)
+    } else if (.hasMappers(coldata)) {
+        gmap <- TCGAutils::generateMap(exptlist, coldata,
+            sampleCol = "SAMPLE_ID", patientCol = "PATIENT_ID")
+    } else {
+        stop("Experiment data could not be mapped to colData")
+    }
 
     MultiAssayExperiment(experiments = exptlist,
         colData = coldata, sampleMap = gmap, metadata = mdat)
