@@ -12,7 +12,7 @@
 }
 
 download_data_file <- function(fileURL, cancer_study_id, verbose = FALSE,
-    use_cache = TRUE) {
+    use_cache) {
     bfc <- .get_cache(use_cache)
     rid <- bfcquery(bfc, cancer_study_id, "rname")$rid
     if (!length(rid)) {
@@ -73,7 +73,8 @@ importcBioPortal <- function(cancer_study_id, use_cache = TRUE,
         "cBioPortal/datahub/master/public")
     url_file <- file.path(url_location, paste0(cancer_study_id, ".tar.gz"))
 
-    cancer_file <- download_data_file(url_file, cancer_study_id, verbose = TRUE)
+    cancer_file <- download_data_file(url_file, cancer_study_id,
+        verbose = TRUE, use_cache = use_cache)
 
     fileList <- untar(cancer_file, list = TRUE)
     ## Remove files that are corrupt / hidden (start with ._)
