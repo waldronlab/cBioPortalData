@@ -1,3 +1,31 @@
+.get_cache <- function(use_cache = TRUE) {
+    if (use_cache)
+        cache <- rappdirs::user_cache_dir(appname = "MultiAssayExperimentData")
+    else
+        cache <- tempdir()
+
+    BiocFileCache::BiocFileCache(cache)
+}
+
+.cache_exists <- function(bfc, rname) {
+    file.exists(bfcrpath(bfc, rname))
+}
+
+download_data_file <- function(fileURL, cancer_study_id, verbose = FALSE,
+    use_cache = TRUE) {
+    bfc <- .get_cache(use_cache)
+    rid <- bfcquery(bfc, cancer_study_id, "rname")$rid
+    if (!length(rid)) {
+        if( verbose )
+            message( "Downloading study file: ", cancer_study_id, ".tar.gz")
+        rid <- names(bfcadd(bfc, cancer_study_id, fileURL))
+    }
+    if (!.cache_exists(bfc, cancer_study_id))
+        bfcdownload(bfc, rid, ask = FALSE)
+
+    bfcrpath(bfc, rids = rid)
+}
+
 #' @title Convert a data file downloaded from MSKCC's cBioPortal to
 #' a MultiAssayExperiment object
 #'
