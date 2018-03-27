@@ -10,6 +10,7 @@ Description: The MultiAssayExperimentData package takes compressed resources
     object with Bioconductor classes.
 Depends: R (>= 3.5.0)
 Imports:
+    BiocFileCache,
     MultiAssayExperiment,
     S4Vectors,
     readr,

@@ -2,6 +2,12 @@
 
 export(importcBioPortal)
 import(RTCGAToolbox)
+importFrom(BiocFileCache,BiocFileCache)
+importFrom(BiocFileCache,bfcadd)
+importFrom(BiocFileCache,bfcdownload)
+importFrom(BiocFileCache,bfcneedsupdate)
+importFrom(BiocFileCache,bfcquery)
+importFrom(BiocFileCache,bfcrpath)
 importFrom(MultiAssayExperiment,MultiAssayExperiment)
 importFrom(S4Vectors,"metadata<-")
 importFrom(S4Vectors,DataFrame)
