@@ -28,15 +28,13 @@
     return(object)
 }
 
-
 .getMixedData <- function(x, name.field) {
-    annotecols <- !startsWith(names(x), "TCGA")
-    if (all(annotecols)) {
-        return(.biocExtract(x))
-    }
-    annote <- x[, annotecols]
+    samplesAsCols <- .samplesAsCols(x)
+    if (!any(samplesAsCols)) { return(.biocExtract(x)) }
 
-    x <- data.matrix(x[, !annotecols])
+    annote <- x[, !samplesAsCols]
+
+    x <- data.matrix(x[, samplesAsCols])
 
     if (!is.null(name.field)) {
         rownames(x) <- annote[[name.field]]
@@ -68,6 +66,7 @@
     as.logical(anyDuplicated(vect))
 }
 
+# vectorized version of finding name fields
 .findNameFields <- function(x, names.field) {
     names.results <- Filter(length, lapply(names.field, function(nf)
         RTCGAToolbox:::.findCol(x, nf)))
@@ -77,6 +76,8 @@
     name.fields
 }
 
+# Get the column name of the name field that has unique identifiers at every
+# row
 .getNameField <- function(x, names.field) {
     names.fields <- .findNameFields(x, names.field = names.field)
     vnames <- vapply(names.fields, function(ids) {
@@ -89,11 +90,14 @@
     NULL
 }
 
-.hasTCGA <- function(coldat) {
-    tcgacols <- apply(coldat, 2L, function(col) {
+.samplesAsCols <- function(x) {
+    startsWith(names(x), "TCGA")
+}
+
+.TCGAcols <- function(df) {
+    apply(df, 2L, function(col) {
         all(startsWith(col, "TCGA"))
     })
-    any(tcgacols)
 }
 
 .hasMappers <- function(coldat) {

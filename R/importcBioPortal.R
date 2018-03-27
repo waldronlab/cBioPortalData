@@ -85,13 +85,16 @@ importcBioPortal <- function(cancer_study_id, use_cache = TRUE,
     untar(cancer_file, files = datafiles, exdir = tempdir())
 
     exptfiles <- file.path(worktemp,
-        grep("clinical|study|LICENSE", datafiles, invert = TRUE, value = TRUE))
+        grep("clinical|study|LICENSE|fusion", datafiles, invert = TRUE,
+            value = TRUE))
     clinicalfiles <- file.path(worktemp,
         grep("clinical", datafiles, value = TRUE))
     mdatafile <- file.path(worktemp,
         grep("meta_study", datafiles, value = TRUE))
     licensefile <- file.path(worktemp,
         grep("/LICENSE", datafiles, value = TRUE))
+    fusionExtra <- file.path(worktemp, grep("fusion", datafiles,
+        value = TRUE, ignore.case = TRUE))
 
     expnames <- sub(".*data_", "", sub("\\.txt", "", basename(exptfiles)))
     expseq <- seq_along(exptfiles)
@@ -137,9 +140,10 @@ importcBioPortal <- function(cancer_study_id, use_cache = TRUE,
 
     coldata <- cbioportal2clinicaldf(clindatfile)
     mdat <- cbioportal2metadata(mdatafile, licensefile)
-    mdat <- c(mdat, metadats)
+    fudat <- readr::read_tsv(fusionExtra, comment = "#")
+    mdat <- c(mdat, metadats, fudat)
 
-    if (.hasTCGA(coldata)) {
+    if (any(.TCGAcols(coldata))) {
         gmap <- TCGAutils::generateMap(exptlist, coldata, TCGAbarcode)
     } else if (.hasMappers(coldata)) {
         gmap <- TCGAutils::generateMap(exptlist, coldata,
