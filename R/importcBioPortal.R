@@ -31,10 +31,8 @@ download_data_file <- function(fileURL, cancer_study_id, verbose = FALSE,
 #'
 #'
 #' @param cancer_study_id The cBioPortal study identifier
-#' @param cancer_file The (optional) location of a previously downloaded tar
-#' file
-#' @param dir_location If no tar.gz file provided, the location to download
-#' and untar the study files
+#' @param use_cache logical (default TRUE) if data found in the cache, do
+#' not download again, otherwise re-download data
 #' @param split.field A character vector of possible column names for the column
 #' that is used to identify samples in a mutations or copy number file.
 #' @param names.field A character vector of possible column names for the column
@@ -55,35 +53,27 @@ download_data_file <- function(fileURL, cancer_study_id, verbose = FALSE,
 #' mae <- importcBioPortal(laml)
 #'
 #' @export importcBioPortal
-importcBioPortal <- function(cancer_study_id, cancer_file = NULL,
-    dir_location = tempdir(), split.field = c("Tumor_Sample_Barcode", "ID"),
+importcBioPortal <- function(cancer_study_id, use_cache = TRUE,
+    split.field = c("Tumor_Sample_Barcode", "ID"),
     names.field = c("Hugo_Symbol", "Entrez_Gene_Id", "Gene")) {
 
+    if (missing(cancer_study_id))
+        stop("Provide a valid 'cancer_study_id' from 'studiesTable'")
     ## Load dataset to envir
     loc_data <- new.env(parent = emptyenv())
     data("studiesTable", envir = loc_data)
     studiesTable <- loc_data[["studiesTable"]]
 
+    ## Ensure study ID is valid
+    inTable <- cancer_study_id %in% studiesTable[["cancer_study_id"]]
+    if (!S4Vectors::isSingleString(cancer_study_id) || !inTable)
+        stop("Provide a single and valid study identifier")
+
     url_location <- paste0("https://media.githubusercontent.com/media/",
         "cBioPortal/datahub/master/public")
+    url_file <- file.path(url_location, paste0(cancer_study_id, ".tar.gz"))
 
-    if (!missing(cancer_study_id)) {
-    if (!S4Vectors::isSingleString(cancer_study_id))
-        stop("Provide a single study identifier")
-    if (!cancer_study_id %in% studiesTable[["cancer_study_id"]])
-        stop("Provide a valid study identifier")
-    }
-
-    if (is.null(cancer_file)) {
-        cancer_file <- file.path(dir_location,
-            paste0(cancer_study_id, ".tar.gz"))
-        download.file(file.path(url_location, basename(cancer_file)),
-            destfile = cancer_file)
-    } else if (!file.exists(cancer_file)) {
-        stop("'cancer_file' must exist")
-    } else {
-        dir_location <- dirname(cancer_file)
-    }
+    cancer_file <- download_data_file(url_file, cancer_study_id, verbose = TRUE)
 
     fileList <- untar(cancer_file, list = TRUE)
     ## Remove files that are corrupt / hidden (start with ._)
@@ -91,15 +81,16 @@ importcBioPortal <- function(cancer_study_id, cancer_file = NULL,
     datafiles <- c(datafiles, grep("[^\\._]meta_study", fileList, value = TRUE),
         grep("/LICENSE", fileList, value = TRUE))
 
-    untar(cancer_file, files = datafiles, exdir = dir_location)
+    worktemp <- tempdir()
+    untar(cancer_file, files = datafiles, exdir = tempdir())
 
-    exptfiles <- file.path(dir_location,
+    exptfiles <- file.path(worktemp,
         grep("clinical|study|LICENSE", datafiles, invert = TRUE, value = TRUE))
-    clinicalfiles <- file.path(dir_location,
+    clinicalfiles <- file.path(worktemp,
         grep("clinical", datafiles, value = TRUE))
-    mdatafile <- file.path(dir_location,
+    mdatafile <- file.path(worktemp,
         grep("meta_study", datafiles, value = TRUE))
-    licensefile <- file.path(dir_location,
+    licensefile <- file.path(worktemp,
         grep("/LICENSE", datafiles, value = TRUE))
 
     expnames <- sub(".*data_", "", sub("\\.txt", "", basename(exptfiles)))

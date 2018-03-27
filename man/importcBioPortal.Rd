@@ -5,18 +5,15 @@
 \title{Convert a data file downloaded from MSKCC's cBioPortal to
 a MultiAssayExperiment object}
 \usage{
-importcBioPortal(cancer_study_id, cancer_file = NULL,
-  dir_location = tempdir(), split.field = c("Tumor_Sample_Barcode", "ID"),
+importcBioPortal(cancer_study_id, use_cache = TRUE,
+  split.field = c("Tumor_Sample_Barcode", "ID"),
   names.field = c("Hugo_Symbol", "Entrez_Gene_Id", "Gene"))
 }
 \arguments{
 \item{cancer_study_id}{The cBioPortal study identifier}
 
-\item{cancer_file}{The (optional) location of a previously downloaded tar
-file}
-
-\item{dir_location}{If no tar.gz file provided, the location to download
-and untar the study files}
+\item{use_cache}{logical (default TRUE) if data found in the cache, do
+not download again, otherwise re-download data}
 
 \item{split.field}{A character vector of possible column names for the column
 that is used to identify samples in a mutations or copy number file.}
