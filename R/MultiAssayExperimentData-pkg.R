@@ -5,5 +5,5 @@
 #' @importFrom TCGAutils generateMap TCGAbarcode
 #' @import RTCGAToolbox
 #' @importFrom BiocFileCache BiocFileCache bfcquery bfcadd bfcneedsupdate
-#' bfcdownload bfcrpath
+#' bfcdownload bfcrpath bfcremove
 NULL
