@@ -59,6 +59,8 @@ importcBioPortal <- function(cancer_study_id, use_cache = TRUE,
 
     if (missing(cancer_study_id))
         stop("Provide a valid 'cancer_study_id' from 'studiesTable'")
+    else
+        cancer_study_id <- tolower(cancer_study_id)
     ## Load dataset to envir
     loc_data <- new.env(parent = emptyenv())
     data("studiesTable", envir = loc_data)
@@ -141,7 +143,12 @@ importcBioPortal <- function(cancer_study_id, use_cache = TRUE,
 
     coldata <- cbioportal2clinicaldf(clindatfile)
     mdat <- cbioportal2metadata(mdatafile, licensefile)
-    fudat <- readr::read_tsv(fusionExtra, comment = "#")
+
+    if (length(fusionExtra))
+        fudat <- readr::read_tsv(fusionExtra, comment = "#")
+    else
+        fudat <- list()
+
     mdat <- c(mdat, metadats, fudat)
 
     if (any(.TCGAcols(coldata))) {
