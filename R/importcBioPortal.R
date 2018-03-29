@@ -110,6 +110,7 @@ importcBioPortal <- function(cancer_study_id, use_cache = TRUE,
             readr::read_tsv(fname, comment = "#"),
             check.names = FALSE)
         dat <- .cleanHugo(dat)
+        dat <- .cleanStrands(dat)
 
         name.field <- .getNameField(dat, names.field = names.field)
         dat <- as(dat, "DataFrame")

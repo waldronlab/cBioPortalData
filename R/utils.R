@@ -60,6 +60,21 @@
     return(x)
 }
 
+.cleanStrands <- function(x) {
+    strandData <- RTCGAToolbox:::.hasInfo(x, "Strand")
+    if (strandData) {
+        strandname <- RTCGAToolbox:::.findCol(x, "Strand")
+        strandvec <- x[, strandname, drop = TRUE]
+        if (any(c(1L, -1L) %in% strandvec)) {
+            newStrand <- rep("*", length(strandvec))
+            newStrand[strandvec %in% 1L] <- "+"
+            newStrand[strandvec %in% -1L] <- "-"
+            x[, strandname] <- newStrand
+        }
+    }
+    return(x)
+}
+
 .nonuniquesymbols <- function(vect) {
     if (is.null(vect))
         return(FALSE)
