@@ -85,7 +85,7 @@ importcBioPortal <- function(cancer_study_id, use_cache = TRUE,
         grep("/LICENSE", fileList, value = TRUE))
 
     worktemp <- tempdir()
-    untar(cancer_file, files = datafiles, exdir = tempdir())
+    untar(cancer_file, files = datafiles, exdir = worktemp)
 
     exptfiles <- file.path(worktemp,
         grep("clinical|study|LICENSE|fusion", datafiles, invert = TRUE,
