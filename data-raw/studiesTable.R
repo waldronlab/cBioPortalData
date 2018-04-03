@@ -4,6 +4,7 @@ library(magrittr)
 library(stringr)
 library(tibble)
 library(dplyr)
+library(RCurl)
 
 cgds <- CGDS("http://www.cbioportal.org/public-portal/")
 studiesTable <- getCancerStudies(cgds)
@@ -20,4 +21,12 @@ studiesTable[["description"]] <- gsub("<.*?>", "", studiesTable[["description"]]
 studiesTable <- as(studiesTable, "DataFrame")
 studiesTable[["URL"]] <- URL
 
+fileURLs <- file.path("http://download.cbioportal.org",
+    paste0(studiesTable[["cancer_study_id"]], ".tar.gz"))
+## Requires internet connection
+validURLs <- vapply(fileURLs, RCurl::url.exists, logical(1L))
+
+studiesTable <- studiesTable[validURLs, ]
+
 devtools::use_data(studiesTable, overwrite = TRUE)
+
