@@ -40,25 +40,21 @@ function(directory = rappdirs::user_cache_dir("MultiAssayExperimentData"),
     verbose = TRUE,
     ask = interactive())
 {
-    create_path <- function(directory) {
-        dir.create(directory, recursive = TRUE, showWarnings = FALSE)
-    }
-
     stopifnot(is.character(directory),
         isSingleString(directory), !is.na(directory))
 
-    if (!ask)
-        create_path(directory)
-    else {
-        qtxt <- sprintf(
-            "Create MultiAssayExperimentData cache at \n    %s? [y/n]: ",
-            directory
-        )
-        answer <- .getAnswer(qtxt, allowed = c("y", "Y", "n", "N"))
-        if ("n" == answer)
-            stop("'cBio_cache' directory will not be created")
+    if (!dir.exists(directory)) {
+        if (ask) {
+            qtxt <- sprintf(
+                "Create MultiAssayExperimentData cache at \n    %s? [y/n]: ",
+                directory
+            )
+            answer <- .getAnswer(qtxt, allowed = c("y", "Y", "n", "N"))
+            if ("n" == answer)
+                stop("'cBio_cache' directory will not be created")
+        }
+        dir.create(directory, recursive = TRUE, showWarnings = FALSE)
     }
-    create_path(directory)
     options("cBio_cache" = directory)
 
     if (verbose)
