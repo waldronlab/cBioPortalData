@@ -1,6 +1,6 @@
 Package: MultiAssayExperimentData
 Title: Exposes and makes available data from web resources such as cBioPortal
-Version: 0.99.33
+Version: 0.99.34
 Authors@R: c(person("Levi", "Waldron", email = "lwaldron.research@gmail.com",
     role = "aut"),
     person("Marcel", "Ramos", email = "marcel.ramos@roswellpark.org",
@@ -27,6 +27,6 @@ BugReports: https://github.com/waldronlab/MultiAssayExperimentData/issues
 RoxygenNote: 6.0.1
 Collate: 
     'MultiAssayExperimentData-pkg.R'
+    'cache.R'
     'utils.R'
     'importcBioPortal.R'
-    'removeCache.R'
