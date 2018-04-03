@@ -23,7 +23,20 @@ that is used to identify samples in a mutations or copy number file.}
 that is used to label ranges from a mutations or copy number file.}
 }
 \value{
-A \code{MultiAssayExperiment} object
+A \linkS4class{MultiAssayExperiment} object
+}
+\description{
+The \code{importcBioPortal} function allows the user to
+download and process cancer study datasets found in MSKCC's cBioPortal.
+Output datasets use the \linkS4class{MultiAssayExperiment} data
+representation to faciliate analysis and data management operations.
+}
+\details{
+The list of datasets can be found in the `studiesTable` dataset
+by doing \code{data("studiesTable")}. Some datasets may not be available
+for download. Please refer to the
+\href{http://cbioportal.org/data_sets.jsp}{website} for the full list of
+datasets
 }
 \examples{
 

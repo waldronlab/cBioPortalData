@@ -12,9 +12,20 @@ download_data_file <- function(fileURL, cancer_study_id, verbose = FALSE) {
     bfcrpath(bfc, rids = rid)
 }
 
+#'
 #' @title Convert a data file downloaded from MSKCC's cBioPortal to
 #' a MultiAssayExperiment object
 #'
+#' @description The \code{importcBioPortal} function allows the user to
+#' download and process cancer study datasets found in MSKCC's cBioPortal.
+#' Output datasets use the \linkS4class{MultiAssayExperiment} data
+#' representation to faciliate analysis and data management operations.
+#'
+#' @details The list of datasets can be found in the `studiesTable` dataset
+#' by doing \code{data("studiesTable")}. Some datasets may not be available
+#' for download. Please refer to the
+#' \href{http://cbioportal.org/data_sets.jsp}{website} for the full list of
+#' datasets
 #'
 #' @param cancer_study_id The cBioPortal study identifier
 #' @param use_cache logical (default TRUE) create the default cache location
@@ -25,7 +36,7 @@ download_data_file <- function(fileURL, cancer_study_id, verbose = FALSE) {
 #' @param names.field A character vector of possible column names for the column
 #' that is used to label ranges from a mutations or copy number file.
 #'
-#' @return A \code{MultiAssayExperiment} object
+#' @return A \linkS4class{MultiAssayExperiment} object
 #' @seealso \url{http://cbioportal.org/data_sets.jsp}
 #'
 #' @author Levi Waldron, M. Ramos
