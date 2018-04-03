@@ -12,8 +12,9 @@ importcBioPortal(cancer_study_id, use_cache = TRUE,
 \arguments{
 \item{cancer_study_id}{The cBioPortal study identifier}
 
-\item{use_cache}{logical (default TRUE) if data found in the cache, do
-not download again, otherwise re-download data}
+\item{use_cache}{logical (default TRUE) create the default cache location
+and use it to track downloaded data. If data found in the cache, data will
+not be re-downloaded}
 
 \item{split.field}{A character vector of possible column names for the column
 that is used to identify samples in a mutations or copy number file.}

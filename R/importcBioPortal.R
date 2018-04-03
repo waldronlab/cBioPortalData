@@ -1,6 +1,5 @@
-download_data_file <- function(fileURL, cancer_study_id, verbose = FALSE,
-    use_cache) {
-    bfc <- .get_cache(use_cache)
+download_data_file <- function(fileURL, cancer_study_id, verbose = FALSE) {
+    bfc <- .get_cache()
     rid <- bfcquery(bfc, cancer_study_id, "rname")$rid
     if (!length(rid)) {
         if( verbose )
@@ -18,8 +17,9 @@ download_data_file <- function(fileURL, cancer_study_id, verbose = FALSE,
 #'
 #'
 #' @param cancer_study_id The cBioPortal study identifier
-#' @param use_cache logical (default TRUE) if data found in the cache, do
-#' not download again, otherwise re-download data
+#' @param use_cache logical (default TRUE) create the default cache location
+#' and use it to track downloaded data. If data found in the cache, data will
+#' not be re-downloaded
 #' @param split.field A character vector of possible column names for the column
 #' that is used to identify samples in a mutations or copy number file.
 #' @param names.field A character vector of possible column names for the column
@@ -62,8 +62,12 @@ importcBioPortal <- function(cancer_study_id, use_cache = TRUE,
         "cBioPortal/datahub/master/public")
     url_file <- file.path(url_location, paste0(cancer_study_id, ".tar.gz"))
 
-    cancer_file <- download_data_file(url_file, cancer_study_id,
-        verbose = TRUE, use_cache = use_cache)
+    if (use_cache)
+        setCache(verbose = FALSE, ask = FALSE)
+    else
+        stop("Use 'setCache' to specify a download location")
+
+    cancer_file <- download_data_file(url_file, cancer_study_id, verbose = TRUE)
 
     fileList <- untar(cancer_file, list = TRUE)
     ## Remove files that are corrupt / hidden (start with ._)
