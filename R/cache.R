@@ -71,8 +71,8 @@ function(directory = rappdirs::user_cache_dir("MultiAssayExperimentData"),
     options("cBio_cache" = directory)
 
     if (verbose)
-        message("MultiAssayExperimentData cache directory set to: ",
-                directory)
+        message("MultiAssayExperimentData cache directory set to:\n    ",
+            directory)
     invisible(directory)
 }
 
