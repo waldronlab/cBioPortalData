@@ -63,7 +63,7 @@ importcBioPortal <- function(cancer_study_id, use_cache = TRUE,
     url_file <- file.path(url_location, paste0(cancer_study_id, ".tar.gz"))
 
     if (use_cache)
-        setCache(verbose = FALSE, ask = FALSE)
+        cBio_cache()
     else
         stop("Use 'setCache' to specify a download location")
 
