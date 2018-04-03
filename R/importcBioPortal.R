@@ -58,8 +58,7 @@ importcBioPortal <- function(cancer_study_id, use_cache = TRUE,
     if (!S4Vectors::isSingleString(cancer_study_id) || !inTable)
         stop("Provide a single and valid study identifier")
 
-    url_location <- paste0("https://media.githubusercontent.com/media/",
-        "cBioPortal/datahub/master/public")
+    url_location <- "http://download.cbioportal.org"
     url_file <- file.path(url_location, paste0(cancer_study_id, ".tar.gz"))
 
     if (use_cache)
