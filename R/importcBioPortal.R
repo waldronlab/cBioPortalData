@@ -1,16 +1,3 @@
-.get_cache <- function(use_cache = TRUE) {
-    if (use_cache)
-        cache <- rappdirs::user_cache_dir(appname = "MultiAssayExperimentData")
-    else
-        cache <- tempdir()
-
-    BiocFileCache::BiocFileCache(cache)
-}
-
-.cache_exists <- function(bfc, rname) {
-    file.exists(bfcrpath(bfc, rname))
-}
-
 download_data_file <- function(fileURL, cancer_study_id, verbose = FALSE,
     use_cache) {
     bfc <- .get_cache(use_cache)
