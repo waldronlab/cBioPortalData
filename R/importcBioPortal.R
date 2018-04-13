@@ -1,3 +1,26 @@
+.validStudyID <- function(cancer_study_id) {
+
+    if (missing(cancer_study_id))
+        stop("Provide a valid 'cancer_study_id' from 'studiesTable'")
+
+    stopifnot(is.character(cancer_study_id),
+        !is.na(cancer_study_id), length(cancer_study_id) == 1L)
+
+    cancer_study_id <- tolower(cancer_study_id)
+    ## Load dataset to envir
+    loc_data <- new.env(parent = emptyenv())
+    data("studiesTable", envir = loc_data)
+    studiesTable <- loc_data[["studiesTable"]]
+
+    ## Ensure study ID is valid
+    inTable <- cancer_study_id %in% studiesTable[["cancer_study_id"]]
+
+    if (!inTable)
+        stop("Study identifier not found in look up table")
+    else
+        inTable
+}
+
 download_data_file <- function(fileURL, cancer_study_id, verbose = FALSE) {
     bfc <- .get_cache()
     rid <- bfcquery(bfc, cancer_study_id, "rname")$rid
@@ -55,19 +78,7 @@ importcBioPortal <- function(cancer_study_id, use_cache = TRUE,
     split.field = c("Tumor_Sample_Barcode", "ID"),
     names.field = c("Hugo_Symbol", "Entrez_Gene_Id", "Gene")) {
 
-    if (missing(cancer_study_id))
-        stop("Provide a valid 'cancer_study_id' from 'studiesTable'")
-    else
-        cancer_study_id <- tolower(cancer_study_id)
-    ## Load dataset to envir
-    loc_data <- new.env(parent = emptyenv())
-    data("studiesTable", envir = loc_data)
-    studiesTable <- loc_data[["studiesTable"]]
-
-    ## Ensure study ID is valid
-    inTable <- cancer_study_id %in% studiesTable[["cancer_study_id"]]
-    if (!S4Vectors::isSingleString(cancer_study_id) || !inTable)
-        stop("Provide a single and valid study identifier")
+    .validStudyID(cancer_study_id)
 
     url_location <- "http://download.cbioportal.org"
     url_file <- file.path(url_location, paste0(cancer_study_id, ".tar.gz"))
