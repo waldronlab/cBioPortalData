@@ -1,5 +1,5 @@
 .get_cache <- function() {
-    cache <- getOption("cBio_cache", setCache(verbose = FALSE))
+    cache <- getOption("bio_cache", setCache(verbose = FALSE))
 
     BiocFileCache::BiocFileCache(cache)
 }
@@ -8,7 +8,7 @@
     file.exists(bfcrpath(bfc, rname))
 }
 
-#' @name cBio_cache
+#' @name bio_cache
 #'
 #' @title Manage cache / download directories for study data
 #'
@@ -16,7 +16,7 @@
 #' re-downloading data files. This can be done effortlessly via the integrated
 #' BiocFileCache system.
 #'
-#' @section cBio_cache:
+#' @section bio_cache:
 #' Get the directory location of the cache. It will prompt the user to create
 #' a cache if not already created. A specific directory can be used via
 #' \code{setCache}.
@@ -42,11 +42,11 @@
 #' @md
 #'
 #' @export
-cBio_cache <- function() {
-    getOption("cBio_cache", setCache(verbose = FALSE))
+bio_cache <- function() {
+    getOption("bio_cache", setCache(verbose = FALSE))
 }
 
-#' @rdname cBio_cache
+#' @rdname bio_cache
 #' @export
 setCache <-
 function(directory = rappdirs::user_cache_dir("MultiAssayExperimentData"),
@@ -64,11 +64,11 @@ function(directory = rappdirs::user_cache_dir("MultiAssayExperimentData"),
             )
             answer <- .getAnswer(qtxt, allowed = c("y", "Y", "n", "N"))
             if ("n" == answer)
-                stop("'cBio_cache' directory not created. Use 'setCache'")
+                stop("'bio_cache' directory not created. Use 'setCache'")
         }
         dir.create(directory, recursive = TRUE, showWarnings = FALSE)
     }
-    options("cBio_cache" = directory)
+    options("bio_cache" = directory)
 
     if (verbose)
         message("MultiAssayExperimentData cache directory set to:\n    ",
@@ -76,7 +76,7 @@ function(directory = rappdirs::user_cache_dir("MultiAssayExperimentData"),
     invisible(directory)
 }
 
-#' @rdname cBio_cache
+#' @rdname bio_cache
 #' @export
 removeCache <- function(cancer_study_id) {
     bfc <- .get_cache()
