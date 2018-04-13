@@ -1,0 +1,68 @@
+.validStudyID <- function(cancer_study_id) {
+
+    if (missing(cancer_study_id))
+        stop("Provide a valid 'cancer_study_id' from 'studiesTable'")
+
+    stopifnot(is.character(cancer_study_id),
+        !is.na(cancer_study_id), length(cancer_study_id) == 1L)
+
+    cancer_study_id <- tolower(cancer_study_id)
+    ## Load dataset to envir
+    loc_data <- new.env(parent = emptyenv())
+    data("studiesTable", envir = loc_data)
+    studiesTable <- loc_data[["studiesTable"]]
+
+    ## Ensure study ID is valid
+    inTable <- cancer_study_id %in% studiesTable[["cancer_study_id"]]
+
+    if (!inTable)
+        stop("Study identifier not found in look up table")
+    else
+        inTable
+}
+
+.download_data_file <- function(fileURL, cancer_study_id, verbose = FALSE) {
+    bfc <- .get_cache()
+    rid <- bfcquery(bfc, cancer_study_id, "rname")$rid
+    if (!length(rid)) {
+        if( verbose )
+            message( "Downloading study file: ", cancer_study_id, ".tar.gz")
+        rid <- names(bfcadd(bfc, cancer_study_id, fileURL))
+    }
+    if (!.cache_exists(bfc, cancer_study_id))
+        bfcdownload(bfc, rid, ask = FALSE)
+
+    bfcrpath(bfc, rids = rid)
+}
+
+#' Download and cache study dataset
+#'
+#' Provide a `cancer_study_id` from the `studiesTable` and retrieve
+#' the study tarball from MSKCC's cBioPortal
+#'
+#' @param cancer_study_id The cBioPortal study identifier
+#' @param use_cache logical (default TRUE) create the default cache location
+#' and use it to track downloaded data. If data found in the cache, data will
+#' not be re-downloaded. A path can also be provided to data cache location.
+#'
+#' @examples
+#'
+#' downloadcBioPortal("laml_tcga_pub", use_cache = tempdir())
+#'
+#' @export
+downloadcBioPortal <- function(cancer_study_id, use_cache = TRUE) {
+
+    .validStudyID(cancer_study_id)
+
+    url_location <- "http://download.cbioportal.org"
+    url_file <- file.path(url_location, paste0(cancer_study_id, ".tar.gz"))
+
+    if (is.character(use_cache) && length(use_cache) == 1L)
+        bio_cache(directory = use_cache)
+    else if (isTRUE(use_cache))
+        bio_cache()
+    else
+        stop("Use 'setCache' or specify a download location")
+
+    .download_data_file(url_file, cancer_study_id, verbose = TRUE)
+}

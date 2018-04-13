@@ -42,8 +42,8 @@
 #' @md
 #'
 #' @export
-bio_cache <- function() {
-    getOption("bio_cache", setCache(verbose = FALSE))
+bio_cache <- function(...) {
+    getOption("bio_cache", setCache(..., verbose = FALSE))
 }
 
 #' @rdname bio_cache

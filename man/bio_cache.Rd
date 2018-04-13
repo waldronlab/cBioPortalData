@@ -6,7 +6,7 @@
 \alias{removeCache}
 \title{Manage cache / download directories for study data}
 \usage{
-bio_cache()
+bio_cache(...)
 
 setCache(directory = rappdirs::user_cache_dir("MultiAssayExperimentData"),
   verbose = TRUE, ask = interactive())
