@@ -32,6 +32,8 @@
     }
     if (!.cache_exists(bfc, query_id))
         bfcdownload(bfc, rid, ask = FALSE)
+    else
+        message("Study file in cache: ", cancer_study_id)
 
     bfcrpath(bfc, rids = rid)
 }
