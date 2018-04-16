@@ -1,12 +1,10 @@
-library(MultiAssayExperimentData)
-library(BiocParallel)
-library(RTCGAToolbox)
+devtools::load_all()
 
 setCache("/data/16tb/cbio")
 
 data(studiesTable)
-initSub <- studiesTable$cancer_study_id[1:5]
+full_ids <- studiesTable$cancer_study_id
 
-dlinks <- lapply(initSub, downloadcBioPortal)
+data_links <- vapply(full_ids, downloadcBioPortal, character(1L))
 
 
