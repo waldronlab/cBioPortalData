@@ -23,13 +23,14 @@
 
 .download_data_file <- function(fileURL, cancer_study_id, verbose = FALSE) {
     bfc <- .get_cache()
-    rid <- bfcquery(bfc, cancer_study_id, "rname")$rid
+    query_id <- glob2rx(cancer_study_id)
+    rid <- bfcquery(bfc, query_id, "rname")$rid
     if (!length(rid)) {
         if( verbose )
             message( "Downloading study file: ", cancer_study_id, ".tar.gz")
         rid <- names(bfcadd(bfc, cancer_study_id, fileURL))
     }
-    if (!.cache_exists(bfc, cancer_study_id))
+    if (!.cache_exists(bfc, query_id))
         bfcdownload(bfc, rid, ask = FALSE)
 
     bfcrpath(bfc, rids = rid)
