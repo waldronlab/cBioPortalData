@@ -69,3 +69,4 @@ downloadcBioPortal <- function(cancer_study_id, use_cache = TRUE) {
 
     .download_data_file(url_file, cancer_study_id, verbose = TRUE)
 }
+
