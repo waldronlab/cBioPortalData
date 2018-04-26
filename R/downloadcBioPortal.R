@@ -26,13 +26,13 @@
     query_id <- glob2rx(cancer_study_id)
     rid <- bfcquery(bfc, query_id, "rname")$rid
     if (!length(rid)) {
-        if( verbose )
-            message( "Downloading study file: ", cancer_study_id, ".tar.gz")
-        rid <- names(bfcadd(bfc, cancer_study_id, fileURL))
+        rid <- names(bfcadd(bfc, cancer_study_id, fileURL, download = FALSE))
     }
-    if (!.cache_exists(bfc, query_id))
-        bfcdownload(bfc, rid, ask = FALSE)
-    else
+    if (!.cache_exists(bfc, query_id)) {
+        if( verbose )
+            message("Downloading study file: ", cancer_study_id, ".tar.gz")
+            bfcdownload(bfc, rid, ask = FALSE)
+    } else
         message("Study file in cache: ", cancer_study_id)
 
     bfcrpath(bfc, rids = rid)
