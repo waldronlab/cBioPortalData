@@ -29,11 +29,30 @@
         rid <- names(bfcadd(bfc, cancer_study_id, fileURL, download = FALSE))
     }
     if (!.cache_exists(bfc, query_id)) {
-        if( verbose )
+        if (verbose)
             message("Downloading study file: ", cancer_study_id, ".tar.gz")
             bfcdownload(bfc, rid, ask = FALSE)
     } else
         message("Study file in cache: ", cancer_study_id)
+
+    bfcrpath(bfc, rids = rid)
+}
+
+.altDownload <- function(fileURL, cancer_study_id, verbose = FALSE) {
+    if (!requireNamespace("curl"))
+        stop("Download the 'curl' package to recover from download errors")
+
+    bfc <- .get_cache()
+    tmpFile <- file.path(tempdir(), paste0(cancer_study_id, ".tar.gz"))
+
+    if (verbose)
+        message("Downloading study file: ", cancer_study_id, ".tar.gz")
+
+    curl::curl_download(fileURL, destfile = tempFile, quiet = TRUE)
+
+    rid <- names(bfcadd(bfc, cancer_study_id, fpath = fileURL, download=FALSE,
+        action = "copy"))
+    file.remove(tempFile)
 
     bfcrpath(bfc, rids = rid)
 }
@@ -67,6 +86,14 @@ downloadcBioPortal <- function(cancer_study_id, use_cache = TRUE) {
     else
         stop("Use 'setCache' or specify a download location")
 
-    .download_data_file(url_file, cancer_study_id, verbose = TRUE)
+    tryCatch({
+        .download_data_file(url_file, cancer_study_id, verbose = TRUE)
+        },
+        error = function(cond) {
+            message("\n", cond)
+            message("\nRetrying download with alternative function...")
+            .altDownload(url_file, cancer_study_id, verbose = TRUE)
+        }
+    )
 }
 
