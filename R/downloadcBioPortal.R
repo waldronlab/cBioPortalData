@@ -48,11 +48,11 @@
     if (verbose)
         message("Downloading study file: ", cancer_study_id, ".tar.gz")
 
-    curl::curl_download(fileURL, destfile = tempFile, quiet = TRUE)
+    curl::curl_download(fileURL, destfile = tmpFile, quiet = TRUE)
 
     rid <- names(bfcadd(bfc, cancer_study_id, fpath = fileURL, download=FALSE,
         action = "copy"))
-    file.remove(tempFile)
+    file.remove(tmpFile)
 
     bfcrpath(bfc, rids = rid)
 }
