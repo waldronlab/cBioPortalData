@@ -113,6 +113,7 @@ importcBioPortal <- function(cancer_study_id, use_cache = TRUE,
         fudat <- list()
 
     mdat <- c(mdat, metadats, fudat)
+    exptlist <- ExperimentList(exptlist)
 
     if (any(.TCGAcols(coldata))) {
         gmap <- TCGAutils::generateMap(exptlist, coldata, TCGAbarcode)
@@ -222,6 +223,17 @@ cbioportal2grl <-
     return(grl)
   }
 
+.subBCLetters <- function(df, ptID = "PATIENT_ID") {
+    idVector <- df[[ptID]]
+    allBC <- all(grepl("[A-Z]{4}.[0-9]{2}.[0-9]{4}", idVector))
+    noTCGAstart <- !all(startsWith(idVector, "TCGA"))
+    if (allBC && noTCGAstart) {
+        idVector <- gsub("^[A-Z]{4}", "TCGA", idVector)
+        df[[ptID]] <- idVector
+    }
+    df
+}
+
 cbioportal2clinicaldf <- function(file) {
     clin <- readr::read_tsv(file, comment = "#")
     clinmeta <- readr::read_tsv(file, col_names = FALSE, n_max = 2)
@@ -234,6 +246,7 @@ cbioportal2clinicaldf <- function(file) {
     names(clinmeta) <- colnames(clin)
     clin <- DataFrame(clin)
     metadata(clin) <- clinmeta
+    clin <- .subBCLetters(clin)
     rownames(clin) <- clin[["PATIENT_ID"]]
-    return(clin)
+    clin
 }
