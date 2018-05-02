@@ -38,21 +38,36 @@
     bfcrpath(bfc, rids = rid)
 }
 
+.manageLocalFile <- function(cancer_study_id, inpath) {
+    bfc <- .get_cache()
+    query_id <- glob2rx(cancer_study_id)
+    rid <- bfcquery(bfc, query_id, "rname")$rid
+    if (!length(rid))
+        stop("Can't update non-existing cache item")
+
+    cachedir <- bfccache(bfc)
+    finalname <- paste0(gsub("file", "", basename(tempfile())), "_",
+        cancer_study_id, ".tar.gz")
+    fileLoc <- file.path(cachedir, finalname)
+    file.copy(inpath, fileLoc)
+
+    bfcupdate(bfc, rids = rid, rpath = fileLoc)
+
+    file.remove(inpath)
+    TRUE
+}
+
 .altDownload <- function(fileURL, cancer_study_id, verbose = FALSE) {
     if (!requireNamespace("curl"))
         stop("Download the 'curl' package to recover from download errors")
 
-    bfc <- .get_cache()
-    tmpFile <- file.path(tempdir(), paste0(cancer_study_id, ".tar.gz"))
-
     if (verbose)
         message("Downloading study file: ", cancer_study_id, ".tar.gz")
 
+    tmpFile <- file.path(tempdir(), paste0(cancer_study_id, ".tar.gz"))
     curl::curl_download(fileURL, destfile = tmpFile, quiet = TRUE)
 
-    rid <- names(bfcadd(bfc, cancer_study_id, fpath = fileURL, download=FALSE,
-        action = "copy"))
-    file.remove(tmpFile)
+    .manageLocalFile(cancer_study_id, tmpFile)
 
     bfcrpath(bfc, rids = rid)
 }
