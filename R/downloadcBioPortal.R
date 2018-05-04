@@ -54,7 +54,8 @@
     bfcupdate(bfc, rids = rid, rpath = fileLoc)
 
     file.remove(inpath)
-    TRUE
+
+    bfcrpath(bfc, rids = rid)
 }
 
 .altDownload <- function(fileURL, cancer_study_id, verbose = FALSE) {
@@ -65,11 +66,9 @@
         message("Downloading study file: ", cancer_study_id, ".tar.gz")
 
     tmpFile <- file.path(tempdir(), paste0(cancer_study_id, ".tar.gz"))
-    curl::curl_download(fileURL, destfile = tmpFile, quiet = TRUE)
+    download.file(fileURL, destfile = tmpFile, quiet = TRUE, method = "wget")
 
     .manageLocalFile(cancer_study_id, tmpFile)
-
-    bfcrpath(bfc, rids = rid)
 }
 
 #' Download and cache study dataset
