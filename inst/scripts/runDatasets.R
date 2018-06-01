@@ -31,3 +31,6 @@ checkSize <- function(cancer_study_id) {
 dsize <- vapply(names(data_links), checkSize, logical(1L))
 
 redl <- names(which(!dsize))
+
+stopifnot(!length(redl))
+
