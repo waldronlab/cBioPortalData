@@ -12,7 +12,7 @@ source("studyTableMeta.R")
 cs <- cgdsr::CGDS("http://www.cbioportal.org/")
 names(full_ids) <- full_ids
 
-allsamples <- lapply(full_ids[1:40], function(study_id) {
+allsamples <- lapply(full_ids, function(study_id) {
     headtbl <- headerMap(study_id, cs)
     headtbl[complete.cases(headtbl), c("cancer_study_id", "samples", "headers")]
 })
@@ -21,5 +21,10 @@ allsamps <- do.call(rbind, allsamples)
 
 allsamps <- as.data.frame(allsamps)
 
-spread(allsamps, "headers", "samples")
+metadata_table <- spread(allsamps, "headers", "samples")
+
+## check all ids have some metadata listing
+all(full_ids %in% metadata_table[["cancer_study_id"]])
+
+saveRDS(metadata_table, file = "../extdata/metadata_table.rds")
 
