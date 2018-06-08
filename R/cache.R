@@ -8,6 +8,24 @@
     file.exists(bfcrpath(bfc, rname))
 }
 
+.checkSize <- function(cancer_study_id) {
+
+    bfc <- .get_cache()
+    query_id <- glob2rx(cancer_study_id)
+    study_file <- bfcquery(bfc, query_id, "rname")$rpath
+
+    URL <- paste0("http://download.cbioportal.org/", cancer_study_id, ".tar.gz")
+
+    header <- httr::HEAD(URL)$headers
+    header_bytes <- as.numeric(header$`content-length`)
+
+    local_bytes <- file.size(study_file)
+
+    message("url: ", header_bytes, " vs. local: ", local_bytes)
+
+    identical(header_bytes, local_bytes)
+}
+
 #' @name bio_cache
 #'
 #' @title Manage cache / download directories for study data
