@@ -17,11 +17,11 @@ headermap <- rbind(headermap,
         "All tumor samples that have CNA and sequencing data"),
         headers = c("Methylation (HM450)", "CNA and Seq")))
 
-headermap <- headermap[-c(which(headermap[["description"]] ==
-    "All tumor samples that have mRNA, CNA and sequencing data"),
-which(headermap[["description"]] ==
-    "All samples with mRNA expression data" &
-    headermap[["headers"]] == "Sequenced")), ]
+# headermap <- headermap[-c(which(headermap[["description"]] ==
+#     "All tumor samples that have mRNA, CNA and sequencing data"),
+# which(headermap[["description"]] ==
+#     "All samples with mRNA expression data" &
+#     headermap[["headers"]] == "Sequenced")), ]
 
 
 # saveRDS(headermap, file = "../extdata/study_headers.rds")
