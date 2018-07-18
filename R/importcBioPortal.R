@@ -39,12 +39,15 @@ importcBioPortal <- function(cancer_study_id, use_cache = TRUE,
 
     cancer_file <- downloadcBioPortal(cancer_study_id, use_cache)
 
-    fileList <- untar(cancer_file, list = TRUE)
+    filelist <- untar(cancer_file, list = TRUE)
+    filelist <- gsub("^\\.\\/", "", filelist)
+    filekeepind <- grep("^\\._", basename(filelist), invert = TRUE)
+    filelist <- filelist[filekeepind]
     ## Remove files that are corrupt / hidden (start with ._)
-    datafiles <- grep(fileList, pattern = "[^\\._]data.+\\.(txt|seg)$",
+    datafiles <- grep(x = filelist, pattern = "data.*\\.(txt|seg)$",
         value = TRUE)
-    datafiles <- c(datafiles, grep("[^\\._]meta_study", fileList, value = TRUE),
-        grep("/LICENSE", fileList, value = TRUE))
+    datafiles <- c(datafiles, grep("meta_study", filelist, value = TRUE),
+        grep("/LICENSE", filelist, value = TRUE))
 
     worktemp <- tempdir()
     untar(cancer_file, files = datafiles, exdir = worktemp)
@@ -96,12 +99,22 @@ importcBioPortal <- function(cancer_study_id, use_cache = TRUE,
     metadats <- Filter(.checkNonExpData, exptlist)
     exptlist <- Filter(function(expt) {!.checkNonExpData(expt)}, exptlist)
 
-    clindatfile <- grep("sample", clinicalfiles, invert = TRUE, value = TRUE)
-
-    if (length(clindatfile) > 1) {
-        ncols <- vapply(clindatfile, function(x)
-            ncol(readr::read_tsv(x, n_max = 3L)), integer(1L))
-        clindatfile <- clindatfile[which.max(ncols)]
+    if (length(clinicalfiles) > 1) {
+        clinwithcols <- which(vapply(clinicalfiles, function(file)
+            .hasMappers(readr::read_tsv(file, comment = "#", n_max = 5)),
+            logical(1L)))
+        if (length(clinwithcols) > 1) {
+            clindatfile <- grep("sample|supp", names(clinwithcols),
+                invert = TRUE, value = TRUE)
+            if (length(clindatfile) > 1)
+                clindatfile <- clindatfile[
+                    which.max(vapply(clindatfile, function(file)
+                    ncol(readr::read_tsv(file, n_max = 5L, comment = "#")),
+                    integer(1L)))]
+        } else
+            clindatfile <- names(clinwithcols)
+    } else {
+        clindatfile <- clinicalfiles
     }
 
     coldata <- cbioportal2clinicaldf(clindatfile)
@@ -116,7 +129,8 @@ importcBioPortal <- function(cancer_study_id, use_cache = TRUE,
     exptlist <- ExperimentList(exptlist)
 
     if (any(.TCGAcols(coldata))) {
-        gmap <- TCGAutils::generateMap(exptlist, coldata, TCGAbarcode)
+        gmap <- TCGAutils::generateMap(exptlist, coldata,
+            TCGAutils::TCGAbarcode)
     } else if (.hasMappers(coldata)) {
         gmap <- TCGAutils::generateMap(exptlist, coldata,
             sampleCol = "SAMPLE_ID", patientCol = "PATIENT_ID")
@@ -128,15 +142,19 @@ importcBioPortal <- function(cancer_study_id, use_cache = TRUE,
         colData = coldata, sampleMap = gmap, metadata = mdat)
 }
 
-cbioportal2metadata <- function(file, license) {
-    md <- readLines(file, warn = FALSE)
+cbioportal2metadata <- function(meta_file, lic_file) {
+    if (!length(meta_file) & !length(lic_file))
+        return(list())
+    md <- readLines(meta_file, warn = FALSE)
     mdl <- lapply(seq_along(md), function(i) {
       sub(".+: ", "", md[[i]])
     })
     names(mdl) <- sub(":.+", "", md)
-    lic <- readLines(license, warn = FALSE)
-    lic <- paste0(lic[lic != ""], collapse = "\n")
-    c(mdl, LICENSE = lic)
+    if (length(lic_file)) {
+        lic <- readLines(lic_file, warn = FALSE)
+        lic <- paste0(lic[lic != ""], collapse = "\n")
+    }
+    c(mdl, if (exists("lic")) LICENSE = lic)
 }
 
 cbioportal2se <- function(file, ...) {
