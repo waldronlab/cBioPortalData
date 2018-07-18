@@ -21,14 +21,16 @@
         inTable
 }
 
-.download_data_file <- function(fileURL, cancer_study_id, verbose = FALSE) {
+.download_data_file <-
+    function(fileURL, cancer_study_id, verbose = FALSE, force = FALSE)
+{
     bfc <- .get_cache()
     query_id <- glob2rx(cancer_study_id)
     rid <- bfcquery(bfc, query_id, "rname")$rid
     if (!length(rid)) {
         rid <- names(bfcadd(bfc, cancer_study_id, fileURL, download = FALSE))
     }
-    if (!.cache_exists(bfc, query_id)) {
+    if (!.cache_exists(bfc, query_id) || force) {
         if (verbose)
             message("Downloading study file: ", cancer_study_id, ".tar.gz")
             bfcdownload(bfc, rid, ask = FALSE)
@@ -86,8 +88,8 @@
 #' downloadcBioPortal("laml_tcga_pub", use_cache = tempdir())
 #'
 #' @export
-downloadcBioPortal <- function(cancer_study_id, use_cache = TRUE) {
-
+downloadcBioPortal <- function(cancer_study_id, use_cache = TRUE, force = FALSE)
+{
     .validStudyID(cancer_study_id)
 
     url_location <- "http://download.cbioportal.org"
@@ -101,7 +103,8 @@ downloadcBioPortal <- function(cancer_study_id, use_cache = TRUE) {
         stop("Use 'setCache' or specify a download location")
 
     tryCatch({
-        .download_data_file(url_file, cancer_study_id, verbose = TRUE)
+        .download_data_file(url_file, cancer_study_id, verbose = TRUE,
+            force = force)
         },
         error = function(cond) {
             message("\n", cond)

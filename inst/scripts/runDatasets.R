@@ -15,4 +15,6 @@ dsize <- vapply(names(data_links), .checkSize, logical(1L))
 redl <- names(which(!dsize))
 
 stopifnot(!length(redl))
+vapply(redl, downloadcBioPortal, character(1L), force = TRUE)
+
 
