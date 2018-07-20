@@ -2,7 +2,7 @@
 #' @importFrom SummarizedExperiment SummarizedExperiment
 #' @importFrom readr read_tsv type_convert
 #' @importFrom MultiAssayExperiment MultiAssayExperiment ExperimentList
-#' @importFrom TCGAutils generateMap TCGAbarcode
+#' @importFrom TCGAutils generateMap TCGAbarcode findGRangesCols
 #' @import RTCGAToolbox
 #' @importFrom BiocFileCache BiocFileCache bfcquery bfcadd bfcneedsupdate
 #' bfcdownload bfcrpath bfcremove bfccache

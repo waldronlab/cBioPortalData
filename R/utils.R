@@ -1,14 +1,5 @@
-.hasRangeNames <- function(x) {
-    if (is(x, "list")) { return(FALSE) }
-    tcgacols <- all(grepl("^TCGA", names(x)))
-    if (tcgacols) { return(FALSE) }
-    if (!any(is.data.frame(x), is(x, "DataFrame"), is.matrix(x)))
-        stop("(internal) 'x' must be rectangular")
-    !all(is.na(RTCGAToolbox:::.findGRangesCols(names(x))))
-}
-
 .biocExtract <- function(object, names.field) {
-    hasRanged <- .hasRangeNames(object)
+    hasRanged <- RTCGAToolbox:::.hasRangeNames(object)
     build <- RTCGAToolbox:::.getBuild(object)
     if (hasRanged) {
         if (RTCGAToolbox:::.hasConsistentRanges(object))
