@@ -25,8 +25,7 @@
     function(fileURL, cancer_study_id, verbose = FALSE, force = FALSE)
 {
     bfc <- .get_cache()
-    query_id <- glob2rx(cancer_study_id)
-    rid <- bfcquery(bfc, query_id, "rname")$rid
+    rid <- bfcquery(bfc, cancer_study_id, "rname", exact = TRUE)$rid
     if (!length(rid)) {
         rid <- names(bfcadd(bfc, cancer_study_id, fileURL, download = FALSE))
     }
@@ -42,8 +41,7 @@
 
 .manageLocalFile <- function(cancer_study_id, inpath) {
     bfc <- .get_cache()
-    query_id <- glob2rx(cancer_study_id)
-    rid <- bfcquery(bfc, query_id, "rname")$rid
+    rid <- bfcquery(bfc, cancer_study_id, "rname", exact = TRUE)$rid
     if (!length(rid))
         stop("Can't update non-existing cache item")
 

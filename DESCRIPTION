@@ -1,6 +1,6 @@
 Package: MultiAssayExperimentData
 Title: Exposes and makes available data from web resources such as cBioPortal
-Version: 0.99.44
+Version: 0.99.45
 Authors@R: c(person("Levi", "Waldron", email = "lwaldron.research@gmail.com",
     role = "aut"),
     person("Marcel", "Ramos", email = "marcel.ramos@roswellpark.org",
@@ -10,7 +10,7 @@ Description: The MultiAssayExperimentData package takes compressed resources
     object with Bioconductor classes.
 Depends: R (>= 3.5.0)
 Imports:
-    BiocFileCache,
+    BiocFileCache (>= 1.5.3),
     MultiAssayExperiment,
     S4Vectors,
     readr,

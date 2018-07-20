@@ -5,14 +5,13 @@
 }
 
 .cache_exists <- function(bfc, rname) {
-    file.exists(bfcrpath(bfc, rname))
+    file.exists(bfcrpath(bfc, rname, exact = TRUE))
 }
 
 .checkSize <- function(cancer_study_id) {
 
     bfc <- .get_cache()
-    query_id <- glob2rx(cancer_study_id)
-    study_file <- bfcquery(bfc, query_id, "rname")$rpath
+    study_file <- bfcquery(bfc, cancer_study_id, "rname", exact = TRUE)$rpath
 
     URL <- paste0("http://download.cbioportal.org/", cancer_study_id, ".tar.gz")
 
@@ -98,7 +97,7 @@ function(directory = rappdirs::user_cache_dir("MultiAssayExperimentData"),
 #' @export
 removeCache <- function(cancer_study_id) {
     bfc <- .get_cache()
-    rid <- bfcquery(bfc, cancer_study_id, "rname")$rid
+    rid <- bfcquery(bfc, cancer_study_id, "rname", exact = TRUE)$rid
     if (length(rid)) {
         bfcremove(bfc, rid)
         message("Cache record: ", cancer_study_id, ".tar.gz removed")
