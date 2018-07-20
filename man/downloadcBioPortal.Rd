@@ -4,7 +4,7 @@
 \alias{downloadcBioPortal}
 \title{Download and cache study dataset}
 \usage{
-downloadcBioPortal(cancer_study_id, use_cache = TRUE)
+downloadcBioPortal(cancer_study_id, use_cache = TRUE, force = FALSE)
 }
 \arguments{
 \item{cancer_study_id}{The cBioPortal study identifier}

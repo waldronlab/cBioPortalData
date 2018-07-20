@@ -30,7 +30,7 @@
     if (!length(rid)) {
         rid <- names(bfcadd(bfc, cancer_study_id, fileURL, download = FALSE))
     }
-    if (!.cache_exists(bfc, query_id) || force) {
+    if (!.cache_exists(bfc, cancer_study_id) || force) {
         if (verbose)
             message("Downloading study file: ", cancer_study_id, ".tar.gz")
             bfcdownload(bfc, rid, ask = FALSE)
