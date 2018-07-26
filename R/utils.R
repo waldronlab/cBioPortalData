@@ -66,6 +66,15 @@
     return(x)
 }
 
+.standardizeBuilds <- function(x) {
+    ncbi <- .findCol(x, "NCBI_Build")
+    if (length(ncbi)) {
+    x[[ncbi]] <- TCGAutils::uniformBuilds(x[[ncbi]])
+    }
+    return(x)
+}
+
+
 .nonuniquesymbols <- function(vect) {
     if (is.null(vect))
         return(FALSE)

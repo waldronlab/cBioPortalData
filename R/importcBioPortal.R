@@ -76,6 +76,7 @@ importcBioPortal <- function(cancer_study_id, use_cache = TRUE,
             check.names = FALSE)
         dat <- .cleanHugo(dat)
         dat <- .cleanStrands(dat)
+        dat <- .standardizeBuilds(dat)
 
         name.field <- .getNameField(dat, names.field = names.field)
         dat <- as(dat, "DataFrame")
