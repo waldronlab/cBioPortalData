@@ -1,4 +1,5 @@
 library(MultiAssayExperiment)
+library(BiocFileCache)
 devtools::load_all()
 
 setCache("/data/16tb/cbio")
@@ -19,6 +20,13 @@ dsize <- vapply(names(data_links), .checkSize, logical(1L))
 if (length(redl))
     vapply(redl, downloadcBioPortal, character(1L), force = TRUE)
 
-alldata <- lapply(full_ids[14:15], function(x) tryCatch(importcBioPortal(x),
+alldata <- lapply(full_ids, function(x) tryCatch(importcBioPortal(x),
     error = function(e) e))
+
+classes <- vapply(alldata, function(x) is(x, "MultiAssayExperiment"), logical(1L))
+successrate <- (sum(classes)/length(classes)) * 100
+
+isMAE <- vapply(full_ids, function(x) is(tryCatch(importcBioPortal(x),
+    error = function(e) e), "MultiAssayExperiment"), logical(1L))
+sr <- (sum(isMAE)/length(isMAE)) * 100
 
