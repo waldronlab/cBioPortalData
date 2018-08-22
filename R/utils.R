@@ -67,7 +67,7 @@
 }
 
 .standardizeBuilds <- function(x) {
-    ncbi <- .findCol(x, "NCBI_Build")
+    ncbi <- RTCGAToolbox:::.findCol(x, "NCBI_Build")
     if (length(ncbi)) {
     x[[ncbi]] <- TCGAutils::uniformBuilds(x[[ncbi]])
     }
