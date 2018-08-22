@@ -129,7 +129,7 @@ importcBioPortal <- function(cancer_study_id, use_cache = TRUE,
         fudat <- list()
 
     mdat <- c(mdat, metadats, fudat)
-    exptlist <- ExperimentList(exptlist)
+    exptlist <- MultiAssayExperiment::ExperimentList(exptlist)
 
     if (any(.TCGAcols(coldata))) {
         gmap <- TCGAutils::generateMap(exptlist, coldata,
