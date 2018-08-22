@@ -39,7 +39,8 @@ importcBioPortal <- function(cancer_study_id, use_cache = TRUE,
 
     cancer_file <- downloadcBioPortal(cancer_study_id, use_cache)
 
-    filelist <- untar(cancer_file, list = TRUE)
+    filelist <- untar(cancer_file, list = TRUE,
+        extras = "--warning=no-unknown-keyword")
     filelist <- gsub("^\\.\\/", "", filelist)
     filekeepind <- grep("^\\._", basename(filelist), invert = TRUE)
     filelist <- filelist[filekeepind]
@@ -50,7 +51,8 @@ importcBioPortal <- function(cancer_study_id, use_cache = TRUE,
         grep("/LICENSE", filelist, value = TRUE))
 
     worktemp <- tempdir()
-    untar(cancer_file, files = datafiles, exdir = worktemp)
+    untar(cancer_file, files = datafiles, exdir = worktemp,
+        extras = "--warning=no-unknown-keyword")
 
     exptfiles <- file.path(worktemp,
         grep("clinical|study|LICENSE|fusion", datafiles, invert = TRUE,
