@@ -1,11 +1,11 @@
-Package: MultiAssayExperimentData
-Title: Exposes and makes available data from web resources such as cBioPortal
-Version: 0.99.46
+Package: cBioPortalData
+Title: Exposes and makes available data from the cBioPortal web resources
+Version: 0.99.47
 Authors@R: c(person("Levi", "Waldron", email = "lwaldron.research@gmail.com",
     role = "aut"),
     person("Marcel", "Ramos", email = "marcel.ramos@roswellpark.org",
     role = c("aut", "cre")))
-Description: The MultiAssayExperimentData package takes compressed resources
+Description: The cBioPortalData package takes compressed resources
     from repositories such as cBioPortal and assembles a MultiAssayExperiment
     object with Bioconductor classes.
 Depends: R (>= 3.5.0)
@@ -24,11 +24,11 @@ License: Artistic-2.0
 Encoding: UTF-8
 LazyData: true
 VignetteBuilder: knitr
-BugReports: https://github.com/waldronlab/MultiAssayExperimentData/issues
-RoxygenNote: 6.0.1
+BugReports: https://github.com/waldronlab/cBioPortalData/issues
+RoxygenNote: 6.1.0
 Collate: 
-    'MultiAssayExperimentData-pkg.R'
+    'cBioPortalData-pkg.R'
     'cache.R'
-    'downloadcBioPortal.R'
     'utils.R'
-    'importcBioPortal.R'
+    'loadStudy.R'
+    'studyDownload.R'

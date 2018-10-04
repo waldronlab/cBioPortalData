@@ -3,7 +3,7 @@ source("clean_case_list.R")
 headerMap <- function(cancer_study_id, cgds_object) {
 
     headermap <- readRDS(system.file("extdata/study_headers.rds",
-        package = "MultiAssayExperimentData", mustWork = TRUE))
+        package = "cBioPortalData", mustWork = TRUE))
 
     id_table <- clean_case_list(cancer_study_id, cgds_object)
 

@@ -68,7 +68,7 @@ ffs$file_name <- rep(names(ff), lapply(flist, nrow))
 
 ffs$Tumor_Sample_Barcode <- bcodes[match(ffs$file_name, bframe$file_id)]
 
-ragged <- MultiAssayExperimentData:::.biocExtract(ffs, NULL)
+ragged <- cBioPortalData:::.biocExtract(ffs, NULL)
 
 gdc_clinical(test, include_list_cols = FALSE)
 

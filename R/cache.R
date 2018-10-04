@@ -66,7 +66,7 @@ bio_cache <- function(...) {
 #' @rdname bio_cache
 #' @export
 setCache <-
-function(directory = rappdirs::user_cache_dir("MultiAssayExperimentData"),
+function(directory = rappdirs::user_cache_dir("cBioPortalData"),
     verbose = TRUE,
     ask = interactive())
 {
@@ -76,7 +76,7 @@ function(directory = rappdirs::user_cache_dir("MultiAssayExperimentData"),
     if (!dir.exists(directory)) {
         if (ask) {
             qtxt <- sprintf(
-                "Create MultiAssayExperimentData cache at \n    %s? [y/n]: ",
+                "Create cBioPortalData cache at \n    %s? [y/n]: ",
                 directory
             )
             answer <- .getAnswer(qtxt, allowed = c("y", "Y", "n", "N"))

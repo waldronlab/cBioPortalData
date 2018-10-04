@@ -8,7 +8,7 @@
 \usage{
 bio_cache(...)
 
-setCache(directory = rappdirs::user_cache_dir("MultiAssayExperimentData"),
+setCache(directory = rappdirs::user_cache_dir("cBioPortalData"),
   verbose = TRUE, ask = interactive())
 
 removeCache(cancer_study_id)

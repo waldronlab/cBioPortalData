@@ -1,7 +1,7 @@
 #' @title Convert a data file downloaded from MSKCC's cBioPortal to
 #' a MultiAssayExperiment object
 #'
-#' @description The \code{importcBioPortal} function allows the user to
+#' @description The \code{loadStudy} function allows the user to
 #' download and process cancer study datasets found in MSKCC's cBioPortal.
 #' Output datasets use the \linkS4class{MultiAssayExperiment} data
 #' representation to faciliate analysis and data management operations.
@@ -12,7 +12,7 @@
 #' \href{http://cbioportal.org/data_sets.jsp}{website} for the full list of
 #' datasets
 #'
-#' @inheritParams downloadcBioPortal
+#' @inheritParams downloadStudy
 #' @param split.field A character vector of possible column names for the column
 #' that is used to identify samples in a mutations or copy number file.
 #' @param names.field A character vector of possible column names for the column
@@ -30,14 +30,14 @@
 #'
 #' (laml <- studiesTable[["cancer_study_id"]][3L])
 #'
-#' mae <- importcBioPortal(laml)
+#' mae <- loadStudy(laml)
 #'
-#' @export importcBioPortal
-importcBioPortal <- function(cancer_study_id, use_cache = TRUE,
+#' @export loadStudy
+loadStudy <- function(cancer_study_id, use_cache = TRUE,
     split.field = c("Tumor_Sample_Barcode", "ID"),
     names.field = c("Hugo_Symbol", "Entrez_Gene_Id", "Gene")) {
 
-    cancer_file <- downloadcBioPortal(cancer_study_id, use_cache)
+    cancer_file <- downloadStudy(cancer_study_id, use_cache)
 
     filelist <- untar(cancer_file, list = TRUE,
         extras = "--warning=no-unknown-keyword")

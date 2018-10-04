@@ -83,10 +83,10 @@
 #'
 #' @examples
 #'
-#' downloadcBioPortal("laml_tcga_pub", use_cache = tempdir())
+#' downloadStudy("laml_tcga_pub", use_cache = tempdir())
 #'
 #' @export
-downloadcBioPortal <- function(cancer_study_id, use_cache = TRUE, force = FALSE)
+downloadStudy <- function(cancer_study_id, use_cache = TRUE, force = FALSE)
 {
     .validStudyID(cancer_study_id)
 
