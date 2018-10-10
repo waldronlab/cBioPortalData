@@ -1,4 +1,4 @@
-# cBioPortalData: Datasets using the MultiAssayExperiment data class
+# cBioPortalData: Representing cBioPortal data using the MultiAssayExperiment data class
 
 This project aims to import all cBioPortal datasets as [MultiAssayExperiment](http://bioconductor.org/packages/MultiAssayExperiment/)
 objects in Bioconductor. It offers some advantages over the CDGS-R package:
