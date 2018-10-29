@@ -2,14 +2,13 @@
 library(cgdsr)
 library(magrittr)
 library(stringr)
+library(stringi)
 library(tibble)
 library(dplyr)
 library(RCurl)
 
 cgds <- CGDS("http://www.cbioportal.org/public-portal/")
 studiesTable <- getCancerStudies(cgds)
-# cancer_file <- paste0(studiesTable[["cancer_study_id"]], ".tar.gz")
-# studiesTable <- add_column(studiesTable, cancer_file = cancer_file, .after = 1L)
 studiesTable <- rename(studiesTable, study_name = name)
 
 URL <- gsub("<\\/{0,1}[Aaibr]{1,2}>", "", studiesTable[["description"]]) %>%
@@ -27,6 +26,8 @@ fileURLs <- file.path("http://download.cbioportal.org",
 validURLs <- vapply(fileURLs, RCurl::url.exists, logical(1L))
 
 studiesTable <- studiesTable[validURLs, ]
+changeCol <- vapply(studiesTable, function(x)
+    any(stringi::stri_enc_mark(unlist(x)) == "native"), logical(1L))
+studiesTable[, changeCol] <- stringi::stri_enc_toascii(studiesTable[, changeCol])
 
 devtools::use_data(studiesTable, overwrite = TRUE)
-
