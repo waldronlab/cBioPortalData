@@ -1,6 +1,6 @@
 Package: cBioPortalData
 Title: Exposes and makes available data from the cBioPortal web resources
-Version: 0.99.47
+Version: 0.99.48
 Authors@R: c(person("Levi", "Waldron", email = "lwaldron.research@gmail.com",
     role = "aut"),
     person("Marcel", "Ramos", email = "marcel.ramos@roswellpark.org",
@@ -8,14 +8,23 @@ Authors@R: c(person("Levi", "Waldron", email = "lwaldron.research@gmail.com",
 Description: The cBioPortalData package takes compressed resources
     from repositories such as cBioPortal and assembles a MultiAssayExperiment
     object with Bioconductor classes.
-Depends: R (>= 3.5.0)
+Depends: R (>= 3.5.0),
+    MultiAssayExperiment
 Imports:
     BiocFileCache (>= 1.5.3),
-    MultiAssayExperiment,
-    S4Vectors,
+    GenomeInfoDb,
+    GenomicRanges,
+    httr,
+    methods,
+    rappdirs,
     readr,
+    RaggedExperiment,
     RTCGAToolbox,
-    TCGAutils
+    S4Vectors,
+    SummarizedExperiment,
+    stats,
+    TCGAutils,
+    utils
 Suggests:
     BiocStyle,
     curl,
@@ -29,6 +38,7 @@ RoxygenNote: 6.1.0
 Collate: 
     'cBioPortalData-pkg.R'
     'cache.R'
+    'data.R'
     'utils.R'
     'loadStudy.R'
     'studyDownload.R'

@@ -41,7 +41,7 @@ a cache if not already created. A specific directory can be used via
 
 Specify the directory location of the data cache. By default, it will
 got to the user's home/.cache and "appname" directory as specified by
-\link{user_cache_dir}. (default appname: MultiAssayExperimentData)
+\link{user_cache_dir}. (default appname: cBioPortalData)
 }
 
 \section{removeCache}{

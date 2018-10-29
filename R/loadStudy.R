@@ -39,8 +39,10 @@ loadStudy <- function(cancer_study_id, use_cache = TRUE,
 
     cancer_file <- downloadStudy(cancer_study_id, use_cache)
 
-    filelist <- untar(cancer_file, list = TRUE,
-        extras = "--warning=no-unknown-keyword")
+    exarg <- if (rappdirs:::get_os() == "unix")
+        "--warning=no-unknown-keyword" else NULL
+
+    filelist <- untar(cancer_file, list = TRUE, extras = exarg)
     filelist <- gsub("^\\.\\/", "", filelist)
     filekeepind <- grep("^\\._", basename(filelist), invert = TRUE)
     filelist <- filelist[filekeepind]
@@ -169,8 +171,8 @@ cbioportal2se <- function(file, ...) {
   rowdat <- DataFrame(df[,!numeric.cols])
   ##  rownames(rowdat) <- make.names(rowdat[, 1], unique=TRUE)
   se <-
-    SummarizedExperiment(assays = as(df[, numeric.cols], "matrix"),
-                                               rowData = rowdat)
+    SummarizedExperiment::SummarizedExperiment(
+        assays = as(df[, numeric.cols], "matrix"), rowData = rowdat)
   if(!all(grep("TCGA", rowData(se)[, 1])))
       return(NULL)
   rownames(se) <- rowData(se)[, 1]
