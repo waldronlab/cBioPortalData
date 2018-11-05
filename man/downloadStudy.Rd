@@ -12,6 +12,9 @@ downloadStudy(cancer_study_id, use_cache = TRUE, force = FALSE)
 \item{use_cache}{logical (default TRUE) create the default cache location
 and use it to track downloaded data. If data found in the cache, data will
 not be re-downloaded. A path can also be provided to data cache location.}
+
+\item{force}{logical (default FALSE) whether to force re-download data from
+remote location}
 }
 \description{
 Provide a `cancer_study_id` from the `studiesTable` and retrieve

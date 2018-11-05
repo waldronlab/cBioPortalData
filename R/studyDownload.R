@@ -80,6 +80,8 @@
 #' @param use_cache logical (default TRUE) create the default cache location
 #' and use it to track downloaded data. If data found in the cache, data will
 #' not be re-downloaded. A path can also be provided to data cache location.
+#' @param force logical (default FALSE) whether to force re-download data from
+#' remote location
 #'
 #' @examples
 #'

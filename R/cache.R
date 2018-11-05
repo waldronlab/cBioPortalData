@@ -55,6 +55,7 @@
 #' location of the cache directory
 #' @param cancer_study_id A single string from `studiesTable` associated
 #' with a study tarball
+#' @param ... For `cbioCache`, arguments passed to `setCache`
 #'
 #' @md
 #'

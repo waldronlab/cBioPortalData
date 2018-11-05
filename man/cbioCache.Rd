@@ -14,6 +14,8 @@ setCache(directory = rappdirs::user_cache_dir("cBioPortalData"),
 removeCache(cancer_study_id)
 }
 \arguments{
+\item{...}{For \code{cbioCache}, arguments passed to \code{setCache}}
+
 \item{directory}{The file location where the cache is located. Once set
 future downloads will go to this folder.}
 
