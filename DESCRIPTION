@@ -10,12 +10,16 @@ Description: The cBioPortalData package takes compressed resources
     object with Bioconductor classes.
 Depends: R (>= 3.5.0),
     MultiAssayExperiment
+Remotes:
+    Bioconductor/AnVIL,
+    Bioconductor/AnVIL_rapiclient
 Imports:
     BiocFileCache (>= 1.5.3),
     GenomeInfoDb,
     GenomicRanges,
     httr,
     methods,
+    rapiclient (>= 0.1.2.0002-2),
     rappdirs,
     readr,
     RaggedExperiment,
