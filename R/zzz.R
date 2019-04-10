@@ -1,0 +1,5 @@
+# .onLoad <-
+#     function(...)
+# {
+#     cbioportal <<- cBioPortal()
+# }

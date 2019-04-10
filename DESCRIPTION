@@ -1,6 +1,6 @@
 Package: cBioPortalData
 Title: Exposes and makes available data from the cBioPortal web resources
-Version: 0.99.50
+Version: 0.99.51
 Authors@R: c(person("Levi", "Waldron", email = "lwaldron.research@gmail.com",
     role = "aut"),
     person("Marcel", "Ramos", email = "marcel.ramos@roswellpark.org",
@@ -9,6 +9,8 @@ Description: The cBioPortalData package takes compressed resources
     from repositories such as cBioPortal and assembles a MultiAssayExperiment
     object with Bioconductor classes.
 Depends: R (>= 3.5.0),
+    AnVIL,
+    methods,
     MultiAssayExperiment
 Remotes:
     Bioconductor/AnVIL,
@@ -38,11 +40,13 @@ Encoding: UTF-8
 LazyData: true
 VignetteBuilder: knitr
 BugReports: https://github.com/waldronlab/cBioPortalData/issues
-RoxygenNote: 6.1.0
+RoxygenNote: 6.1.1
 Collate: 
+    'cBioPortal.R'
     'cBioPortalData-pkg.R'
     'cache.R'
     'data.R'
     'utils.R'
     'loadStudy.R'
     'studyDownload.R'
+    'zzz.R'
