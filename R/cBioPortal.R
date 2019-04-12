@@ -23,7 +23,7 @@ cBioPortal <-
     # .cBioPortal(
         AnVIL:::Service(
             "cBioPortal",
-            host = "http://www.cbioportal.org/api",
+            host = "www.cbioportal.org",
             config = httr::config(ssl_verifypeer = 0L, ssl_verifyhost = 0L),
             authenticate_config = FALSE,
             package = "cBioPortalData"
