@@ -32,7 +32,7 @@
 #'
 #' mae <- loadStudy(laml)
 #'
-#' @export loadStudy
+#' @export
 loadStudy <- function(cancer_study_id, use_cache = TRUE,
     split.field = c("Tumor_Sample_Barcode", "ID"),
     names.field = c("Hugo_Symbol", "Entrez_Gene_Id", "Gene")) {
