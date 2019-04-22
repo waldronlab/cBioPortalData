@@ -35,9 +35,7 @@ getStudies <- function(cbio) {
             x[["citation"]] <- NA_character_
         x
     })
-    res <- do.call(rbind.data.frame, studies)
-    rownames(res) <- NULL
-    res
+    dplyr::bind_rows(studies)
 }
 
 #' Obtain clinical data
@@ -51,10 +49,8 @@ getStudies <- function(cbio) {
 clinicalData <- function(cbio, studyId = "acc_tcga") {
     clinpost <- cbio$fetchAllClinicalDataInStudyUsingPOST(studyId = studyId)
     clindat <- httr::content(clinpost)
-    dfclin <- do.call(rbind.data.frame, clindat)
-    cdat <- tidyr::spread(dfclin, clinicalAttributeId, value)
-    rownames(cdat) <- cdat[["sampleId"]]
-    cdat
+    dfclin <- dplyr::bind_rows(clindat)
+    tidyr::spread(dfclin, clinicalAttributeId, value)
 }
 
 #' Produce molecular profiles dataset
@@ -65,5 +61,5 @@ clinicalData <- function(cbio, studyId = "acc_tcga") {
 molecularProfiles <- function(cbio, studyId = "acc_tcga") {
     mols <- cbio$getAllMolecularProfilesInStudyUsingGET(studyId = "acc_tcga")
     cmols <- httr::content(mols)
-    do.call(rbind.data.frame, cmols)
+    dplyr::bind_rows(cmols)
 }

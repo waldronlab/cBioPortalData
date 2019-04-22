@@ -17,6 +17,7 @@ Remotes:
     Bioconductor/AnVIL_rapiclient
 Imports:
     BiocFileCache (>= 1.5.3),
+    dplyr,
     GenomeInfoDb,
     GenomicRanges,
     httr,
