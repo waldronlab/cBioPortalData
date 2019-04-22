@@ -39,7 +39,7 @@ loadStudy <- function(cancer_study_id, use_cache = TRUE,
 
     cancer_file <- downloadStudy(cancer_study_id, use_cache)
 
-    exarg <- if (rappdirs:::get_os() == "unix")
+    exarg <- if (identical(rappdirs:::get_os(), "unix"))
         "--warning=no-unknown-keyword" else NULL
 
     filelist <- untar(cancer_file, list = TRUE, extras = exarg)
@@ -54,7 +54,7 @@ loadStudy <- function(cancer_study_id, use_cache = TRUE,
 
     worktemp <- tempdir()
     untar(cancer_file, files = datafiles, exdir = worktemp,
-        extras = "--warning=no-unknown-keyword")
+        extras = exarg)
 
     exptfiles <- file.path(worktemp,
         grep("clinical|study|LICENSE|fusion", datafiles, invert = TRUE,
