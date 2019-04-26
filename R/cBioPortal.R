@@ -14,7 +14,8 @@ cBioPortal <- function() {
     Service(
         service = "cBioPortal",
         host = "www.cbioportal.org",
-        config = httr::config(ssl_verifypeer = 0L, ssl_verifyhost = 0L),
+        config = httr::config(ssl_verifypeer = 0L, ssl_verifyhost = 0L,
+            http_version = 0L),
         authenticate_config = FALSE,
         package = "cBioPortalData"
     )
@@ -59,7 +60,38 @@ clinicalData <- function(cbio, studyId = "acc_tcga") {
 #'
 #' @export
 molecularProfiles <- function(cbio, studyId = "acc_tcga") {
-    mols <- cbio$getAllMolecularProfilesInStudyUsingGET(studyId = "acc_tcga")
+    mols <- cbio$getAllMolecularProfilesInStudyUsingGET(studyId = studyId)
     cmols <- httr::content(mols)
     dplyr::bind_rows(cmols)
+}
+
+#' Produce small dataset of molecular profile data
+#'
+#' This function will query the `fetchAllMolecularDataInMolecularProfileUsingPOST`
+#' endpoint to obtain data
+#'
+#' @inheritParams getStudies
+#' @param profileId A single string indicating molecular profile ID
+#' @param entrezGeneIds A numeric vector indicating entrez gene IDs
+#' @param sampleIds A character vector for TCGA sample identifiers
+#'
+#' @examples
+#'
+#' cc <- cBioPortal()
+#' molecularSlice(cc)
+#'
+#' @export
+molecularSlice <- function(cbio, profileId = "acc_tcga_rna_seq_v2_mrna",
+    entrezGeneIds = c(1, 2),
+    sampleIds = c("TCGA-OR-A5J1-01",  "TCGA-OR-A5J2-01"))
+{
+    mols <- cbio$fetchAllMolecularDataInMolecularProfileUsingPOST(
+        molecularProfileId = profileId,
+        entrezGeneIds = entrezGeneIds,
+        sampleIds = sampleIds
+    )
+    cmols <- httr::content(mols)
+    byGene <- dplyr::bind_rows(cmols)
+    tidyr::spread(byGene[, c("entrezGeneId", "sampleId", "value")],
+        sampleId, value)
 }
