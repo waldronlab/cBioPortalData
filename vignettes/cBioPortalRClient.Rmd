@@ -19,13 +19,25 @@ suppressPackageStartupMessages({
     library(cBioPortalData)
     library(AnVIL)
     library(rapiclient)
-    })
+})
 ```
 
-```{r, eval = FALSE}
-    library(cBioPortalData)
-    library(AnVIL)
-    library(rapiclient)
+## GitHub Packages
+
+Changes in the development branch of `rapiclient` are yet to be merged to the
+CRAN package. Please use the devel version of `rapiclient` along with the
+`AnVIL` Bioconductor package.
+
+```{r, eval=FALSE}
+library(BiocManager)
+install(c("Bioconductor/AnVIL", "Bioconductor/AnVIL_rapiclient"))
+install("waldronlab/cBioPortalData", ref = "apiclient")
+```
+
+```{r, eval=FALSE}
+library(cBioPortalData)
+library(AnVIL)
+library(rapiclient)
 ```
 
 # API representation
