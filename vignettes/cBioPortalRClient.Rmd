@@ -1,0 +1,130 @@
+---
+title: "cBioPortalData: Quick Start Guide"
+author: "Marcel Ramos & Levi Waldron"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+vignette: >
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteIndexEntry{cBioPortal Quick-start Guide}
+  %\VignetteEncoding{UTF-8}
+output:
+  BiocStyle::html_document:
+    number_sections: no
+    toc: yes
+    toc_depth: 4
+---
+# Installation
+
+```{r, echo=FALSE, warning=FALSE}
+suppressPackageStartupMessages({
+    library(cBioPortalData)
+    library(AnVIL)
+    library(rapiclient)
+    })
+```
+
+```{r, eval = FALSE}
+    library(cBioPortalData)
+    library(AnVIL)
+    library(rapiclient)
+```
+
+# API representation
+
+Obtaining the cBioPortal API representation object
+
+```{r}
+(cbio <- cBioPortal())
+```
+
+## Operations
+
+Check available tags, operations, and descriptions as a `tibble`:
+
+```{r}
+tags(cbio)
+head(tags(cbio)$operation)
+```
+
+## Studies
+
+Get the list of studies available:
+
+```{r}
+getStudies(cbio)
+```
+
+## Clinical Data
+
+Obtain the clinical data for a particular study:
+
+```{r}
+clinicalData(cbio, "acc_tcga")
+```
+
+## Molecular Profiles
+
+A table of molecular profiles for a particular study can be obtained by
+running the following:
+
+```{r}
+mols <- molecularProfiles(cbio, "acc_tcga")
+mols[["molecularProfileId"]]
+```
+
+## Molecular Profile Data
+
+The data for a molecular profile can be obtained with prior knowledge of
+available `entrezGeneIds`:
+
+```{r}
+molecularSlice(cbio, profileId = "acc_tcga_rna_seq_v2_mrna",
+    entrezGeneIds = c(1, 2),
+    sampleIds = c("TCGA-OR-A5J1-01",  "TCGA-OR-A5J2-01")
+)
+```
+
+## All available genes
+
+A list of all the genes provided by the API service including hugo symbols,
+and entrez gene IDs can be obtained by using the `geneTable` function:
+
+```{r}
+geneTable(cbio)
+```
+
+It uses the `getAllGenesUsingGET` function from the API.
+
+## Samples
+
+### Sample List Identifiers
+
+To display all available sample list identifiers for a particular study ID,
+one can use the `sampleLists` function:
+
+```{r}
+sampleLists(cbio, "acc_tcga")
+```
+
+### Sample Identifiers
+
+One can obtain the barcodes / identifiers for each sample using a specific
+sample list identifier, in this case we want all the copy number alteration
+samples:
+
+```{r}
+samplesInSampleLists(cbio, "acc_tcga_cna")
+```
+
+This returns a `CharacterList` of all identifiers for each sample list
+identifier input:
+
+```{r}
+samplesInSampleLists(cbio, c("acc_tcga_cna", "acc_tcga_cnaseq"))
+```
+
+# sessionInfo
+
+```{r}
+sessionInfo()
+```
+
