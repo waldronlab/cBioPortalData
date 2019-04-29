@@ -16,7 +16,6 @@ cBioPortal <- function() {
         host = "www.cbioportal.org",
         config = httr::config(ssl_verifypeer = 0L, ssl_verifyhost = 0L,
             http_version = 0L),
-        authenticate_config = FALSE,
         package = "cBioPortalData"
     )
 }
@@ -94,4 +93,59 @@ molecularSlice <- function(cbio, profileId = "acc_tcga_rna_seq_v2_mrna",
     byGene <- dplyr::bind_rows(cmols)
     tidyr::spread(byGene[, c("entrezGeneId", "sampleId", "value")],
         sampleId, value)
+}
+
+#' Get a table of all genes
+#'
+#' Query the API to get a list of Entrez Gene IDs, Hugo symbols, etc.
+#'
+#' @inheritParams clinicalData
+#'
+#' @export
+geneTable <- function(cbio) {
+    gres <- cbio$getAllGenesUsingGET()
+    glist <- httr::content(gres)
+    glix <- lapply(glist, function(x) {
+        if (is.null(x[["cytoband"]]))
+            x[["cytoband"]] <- NA_character_
+        if (is.null(x[["length"]]))
+            x[["length"]] <- NA_integer_
+        if (is.null(x[["chromosome"]]))
+            x[["chromosome"]] <- NA_character_
+        x
+    })
+    dplyr::bind_rows(glix)
+}
+
+#' Return all samples within sample lists
+#'
+#' Provide a sampleListId and the function will return a CharacterList of
+#' associated TCGA barcodes
+#'
+#' @param cbio An object of class `cBioPortal`
+#' @param sampleListIds A character vector of sampleListId as obtained from
+#' sampleLists
+#'
+#' @export
+samplesInSampleLists <- function(cbio, sampleListIds = c("acc_tcga_all")) {
+    sampleListIds <- setNames(sampleListIds, sampleListIds)
+    cnames <- lapply(sampleListIds, function(x) {
+        res <- cbio$getAllSampleIdsInSampleListUsingGET(sampleListId = x)
+        unlist(httr::content(res))
+    })
+    IRanges::CharacterList(cnames)
+}
+
+#' Provide a sample lists within a study
+#'
+#' Given a particular `studyId``, this function will return all the available
+#' `sampleListId` identifiers
+#'
+#' @inheritParams clinicalData
+#'
+#' @export
+sampleLists <- function(cbio, studyId = "acc_tcga") {
+    slist <- cbio$getAllSampleListsInStudyUsingGET(studyId = studyId)
+    slist <- httr::content(slist)
+    vapply(slist, `[[`, character(1L), "sampleListId")
 }
