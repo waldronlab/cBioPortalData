@@ -22,7 +22,7 @@ Imports:
     GenomicRanges,
     httr,
     methods,
-    rapiclient (>= 0.1.2.0002-2),
+    rapiclient (>= 0.1.2.0002-3),
     rappdirs,
     readr,
     RaggedExperiment,
