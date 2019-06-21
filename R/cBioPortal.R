@@ -16,9 +16,12 @@ cBioPortal <- function() {
         host = "www.cbioportal.org",
         config = httr::config(ssl_verifypeer = 0L, ssl_verifyhost = 0L,
             http_version = 0L),
-        package = "cBioPortalData"
+        package = "cBioPortalData",
+        schemes = "http"
     )
 }
+
+## curl -X POST "http://www.cbioportal.org/api/gene-panel-data/fetch" -H "accept: application/json" -H "Content-Type: application/json" -d "{ \"sampleMolecularIdentifiers\": [ { \"molecularProfileId\": \"acc_tcga_linear_CNA\", \"sampleId\": \"TCGA-OR-A5J1-01\" } ]}"
 
 #' Obtain a table of studies and associated metadata
 #'
@@ -126,14 +129,23 @@ geneTable <- function(cbio) {
 #' @param sampleListIds A character vector of sampleListId as obtained from
 #' sampleLists
 #'
+#' @examples
+#' samplesInSampleLists(cb, sampleLists(cb))
+#'
 #' @export
 samplesInSampleLists <- function(cbio, sampleListIds = c("acc_tcga_all")) {
     sampleListIds <- setNames(sampleListIds, sampleListIds)
     cnames <- lapply(sampleListIds, function(x) {
-        res <- cbio$getAllSampleIdsInSampleListUsingGET(sampleListId = x)
-        unlist(httr::content(res))
+        res <- cbio$getSampleListUsingGET(sampleListId = x)
+
+        res2 <- httr::content(res)
+        meta <- res2[names(res2) != "sampleIds"]
+        ids <- unlist(res2[["sampleIds"]])
+        list(ids = ids, metadata = meta)
     })
-    IRanges::CharacterList(cnames)
+    res <- IRanges::CharacterList(cnames[["ids"]])
+    metadata(res) <- cnames[["metadata"]]
+    res
 }
 
 #' Provide a sample lists within a study
@@ -147,5 +159,49 @@ samplesInSampleLists <- function(cbio, sampleListIds = c("acc_tcga_all")) {
 sampleLists <- function(cbio, studyId = "acc_tcga") {
     slist <- cbio$getAllSampleListsInStudyUsingGET(studyId = studyId)
     slist <- httr::content(slist)
-    vapply(slist, `[[`, character(1L), "sampleListId")
+    dplyr::bind_rows(slist)
 }
+
+#' @export
+genePanel <- function(cbio, panelId = "NSCLC_UNITO_2016_PANEL") {
+   gp <- cbio$getGenePanelUsingGET(genePanelId = panelId)
+   gp <- httr::content(gp)
+   dplyr::bind_rows(gp$genes)
+}
+
+# genePanelMolecular <- function(cbio,
+#     molecularProfileId = "nsclc_unito_2016_mutations") {
+#
+#     (molprof <- molecularProfiles(cbio)$molecularProfileId)
+#     (samplist <- sampleLists(cbio)$sampleListId)
+# #    molprof <- "acc_tcga_linear_CNA"
+#     cbio$getGenePanelDataUsingPOST(
+#         list(
+#             sampleMolecularIdentifiers = data.frame(
+#                 molecularProfileId = "acc_tcga_rppa",
+#                 sampleListId = "acc_tcga_rppa"
+#             )
+#         )
+#     )
+#     getGP <- cbio$getGenePanelDataUsingPOST
+#
+#     samps <- head(unlist(samplesInSampleLists(cbio, molprof), use.names = FALSE))
+#
+#     attributes(getGP) <- NULL
+#     debugonce(getGP)
+#     getGP("acc_tcga_linear_CNA", sampleListId = "acc_tcga_cnaseq")
+#
+#     ## works !
+#     cbio$fetchGenePanelDataInMultipleMolecularProfilesUsingPOST
+#     httr:::content(
+#         cbio$fetchGenePanelDataInMultipleMolecularProfilesUsingPOST(
+#             sampleMolecularIdentifiers =
+#                 list( sampleMolecularIdentifiers =
+#                     data.frame(
+#                         molecularProfileId = "acc_tcga_linear_CNA",
+#                         sampleId = c("TCGA-OR-A5J1-01", "TCGA-OR-A5J2-01")
+#                     )
+#                 )
+#         )
+#     )
+# }

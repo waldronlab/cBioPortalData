@@ -16,3 +16,7 @@ sampleLists}
 Provide a sampleListId and the function will return a CharacterList of
 associated TCGA barcodes
 }
+\examples{
+samplesInSampleLists(cb, sampleLists(cb))
+
+}
