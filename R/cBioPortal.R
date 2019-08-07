@@ -1,6 +1,9 @@
 #' @export
 cbioportal <- NULL
 
+#' @export
+.cBioPortal <- setClass("cBioPortal", contains = "Service")
+
 #' API Entry function for the cBioPortal data service
 #'
 #' This function allows the use of the cBioPortal API
@@ -11,13 +14,15 @@ cbioportal <- NULL
 #'
 #' @export
 cBioPortal <- function() {
-    Service(
-        service = "cBioPortal",
-        host = "www.cbioportal.org",
-        config = httr::config(ssl_verifypeer = 0L, ssl_verifyhost = 0L,
-            http_version = 0L),
-        package = "cBioPortalData",
-        schemes = "http"
+    .cBioPortal(
+        Service(
+            service = "cBioPortal",
+            host = "www.cbioportal.org",
+            config = httr::config(ssl_verifypeer = 0L, ssl_verifyhost = 0L,
+                http_version = 0L),
+            package = "cBioPortalData",
+            schemes = "http"
+        )
     )
 }
 
