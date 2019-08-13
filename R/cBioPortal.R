@@ -50,7 +50,7 @@ cBioPortal <- function() {
 #'
 #' @export
 getStudies <- function(cbio) {
-    query <- cbio$getAllStudiesUsingGET()
+    query <- .invoke_fun(cbio, "getAllStudiesUsingGET")
     studies <- httr::content(query)
     studies <- lapply(studies, function(x) {
         if (is.null(x[["pmid"]]))
@@ -71,9 +71,8 @@ getStudies <- function(cbio) {
 #'
 #' @export
 clinicalData <- function(cbio, studyId = "acc_tcga") {
-    clinpost <- cbio$fetchAllClinicalDataInStudyUsingPOST(studyId = studyId)
-    clindat <- httr::content(clinpost)
-    dfclin <- dplyr::bind_rows(clindat)
+    dfclin <- .invoke_bind(cbio, "fetchAllClinicalDataInStudyUsingPOST",
+        studyId = studyId)
     tidyr::spread(dfclin, clinicalAttributeId, value)
 }
 
@@ -115,13 +114,12 @@ molecularSlice <- function(cbio, profileId = "acc_tcga_rna_seq_v2_mrna",
     entrezGeneIds = c(1, 2),
     sampleIds = c("TCGA-OR-A5J1-01",  "TCGA-OR-A5J2-01"))
 {
-    mols <- cbio$fetchAllMolecularDataInMolecularProfileUsingPOST(
+    byGene <- .invoke_bind(cbio,
+        "fetchAllMolecularDataInMolecularProfileUsingPOST",
         molecularProfileId = profileId,
         entrezGeneIds = entrezGeneIds,
         sampleIds = sampleIds
     )
-    cmols <- httr::content(mols)
-    byGene <- dplyr::bind_rows(cmols)
     tidyr::spread(byGene[, c("entrezGeneId", "sampleId", "value")],
         sampleId, value)
 }
@@ -150,7 +148,7 @@ searchOps <- function(cbio, keyword) {
 #'
 #' @export
 geneTable <- function(cbio, ...) {
-    gres <- cbio$getAllGenesUsingGET(...)
+    gres <- .invoke_fun(cbio, "getAllGenesUsingGET", ...)
     glist <- httr::content(gres)
     glix <- lapply(glist, function(x) {
         if (is.null(x[["cytoband"]]))
