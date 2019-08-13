@@ -30,7 +30,7 @@ CRAN package. Please use the devel version of `rapiclient` along with the
 
 ```{r, eval=FALSE}
 library(BiocManager)
-install(c("Bioconductor/AnVIL", "Bioconductor/AnVIL_rapiclient"))
+install(c("Bioconductor/AnVIL_rapiclient@schema-enhance", "Bioconductor/AnVIL"))
 install("waldronlab/cBioPortalData", ref = "apiclient")
 ```
 
