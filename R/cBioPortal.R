@@ -267,3 +267,29 @@ getSampleInfo <-
     )
 }
 
+#' @export
+getDataByGenePanel <-
+    function(cbio, by = c("entrezGeneId", "hugoGeneSymbol"),
+        genePanel = "bait_v5",
+        molecularProfileIds = "acc_tcga_rna_seq_v2_mrna",
+        sampleIds = "acc_tcga_all")
+{
+    by <- match.arg(by)
+    panel <- genePanel(cbio, genePanel)
+    molecularData <- molecularSlice(cbio,
+        profileId = molecularProfileIds,
+        entrezGeneIds = panel[[1]],
+        sampleIds = samplesInSampleLists(cbio, sampleIds)[[1L]])
+
+    if (identical(by , "hugoGeneSymbol"))
+        dplyr::bind_cols(
+            hugoGeneSymbol = unlist(
+                panel[match(molecularData[["entrezGeneId"]],
+                    panel[["entrezGeneId"]]), by]),
+            molecularData[, names(molecularData) != "entrezGeneId"]
+        )
+    else
+        molecularData
+}
+
+
