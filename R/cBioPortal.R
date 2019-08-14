@@ -1,16 +1,64 @@
+.invoke_fun <- function(api, name, ...) {
+    if (!is(api, "cBioPortal"))
+        stop("Provide a 'cBioPortal' class API object")
+    ops <- names(operations(api))
+    if (!name %in% ops)
+        stop("<internal> operation name not found in API")
+    do.call(`$`, list(api, name))(...)
+}
+
+.bind_content <- function(x) {
+    dplyr::bind_rows(
+        httr::content(x)
+    )
+}
+
+.invoke_bind <- function(api, name, ...) {
+    .bind_content(.invoke_fun(api, name, ...))
+}
+
 #' @export
 cbioportal <- NULL
 
 #' @export
 .cBioPortal <- setClass("cBioPortal", contains = "Service")
 
-#' API Entry function for the cBioPortal data service
+#' @rdname cBioPortal
 #'
-#' This function allows the use of the cBioPortal API
+#' @title The interface to the cBioPortal API Service
 #'
-#' @return An object of class 'cBioPortal'
+#' @description This function allows the use of the cBioPortal API
+#'
+#' @param cbio An object of class `cBioPortal`
+#'
+#' @param studyId A single string indicating the "studyId" as taken from
+#'     `getStudies`
+#'
+#' @param keyword A string for searching through available operations
+#'
+#' @param profileId A single string indicating molecular profile ID
+#'
+#' @param entrezGeneIds A numeric vector indicating entrez gene IDs
+#'
+#' @param sampleIds A character vector for TCGA sample identifiers
+#'
+#' @param genePanelId A character vector identifying a gene panel, as obtained
+#'     from the `genePanels` function
+#'
+#' @return
+#'     - cBioPortal: An object of class 'cBioPortal'
+#'     - cBioPortaldata: An object of class 'MultiAssayExperiment'
 #'
 #' @importFrom AnVIL Service
+#'
+#' @examples
+#'
+#' cc <- cBioPortal()
+#' molecularSlice(cc)
+#'
+#' searchOps(cc, "mol")
+#'
+#' samplesInSampleLists(cc, "acc_tcga_rppa")
 #'
 #' @export
 cBioPortal <- function() {
@@ -26,29 +74,10 @@ cBioPortal <- function() {
     )
 }
 
-.invoke_fun <- function(api, name, ...) {
-    if (!is(cbio, "cBioPortal"))
-        stop("Provide a 'cBioPortal' class API object")
-    ops <- names(operations(api))
-    if (!name %in% ops)
-        stop("<internal> operation name not found in API")
-    do.call(`$`, list(api, name))(...)
-}
-
-
-.bind_content <- function(x) {
-    dplyr::bind_rows(
-        httr::content(x)
-    )
-}
-
-.invoke_bind <- function(api, name, ...) {
-    .bind_content(.invoke_fun(api, name, ...))
-}
-
-#' Obtain a table of studies and associated metadata
+#' @name cBioPortal
 #'
-#' @param cbio An object of class `cBioPortal`
+#' @section API Metadata:
+#'     * getStudies - Obtain a table of studies and associated metadata
 #'
 #' @export
 getStudies <- function(cbio) {
@@ -64,12 +93,10 @@ getStudies <- function(cbio) {
     dplyr::bind_rows(studies)
 }
 
-#' Obtain clinical data
+#' @name cBioPortal
 #'
-#' @param cbio An object of class `cBioPortal`
-#'
-#' @param studyId A single string indicating the "studyId" as taken from
-#'     `getStudies`
+#' @section clinicalData:
+#'      Obtain clinical data for a particular study identifier
 #'
 #' @export
 clinicalData <- function(cbio, studyId = "acc_tcga") {
@@ -78,9 +105,13 @@ clinicalData <- function(cbio, studyId = "acc_tcga") {
     tidyr::spread(dfclin, clinicalAttributeId, value)
 }
 
-#' Produce molecular profiles dataset
+#' @name cBioPortal
 #'
-#' @inheritParams clinicalData
+#' @section Molecular Profiles:
+#'      * molecularProfiles - Produce a molecular profiles dataset for a given
+#'      study identifier
+#'
+#' @inheritParams cBioPortal
 #'
 #' @export
 molecularProfiles <- function(cbio, studyId = "acc_tcga",
@@ -96,20 +127,11 @@ molecularProfiles <- function(cbio, studyId = "acc_tcga",
         cmols
 }
 
-#' Produce small dataset of molecular profile data
+#' @name cBioPortal
 #'
-#' This function will query the `fetchAllMolecularDataInMolecularProfileUsingPOST`
-#' endpoint to obtain data
-#'
-#' @inheritParams getStudies
-#' @param profileId A single string indicating molecular profile ID
-#' @param entrezGeneIds A numeric vector indicating entrez gene IDs
-#' @param sampleIds A character vector for TCGA sample identifiers
-#'
-#' @examples
-#'
-#' cc <- cBioPortal()
-#' molecularSlice(cc)
+#' @section Molecular Profiles:
+#'     * molecularSlice - Produce a dataset of molecular profile data based on
+#'     `molecularProfileId`, `entrezGeneIds`, and `sampleIds`
 #'
 #' @export
 molecularSlice <- function(cbio, profileId = "acc_tcga_rna_seq_v2_mrna",
@@ -126,27 +148,21 @@ molecularSlice <- function(cbio, profileId = "acc_tcga_rna_seq_v2_mrna",
         sampleId, value)
 }
 
-#' Search through API operations
+#' @name cBioPortal
 #'
-#' Use a string to filter through all available operations
-#'
-#' @param cbio An object of class `cBioPortal`
-#' @param keyword A string for searching through available operations
-#'
-#' @examples
-#'
-#' searchOps(cbio, "mol")
+#' @section API Metadata:
+#'     * searchOps - Search through API operations with a keyword
 #'
 #' @export
 searchOps <- function(cbio, keyword) {
     grep(keyword, names(operations(cbio)), value = TRUE, ignore.case = TRUE)
 }
 
-#' Get a table of all genes
+#' @name cBioPortal
 #'
-#' Query the API to get a list of Entrez Gene IDs, Hugo symbols, etc.
-#'
-#' @inheritParams clinicalData
+#' @section API Metadata:
+#'     * geneTable - Get a table of all genes by 'entrezGeneId' or
+#'     'hugoGeneSymbol'
 #'
 #' @export
 geneTable <- function(cbio, ...) {
@@ -164,17 +180,13 @@ geneTable <- function(cbio, ...) {
     dplyr::bind_rows(glix)
 }
 
-#' Return all samples within sample lists
+#' @name cBioPortal
 #'
-#' Provide a sampleListId and the function will return a CharacterList of
-#' associated TCGA barcodes
+#' @section Sample Data:
+#'     * samplesInSampleLists - get all samples associated with a 'sampleListId'
 #'
-#' @param cbio An object of class `cBioPortal`
 #' @param sampleListIds A character vector of sampleListId as obtained from
-#' sampleLists
-#'
-#' @examples
-#' samplesInSampleLists(cc, "acc_tcga_rppa")
+#'     sampleLists
 #'
 #' @export
 samplesInSampleLists <- function(cbio, sampleListIds = c("acc_tcga_all")) {
@@ -192,12 +204,10 @@ samplesInSampleLists <- function(cbio, sampleListIds = c("acc_tcga_all")) {
     res
 }
 
-#' Provide sample lists for a particular study
+#' @name cBioPortal
 #'
-#' Given a particular `studyId``, this function will return all the available
-#' `sampleListId` identifiers
-#'
-#' @inheritParams clinicalData
+#' @section API Metadata:
+#'     * sampleLists - obtain all `sampleListIds` for a particular `studyId`
 #'
 #' @examples
 #' sampleLists(cc, "acc_tcga")
@@ -207,21 +217,44 @@ sampleLists <- function(cbio, studyId = "acc_tcga") {
     .invoke_bind(cbio, "getAllSampleListsInStudyUsingGET", studyId = studyId)
 }
 
+#' @name cBioPortal
+#'
+#' @section API Metadata:
+#'     * allSamples - obtain all samples within a particular `studyId`
+#'
 #' @export
 allSamples <- function(cbio, studyId = "acc_tcga") {
     .invoke_bind(cbio, "getAllSamplesInStudyUsingGET", studyId = studyId)
 }
 
+#' @name cBioPortal
+#'
+#' @section API Metadata:
+#'     * genePanels - Show all available gene panels
+#'
 #' @export
 genePanels <- function(cbio) {
-    .invoke_bind(cbio, "getAllGenePanelsUsingGET", studyId = studyId)
+    .invoke_bind(cbio, "getAllGenePanelsUsingGET")
 }
 
+#' @name cBioPortal
+#'
+#' @section Gene Panels:
+#'     * genePanels - Show all available gene panels
+#'
 #' @export
-getGenePanel <- function(cbio, panelId = "NSCLC_UNITO_2016_PANEL") {
-    .invoke_bind(cbio, "getGenePanelUsingGET", genePanelId = panelId)
+getGenePanel <- function(cbio, genePanelId = "NSCLC_UNITO_2016_PANEL") {
+    res <- .invoke_fun(cbio, "getGenePanelUsingGET", genePanelId = genePanelId)
+    res <- httr::content(res)[["genes"]]
+    dplyr::bind_rows(res)
 }
 
+#' @name cBioPortal
+#'
+#' @section Gene Panels:
+#'     * genePanelMolecular - get gene panel data for a paricular
+#'     `molecularProfileId` and `sampleListId` combination
+#'
 #' @export
 genePanelMolecular <-
     function(cbio, molecularProfileId = "acc_tcga_linear_CNA",
@@ -233,7 +266,7 @@ genePanelMolecular <-
     )
 }
 
-#' @export
+# TODO: Operate on multiple molecular profiles
 getGenePanelMolecular <-
     function(cbio, molecularProfileId = "acc_tcga_linear_CNA",
         sampleIds = c("TCGA-OR-A5J1-01", "TCGA-OR-A5J2-01"))
@@ -249,6 +282,11 @@ getGenePanelMolecular <-
     )
 }
 
+#' @name cBioPortal
+#'
+#' @section Sample Data:
+#'     getSampleInfo - Obtain sample metadata for a particular `studyId` or
+#'     `sampleListId`
 #' @export
 getSampleInfo <-
     function(cbio, studyId = "acc_tcga", sampleListIds = NULL,
@@ -269,10 +307,19 @@ getSampleInfo <-
     )
 }
 
+#' @name cBioPortal
+#'
+#' @section Gene Panels:
+#'     getDataByGenePanel - Download data for a gene panel and `molecularProfileId`
+#'     combination, optionally a `sampleListId` can be provided.
+#'
+#' @param by character(1) Whether to use 'entrezGeneId' or 'hugoGeneSymbol'
+#'     as row metadata
+#'
 #' @export
 getDataByGenePanel <-
     function(cbio, by = c("entrezGeneId", "hugoGeneSymbol"),
-        genePanel = "bait_v5",
+        genePanelId = "bait_v5",
         studyId = "acc_tcga",
         molecularProfileIds = "acc_tcga_rna_seq_v2_mrna",
         sampleListId = NULL)
@@ -283,7 +330,7 @@ getDataByGenePanel <-
     else
         samples <- allSamples(cbio, studyId)[["sampleId"]]
 
-    panel <- getGenePanel(cbio, panelId = genePanel)
+    panel <- getGenePanel(cbio, genePanelId = genePanelId)
     molecularData <- molecularSlice(cbio,
         profileId = molecularProfileIds,
         entrezGeneIds = panel[["entrezGeneId"]],
@@ -324,8 +371,22 @@ getDataByGenePanel <-
         }) , "List")
 }
 
+#' Download data from the cBioPortal API
+#'
+#' Obtain a `MultiAssayExperiment` object for a particular gene panel,
+#' `studyId`, `molecularProfileIds`, and `sampleListIds` combination. Default
+#' `molecularProfileIds` and `sampleListIds` are set to NULL for including all
+#' data.
+#'
+#' @inheritParams cBioPortal
+#'
+#' @examples
+#'
+#' cb <- cBioPortal()
+#' cBioPortalData(cb, by = "hugoGeneSymbol")
+#'
 #' @export
-cBioPortalExperiment <- function(cbio, by = c("entrezGeneId", "hugoGeneSymbol"),
+cBioPortalData <- function(cbio, by = c("entrezGeneId", "hugoGeneSymbol"),
         genePanel = "bait_v5",
         studyId = "acc_tcga",
         molecularProfileIds = c("acc_tcga_rppa", "acc_tcga_rppa_Zscores",

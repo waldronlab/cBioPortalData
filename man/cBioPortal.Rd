@@ -2,13 +2,157 @@
 % Please edit documentation in R/cBioPortal.R
 \name{cBioPortal}
 \alias{cBioPortal}
-\title{API Entry function for the cBioPortal data service}
+\alias{getStudies}
+\alias{clinicalData}
+\alias{molecularProfiles}
+\alias{molecularSlice}
+\alias{searchOps}
+\alias{geneTable}
+\alias{samplesInSampleLists}
+\alias{sampleLists}
+\alias{allSamples}
+\alias{genePanels}
+\alias{getGenePanel}
+\alias{genePanelMolecular}
+\alias{getSampleInfo}
+\alias{getDataByGenePanel}
+\title{The interface to the cBioPortal API Service}
 \usage{
 cBioPortal()
+
+getStudies(cbio)
+
+clinicalData(cbio, studyId = "acc_tcga")
+
+molecularProfiles(cbio, studyId = "acc_tcga", projection = c("SUMMARY",
+  "ID", "DETAILED", "META"))
+
+molecularSlice(cbio, profileId = "acc_tcga_rna_seq_v2_mrna",
+  entrezGeneIds = c(1, 2), sampleIds = c("TCGA-OR-A5J1-01",
+  "TCGA-OR-A5J2-01"))
+
+searchOps(cbio, keyword)
+
+geneTable(cbio, ...)
+
+samplesInSampleLists(cbio, sampleListIds = c("acc_tcga_all"))
+
+sampleLists(cbio, studyId = "acc_tcga")
+
+allSamples(cbio, studyId = "acc_tcga")
+
+genePanels(cbio)
+
+getGenePanel(cbio, genePanelId = "NSCLC_UNITO_2016_PANEL")
+
+genePanelMolecular(cbio, molecularProfileId = "acc_tcga_linear_CNA",
+  sampleListId = "acc_tcga_cna", sampleIds = NULL)
+
+getSampleInfo(cbio, studyId = "acc_tcga", sampleListIds = NULL,
+  projection = c("SUMMARY", "ID", "DETAILED", "META"))
+
+getDataByGenePanel(cbio, by = c("entrezGeneId", "hugoGeneSymbol"),
+  genePanelId = "bait_v5", studyId = "acc_tcga",
+  molecularProfileIds = "acc_tcga_rna_seq_v2_mrna",
+  sampleListId = NULL)
+}
+\arguments{
+\item{cbio}{An object of class `cBioPortal`}
+
+\item{studyId}{A single string indicating the "studyId" as taken from
+`getStudies`}
+
+\item{profileId}{A single string indicating molecular profile ID}
+
+\item{entrezGeneIds}{A numeric vector indicating entrez gene IDs}
+
+\item{sampleIds}{A character vector for TCGA sample identifiers}
+
+\item{keyword}{A string for searching through available operations}
+
+\item{sampleListIds}{A character vector of sampleListId as obtained from
+sampleLists}
+
+\item{genePanelId}{A character vector identifying a gene panel, as obtained
+from the `genePanels` function}
+
+\item{by}{character(1) Whether to use 'entrezGeneId' or 'hugoGeneSymbol'
+as row metadata}
 }
 \value{
-An object of class 'cBioPortal'
+- cBioPortal: An object of class 'cBioPortal'
+    - cBioPortaldata: An object of class 'MultiAssayExperiment'
 }
 \description{
 This function allows the use of the cBioPortal API
+}
+\section{API Metadata}{
+
+    * getStudies - Obtain a table of studies and associated metadata
+
+
+    * searchOps - Search through API operations with a keyword
+
+
+    * geneTable - Get a table of all genes by 'entrezGeneId' or
+    'hugoGeneSymbol'
+
+
+    * sampleLists - obtain all `sampleListIds` for a particular `studyId`
+
+
+    * allSamples - obtain all samples within a particular `studyId`
+
+
+    * genePanels - Show all available gene panels
+}
+
+\section{clinicalData}{
+
+     Obtain clinical data for a particular study identifier
+}
+
+\section{Molecular Profiles}{
+
+     * molecularProfiles - Produce a molecular profiles dataset for a given
+     study identifier
+
+
+    * molecularSlice - Produce a dataset of molecular profile data based on
+    `molecularProfileId`, `entrezGeneIds`, and `sampleIds`
+}
+
+\section{Sample Data}{
+
+    * samplesInSampleLists - get all samples associated with a 'sampleListId'
+
+
+    getSampleInfo - Obtain sample metadata for a particular `studyId` or
+    `sampleListId`
+}
+
+\section{Gene Panels}{
+
+    * genePanels - Show all available gene panels
+
+
+    * genePanelMolecular - get gene panel data for a paricular
+    `molecularProfileId` and `sampleListId` combination
+
+
+    getDataByGenePanel - Download data for a gene panel and `molecularProfileId`
+    combination, optionally a `sampleListId` can be provided.
+}
+
+\examples{
+
+cc <- cBioPortal()
+molecularSlice(cc)
+
+searchOps(cc, "mol")
+
+samplesInSampleLists(cc, "acc_tcga_rppa")
+
+sampleLists(cc, "acc_tcga")
+
 }
