@@ -2,7 +2,7 @@
 % Please edit documentation in R/cBioPortal.R
 \name{sampleLists}
 \alias{sampleLists}
-\title{Provide a sample lists within a study}
+\title{Provide sample lists for a particular study}
 \usage{
 sampleLists(cbio, studyId = "acc_tcga")
 }
@@ -15,4 +15,8 @@ sampleLists(cbio, studyId = "acc_tcga")
 \description{
 Given a particular `studyId``, this function will return all the available
 `sampleListId` identifiers
+}
+\examples{
+sampleLists(cc, "acc_tcga")
+
 }

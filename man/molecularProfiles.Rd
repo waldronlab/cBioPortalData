@@ -4,7 +4,8 @@
 \alias{molecularProfiles}
 \title{Produce molecular profiles dataset}
 \usage{
-molecularProfiles(cbio, studyId = "acc_tcga")
+molecularProfiles(cbio, studyId = "acc_tcga", projection = c("SUMMARY",
+  "ID", "DETAILED", "META"))
 }
 \arguments{
 \item{cbio}{An object of class `cBioPortal`}

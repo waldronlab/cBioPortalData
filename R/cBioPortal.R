@@ -27,6 +27,8 @@ cBioPortal <- function() {
 }
 
 .invoke_fun <- function(api, name, ...) {
+    if (!is(cbio, "cBioPortal"))
+        stop("Provide a 'cBioPortal' class API object")
     ops <- names(operations(api))
     if (!name %in% ops)
         stop("<internal> operation name not found in API")
@@ -271,15 +273,21 @@ getSampleInfo <-
 getDataByGenePanel <-
     function(cbio, by = c("entrezGeneId", "hugoGeneSymbol"),
         genePanel = "bait_v5",
+        studyId = "acc_tcga",
         molecularProfileIds = "acc_tcga_rna_seq_v2_mrna",
-        sampleIds = "acc_tcga_all")
+        sampleListId = NULL)
 {
     by <- match.arg(by)
-    panel <- genePanel(cbio, genePanel)
+    if (!is.null(sampleListId))
+        samples <- samplesInSampleLists(cbio, sampleListId)[[1L]]
+    else
+        samples <- allSamples(cbio, studyId)[["sampleId"]]
+
+    panel <- getGenePanel(cbio, panelId = genePanel)
     molecularData <- molecularSlice(cbio,
         profileId = molecularProfileIds,
-        entrezGeneIds = panel[[1]],
-        sampleIds = samplesInSampleLists(cbio, sampleIds)[[1L]])
+        entrezGeneIds = panel[["entrezGeneId"]],
+        sampleIds = samples)
 
     if (identical(by , "hugoGeneSymbol"))
         dplyr::bind_cols(
@@ -292,4 +300,50 @@ getDataByGenePanel <-
         molecularData
 }
 
+.portalExperiments <-
+    function(cbio, by = c("entrezGeneId", "hugoGeneSymbol"),
+        genePanel = "bait_v5",
+        studyId = "acc_tcga",
+        molecularProfileIds = NULL,
+        sampleListId = NULL)
+{
+    by <- match.arg(by)
+    if (is.null(molecularProfileIds))
+        molecularProfileIds <-
+            molecularProfiles(cbio, studyId)[["molecularProfileId"]]
 
+    molecularProfileIds <- setNames(molecularProfileIds, molecularProfileIds)
+    as( lapply(molecularProfileIds, function(molprof) {
+            moldata <- getDataByGenePanel(cbio, by = by, genePanel = genePanel,
+                studyId = studyId, molecularProfileIds = molprof,
+                sampleListId = sampleListId)
+            moldata <- as.data.frame(moldata)
+            rownames(moldata) <- moldata[[by]]
+            moldata <- data.matrix(moldata[, names(moldata) != by])
+            SummarizedExperiment(moldata)
+        }) , "List")
+}
+
+#' @export
+cBioPortalExperiment <- function(cbio, by = c("entrezGeneId", "hugoGeneSymbol"),
+        genePanel = "bait_v5",
+        studyId = "acc_tcga",
+        molecularProfileIds = c("acc_tcga_rppa", "acc_tcga_rppa_Zscores",
+            "acc_tcga_gistic"),
+        sampleListId = NULL)
+{
+    explist <- .portalExperiments(cbio, by,
+        genePanel = genePanel,
+        studyId = studyId,
+        molecularProfileIds = molecularProfileIds,
+        sampleListId = sampleListId)
+
+    clin <- clinicalData(cbio, studyId = studyId)
+    clin <- as.data.frame(clin)
+    rownames(clin) <- clin[["patientId"]]
+
+    sampmap <- TCGAutils::generateMap(experiments = explist,
+        colData = clin, idConverter = TCGAutils::TCGAbarcode)
+
+    MultiAssayExperiment(explist, clin, sampmap)
+}

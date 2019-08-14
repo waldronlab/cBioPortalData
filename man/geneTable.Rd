@@ -4,7 +4,7 @@
 \alias{geneTable}
 \title{Get a table of all genes}
 \usage{
-geneTable(cbio)
+geneTable(cbio, ...)
 }
 \arguments{
 \item{cbio}{An object of class `cBioPortal`}
