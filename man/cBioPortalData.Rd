@@ -5,7 +5,7 @@
 \title{Download data from the cBioPortal API}
 \usage{
 cBioPortalData(cbio, by = c("entrezGeneId", "hugoGeneSymbol"),
-  genePanel = "bait_v5", studyId = "acc_tcga",
+  genePanelId = "bait_v5", studyId = "acc_tcga",
   molecularProfileIds = c("acc_tcga_rppa", "acc_tcga_rppa_Zscores",
   "acc_tcga_gistic"), sampleListId = NULL)
 }
@@ -15,8 +15,13 @@ cBioPortalData(cbio, by = c("entrezGeneId", "hugoGeneSymbol"),
 \item{by}{character(1) Whether to use 'entrezGeneId' or 'hugoGeneSymbol'
 as row metadata}
 
+\item{genePanelId}{A character vector identifying a gene panel, as obtained
+from the `genePanels` function}
+
 \item{studyId}{A single string indicating the "studyId" as taken from
 `getStudies`}
+
+\item{molecularProfileIds}{A character vector of molecular profile IDs}
 }
 \description{
 Obtain a `MultiAssayExperiment` object for a particular gene panel,

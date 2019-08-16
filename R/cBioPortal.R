@@ -36,7 +36,9 @@ cbioportal <- NULL
 #'
 #' @param keyword A string for searching through available operations
 #'
-#' @param profileId A single string indicating molecular profile ID
+#' @param molecularProfileId A single string indicating molecular profile ID
+#' 
+#' @param molecularProfileIds A character vector of molecular profile IDs
 #'
 #' @param entrezGeneIds A numeric vector indicating entrez gene IDs
 #'
@@ -134,13 +136,13 @@ molecularProfiles <- function(cbio, studyId = "acc_tcga",
 #'     `molecularProfileId`, `entrezGeneIds`, and `sampleIds`
 #'
 #' @export
-molecularSlice <- function(cbio, profileId = "acc_tcga_rna_seq_v2_mrna",
+molecularSlice <- function(cbio, molecularProfileId = "acc_tcga_rna_seq_v2_mrna",
     entrezGeneIds = c(1, 2),
     sampleIds = c("TCGA-OR-A5J1-01",  "TCGA-OR-A5J2-01"))
 {
     byGene <- .invoke_bind(cbio,
         "fetchAllMolecularDataInMolecularProfileUsingPOST",
-        molecularProfileId = profileId,
+        molecularProfileId = molecularProfileId,
         entrezGeneIds = entrezGeneIds,
         sampleIds = sampleIds
     )
@@ -185,15 +187,16 @@ geneTable <- function(cbio, ...) {
 #' @section Sample Data:
 #'     * samplesInSampleLists - get all samples associated with a 'sampleListId'
 #'
-#' @param sampleListIds A character vector of sampleListId as obtained from
-#'     sampleLists
+#' @param sampleListIds A character vector of 'sampleListId' as obtained from
+#'     `sampleLists`
 #'
 #' @export
-samplesInSampleLists <- function(cbio, sampleListIds = c("acc_tcga_all")) {
+samplesInSampleLists <- function(cbio, sampleListIds = "acc_tcga_all") {
     sampleListIds <- setNames(sampleListIds, sampleListIds)
-    meta <- structure(vector("list", length(sampleListIds)), .Names = sampleListIds)
+    meta <- structure(vector("list", length(sampleListIds)),
+        .Names = sampleListIds)
     res <- lapply(sampleListIds, function(x) {
-        res <- cbio$getSampleListUsingGET(sampleListId = x)
+        res <- .invoke_fun(cbio, "getSampleListUsingGET", sampleListId = x)
         res2 <- httr::content(res)
         meta[[x]] <<- res2[names(res2) != "sampleIds"]
         unlist(res2[["sampleIds"]])
@@ -240,7 +243,7 @@ genePanels <- function(cbio) {
 #' @name cBioPortal
 #'
 #' @section Gene Panels:
-#'     * genePanels - Show all available gene panels
+#'     * getGenePanels - Obtain the gene panel for a particular 'genePanelId'
 #'
 #' @export
 getGenePanel <- function(cbio, genePanelId = "NSCLC_UNITO_2016_PANEL") {
@@ -268,17 +271,18 @@ genePanelMolecular <-
 
 # TODO: Operate on multiple molecular profiles
 getGenePanelMolecular <-
-    function(cbio, molecularProfileId = "acc_tcga_linear_CNA",
+    function(cbio, molecularProfileIds =
+        c("acc_tcga_linear_CNA", "acc_tcga_rppa"),
         sampleIds = c("TCGA-OR-A5J1-01", "TCGA-OR-A5J2-01"))
 {
+    SampMolIds <- S4Vectors::expand.grid(
+        molecularProfileId = molecularProfileId,
+        sampleId = sampleIds
+    )
     .invoke_bind(cbio,
         "fetchGenePanelDataInMultipleMolecularProfilesUsingPOST",
-        sampleMolecularIdentifiers = list(sampleMolecularIdentifiers =
-            data.frame(
-                molecularProfileId = molecularProfileId,
-                sampleId = sampleIds
-            )
-        )
+        sampleMolecularIdentifiers =
+            list(sampleMolecularIdentifiers = SampMolIds)
     )
 }
 
@@ -321,7 +325,7 @@ getDataByGenePanel <-
     function(cbio, by = c("entrezGeneId", "hugoGeneSymbol"),
         genePanelId = "bait_v5",
         studyId = "acc_tcga",
-        molecularProfileIds = "acc_tcga_rna_seq_v2_mrna",
+        molecularProfileId = "acc_tcga_rna_seq_v2_mrna",
         sampleListId = NULL)
 {
     by <- match.arg(by)
@@ -332,7 +336,7 @@ getDataByGenePanel <-
 
     panel <- getGenePanel(cbio, genePanelId = genePanelId)
     molecularData <- molecularSlice(cbio,
-        profileId = molecularProfileIds,
+        molecularProfileId = molecularProfileId,
         entrezGeneIds = panel[["entrezGeneId"]],
         sampleIds = samples)
 
@@ -349,7 +353,7 @@ getDataByGenePanel <-
 
 .portalExperiments <-
     function(cbio, by = c("entrezGeneId", "hugoGeneSymbol"),
-        genePanel = "bait_v5",
+        genePanelId = "bait_v5",
         studyId = "acc_tcga",
         molecularProfileIds = NULL,
         sampleListId = NULL)
@@ -360,15 +364,17 @@ getDataByGenePanel <-
             molecularProfiles(cbio, studyId)[["molecularProfileId"]]
 
     molecularProfileIds <- setNames(molecularProfileIds, molecularProfileIds)
-    as( lapply(molecularProfileIds, function(molprof) {
-            moldata <- getDataByGenePanel(cbio, by = by, genePanel = genePanel,
-                studyId = studyId, molecularProfileIds = molprof,
-                sampleListId = sampleListId)
+    as(
+        lapply(molecularProfileIds, function(molprof) {
+            moldata <- getDataByGenePanel(cbio, by = by,
+                genePanelId = genePanelId, studyId = studyId,
+                molecularProfileId = molprof, sampleListId = sampleListId)
             moldata <- as.data.frame(moldata)
             rownames(moldata) <- moldata[[by]]
             moldata <- data.matrix(moldata[, names(moldata) != by])
             SummarizedExperiment(moldata)
-        }) , "List")
+        })
+    , "List")
 }
 
 #' Download data from the cBioPortal API
@@ -387,15 +393,14 @@ getDataByGenePanel <-
 #'
 #' @export
 cBioPortalData <- function(cbio, by = c("entrezGeneId", "hugoGeneSymbol"),
-        genePanel = "bait_v5",
+        genePanelId = "bait_v5",
         studyId = "acc_tcga",
         molecularProfileIds = c("acc_tcga_rppa", "acc_tcga_rppa_Zscores",
             "acc_tcga_gistic"),
         sampleListId = NULL)
 {
-    explist <- .portalExperiments(cbio, by,
-        genePanel = genePanel,
-        studyId = studyId,
+    explist <- .portalExperiments(cbio = cbio, by = by,
+        genePanelId = genePanelId, studyId = studyId,
         molecularProfileIds = molecularProfileIds,
         sampleListId = sampleListId)
 

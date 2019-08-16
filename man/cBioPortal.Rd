@@ -27,7 +27,7 @@ clinicalData(cbio, studyId = "acc_tcga")
 molecularProfiles(cbio, studyId = "acc_tcga", projection = c("SUMMARY",
   "ID", "DETAILED", "META"))
 
-molecularSlice(cbio, profileId = "acc_tcga_rna_seq_v2_mrna",
+molecularSlice(cbio, molecularProfileId = "acc_tcga_rna_seq_v2_mrna",
   entrezGeneIds = c(1, 2), sampleIds = c("TCGA-OR-A5J1-01",
   "TCGA-OR-A5J2-01"))
 
@@ -35,7 +35,7 @@ searchOps(cbio, keyword)
 
 geneTable(cbio, ...)
 
-samplesInSampleLists(cbio, sampleListIds = c("acc_tcga_all"))
+samplesInSampleLists(cbio, sampleListIds = "acc_tcga_all")
 
 sampleLists(cbio, studyId = "acc_tcga")
 
@@ -53,8 +53,7 @@ getSampleInfo(cbio, studyId = "acc_tcga", sampleListIds = NULL,
 
 getDataByGenePanel(cbio, by = c("entrezGeneId", "hugoGeneSymbol"),
   genePanelId = "bait_v5", studyId = "acc_tcga",
-  molecularProfileIds = "acc_tcga_rna_seq_v2_mrna",
-  sampleListId = NULL)
+  molecularProfileId = "acc_tcga_rna_seq_v2_mrna", sampleListId = NULL)
 }
 \arguments{
 \item{cbio}{An object of class `cBioPortal`}
@@ -62,7 +61,7 @@ getDataByGenePanel(cbio, by = c("entrezGeneId", "hugoGeneSymbol"),
 \item{studyId}{A single string indicating the "studyId" as taken from
 `getStudies`}
 
-\item{profileId}{A single string indicating molecular profile ID}
+\item{molecularProfileId}{A single string indicating molecular profile ID}
 
 \item{entrezGeneIds}{A numeric vector indicating entrez gene IDs}
 
@@ -70,14 +69,16 @@ getDataByGenePanel(cbio, by = c("entrezGeneId", "hugoGeneSymbol"),
 
 \item{keyword}{A string for searching through available operations}
 
-\item{sampleListIds}{A character vector of sampleListId as obtained from
-sampleLists}
+\item{sampleListIds}{A character vector of 'sampleListId' as obtained from
+`sampleLists`}
 
 \item{genePanelId}{A character vector identifying a gene panel, as obtained
 from the `genePanels` function}
 
 \item{by}{character(1) Whether to use 'entrezGeneId' or 'hugoGeneSymbol'
 as row metadata}
+
+\item{molecularProfileIds}{A character vector of molecular profile IDs}
 }
 \value{
 - cBioPortal: An object of class 'cBioPortal'
@@ -133,7 +134,7 @@ This function allows the use of the cBioPortal API
 
 \section{Gene Panels}{
 
-    * genePanels - Show all available gene panels
+    * getGenePanels - Obtain the gene panel for a particular 'genePanelId'
 
 
     * genePanelMolecular - get gene panel data for a paricular
