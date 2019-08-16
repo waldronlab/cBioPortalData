@@ -31,20 +31,21 @@ cbioportal <- NULL
 #'
 #' @param cbio An object of class `cBioPortal`
 #'
-#' @param studyId A single string indicating the "studyId" as taken from
+#' @param studyId character(1) Indicates the "studyId" as taken from
 #'     `getStudies`
 #'
-#' @param keyword A string for searching through available operations
+#' @param keyword character(1) Keyword or pattern for searching through
+#'     available operations
 #'
-#' @param molecularProfileId A single string indicating molecular profile ID
+#' @param molecularProfileId character(1) Indicates a molecular profile ID
 #' 
-#' @param molecularProfileIds A character vector of molecular profile IDs
+#' @param molecularProfileIds character() A vector of molecular profile IDs
 #'
-#' @param entrezGeneIds A numeric vector indicating entrez gene IDs
+#' @param entrezGeneIds numeric() A vector indicating entrez gene IDs
 #'
-#' @param sampleIds A character vector for TCGA sample identifiers
+#' @param sampleIds character() TCGA sample identifiers
 #'
-#' @param genePanelId A character vector identifying a gene panel, as obtained
+#' @param genePanelId character(1) Identifies the gene panel, as obtained
 #'     from the `genePanels` function
 #'
 #' @return
@@ -187,7 +188,7 @@ geneTable <- function(cbio, ...) {
 #' @section Sample Data:
 #'     * samplesInSampleLists - get all samples associated with a 'sampleListId'
 #'
-#' @param sampleListIds A character vector of 'sampleListId' as obtained from
+#' @param sampleListIds character() A vector of 'sampleListId' as obtained from
 #'     `sampleLists`
 #'
 #' @export

@@ -15,13 +15,13 @@ cBioPortalData(cbio, by = c("entrezGeneId", "hugoGeneSymbol"),
 \item{by}{character(1) Whether to use 'entrezGeneId' or 'hugoGeneSymbol'
 as row metadata}
 
-\item{genePanelId}{A character vector identifying a gene panel, as obtained
+\item{genePanelId}{character(1) Identifies the gene panel, as obtained
 from the `genePanels` function}
 
-\item{studyId}{A single string indicating the "studyId" as taken from
+\item{studyId}{character(1) Indicates the "studyId" as taken from
 `getStudies`}
 
-\item{molecularProfileIds}{A character vector of molecular profile IDs}
+\item{molecularProfileIds}{character() A vector of molecular profile IDs}
 }
 \description{
 Obtain a `MultiAssayExperiment` object for a particular gene panel,

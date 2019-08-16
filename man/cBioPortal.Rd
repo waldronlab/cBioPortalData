@@ -63,24 +63,25 @@ getDataByGenePanel(cbio, by = c("entrezGeneId", "hugoGeneSymbol"),
 \arguments{
 \item{cbio}{An object of class `cBioPortal`}
 
-\item{studyId}{A single string indicating the "studyId" as taken from
+\item{studyId}{character(1) Indicates the "studyId" as taken from
 `getStudies`}
 
-\item{molecularProfileId}{A single string indicating molecular profile ID}
+\item{molecularProfileId}{character(1) Indicates a molecular profile ID}
 
-\item{entrezGeneIds}{A numeric vector indicating entrez gene IDs}
+\item{entrezGeneIds}{numeric() A vector indicating entrez gene IDs}
 
-\item{sampleIds}{A character vector for TCGA sample identifiers}
+\item{sampleIds}{character() TCGA sample identifiers}
 
-\item{keyword}{A string for searching through available operations}
+\item{keyword}{character(1) Keyword or pattern for searching through
+available operations}
 
-\item{sampleListIds}{A character vector of 'sampleListId' as obtained from
+\item{sampleListIds}{character() A vector of 'sampleListId' as obtained from
 `sampleLists`}
 
-\item{genePanelId}{A character vector identifying a gene panel, as obtained
+\item{genePanelId}{character(1) Identifies the gene panel, as obtained
 from the `genePanels` function}
 
-\item{molecularProfileIds}{A character vector of molecular profile IDs}
+\item{molecularProfileIds}{character() A vector of molecular profile IDs}
 
 \item{by}{character(1) Whether to use 'entrezGeneId' or 'hugoGeneSymbol'
 as row metadata}
