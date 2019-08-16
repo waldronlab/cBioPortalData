@@ -269,14 +269,20 @@ genePanelMolecular <-
     )
 }
 
-# TODO: Operate on multiple molecular profiles
+#' @name cBioPortal
+#'
+#' @section Gene Panels:
+#'     * getGenePanelMolecular - get gene panel data for a combination of
+#'     `molecularProfileId` and `sampleListId` vectors
+#'
+#' @export
 getGenePanelMolecular <-
     function(cbio, molecularProfileIds =
         c("acc_tcga_linear_CNA", "acc_tcga_rppa"),
         sampleIds = c("TCGA-OR-A5J1-01", "TCGA-OR-A5J2-01"))
 {
     SampMolIds <- S4Vectors::expand.grid(
-        molecularProfileId = molecularProfileId,
+        molecularProfileId = molecularProfileIds,
         sampleId = sampleIds
     )
     .invoke_bind(cbio,

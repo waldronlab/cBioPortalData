@@ -14,6 +14,7 @@
 \alias{genePanels}
 \alias{getGenePanel}
 \alias{genePanelMolecular}
+\alias{getGenePanelMolecular}
 \alias{getSampleInfo}
 \alias{getDataByGenePanel}
 \title{The interface to the cBioPortal API Service}
@@ -48,6 +49,10 @@ getGenePanel(cbio, genePanelId = "NSCLC_UNITO_2016_PANEL")
 genePanelMolecular(cbio, molecularProfileId = "acc_tcga_linear_CNA",
   sampleListId = "acc_tcga_cna", sampleIds = NULL)
 
+getGenePanelMolecular(cbio,
+  molecularProfileIds = c("acc_tcga_linear_CNA", "acc_tcga_rppa"),
+  sampleIds = c("TCGA-OR-A5J1-01", "TCGA-OR-A5J2-01"))
+
 getSampleInfo(cbio, studyId = "acc_tcga", sampleListIds = NULL,
   projection = c("SUMMARY", "ID", "DETAILED", "META"))
 
@@ -75,10 +80,10 @@ getDataByGenePanel(cbio, by = c("entrezGeneId", "hugoGeneSymbol"),
 \item{genePanelId}{A character vector identifying a gene panel, as obtained
 from the `genePanels` function}
 
+\item{molecularProfileIds}{A character vector of molecular profile IDs}
+
 \item{by}{character(1) Whether to use 'entrezGeneId' or 'hugoGeneSymbol'
 as row metadata}
-
-\item{molecularProfileIds}{A character vector of molecular profile IDs}
 }
 \value{
 - cBioPortal: An object of class 'cBioPortal'
@@ -139,6 +144,10 @@ This function allows the use of the cBioPortal API
 
     * genePanelMolecular - get gene panel data for a paricular
     `molecularProfileId` and `sampleListId` combination
+
+
+    * getGenePanelMolecular - get gene panel data for a combination of
+    `molecularProfileId` and `sampleListId` vectors
 
 
     getDataByGenePanel - Download data for a gene panel and `molecularProfileId`
