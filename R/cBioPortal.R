@@ -147,8 +147,11 @@ molecularSlice <- function(cbio, molecularProfileId = "acc_tcga_rna_seq_v2_mrna"
         entrezGeneIds = entrezGeneIds,
         sampleIds = sampleIds
     )
-    tidyr::spread(byGene[, c("entrezGeneId", "sampleId", "value")],
-        sampleId, value)
+    if ("message" %in% names(byGene))
+        return(byGene[["message"]])
+    else
+        tidyr::spread(byGene[, c("entrezGeneId", "sampleId", "value")],
+            sampleId, value)
 }
 
 #' @name cBioPortal
