@@ -4,24 +4,23 @@
 \alias{cBioPortalData}
 \title{Download data from the cBioPortal API}
 \usage{
-cBioPortalData(cbio, by = c("entrezGeneId", "hugoGeneSymbol"),
-  genePanelId = "bait_v5", studyId = "acc_tcga",
-  molecularProfileIds = c("acc_tcga_rppa", "acc_tcga_rppa_Zscores",
-  "acc_tcga_gistic"), sampleListId = NULL)
+cBioPortalData(cbio, studyId = "acc_tcga", genePanelId = "bait_v5",
+  molecularProfileIds = NULL, sampleListId = NULL,
+  by = c("entrezGeneId", "hugoGeneSymbol"))
 }
 \arguments{
 \item{cbio}{An object of class `cBioPortal`}
 
-\item{by}{character(1) Whether to use 'entrezGeneId' or 'hugoGeneSymbol'
-as row metadata}
+\item{studyId}{character(1) Indicates the "studyId" as taken from
+`getStudies`}
 
 \item{genePanelId}{character(1) Identifies the gene panel, as obtained
 from the `genePanels` function}
 
-\item{studyId}{character(1) Indicates the "studyId" as taken from
-`getStudies`}
-
 \item{molecularProfileIds}{character() A vector of molecular profile IDs}
+
+\item{by}{character(1) Whether to use 'entrezGeneId' or 'hugoGeneSymbol'
+as row metadata}
 }
 \description{
 Obtain a `MultiAssayExperiment` object for a particular gene panel,

@@ -87,8 +87,9 @@ from the `genePanels` function}
 as row metadata}
 }
 \value{
-- cBioPortal: An object of class 'cBioPortal'
-    - cBioPortaldata: An object of class 'MultiAssayExperiment'
+cBioPortal: An object of class 'cBioPortal'
+
+    cBioPortaldata: An object of class 'MultiAssayExperiment'
 }
 \description{
 This function allows the use of the cBioPortal API
@@ -134,7 +135,7 @@ This function allows the use of the cBioPortal API
     * samplesInSampleLists - get all samples associated with a 'sampleListId'
 
 
-    getSampleInfo - Obtain sample metadata for a particular `studyId` or
+    * getSampleInfo - Obtain sample metadata for a particular `studyId` or
     `sampleListId`
 }
 
@@ -151,8 +152,9 @@ This function allows the use of the cBioPortal API
     `molecularProfileId` and `sampleListId` vectors
 
 
-    getDataByGenePanel - Download data for a gene panel and `molecularProfileId`
-    combination, optionally a `sampleListId` can be provided.
+    * getDataByGenePanel - Download data for a gene panel and
+    `molecularProfileId` combination, optionally a `sampleListId` can be
+    provided.
 }
 
 \examples{

@@ -38,7 +38,7 @@ cbioportal <- NULL
 #'     available operations
 #'
 #' @param molecularProfileId character(1) Indicates a molecular profile ID
-#' 
+#'
 #' @param molecularProfileIds character() A vector of molecular profile IDs
 #'
 #' @param entrezGeneIds numeric() A vector indicating entrez gene IDs
@@ -49,8 +49,10 @@ cbioportal <- NULL
 #'     from the `genePanels` function
 #'
 #' @return
-#'     - cBioPortal: An object of class 'cBioPortal'
-#'     - cBioPortaldata: An object of class 'MultiAssayExperiment'
+#'
+#'     cBioPortal: An object of class 'cBioPortal'
+#'
+#'     cBioPortaldata: An object of class 'MultiAssayExperiment'
 #'
 #' @importFrom AnVIL Service
 #'
@@ -71,6 +73,7 @@ cBioPortal <- function() {
             host = "www.cbioportal.org",
             config = httr::config(ssl_verifypeer = 0L, ssl_verifyhost = 0L,
                 http_version = 0L),
+            api_url = "https://www.cbioportal.org/api/api-docs",
             package = "cBioPortalData",
             schemes = "http"
         )
@@ -103,9 +106,15 @@ getStudies <- function(cbio) {
 #'
 #' @export
 clinicalData <- function(cbio, studyId = "acc_tcga") {
-    dfclin <- .invoke_bind(cbio, "fetchAllClinicalDataInStudyUsingPOST",
-        studyId = studyId)
-    tidyr::spread(dfclin, clinicalAttributeId, value)
+    pttable <- .invoke_bind(cbioportal,
+        "getAllPatientsInStudyUsingGET", studyId = studyId)
+    ptrow <- lapply(pttable[["patientId"]], function(pt) {
+        .invoke_bind(cbioportal,
+            "getAllClinicalDataOfPatientInStudyUsingGET",
+            studyId = studyId, patientId = pt)
+    })
+    clin <- dplyr::bind_rows(ptrow)
+    tidyr::spread(clin, clinicalAttributeId, value)
 }
 
 #' @name cBioPortal
@@ -137,7 +146,8 @@ molecularProfiles <- function(cbio, studyId = "acc_tcga",
 #'     `molecularProfileId`, `entrezGeneIds`, and `sampleIds`
 #'
 #' @export
-molecularSlice <- function(cbio, molecularProfileId = "acc_tcga_rna_seq_v2_mrna",
+molecularSlice <- function(cbio,
+    molecularProfileId = "acc_tcga_rna_seq_v2_mrna",
     entrezGeneIds = c(1, 2),
     sampleIds = c("TCGA-OR-A5J1-01",  "TCGA-OR-A5J2-01"))
 {
@@ -299,7 +309,7 @@ getGenePanelMolecular <-
 #' @name cBioPortal
 #'
 #' @section Sample Data:
-#'     getSampleInfo - Obtain sample metadata for a particular `studyId` or
+#'     * getSampleInfo - Obtain sample metadata for a particular `studyId` or
 #'     `sampleListId`
 #' @export
 getSampleInfo <-
@@ -324,8 +334,9 @@ getSampleInfo <-
 #' @name cBioPortal
 #'
 #' @section Gene Panels:
-#'     getDataByGenePanel - Download data for a gene panel and `molecularProfileId`
-#'     combination, optionally a `sampleListId` can be provided.
+#'     * getDataByGenePanel - Download data for a gene panel and
+#'     `molecularProfileId` combination, optionally a `sampleListId` can be
+#'     provided.
 #'
 #' @param by character(1) Whether to use 'entrezGeneId' or 'hugoGeneSymbol'
 #'     as row metadata
@@ -402,12 +413,13 @@ getDataByGenePanel <-
 #' cBioPortalData(cb, by = "hugoGeneSymbol")
 #'
 #' @export
-cBioPortalData <- function(cbio, by = c("entrezGeneId", "hugoGeneSymbol"),
+cBioPortalData <-
+    function(cbio, studyId = "acc_tcga",
         genePanelId = "bait_v5",
-        studyId = "acc_tcga",
-        molecularProfileIds = c("acc_tcga_rppa", "acc_tcga_rppa_Zscores",
-            "acc_tcga_gistic"),
-        sampleListId = NULL)
+        molecularProfileIds = NULL,
+        sampleListId = NULL,
+        by = c("entrezGeneId", "hugoGeneSymbol")
+    )
 {
     explist <- .portalExperiments(cbio = cbio, by = by,
         genePanelId = genePanelId, studyId = studyId,
