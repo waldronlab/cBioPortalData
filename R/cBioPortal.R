@@ -106,10 +106,10 @@ getStudies <- function(cbio) {
 #'
 #' @export
 clinicalData <- function(cbio, studyId = "acc_tcga") {
-    pttable <- .invoke_bind(cbioportal,
+    pttable <- .invoke_bind(cbio,
         "getAllPatientsInStudyUsingGET", studyId = studyId)
     ptrow <- lapply(pttable[["patientId"]], function(pt) {
-        .invoke_bind(cbioportal,
+        .invoke_bind(cbio,
             "getAllClinicalDataOfPatientInStudyUsingGET",
             studyId = studyId, patientId = pt)
     })
