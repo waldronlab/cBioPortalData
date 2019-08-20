@@ -34,12 +34,13 @@ res <- lapply(allIds, function(study) {
         tibble::tibble()
 })
 
+noData <- names(Filter(function(g) !length(g), res))
 results <- Filter(length, res)
+
+save(results, file ="allStudiesWithRE.rda")
 
 ## percentage of studies with RACE and ETHNICITY attributeIds
 round((length(results)/length(allIds))*100, 1)
-
-results
 
 allptids <- unname(unlist(lapply(results, `[`, "patientId")))
 dups <- duplicated(allptids)
@@ -62,20 +63,49 @@ length(unique(allrows[["studyId"]]))
 race2 <- gsub("\\[|\\]", "", tolower(allrows[["RACE"]]))
 
 amin <- grepl("american indian", race2, fixed = TRUE)
-race2[amin] <- "american indian or alaska native"
+race2[amin] <- "Am. Indian / Hawaiian or P.I."
+
+hwpacific <- c("samoan", "hawaiian", "fiji islander",
+    "native hawaiian or other pacific islander")
+race2[race2 %in% hwpacific] <- "Am. Indian / Hawaiian or P.I."
 
 cauc <- grepl("caucasian", race2, fixed = TRUE)
-race2[cauc] <- "white"
+cauc <- cauc | race2 == "white"
+race2[cauc] <- "White"
 
 asianos <- grepl("[^cauc]asian", race2)
-race2 == "filipino"
+asianos <- asianos | race2 %in% c("filipino", "laotian", "asian")
 
-race2[asianos] <- "asian"
+race2[asianos] <- "Asian"
 
-hwpacific <- c("samoan", "hawaiian", "fiji islander")
-race2[race2 %in% hwpacific] <- "native hawaiian or other pacific islander"
+ab <- c("african american", "black", "black or african american")
+race2[race2 %in% ab] <- "Black or African Am."
 
-ab <- c("african american", "black")
-race2[race2 %in% ab] <- "black or african american"
+unk <- c("not reported", "not evaluated")
+race2[race2 %in% unk] <- "unknown"
+
+other <- c("unknown", "other", "hispanic")
+race2[race2 %in% other] <- "Other / Unknown"
 
 table(race2)
+
+allrows[["race"]] <- race2
+
+library(ggplot2)
+
+dat <- allrows %>% group_by(race) %>% summarize(counts = n())
+dat <- mutate(dat, percentage = round(counts / sum(counts) * 100, 1))
+
+dat_sort <- arrange(dat, percentage)
+dat_sort$race <- factor(dat_sort$race, levels = dat_sort$race)
+dat_sort <- dat_sort %>% mutate(database = "cBioPortal")
+
+ggplot(data = dat_sort, aes(x = database, y = percentage, fill = race)) +
+    geom_col() +
+    geom_text(aes(label = paste0(percentage, "%")),
+        position = position_stack(vjust = 0.5)) +
+    scale_fill_brewer(palette = "Set3") +
+    theme_minimal(base_size = 24) + theme(axis.text.x = element_blank()) +
+    ylab("Percentage") +
+    xlab(paste0(length(unique(allrows[["studyId"]])), " cBioPortal Studies")) +
+    labs(fill = "Race")
