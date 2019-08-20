@@ -386,17 +386,17 @@ getDataByGenePanel <-
             molecularProfiles(cbio, studyId)[["molecularProfileId"]]
 
     molecularProfileIds <- setNames(molecularProfileIds, molecularProfileIds)
-    as(
-        lapply(molecularProfileIds, function(molprof) {
-            moldata <- getDataByGenePanel(cbio, by = by,
-                genePanelId = genePanelId, studyId = studyId,
-                molecularProfileId = molprof, sampleListId = sampleListId)
-            moldata <- as.data.frame(moldata)
-            rownames(moldata) <- moldata[[by]]
-            moldata <- data.matrix(moldata[, names(moldata) != by])
-            SummarizedExperiment(moldata)
-        })
-    , "List")
+
+    expers <- lapply(molecularProfileIds, function(molprof) {
+        moldata <- getDataByGenePanel(cbio, by = by,
+            genePanelId = genePanelId, studyId = studyId,
+            molecularProfileId = molprof, sampleListId = sampleListId)
+        moldata <- as.data.frame(moldata)
+        rownames(moldata) <- moldata[[by]]
+        moldata <- data.matrix(moldata[, names(moldata) != by])
+        SummarizedExperiment(moldata)
+    })
+    as(Filter(length, expers), "List")
 }
 
 #' Download data from the cBioPortal API
