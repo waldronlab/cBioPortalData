@@ -1,6 +1,6 @@
 library(cBioPortalData)
 
-devtools::load_all()
+.invoke_bind <- cBioPortalData:::.invoke_bind
 
 allstudies <- .invoke_bind(
     cbioportal, "getAllStudiesUsingGET"
@@ -33,7 +33,6 @@ res <- lapply(allIds, function(study) {
     else
         tibble::tibble()
 })
-
 
 results <- Filter(length, res)
 
