@@ -415,13 +415,28 @@ getDataByGenePanel <-
 #'
 #' @export
 cBioPortalData <-
-    function(cbio, studyId = "acc_tcga",
-        genePanelId = "bait_v5",
+    function(cbio, studyId,
+        genePanelId,
         molecularProfileIds = NULL,
         sampleListId = NULL,
         by = c("entrezGeneId", "hugoGeneSymbol")
     )
 {
+    if (missing(cbio))
+        stop("Provide a valid 'cbio' from 'cBioPortal()'")
+    if (missing(studyId))
+        stop("Provide a valid 'studyId' from 'getStudies()'")
+    if (missing(genePanelId))
+        stop("Provide a valid 'genePanelId' from 'genePanels()'")
+
+    .checkIdValidity(cbio, element = studyId, ename = "studyId")
+    .checkIdValidity(cbio, element = genePanelId, ename = "genePanelId")
+    if (!is.null(molecularProfileIds))
+        .checkIdValidity(cbio, element = molecularProfileIds,
+            ename = "genePanelId")
+    if (!is.null(sampleListId))
+        .checkIdValidity(cbio, element = sampleListId, ename = "sampleListId")
+
     explist <- .portalExperiments(cbio = cbio, by = by,
         genePanelId = genePanelId, studyId = studyId,
         molecularProfileIds = molecularProfileIds,

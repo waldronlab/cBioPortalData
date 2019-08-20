@@ -135,3 +135,31 @@
         "n"
     }
 }
+
+endpoint_map <- data.frame(
+    what = c("studyId", "genePanelId", "molecularProfileId", "sampleListId"),
+    how = c("getAllStudiesUsingGET", "getAllGenePanelsUsingGET",
+        "getAllMolecularProfilesUsingGET", "getAllSampleListsUsingGET"),
+    stringsAsFactors = FALSE
+)
+
+.check_fun <- function(api, x, endpoint, colname, ...) {
+    all(x %in% .invoke_bind(api, endpoint, ...)[[colname]])
+}
+
+.barg <- function(type) {
+    switch(type,
+        studyId = expr(list(keyword = element)),
+        NULL
+    )
+}
+
+.checkIdValidity <- function(api, element, ename = c("studyId", "genePanelId",
+        "molecularProfileId", "sampleListId"), ...) {
+    ename <- match.arg(ename)
+    args <- .barg(ename)
+    args <- eval(args)
+    ord <- endpoint_map[endpoint_map[["what"]] == ename, , drop = TRUE]
+    .check_fun(api = api, x = element,
+        endpoint = ord[["how"]], colname = ename, args)
+}

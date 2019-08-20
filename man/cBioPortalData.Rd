@@ -4,9 +4,8 @@
 \alias{cBioPortalData}
 \title{Download data from the cBioPortal API}
 \usage{
-cBioPortalData(cbio, studyId = "acc_tcga", genePanelId = "bait_v5",
-  molecularProfileIds = NULL, sampleListId = NULL,
-  by = c("entrezGeneId", "hugoGeneSymbol"))
+cBioPortalData(cbio, studyId, genePanelId, molecularProfileIds = NULL,
+  sampleListId = NULL, by = c("entrezGeneId", "hugoGeneSymbol"))
 }
 \arguments{
 \item{cbio}{An object of class `cBioPortal`}
