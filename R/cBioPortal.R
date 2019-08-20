@@ -157,9 +157,10 @@ molecularSlice <- function(cbio,
         entrezGeneIds = entrezGeneIds,
         sampleIds = sampleIds
     )
-    if ("message" %in% names(byGene))
-        return(byGene[["message"]])
-    else
+    if ("message" %in% names(byGene)) {
+        warning(byGene[["message"]])
+        dplyr::tibble()
+    } else
         tidyr::spread(byGene[, c("entrezGeneId", "sampleId", "value")],
             sampleId, value)
 }
