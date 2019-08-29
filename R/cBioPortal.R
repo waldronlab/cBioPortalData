@@ -59,11 +59,23 @@ cbioportal <- NULL
 #' @examples
 #'
 #' cc <- cBioPortal()
-#' molecularSlice(cc)
 #'
-#' searchOps(cc, "mol")
+#' getStudies(cbio = cc)
 #'
-#' samplesInSampleLists(cc, "acc_tcga_rppa")
+#' searchOps(cbio = cc, keyword = "molecular")
+#'
+#' molecularProfiles(cbio = cc, studyId = "acc_tcga")
+#'
+#' molecularSlice(cbio = cc, molecularProfileId = "acc_tcga_rna_seq_v2_mrna",
+#'     entrezGeneIds = c(1, 2),
+#'     sampleIds = c("TCGA-OR-A5J1-01", "TCGA-OR-A5J2-01")
+#' )
+#'
+#' sampleLists(cbio = cc, studyId = "acc_tcga")
+#'
+#' samplesInSampleLists(cbio = cc,
+#'     sampleListIds = c("acc_tcga_rppa", "acc_tcga_cnaseq")
+#' )
 #'
 #' @export
 cBioPortal <- function() {
@@ -87,6 +99,9 @@ cBioPortal <- function() {
 #'
 #' @export
 getStudies <- function(cbio) {
+    if (missing(cbio))
+        stop("Provide a valid 'cbio' from 'cBioPortal()'")
+
     query <- .invoke_fun(cbio, "getAllStudiesUsingGET")
     studies <- httr::content(query)
     studies <- lapply(studies, function(x) {
@@ -105,7 +120,12 @@ getStudies <- function(cbio) {
 #'      Obtain clinical data for a particular study identifier
 #'
 #' @export
-clinicalData <- function(cbio, studyId = "acc_tcga") {
+clinicalData <- function(cbio, studyId) {
+    if (missing(cbio))
+        stop("Provide a valid 'cbio' from 'cBioPortal()'")
+    if (missing(studyId))
+        stop("Provide a valid 'studyId' from 'getStudies()'")
+
     pttable <- .invoke_bind(cbio,
         "getAllPatientsInStudyUsingGET", studyId = studyId)
     ptrow <- lapply(pttable[["patientId"]], function(pt) {
@@ -126,9 +146,14 @@ clinicalData <- function(cbio, studyId = "acc_tcga") {
 #' @inheritParams cBioPortal
 #'
 #' @export
-molecularProfiles <- function(cbio, studyId = "acc_tcga",
+molecularProfiles <- function(cbio, studyId,
     projection = c("SUMMARY", "ID", "DETAILED", "META"))
 {
+    if (missing(cbio))
+        stop("Provide a valid 'cbio' from 'cBioPortal()'")
+    if (missing(studyId))
+        stop("Provide a valid 'studyId' from 'getStudies()'")
+
     projection <- match.arg(projection)
     mols <- .invoke_fun(cbio, "getAllMolecularProfilesInStudyUsingGET",
         studyId = studyId, projection = projection)
@@ -146,11 +171,18 @@ molecularProfiles <- function(cbio, studyId = "acc_tcga",
 #'     `molecularProfileId`, `entrezGeneIds`, and `sampleIds`
 #'
 #' @export
-molecularSlice <- function(cbio,
-    molecularProfileId = "acc_tcga_rna_seq_v2_mrna",
-    entrezGeneIds = c(1, 2),
-    sampleIds = c("TCGA-OR-A5J1-01",  "TCGA-OR-A5J2-01"))
+molecularSlice <- function(cbio, molecularProfileId,
+    entrezGeneIds = NULL, sampleIds = NULL)
 {
+    if (missing(cbio))
+        stop("Provide a valid 'cbio' from 'cBioPortal()'")
+    if (missing(molecularProfileId))
+        stop("Provide a valid 'molecularProfileId' from 'molecularProfiles()'")
+    if (is.null(entrezGeneIds))
+        stop("Provide a character vector of 'entrezGeneIds'")
+    if (is.null(sampleIds))
+        stop("Provide a character vector of 'sampleIds'")
+
     byGene <- .invoke_bind(cbio,
         "fetchAllMolecularDataInMolecularProfileUsingPOST",
         molecularProfileId = molecularProfileId,
@@ -183,6 +215,9 @@ searchOps <- function(cbio, keyword) {
 #'
 #' @export
 geneTable <- function(cbio, ...) {
+    if (missing(cbio))
+        stop("Provide a valid 'cbio' from 'cBioPortal()'")
+
     gres <- .invoke_fun(cbio, "getAllGenesUsingGET", ...)
     glist <- httr::content(gres)
     glix <- lapply(glist, function(x) {
@@ -206,7 +241,12 @@ geneTable <- function(cbio, ...) {
 #'     `sampleLists`
 #'
 #' @export
-samplesInSampleLists <- function(cbio, sampleListIds = "acc_tcga_all") {
+samplesInSampleLists <- function(cbio, sampleListIds) {
+    if (missing(cbio))
+        stop("Provide a valid 'cbio' from 'cBioPortal()'")
+    if (missing(sampleListIds))
+        stop("Provide valid 'sampleListIds' from 'sampleLists()'")
+
     sampleListIds <- setNames(sampleListIds, sampleListIds)
     meta <- structure(vector("list", length(sampleListIds)),
         .Names = sampleListIds)
@@ -231,7 +271,12 @@ samplesInSampleLists <- function(cbio, sampleListIds = "acc_tcga_all") {
 #' sampleLists(cc, "acc_tcga")
 #'
 #' @export
-sampleLists <- function(cbio, studyId = "acc_tcga") {
+sampleLists <- function(cbio, studyId) {
+    if (missing(cbio))
+        stop("Provide a valid 'cbio' from 'cBioPortal()'")
+    if (missing(studyId))
+        stop("Provide a valid 'studyId' from 'getStudies()'")
+
     .invoke_bind(cbio, "getAllSampleListsInStudyUsingGET", studyId = studyId)
 }
 
@@ -241,7 +286,12 @@ sampleLists <- function(cbio, studyId = "acc_tcga") {
 #'     * allSamples - obtain all samples within a particular `studyId`
 #'
 #' @export
-allSamples <- function(cbio, studyId = "acc_tcga") {
+allSamples <- function(cbio, studyId) {
+    if (missing(cbio))
+        stop("Provide a valid 'cbio' from 'cBioPortal()'")
+    if (missing(studyId))
+        stop("Provide a valid 'studyId' from 'getStudies()'")
+
     .invoke_bind(cbio, "getAllSamplesInStudyUsingGET", studyId = studyId)
 }
 
@@ -252,6 +302,9 @@ allSamples <- function(cbio, studyId = "acc_tcga") {
 #'
 #' @export
 genePanels <- function(cbio) {
+    if (missing(cbio))
+        stop("Provide a valid 'cbio' from 'cBioPortal()'")
+
     .invoke_bind(cbio, "getAllGenePanelsUsingGET")
 }
 
@@ -261,7 +314,12 @@ genePanels <- function(cbio) {
 #'     * getGenePanels - Obtain the gene panel for a particular 'genePanelId'
 #'
 #' @export
-getGenePanel <- function(cbio, genePanelId = "NSCLC_UNITO_2016_PANEL") {
+getGenePanel <- function(cbio, genePanelId) {
+    if (missing(cbio))
+        stop("Provide a valid 'cbio' from 'cBioPortal()'")
+    if (missing(genePanelId))
+        stop("Provide a valid 'genePanelId' from 'genePanels()'")
+
     res <- .invoke_fun(cbio, "getGenePanelUsingGET", genePanelId = genePanelId)
     res <- httr::content(res)[["genes"]]
     dplyr::bind_rows(res)
@@ -275,13 +333,25 @@ getGenePanel <- function(cbio, genePanelId = "NSCLC_UNITO_2016_PANEL") {
 #'
 #' @export
 genePanelMolecular <-
-    function(cbio, molecularProfileId = "acc_tcga_linear_CNA",
-        sampleListId = "acc_tcga_cna", sampleIds = NULL)
+    function(cbio, molecularProfileId, sampleListId = NULL, sampleIds = NULL)
 {
-    .invoke_bind(cbio, "getGenePanelDataUsingPOST",
-        molecularProfileId = molecularProfileId,
-        sampleListId = list(sampleListId = sampleListId)
-    )
+    if (missing(cbio))
+        stop("Provide a valid 'cbio' from 'cBioPortal()'")
+    if (missing(molecularProfileId))
+        stop("Provide a valid 'molecularProfileId' from 'molecularProfiles()'")
+
+    if (!is.null(sampleListId))
+        .invoke_bind(cbio, "getGenePanelDataUsingPOST",
+            molecularProfileId = molecularProfileId,
+            sampleListId = list(sampleListId = sampleListId)
+        )
+    else if (!is.null(sampleIds))
+        .invoke_bind(cbio, "getGenePanelDataUsingPOST",
+            molecularProfileId = molecularProfileId,
+            sampleIds = list(sampleIds = sampleIds)
+        )
+    else
+        stop("Provide either 'sampleIds' or a 'sampleListId'")
 }
 
 #' @name cBioPortal
@@ -292,10 +362,17 @@ genePanelMolecular <-
 #'
 #' @export
 getGenePanelMolecular <-
-    function(cbio, molecularProfileIds =
-        c("acc_tcga_linear_CNA", "acc_tcga_rppa"),
-        sampleIds = c("TCGA-OR-A5J1-01", "TCGA-OR-A5J2-01"))
+    function(cbio, molecularProfileIds, sampleIds)
 {
+    if (missing(molecularProfileId))
+        stop("Provide valid 'molecularProfileIds' from 'molecularProfiles()'")
+    if (missing(sampleIds))
+        stop(paste0("Provide valid 'sampleIds' from 'samplesInSampleLists()'",
+            " or 'allSamples()'"))
+
+    if (!length(molecularProfileIds) > 1L)
+        stop("Provide multiple 'molecularProfileIds'")
+
     SampMolIds <- S4Vectors::expand.grid(
         molecularProfileId = molecularProfileIds,
         sampleId = sampleIds
@@ -314,9 +391,14 @@ getGenePanelMolecular <-
 #'     `sampleListId`
 #' @export
 getSampleInfo <-
-    function(cbio, studyId = "acc_tcga", sampleListIds = NULL,
+    function(cbio, studyId, sampleListIds = NULL,
         projection = c("SUMMARY", "ID", "DETAILED", "META"))
 {
+    if (missing(cbio))
+        stop("Provide a valid 'cbio' from 'cBioPortal()'")
+    if (missing(studyId))
+        stop("Provide a valid 'studyId' from 'getStudies()'")
+
     projection <- match.arg(projection)
     if (!is.null(sampleListIds))
         queryobj <- list(sampleListIds = sampleListIds)
@@ -344,12 +426,17 @@ getSampleInfo <-
 #'
 #' @export
 getDataByGenePanel <-
-    function(cbio, by = c("entrezGeneId", "hugoGeneSymbol"),
-        genePanelId = "bait_v5",
-        studyId = "acc_tcga",
-        molecularProfileId = "acc_tcga_rna_seq_v2_mrna",
-        sampleListId = NULL)
+    function(cbio, studyId, genePanelId,
+        by = c("entrezGeneId", "hugoGeneSymbol"),
+        molecularProfileId = NULL, sampleListId = NULL)
 {
+    if (missing(cbio))
+        stop("Provide a valid 'cbio' from 'cBioPortal()'")
+    if (missing(studyId))
+        stop("Provide a valid 'studyId' from 'getStudies()'")
+    if (missing(genePanelId))
+        stop("Provide a valid 'genePanelId' from 'genePanels()'")
+
     by <- match.arg(by)
     if (!is.null(sampleListId))
         samples <- samplesInSampleLists(cbio, sampleListId)[[1L]]
@@ -357,7 +444,7 @@ getDataByGenePanel <-
         samples <- allSamples(cbio, studyId)[["sampleId"]]
 
     panel <- getGenePanel(cbio, genePanelId = genePanelId)
-    molecularData <- molecularSlice(cbio,
+    molecularData <- molecularSlice(cbio = cbio,
         molecularProfileId = molecularProfileId,
         entrezGeneIds = panel[["entrezGeneId"]],
         sampleIds = samples)
@@ -374,11 +461,7 @@ getDataByGenePanel <-
 }
 
 .portalExperiments <-
-    function(cbio, by = c("entrezGeneId", "hugoGeneSymbol"),
-        genePanelId = "bait_v5",
-        studyId = "acc_tcga",
-        molecularProfileIds = NULL,
-        sampleListId = NULL)
+    function(cbio, by, genePanelId, studyId, molecularProfileIdsL, sampleListId)
 {
     by <- match.arg(by)
     if (is.null(molecularProfileIds))

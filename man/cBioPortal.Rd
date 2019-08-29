@@ -23,42 +23,38 @@ cBioPortal()
 
 getStudies(cbio)
 
-clinicalData(cbio, studyId = "acc_tcga")
+clinicalData(cbio, studyId)
 
-molecularProfiles(cbio, studyId = "acc_tcga", projection = c("SUMMARY",
-  "ID", "DETAILED", "META"))
+molecularProfiles(cbio, studyId, projection = c("SUMMARY", "ID",
+  "DETAILED", "META"))
 
-molecularSlice(cbio, molecularProfileId = "acc_tcga_rna_seq_v2_mrna",
-  entrezGeneIds = c(1, 2), sampleIds = c("TCGA-OR-A5J1-01",
-  "TCGA-OR-A5J2-01"))
+molecularSlice(cbio, molecularProfileId, entrezGeneIds = NULL,
+  sampleIds = NULL)
 
 searchOps(cbio, keyword)
 
 geneTable(cbio, ...)
 
-samplesInSampleLists(cbio, sampleListIds = "acc_tcga_all")
+samplesInSampleLists(cbio, sampleListIds)
 
-sampleLists(cbio, studyId = "acc_tcga")
+sampleLists(cbio, studyId)
 
-allSamples(cbio, studyId = "acc_tcga")
+allSamples(cbio, studyId)
 
 genePanels(cbio)
 
-getGenePanel(cbio, genePanelId = "NSCLC_UNITO_2016_PANEL")
+getGenePanel(cbio, genePanelId)
 
-genePanelMolecular(cbio, molecularProfileId = "acc_tcga_linear_CNA",
-  sampleListId = "acc_tcga_cna", sampleIds = NULL)
+genePanelMolecular(cbio, molecularProfileId, sampleListId = NULL,
+  sampleIds = NULL)
 
-getGenePanelMolecular(cbio,
-  molecularProfileIds = c("acc_tcga_linear_CNA", "acc_tcga_rppa"),
-  sampleIds = c("TCGA-OR-A5J1-01", "TCGA-OR-A5J2-01"))
+getGenePanelMolecular(cbio, molecularProfileIds, sampleIds)
 
-getSampleInfo(cbio, studyId = "acc_tcga", sampleListIds = NULL,
+getSampleInfo(cbio, studyId, sampleListIds = NULL,
   projection = c("SUMMARY", "ID", "DETAILED", "META"))
 
-getDataByGenePanel(cbio, by = c("entrezGeneId", "hugoGeneSymbol"),
-  genePanelId = "bait_v5", studyId = "acc_tcga",
-  molecularProfileId = "acc_tcga_rna_seq_v2_mrna", sampleListId = NULL)
+getDataByGenePanel(cbio, studyId, genePanelId, by = c("entrezGeneId",
+  "hugoGeneSymbol"), molecularProfileId = NULL, sampleListId = NULL)
 }
 \arguments{
 \item{cbio}{An object of class `cBioPortal`}
