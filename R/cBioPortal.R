@@ -445,9 +445,12 @@ cBioPortalData <-
     clin <- clinicalData(cbio, studyId = studyId)
     clin <- as.data.frame(clin)
     rownames(clin) <- clin[["patientId"]]
-
+    if (all(startsWith(rownames(clin), "TCGA")))
+        idConvert <- TCGAutils::TCGAbarcode
+    else
+        idConvert <- identical
     sampmap <- TCGAutils::generateMap(experiments = explist,
-        colData = clin, idConverter = TCGAutils::TCGAbarcode)
+        colData = clin, idConverter = idConvert)
 
     MultiAssayExperiment(explist, clin, sampmap)
 }
