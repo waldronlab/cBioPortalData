@@ -156,11 +156,23 @@ This function allows the use of the cBioPortal API
 \examples{
 
 cc <- cBioPortal()
-molecularSlice(cc)
 
-searchOps(cc, "mol")
+getStudies(cbio = cc)
 
-samplesInSampleLists(cc, "acc_tcga_rppa")
+searchOps(cbio = cc, keyword = "molecular")
+
+molecularProfiles(cbio = cc, studyId = "acc_tcga")
+
+molecularSlice(cbio = cc, molecularProfileId = "acc_tcga_rna_seq_v2_mrna",
+    entrezGeneIds = c(1, 2),
+    sampleIds = c("TCGA-OR-A5J1-01", "TCGA-OR-A5J2-01")
+)
+
+sampleLists(cbio = cc, studyId = "acc_tcga")
+
+samplesInSampleLists(cbio = cc,
+    sampleListIds = c("acc_tcga_rppa", "acc_tcga_cnaseq")
+)
 
 sampleLists(cc, "acc_tcga")
 

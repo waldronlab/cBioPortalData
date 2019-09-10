@@ -21,6 +21,7 @@ Imports:
     GenomeInfoDb,
     GenomicRanges,
     httr,
+    IRanges,
     methods,
     rapiclient (>= 0.1.2.0002-3),
     rappdirs,
@@ -30,6 +31,7 @@ Imports:
     S4Vectors,
     SummarizedExperiment,
     stats,
+    tidyr,
     TCGAutils,
     utils
 Suggests:
