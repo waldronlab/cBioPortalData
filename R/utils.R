@@ -151,7 +151,7 @@ endpoint_map <- data.frame(
 
 .barg <- function(type) {
     switch(type,
-        studyId = rlang::expr(list(keyword = element)),
+        studyId = expression(list(keyword = element))[[1]],
         NULL
     )
 }

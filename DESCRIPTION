@@ -30,7 +30,6 @@ Imports:
     S4Vectors,
     SummarizedExperiment,
     stats,
-    rlang,
     tidyr,
     TCGAutils,
     utils
