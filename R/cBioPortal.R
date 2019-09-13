@@ -463,7 +463,6 @@ getDataByGenePanel <-
 .portalExperiments <-
     function(cbio, by, genePanelId, studyId, molecularProfileIds, sampleListId)
 {
-    by <- match.arg(by)
     if (is.null(molecularProfileIds))
         molecularProfileIds <-
             molecularProfiles(cbio, studyId)[["molecularProfileId"]]
@@ -502,7 +501,8 @@ cBioPortalData <-
         genePanelId,
         molecularProfileIds = NULL,
         sampleListId = NULL,
-        by = c("entrezGeneId", "hugoGeneSymbol")
+        by = c("entrezGeneId", "hugoGeneSymbol"),
+        idConvert = identity
     )
 {
     if (missing(cbio))
@@ -519,6 +519,7 @@ cBioPortalData <-
             ename = "genePanelId")
     if (!is.null(sampleListId))
         .checkIdValidity(cbio, element = sampleListId, ename = "sampleListId")
+    by <- match.arg(by)
 
     explist <- .portalExperiments(cbio = cbio, by = by,
         genePanelId = genePanelId, studyId = studyId,
@@ -530,8 +531,7 @@ cBioPortalData <-
     rownames(clin) <- clin[["patientId"]]
     if (all(startsWith(rownames(clin), "TCGA")))
         idConvert <- TCGAutils::TCGAbarcode
-    else
-        idConvert <- identical
+    
     sampmap <- TCGAutils::generateMap(experiments = explist,
         colData = clin, idConverter = idConvert)
 

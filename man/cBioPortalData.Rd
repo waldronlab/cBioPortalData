@@ -5,7 +5,8 @@
 \title{Download data from the cBioPortal API}
 \usage{
 cBioPortalData(cbio, studyId, genePanelId, molecularProfileIds = NULL,
-  sampleListId = NULL, by = c("entrezGeneId", "hugoGeneSymbol"))
+  sampleListId = NULL, by = c("entrezGeneId", "hugoGeneSymbol"),
+  idConvert = identity)
 }
 \arguments{
 \item{cbio}{An object of class `cBioPortal`}
