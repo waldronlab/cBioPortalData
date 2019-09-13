@@ -461,7 +461,7 @@ getDataByGenePanel <-
 }
 
 .portalExperiments <-
-    function(cbio, by, genePanelId, studyId, molecularProfileIdsL, sampleListId)
+    function(cbio, by, genePanelId, studyId, molecularProfileIds, sampleListId)
 {
     by <- match.arg(by)
     if (is.null(molecularProfileIds))
