@@ -6,10 +6,12 @@ library(stringi)
 library(tibble)
 library(dplyr)
 library(RCurl)
+library(usethis)
 
-cgds <- CGDS("http://www.cbioportal.org/public-portal/")
+cgds <- CGDS("http://www.cbioportal.org/")
 studiesTable <- getCancerStudies(cgds)
-studiesTable <- rename(studiesTable, study_name = name)
+names(studiesTable) <-
+    gsub("name", "study_name", names(studiesTable), fixed = TRUE)
 
 URL <- gsub("<\\/{0,1}[Aaibr]{1,2}>", "", studiesTable[["description"]]) %>%
     str_extract_all("<.*?>") %>% IRanges::CharacterList() %>%
@@ -28,6 +30,8 @@ validURLs <- vapply(fileURLs, RCurl::url.exists, logical(1L))
 studiesTable <- studiesTable[validURLs, ]
 changeCol <- vapply(studiesTable, function(x)
     any(stringi::stri_enc_mark(unlist(x)) == "native"), logical(1L))
-studiesTable[, changeCol] <- stringi::stri_enc_toascii(studiesTable[, changeCol])
+if (any(changeCol))
+    studiesTable[, changeCol] <-
+        stringi::stri_enc_toascii(studiesTable[, changeCol])
 
-devtools::use_data(studiesTable, overwrite = TRUE)
+usethis::use_data(studiesTable, overwrite = TRUE)
