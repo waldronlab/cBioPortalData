@@ -62,6 +62,9 @@ getDataByGenePanel(cbio, studyId, genePanelId, by = c("entrezGeneId",
 \item{studyId}{character(1) Indicates the "studyId" as taken from
 `getStudies`}
 
+\item{projection}{character(default: "SUMMARY") Specify the projection
+type for data retrieval for details see API documentation}
+
 \item{molecularProfileId}{character(1) Indicates a molecular profile ID}
 
 \item{entrezGeneIds}{numeric() A vector indicating entrez gene IDs}
@@ -71,11 +74,16 @@ getDataByGenePanel(cbio, studyId, genePanelId, by = c("entrezGeneId",
 \item{keyword}{character(1) Keyword or pattern for searching through
 available operations}
 
+\item{...}{Additional arguments to lower level API functions}
+
 \item{sampleListIds}{character() A vector of 'sampleListId' as obtained from
 `sampleLists`}
 
 \item{genePanelId}{character(1) Identifies the gene panel, as obtained
 from the `genePanels` function}
+
+\item{sampleListId}{character(1) A sample list identifier as obtained from
+`sampleLists()``}
 
 \item{molecularProfileIds}{character() A vector of molecular profile IDs}
 

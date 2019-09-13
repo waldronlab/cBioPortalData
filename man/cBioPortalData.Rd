@@ -19,8 +19,14 @@ from the `genePanels` function}
 
 \item{molecularProfileIds}{character() A vector of molecular profile IDs}
 
+\item{sampleListId}{character(1) A sample list identifier as obtained from
+`sampleLists()``}
+
 \item{by}{character(1) Whether to use 'entrezGeneId' or 'hugoGeneSymbol'
 as row metadata}
+
+\item{idConvert}{function(default: `identity()`) A function to process identifiers for matching
+patients to samples}
 }
 \description{
 Obtain a `MultiAssayExperiment` object for a particular gene panel,
@@ -31,6 +37,9 @@ data.
 \examples{
 
 cb <- cBioPortal()
-cBioPortalData(cb, by = "hugoGeneSymbol")
+cBioPortalData(cb, by = "hugoGeneSymbol", studyId = "acc_tcga",
+    genePanelId = "IMPACT341",
+    molecularProfileIds = c("acc_tcga_rppa", "acc_tcga_linear_CNA")
+)
 
 }

@@ -1,3 +1,5 @@
+utils::globalVariables("element")
+
 .biocExtract <- function(object, names.field) {
     hasRanged <- RTCGAToolbox:::.hasRangeNames(object)
     build <- RTCGAToolbox:::.getBuild(object)
@@ -149,7 +151,7 @@ endpoint_map <- data.frame(
 
 .barg <- function(type) {
     switch(type,
-        studyId = expr(list(keyword = element)),
+        studyId = rlang::expr(list(keyword = element)),
         NULL
     )
 }

@@ -1,7 +1,9 @@
+utils::globalVariables(c("clinicalAttributeId", "value", "sampleId"))
+
 .invoke_fun <- function(api, name, ...) {
     if (!is(api, "cBioPortal"))
         stop("Provide a 'cBioPortal' class API object")
-    ops <- names(operations(api))
+    ops <- names(AnVIL::operations(api))
     if (!name %in% ops)
         stop("<internal> operation name not found in API")
     do.call(`$`, list(api, name))(...)
@@ -17,9 +19,21 @@
     .bind_content(.invoke_fun(api, name, ...))
 }
 
-#' @export
-cbioportal <- NULL
-
+#' @name cBioPortal-class
+#' 
+#' @title A class for representing the cBioPortal API
+#' 
+#' @description The cBioPortal class is a product of the cBioPortal API that
+#'     inherits from the `Service` class
+#' 
+#' @importFrom methods new
+#' 
+#' @seealso AnVIL::Service
+#' 
+#' @examples 
+#' 
+#' cbio <- cBioPortal()
+#' 
 #' @export
 .cBioPortal <- setClass("cBioPortal", contains = "Service")
 
@@ -142,6 +156,9 @@ clinicalData <- function(cbio, studyId) {
 #' @section Molecular Profiles:
 #'      * molecularProfiles - Produce a molecular profiles dataset for a given
 #'      study identifier
+#'  
+#' @param projection character(default: "SUMMARY") Specify the projection
+#'   type for data retrieval for details see API documentation
 #'
 #' @inheritParams cBioPortal
 #'
@@ -204,7 +221,7 @@ molecularSlice <- function(cbio, molecularProfileId,
 #'
 #' @export
 searchOps <- function(cbio, keyword) {
-    grep(keyword, names(operations(cbio)), value = TRUE, ignore.case = TRUE)
+    grep(keyword, names(AnVIL::operations(cbio)), value = TRUE, ignore.case = TRUE)
 }
 
 #' @name cBioPortal
@@ -212,6 +229,8 @@ searchOps <- function(cbio, keyword) {
 #' @section API Metadata:
 #'     * geneTable - Get a table of all genes by 'entrezGeneId' or
 #'     'hugoGeneSymbol'
+#'     
+#' @param ... Additional arguments to lower level API functions
 #'
 #' @export
 geneTable <- function(cbio, ...) {
@@ -247,7 +266,7 @@ samplesInSampleLists <- function(cbio, sampleListIds) {
     if (missing(sampleListIds))
         stop("Provide valid 'sampleListIds' from 'sampleLists()'")
 
-    sampleListIds <- setNames(sampleListIds, sampleListIds)
+    sampleListIds <- stats::setNames(sampleListIds, sampleListIds)
     meta <- structure(vector("list", length(sampleListIds)),
         .Names = sampleListIds)
     res <- lapply(sampleListIds, function(x) {
@@ -330,6 +349,9 @@ getGenePanel <- function(cbio, genePanelId) {
 #' @section Gene Panels:
 #'     * genePanelMolecular - get gene panel data for a paricular
 #'     `molecularProfileId` and `sampleListId` combination
+#' 
+#' @param sampleListId character(1) A sample list identifier as obtained from
+#'     `sampleLists()``
 #'
 #' @export
 genePanelMolecular <-
@@ -364,7 +386,7 @@ genePanelMolecular <-
 getGenePanelMolecular <-
     function(cbio, molecularProfileIds, sampleIds)
 {
-    if (missing(molecularProfileId))
+    if (missing(molecularProfileIds))
         stop("Provide valid 'molecularProfileIds' from 'molecularProfiles()'")
     if (missing(sampleIds))
         stop(paste0("Provide valid 'sampleIds' from 'samplesInSampleLists()'",
@@ -467,7 +489,8 @@ getDataByGenePanel <-
         molecularProfileIds <-
             molecularProfiles(cbio, studyId)[["molecularProfileId"]]
 
-    molecularProfileIds <- setNames(molecularProfileIds, molecularProfileIds)
+    molecularProfileIds <- stats::setNames(molecularProfileIds,
+        molecularProfileIds)
 
     expers <- lapply(molecularProfileIds, function(molprof) {
         moldata <- getDataByGenePanel(cbio, by = by,
@@ -489,11 +512,17 @@ getDataByGenePanel <-
 #' data.
 #'
 #' @inheritParams cBioPortal
+#' 
+#' @param idConvert function(default: `identity()`) A function to process identifiers for matching
+#'     patients to samples
 #'
 #' @examples
 #'
 #' cb <- cBioPortal()
-#' cBioPortalData(cb, by = "hugoGeneSymbol")
+#' cBioPortalData(cb, by = "hugoGeneSymbol", studyId = "acc_tcga",
+#'     genePanelId = "IMPACT341",
+#'     molecularProfileIds = c("acc_tcga_rppa", "acc_tcga_linear_CNA")
+#' )
 #'
 #' @export
 cBioPortalData <-

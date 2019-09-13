@@ -1,6 +1,6 @@
 Package: cBioPortalData
 Title: Exposes and makes available data from the cBioPortal web resources
-Version: 0.99.61
+Version: 0.99.62
 Authors@R: c(person("Levi", "Waldron", email = "lwaldron.research@gmail.com",
     role = "aut"),
     person("Marcel", "Ramos", email = "marcel.ramos@roswellpark.org",
@@ -10,7 +10,6 @@ Description: The cBioPortalData package takes compressed resources
     object with Bioconductor classes.
 Depends: R (>= 3.5.0),
     AnVIL,
-    methods,
     MultiAssayExperiment
 Remotes:
     Bioconductor/AnVIL_rapiclient,
@@ -31,6 +30,7 @@ Imports:
     S4Vectors,
     SummarizedExperiment,
     stats,
+    rlang,
     tidyr,
     TCGAutils,
     utils
@@ -52,4 +52,3 @@ Collate:
     'utils.R'
     'loadStudy.R'
     'studyDownload.R'
-    'zzz.R'
