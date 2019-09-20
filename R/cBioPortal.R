@@ -536,18 +536,33 @@ cBioPortalData <-
 {
     if (missing(cbio))
         stop("Provide a valid 'cbio' from 'cBioPortal()'")
-    if (missing(studyId))
-        stop("Provide a valid 'studyId' from 'getStudies()'")
-    if (missing(genePanelId))
-        stop("Provide a valid 'genePanelId' from 'genePanels()'")
 
-    .checkIdValidity(cbio, element = studyId, ename = "studyId")
-    .checkIdValidity(cbio, element = genePanelId, ename = "genePanelId")
-    if (!is.null(molecularProfileIds))
-        .checkIdValidity(cbio, element = molecularProfileIds,
-            ename = "genePanelId")
-    if (!is.null(sampleListId))
-        .checkIdValidity(cbio, element = sampleListId, ename = "sampleListId")
+    validStudy <- .checkIdValidity(cbio, element = studyId, ename = "studyId")
+    if (missing(studyId) || !validStudy)
+        stop("Provide a valid 'studyId' from 'getStudies()'")
+    
+    validGP <-
+        .checkIdValidity(cbio, element = genePanelId, ename = "genePanelId")
+    if (missing(genePanelId) || !validGP)
+        stop("Provide a valid 'genePanelId' from 'genePanels()'")
+    
+    if (!is.null(molecularProfileIds)) {
+        validMPI <- .checkIdValidity(cbio, element = molecularProfileIds,
+            ename = "molecularProfileId")
+        if (!validMPI)
+            stop(
+                paste0("Provide a valid 'molecularProfileId'",
+                " from 'molecularProfiles()'")
+            )
+    }
+    
+    if (!is.null(sampleListId)) {
+        validSLI <- .checkIdValidity(cbio, element = sampleListId,
+            ename = "sampleListId")
+        if (!validSLI)
+            stop("Provide a valid 'sampleListId' from 'sampleLists()'")
+    }
+    
     by <- match.arg(by)
 
     explist <- .portalExperiments(cbio = cbio, by = by,
@@ -560,6 +575,16 @@ cBioPortalData <-
     rownames(clin) <- clin[["patientId"]]
     if (all(startsWith(rownames(clin), "TCGA")))
         idConvert <- TCGAutils::TCGAbarcode
+
+    sampmap <- try({
+        TCGAutils::generateMap(experiments = explist,
+            colData = clin, idConverter = idConvert)
+    }, silent = TRUE)
+
+    if (is(sampmap, "try-error"))
+        idConvert <- function(id) {
+            lapply(strsplit(id, "_"), `[[`, 1L)
+        }
     
     sampmap <- TCGAutils::generateMap(experiments = explist,
         colData = clin, idConverter = idConvert)
