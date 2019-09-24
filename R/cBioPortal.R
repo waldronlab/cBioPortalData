@@ -20,20 +20,20 @@ utils::globalVariables(c("clinicalAttributeId", "value", "sampleId"))
 }
 
 #' @name cBioPortal-class
-#' 
+#'
 #' @title A class for representing the cBioPortal API
-#' 
+#'
 #' @description The cBioPortal class is a product of the cBioPortal API that
 #'     inherits from the `Service` class
-#' 
+#'
 #' @importFrom methods new
-#' 
+#'
 #' @seealso AnVIL::Service
-#' 
-#' @examples 
-#' 
+#'
+#' @examples
+#'
 #' cbio <- cBioPortal()
-#' 
+#'
 #' @export
 .cBioPortal <- setClass("cBioPortal", contains = "Service")
 
@@ -156,7 +156,7 @@ clinicalData <- function(cbio, studyId) {
 #' @section Molecular Profiles:
 #'      * molecularProfiles - Produce a molecular profiles dataset for a given
 #'      study identifier
-#'  
+#'
 #' @param projection character(default: "SUMMARY") Specify the projection
 #'   type for data retrieval for details see API documentation
 #'
@@ -229,7 +229,7 @@ searchOps <- function(cbio, keyword) {
 #' @section API Metadata:
 #'     * geneTable - Get a table of all genes by 'entrezGeneId' or
 #'     'hugoGeneSymbol'
-#'     
+#'
 #' @param ... Additional arguments to lower level API functions
 #'
 #' @export
@@ -349,7 +349,7 @@ getGenePanel <- function(cbio, genePanelId) {
 #' @section Gene Panels:
 #'     * genePanelMolecular - get gene panel data for a paricular
 #'     `molecularProfileId` and `sampleListId` combination
-#' 
+#'
 #' @param sampleListId character(1) A sample list identifier as obtained from
 #'     `sampleLists()``
 #'
@@ -512,9 +512,10 @@ getDataByGenePanel <-
 #' data.
 #'
 #' @inheritParams cBioPortal
-#' 
-#' @param idConvert function(default: `identity()`) A function to process identifiers for matching
-#'     patients to samples
+#'
+#' @param idConvert function(default: `identity()`) A function to process
+#'     identifiers for matching patients to samples. It catches TCGA samples
+#'     automatically and uses `TCGAutils::TCGAbarcode` instead.
 #'
 #' @examples
 #'
@@ -540,12 +541,12 @@ cBioPortalData <-
     validStudy <- .checkIdValidity(cbio, element = studyId, ename = "studyId")
     if (missing(studyId) || !validStudy)
         stop("Provide a valid 'studyId' from 'getStudies()'")
-    
+
     validGP <-
         .checkIdValidity(cbio, element = genePanelId, ename = "genePanelId")
     if (missing(genePanelId) || !validGP)
         stop("Provide a valid 'genePanelId' from 'genePanels()'")
-    
+
     if (!is.null(molecularProfileIds)) {
         validMPI <- .checkIdValidity(cbio, element = molecularProfileIds,
             ename = "molecularProfileId")
@@ -555,20 +556,21 @@ cBioPortalData <-
                 " from 'molecularProfiles()'")
             )
     }
-    
+
     if (!is.null(sampleListId)) {
         validSLI <- .checkIdValidity(cbio, element = sampleListId,
             ename = "sampleListId")
         if (!validSLI)
             stop("Provide a valid 'sampleListId' from 'sampleLists()'")
     }
-    
+
     by <- match.arg(by)
 
     explist <- .portalExperiments(cbio = cbio, by = by,
         genePanelId = genePanelId, studyId = studyId,
         molecularProfileIds = molecularProfileIds,
         sampleListId = sampleListId)
+    explist <- as(explist, "ExperimentList")
 
     clin <- clinicalData(cbio, studyId = studyId)
     clin <- as.data.frame(clin)
@@ -582,10 +584,11 @@ cBioPortalData <-
     }, silent = TRUE)
 
     if (is(sampmap, "try-error"))
-        idConvert <- function(id) {
-            lapply(strsplit(id, "_"), `[[`, 1L)
-        }
-    
+        idConvert <- .generateIdConvert(
+            unlist(colnames(explist), use.names = FALSE),
+            rownames(clin)
+        )
+
     sampmap <- TCGAutils::generateMap(experiments = explist,
         colData = clin, idConverter = idConvert)
 

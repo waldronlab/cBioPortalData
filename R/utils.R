@@ -165,3 +165,41 @@ endpoint_map <- data.frame(
     .check_fun(api = api, x = element,
         endpoint = ord[["how"]], colname = ename, args)
 }
+
+.generateIdConvert <- function(longid, shortid) {
+    filler <- TCGAutils:::.uniqueDelim(longid)
+
+    idlist <- strsplit(longid, filler)
+    lens <- unique(lengths(idlist))
+    if (length(lens) > 1)
+        stop("Inconsistent sample codes (e.g., ", longid[1], ")")
+
+    poss <- seq_len(lens)
+
+    recomb <- function(x, range, filler)
+        paste0(x[range], collapse = filler)
+
+    validPOS <- vapply(poss,
+        function(stoppage) {
+            first <- vapply(idlist,
+                function(x) recomb(x, seq_len(stoppage), filler),
+                character(1L)
+            )
+            if (identical(unique(nchar(first)), unique(first)))
+                return(FALSE)
+            all(shortid %in% first)
+        }, logical(1L)
+    )
+
+    if (sum(validPOS) > 1)
+        stop("Could not determine valid ID position cut-off")
+
+    nrange <- seq_len(which(validPOS))
+    args <- as.pairlist(alist(id =))
+    body <- substitute({
+        vapply(strsplit(id, g),
+            function(x) paste0(x[z], collapse = g), character(1L)
+        )
+    }, list(g = filler, z = nrange))
+    eval(call("function", args, body))
+}

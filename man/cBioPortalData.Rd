@@ -25,8 +25,9 @@ from the `genePanels` function}
 \item{by}{character(1) Whether to use 'entrezGeneId' or 'hugoGeneSymbol'
 as row metadata}
 
-\item{idConvert}{function(default: `identity()`) A function to process identifiers for matching
-patients to samples}
+\item{idConvert}{function(default: `identity()`) A function to process
+identifiers for matching patients to samples. It catches TCGA samples
+automatically and uses `TCGAutils::TCGAbarcode` instead.}
 }
 \description{
 Obtain a `MultiAssayExperiment` object for a particular gene panel,
