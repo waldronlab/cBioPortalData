@@ -172,7 +172,7 @@ endpoint_map <- data.frame(
     idlist <- strsplit(longid, filler)
     lens <- unique(lengths(idlist))
     if (length(lens) > 1)
-        stop("Inconsistent sample codes (e.g., ", longid[1], ")")
+        warning("Inconsistent sample codes (e.g., ", longid[1], ")")
 
     poss <- seq_len(lens)
 
@@ -191,7 +191,7 @@ endpoint_map <- data.frame(
         }, logical(1L)
     )
 
-    if (sum(validPOS) > 1)
+    if (sum(validPOS) != 1L)
         stop("Could not determine valid ID position cut-off")
 
     nrange <- seq_len(which(validPOS))
