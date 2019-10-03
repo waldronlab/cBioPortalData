@@ -67,9 +67,9 @@ cbioCache <- function(...) {
 #' @rdname cbioCache
 #' @export
 setCache <-
-function(directory = rappdirs::user_cache_dir("cBioPortalData"),
-    verbose = TRUE,
-    ask = interactive())
+    function(directory = rappdirs::user_cache_dir("cBioPortalData"),
+        verbose = TRUE,
+        ask = interactive())
 {
     stopifnot(is.character(directory),
         isSingleString(directory), !is.na(directory))
@@ -104,4 +104,19 @@ removeCache <- function(cancer_study_id) {
         message("Cache record: ", cancer_study_id, ".tar.gz removed")
     } else
         message("No record found: ", cancer_study_id, ".tar.gz")
+}
+
+.inputDigest <- function(cachecall) {
+    callst <- as.list(cachecall)
+    callst <- callst[names(callst) != "cbio"]
+    digest::digest(callst, algo = "md5")
+}
+
+.getHashCache <- function(hashtag) {
+    bfc <- .get_cache()
+    rid <- bfcquery(bfc, hashtag, "rname", exact = TRUE)$rid
+    if (!length(rid))
+        bfcnew(bfc, hashtag, ext = ".rda")
+    else
+        bfcquery(bfc, hashtag, "rname", exact = TRUE)$rpath
 }

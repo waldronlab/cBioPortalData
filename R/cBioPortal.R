@@ -140,6 +140,8 @@ clinicalData <- function(cbio, studyId) {
     if (missing(studyId))
         stop("Provide a valid 'studyId' from 'getStudies()'")
 
+#    hash <- .inputDigest(match.call())
+
     pttable <- .invoke_bind(cbio,
         "getAllPatientsInStudyUsingGET", studyId = studyId)
     ptrow <- lapply(pttable[["patientId"]], function(pt) {
