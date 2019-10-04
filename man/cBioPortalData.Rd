@@ -4,7 +4,8 @@
 \alias{cBioPortalData}
 \title{Download data from the cBioPortal API}
 \usage{
-cBioPortalData(cbio, studyId, genePanelId, molecularProfileIds = NULL,
+cBioPortalData(cbio, studyId = NA_character_,
+  genePanelId = NA_character_, molecularProfileIds = NULL,
   sampleListId = NULL, by = c("entrezGeneId", "hugoGeneSymbol"),
   idConvert = identity)
 }
@@ -22,8 +23,8 @@ from the `genePanels` function}
 \item{sampleListId}{character(1) A sample list identifier as obtained from
 `sampleLists()``}
 
-\item{by}{character(1) Whether to use 'entrezGeneId' or 'hugoGeneSymbol'
-as row metadata}
+\item{by}{character(1) Either 'entrezGeneId' or 'hugoGeneSymbol' for row
+metadata}
 
 \item{idConvert}{function(default: `identity()`) A function to process
 identifiers for matching patients to samples. It catches TCGA samples

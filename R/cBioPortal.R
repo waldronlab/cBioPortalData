@@ -1,12 +1,31 @@
 utils::globalVariables(c("clinicalAttributeId", "value", "sampleId"))
 
-.invoke_fun <- function(api, name, ...) {
+.invoke_fun <- function(api, name, do_cache = FALSE, ...) {
     if (!is(api, "cBioPortal"))
         stop("Provide a 'cBioPortal' class API object")
     ops <- names(AnVIL::operations(api))
     if (!name %in% ops)
         stop("<internal> operation name not found in API")
-    do.call(`$`, list(api, name))(...)
+
+    if (do_cache) {
+        .dollarCache(list(api, name), ...)
+    } else {
+        do.call(`$`, list(api, name))(...)
+    }
+}
+
+.dollarCache <- function(appname, ...) {
+    if (!is.list(appname))
+        stop("<internal> Provide a list input as 'api$name'")
+    digi <- digest::digest(list(appname, ...))
+    loc <- .getHashCache(digi)
+    if (file.exists(loc)) {
+        load(loc)
+    } else {
+        op <- do.call(`$`, appname)(...)
+        save(op, file = loc)
+    }
+    op
 }
 
 .bind_content <- function(x) {
@@ -15,8 +34,8 @@ utils::globalVariables(c("clinicalAttributeId", "value", "sampleId"))
     )
 }
 
-.invoke_bind <- function(api, name, ...) {
-    .bind_content(.invoke_fun(api, name, ...))
+.invoke_bind <- function(api, name, do_cache = FALSE, ...) {
+    .bind_content(.invoke_fun(api, name, do_cache, ...))
 }
 
 #' @name cBioPortal-class
@@ -116,15 +135,22 @@ getStudies <- function(cbio) {
     if (missing(cbio))
         stop("Provide a valid 'cbio' from 'cBioPortal()'")
 
-    query <- .invoke_fun(cbio, "getAllStudiesUsingGET")
-    studies <- httr::content(query)
-    studies <- lapply(studies, function(x) {
-        if (is.null(x[["pmid"]]))
-            x[["pmid"]] <- NA_character_
-        if (is.null(x[["citation"]]))
-            x[["citation"]] <- NA_character_
-        x
-    })
+    digi <- .inputDigest(match.call())
+    cacheloc <- .getHashCache(digi)
+    if (file.exists(cacheloc)) {
+        load(cacheloc)
+    } else {
+        query <- .invoke_fun(cbio, "getAllStudiesUsingGET")
+        studies <- httr::content(query)
+        studies <- lapply(studies, function(x) {
+            if (is.null(x[["pmid"]]))
+                x[["pmid"]] <- NA_character_
+            if (is.null(x[["citation"]]))
+                x[["citation"]] <- NA_character_
+            x
+        })
+        save(studies, file = cacheloc)
+    }
     dplyr::bind_rows(studies)
 }
 
@@ -134,21 +160,37 @@ getStudies <- function(cbio) {
 #'      Obtain clinical data for a particular study identifier
 #'
 #' @export
-clinicalData <- function(cbio, studyId) {
+clinicalData <- function(cbio, studyId = NA_character_) {
     if (missing(cbio))
         stop("Provide a valid 'cbio' from 'cBioPortal()'")
-    if (missing(studyId))
+    validStudy <- .checkIdValidity(cbio, element = studyId, ename = "studyId")
+    if (!validStudy)
         stop("Provide a valid 'studyId' from 'getStudies()'")
 
-#    hash <- .inputDigest(match.call())
+    digcall <- match.call()
+    if (sys.nframe() > 1L) {
+        a <- as.list(digcall)
+        b <- as.list(match.call(sys.function(sys.parent(1L)),
+            call = sys.call(1L), envir = parent.frame(1L)))
+        comm <- Filter(nchar, intersect(names(a), names(b)))
+        a[comm] <- b[comm]
+        digcall <- as.call(a)
+    }
 
-    pttable <- .invoke_bind(cbio,
-        "getAllPatientsInStudyUsingGET", studyId = studyId)
-    ptrow <- lapply(pttable[["patientId"]], function(pt) {
-        .invoke_bind(cbio,
-            "getAllClinicalDataOfPatientInStudyUsingGET",
-            studyId = studyId, patientId = pt)
-    })
+    digi <- .inputDigest(digcall)
+    cacheloc <- .getHashCache(digi)
+    if (file.exists(cacheloc)) {
+        load(cacheloc)
+    } else {
+        pttable <- .invoke_bind(cbio,
+            "getAllPatientsInStudyUsingGET", studyId = studyId)
+        ptrow <- lapply(pttable[["patientId"]], function(pt) {
+            .invoke_bind(cbio,
+                "getAllClinicalDataOfPatientInStudyUsingGET",
+                studyId = studyId, patientId = pt)
+        })
+        save(ptrow, file = cacheloc)
+    }
     clin <- dplyr::bind_rows(ptrow)
     tidyr::spread(clin, clinicalAttributeId, value)
 }
@@ -165,17 +207,18 @@ clinicalData <- function(cbio, studyId) {
 #' @inheritParams cBioPortal
 #'
 #' @export
-molecularProfiles <- function(cbio, studyId,
+molecularProfiles <- function(cbio, studyId = NA_character_,
     projection = c("SUMMARY", "ID", "DETAILED", "META"))
 {
     if (missing(cbio))
         stop("Provide a valid 'cbio' from 'cBioPortal()'")
-    if (missing(studyId))
+    validStudy <- .checkIdValidity(cbio, element = studyId, ename = "studyId")
+    if (!validStudy)
         stop("Provide a valid 'studyId' from 'getStudies()'")
 
     projection <- match.arg(projection)
     mols <- .invoke_fun(cbio, "getAllMolecularProfilesInStudyUsingGET",
-        studyId = studyId, projection = projection)
+        do_cache = TRUE, studyId = studyId, projection = projection)
     cmols <- httr::content(mols)
     if (projection %in% c("SUMMARY", "ID"))
         dplyr::bind_rows(cmols)
@@ -190,12 +233,14 @@ molecularProfiles <- function(cbio, studyId,
 #'     `molecularProfileId`, `entrezGeneIds`, and `sampleIds`
 #'
 #' @export
-molecularSlice <- function(cbio, molecularProfileId,
-    entrezGeneIds = NULL, sampleIds = NULL)
+molecularSlice <- function(cbio, molecularProfileId = NA_character_,
+    entrezGeneIds = NULL, sampleIds = NULL, check = TRUE)
 {
     if (missing(cbio))
         stop("Provide a valid 'cbio' from 'cBioPortal()'")
-    if (missing(molecularProfileId))
+    validMolProf <- .checkIdValidity(cbio, element = molecularProfileId,
+        ename = "molecularProfileId", check = check)
+    if (!validMolProf)
         stop("Provide a valid 'molecularProfileId' from 'molecularProfiles()'")
     if (is.null(entrezGeneIds))
         stop("Provide a character vector of 'entrezGeneIds'")
@@ -204,9 +249,10 @@ molecularSlice <- function(cbio, molecularProfileId,
 
     byGene <- .invoke_bind(cbio,
         "fetchAllMolecularDataInMolecularProfileUsingPOST",
+        do_cache = TRUE,
         molecularProfileId = molecularProfileId,
-        entrezGeneIds = entrezGeneIds,
-        sampleIds = sampleIds
+        entrezGeneIds = sort(entrezGeneIds),
+        sampleIds = sort(sampleIds)
     )
     if ("message" %in% names(byGene)) {
         warning(byGene[["message"]])
@@ -223,7 +269,8 @@ molecularSlice <- function(cbio, molecularProfileId,
 #'
 #' @export
 searchOps <- function(cbio, keyword) {
-    grep(keyword, names(AnVIL::operations(cbio)), value = TRUE, ignore.case = TRUE)
+    grep(keyword, names(AnVIL::operations(cbio)),
+        value = TRUE, ignore.case = TRUE)
 }
 
 #' @name cBioPortal
@@ -239,7 +286,7 @@ geneTable <- function(cbio, ...) {
     if (missing(cbio))
         stop("Provide a valid 'cbio' from 'cBioPortal()'")
 
-    gres <- .invoke_fun(cbio, "getAllGenesUsingGET", ...)
+    gres <- .invoke_fun(cbio, "getAllGenesUsingGET", TRUE, ...)
     glist <- httr::content(gres)
     glix <- lapply(glist, function(x) {
         if (is.null(x[["cytoband"]]))
@@ -262,24 +309,36 @@ geneTable <- function(cbio, ...) {
 #'     `sampleLists`
 #'
 #' @export
-samplesInSampleLists <- function(cbio, sampleListIds) {
+samplesInSampleLists <-
+    function(cbio, sampleListIds = NA_character_, check = TRUE) {
     if (missing(cbio))
         stop("Provide a valid 'cbio' from 'cBioPortal()'")
-    if (missing(sampleListIds))
+    validSLI <- .checkIdValidity(cbio, element = sampleListIds,
+        ename = "sampleListIds", do_cache = TRUE, check = check)
+    if (!validSLI)
         stop("Provide valid 'sampleListIds' from 'sampleLists()'")
 
+    sampleListIds <- sort(sampleListIds)
     sampleListIds <- stats::setNames(sampleListIds, sampleListIds)
-    meta <- structure(vector("list", length(sampleListIds)),
-        .Names = sampleListIds)
-    res <- lapply(sampleListIds, function(x) {
-        res <- .invoke_fun(cbio, "getSampleListUsingGET", sampleListId = x)
-        res2 <- httr::content(res)
-        meta[[x]] <<- res2[names(res2) != "sampleIds"]
-        unlist(res2[["sampleIds"]])
-    })
-    res <- IRanges::CharacterList(res)
-    meta <- dplyr::bind_rows(meta)
-    metadata(res) <- meta
+
+    digi <- .inputDigest(match.call())
+    cacheloc <- .getHashCache(digi)
+    if (file.exists(cacheloc)) {
+        load(cacheloc)
+    } else {
+        meta <- structure(vector("list", length(sampleListIds)),
+            .Names = sampleListIds)
+        res <- lapply(sampleListIds, function(x) {
+            res <- .invoke_fun(cbio, "getSampleListUsingGET", sampleListId = x)
+            res2 <- httr::content(res)
+            meta[[x]] <<- res2[names(res2) != "sampleIds"]
+            unlist(res2[["sampleIds"]])
+        })
+        res <- IRanges::CharacterList(res)
+        meta <- dplyr::bind_rows(meta)
+        metadata(res) <- meta
+        save(res, file = cacheloc)
+    }
     res
 }
 
@@ -292,13 +351,15 @@ samplesInSampleLists <- function(cbio, sampleListIds) {
 #' sampleLists(cc, "acc_tcga")
 #'
 #' @export
-sampleLists <- function(cbio, studyId) {
+sampleLists <- function(cbio, studyId = NA_character_) {
     if (missing(cbio))
         stop("Provide a valid 'cbio' from 'cBioPortal()'")
-    if (missing(studyId))
+    validStudy <- .checkIdValidity(cbio, element = studyId, ename = "studyId")
+    if (!validStudy)
         stop("Provide a valid 'studyId' from 'getStudies()'")
 
-    .invoke_bind(cbio, "getAllSampleListsInStudyUsingGET", studyId = studyId)
+    .invoke_bind(cbio, "getAllSampleListsInStudyUsingGET", TRUE,
+        studyId = studyId)
 }
 
 #' @name cBioPortal
@@ -307,13 +368,14 @@ sampleLists <- function(cbio, studyId) {
 #'     * allSamples - obtain all samples within a particular `studyId`
 #'
 #' @export
-allSamples <- function(cbio, studyId) {
+allSamples <- function(cbio, studyId = NA_character_) {
     if (missing(cbio))
         stop("Provide a valid 'cbio' from 'cBioPortal()'")
-    if (missing(studyId))
+    validStudy <- .checkIdValidity(cbio, element = studyId, ename = "studyId")
+    if (!validStudy)
         stop("Provide a valid 'studyId' from 'getStudies()'")
 
-    .invoke_bind(cbio, "getAllSamplesInStudyUsingGET", studyId = studyId)
+    .invoke_bind(cbio, "getAllSamplesInStudyUsingGET", TRUE, studyId = studyId)
 }
 
 #' @name cBioPortal
@@ -326,7 +388,7 @@ genePanels <- function(cbio) {
     if (missing(cbio))
         stop("Provide a valid 'cbio' from 'cBioPortal()'")
 
-    .invoke_bind(cbio, "getAllGenePanelsUsingGET")
+    .invoke_bind(cbio, "getAllGenePanelsUsingGET", TRUE)
 }
 
 #' @name cBioPortal
@@ -335,13 +397,17 @@ genePanels <- function(cbio) {
 #'     * getGenePanels - Obtain the gene panel for a particular 'genePanelId'
 #'
 #' @export
-getGenePanel <- function(cbio, genePanelId) {
+getGenePanel <- function(cbio, genePanelId = NA_character_) {
     if (missing(cbio))
         stop("Provide a valid 'cbio' from 'cBioPortal()'")
-    if (missing(genePanelId))
+
+    validGP <- .checkIdValidity(cbio, element = genePanelId,
+        ename = "genePanelId")
+    if (!validGP)
         stop("Provide a valid 'genePanelId' from 'genePanels()'")
 
-    res <- .invoke_fun(cbio, "getGenePanelUsingGET", genePanelId = genePanelId)
+    res <- .invoke_fun(cbio, "getGenePanelUsingGET", TRUE,
+        genePanelId = genePanelId)
     res <- httr::content(res)[["genes"]]
     dplyr::bind_rows(res)
 }
@@ -357,22 +423,26 @@ getGenePanel <- function(cbio, genePanelId) {
 #'
 #' @export
 genePanelMolecular <-
-    function(cbio, molecularProfileId, sampleListId = NULL, sampleIds = NULL)
+    function(cbio, molecularProfileId = NA_character_, sampleListId = NULL,
+        sampleIds = NULL)
 {
     if (missing(cbio))
         stop("Provide a valid 'cbio' from 'cBioPortal()'")
-    if (missing(molecularProfileId))
+
+    validMolProf <- .checkIdValidity(cbio,
+        element = molecularProfileId, ename = "molecularProfileId")
+    if (!validMolProf)
         stop("Provide a valid 'molecularProfileId' from 'molecularProfiles()'")
 
     if (!is.null(sampleListId))
-        .invoke_bind(cbio, "getGenePanelDataUsingPOST",
+        .invoke_bind(cbio, "getGenePanelDataUsingPOST", cache = TRUE,
             molecularProfileId = molecularProfileId,
             sampleListId = list(sampleListId = sampleListId)
         )
     else if (!is.null(sampleIds))
-        .invoke_bind(cbio, "getGenePanelDataUsingPOST",
+        .invoke_bind(cbio, "getGenePanelDataUsingPOST", cache = TRUE,
             molecularProfileId = molecularProfileId,
-            sampleIds = list(sampleIds = sampleIds)
+            sampleIds = list(sampleIds = sort(sampleIds))
         )
     else
         stop("Provide either 'sampleIds' or a 'sampleListId'")
@@ -386,23 +456,28 @@ genePanelMolecular <-
 #'
 #' @export
 getGenePanelMolecular <-
-    function(cbio, molecularProfileIds, sampleIds)
+    function(cbio, molecularProfileIds = NA_character_, sampleIds)
 {
-    if (missing(molecularProfileIds))
-        stop("Provide valid 'molecularProfileIds' from 'molecularProfiles()'")
+    validMolProf <- .checkIdValidity(cbio,
+        element = molecularProfileIds, ename = "molecularProfileId")
+    if (!validMolProf)
+        stop(
+            paste0("Provide multiple valid 'molecularProfileIds' from",
+             " 'molecularProfiles()'")
+        )
     if (missing(sampleIds))
-        stop(paste0("Provide valid 'sampleIds' from 'samplesInSampleLists()'",
-            " or 'allSamples()'"))
-
-    if (!length(molecularProfileIds) > 1L)
-        stop("Provide multiple 'molecularProfileIds'")
+        stop(
+            paste0("Provide valid 'sampleIds' from 'samplesInSampleLists()'",
+            " or 'allSamples()'")
+        )
 
     SampMolIds <- S4Vectors::expand.grid(
-        molecularProfileId = molecularProfileIds,
-        sampleId = sampleIds
+        molecularProfileId = sort(molecularProfileIds),
+        sampleId = sort(sampleIds)
     )
     .invoke_bind(cbio,
         "fetchGenePanelDataInMultipleMolecularProfilesUsingPOST",
+        TRUE,
         sampleMolecularIdentifiers =
             list(sampleMolecularIdentifiers = SampMolIds)
     )
@@ -415,12 +490,13 @@ getGenePanelMolecular <-
 #'     `sampleListId`
 #' @export
 getSampleInfo <-
-    function(cbio, studyId, sampleListIds = NULL,
+    function(cbio, studyId = NA_character_, sampleListIds = NULL,
         projection = c("SUMMARY", "ID", "DETAILED", "META"))
 {
     if (missing(cbio))
         stop("Provide a valid 'cbio' from 'cBioPortal()'")
-    if (missing(studyId))
+    validStudy <- .checkIdValidity(cbio, element = studyId, ename = "studyId")
+    if (!validStudy)
         stop("Provide a valid 'studyId' from 'getStudies()'")
 
     projection <- match.arg(projection)
@@ -433,7 +509,7 @@ getSampleInfo <-
             )
         )
 
-    .invoke_bind(cbio, "fetchSamplesUsingPOST",
+    .invoke_bind(cbio, "fetchSamplesUsingPOST", TRUE,
         projection = projection, sampleIdentifiers = queryobj
     )
 }
@@ -445,25 +521,34 @@ getSampleInfo <-
 #'     `molecularProfileId` combination, optionally a `sampleListId` can be
 #'     provided.
 #'
-#' @param by character(1) Whether to use 'entrezGeneId' or 'hugoGeneSymbol'
-#'     as row metadata
+#' @param by character(1) Either 'entrezGeneId' or 'hugoGeneSymbol' for row
+#'     metadata
+#'
+#' @param check logical(1) Whether to check the inputs against values from the
+#'     API (i.e., for 'studyId', 'genePanelId', 'molecularProfileId', and
+#'     'sampleListId')
 #'
 #' @export
 getDataByGenePanel <-
-    function(cbio, studyId, genePanelId,
+    function(cbio, studyId = NA_character_, genePanelId = NA_character_,
         by = c("entrezGeneId", "hugoGeneSymbol"),
-        molecularProfileId = NULL, sampleListId = NULL)
+        molecularProfileId = NULL, sampleListId = NULL, check = TRUE)
 {
     if (missing(cbio))
         stop("Provide a valid 'cbio' from 'cBioPortal()'")
-    if (missing(studyId))
+    validStudy <- .checkIdValidity(cbio, element = studyId, ename = "studyId",
+        check = check)
+    if (!validStudy)
         stop("Provide a valid 'studyId' from 'getStudies()'")
-    if (missing(genePanelId))
+
+    validGP <- .checkIdValidity(cbio, element = genePanelId,
+        ename = "genePanelId", check = check)
+    if (!validGP)
         stop("Provide a valid 'genePanelId' from 'genePanels()'")
 
     by <- match.arg(by)
     if (!is.null(sampleListId))
-        samples <- samplesInSampleLists(cbio, sampleListId)[[1L]]
+        samples <- samplesInSampleLists(cbio, sampleListId, check = check)[[1L]]
     else
         samples <- allSamples(cbio, studyId)[["sampleId"]]
 
@@ -471,7 +556,7 @@ getDataByGenePanel <-
     molecularData <- molecularSlice(cbio = cbio,
         molecularProfileId = molecularProfileId,
         entrezGeneIds = panel[["entrezGeneId"]],
-        sampleIds = samples)
+        sampleIds = samples, check = check)
 
     if (identical(by , "hugoGeneSymbol"))
         dplyr::bind_cols(
@@ -485,11 +570,13 @@ getDataByGenePanel <-
 }
 
 .portalExperiments <-
-    function(cbio, by, genePanelId, studyId, molecularProfileIds, sampleListId)
+    function(cbio, by, genePanelId, studyId, molecularProfileIds, sampleListId,
+        check)
 {
-    if (is.null(molecularProfileIds))
+    if (is.null(molecularProfileIds)) {
         molecularProfileIds <-
             molecularProfiles(cbio, studyId)[["molecularProfileId"]]
+    } else { check <- TRUE }
 
     molecularProfileIds <- stats::setNames(molecularProfileIds,
         molecularProfileIds)
@@ -497,7 +584,8 @@ getDataByGenePanel <-
     expers <- lapply(molecularProfileIds, function(molprof) {
         moldata <- getDataByGenePanel(cbio, by = by,
             genePanelId = genePanelId, studyId = studyId,
-            molecularProfileId = molprof, sampleListId = sampleListId)
+            molecularProfileId = molprof, sampleListId = sampleListId,
+            check = check)
         moldata <- as.data.frame(moldata)
         rownames(moldata) <- moldata[[by]]
         moldata <- data.matrix(moldata[, names(moldata) != by])
@@ -529,8 +617,8 @@ getDataByGenePanel <-
 #'
 #' @export
 cBioPortalData <-
-    function(cbio, studyId,
-        genePanelId,
+    function(cbio, studyId = NA_character_,
+        genePanelId = NA_character_,
         molecularProfileIds = NULL,
         sampleListId = NULL,
         by = c("entrezGeneId", "hugoGeneSymbol"),
@@ -541,37 +629,20 @@ cBioPortalData <-
         stop("Provide a valid 'cbio' from 'cBioPortal()'")
 
     validStudy <- .checkIdValidity(cbio, element = studyId, ename = "studyId")
-    if (missing(studyId) || !validStudy)
+    if (!validStudy)
         stop("Provide a valid 'studyId' from 'getStudies()'")
 
     validGP <-
         .checkIdValidity(cbio, element = genePanelId, ename = "genePanelId")
-    if (missing(genePanelId) || !validGP)
+    if (!validGP)
         stop("Provide a valid 'genePanelId' from 'genePanels()'")
-
-    if (!is.null(molecularProfileIds)) {
-        validMPI <- .checkIdValidity(cbio, element = molecularProfileIds,
-            ename = "molecularProfileId")
-        if (!validMPI)
-            stop(
-                paste0("Provide a valid 'molecularProfileId'",
-                " from 'molecularProfiles()'")
-            )
-    }
-
-    if (!is.null(sampleListId)) {
-        validSLI <- .checkIdValidity(cbio, element = sampleListId,
-            ename = "sampleListId")
-        if (!validSLI)
-            stop("Provide a valid 'sampleListId' from 'sampleLists()'")
-    }
 
     by <- match.arg(by)
 
     explist <- .portalExperiments(cbio = cbio, by = by,
         genePanelId = genePanelId, studyId = studyId,
         molecularProfileIds = molecularProfileIds,
-        sampleListId = sampleListId)
+        sampleListId = sampleListId, check = FALSE)
     explist <- as(explist, "ExperimentList")
 
     clin <- clinicalData(cbio, studyId = studyId)

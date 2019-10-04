@@ -116,7 +116,7 @@ removeCache <- function(cancer_study_id) {
     bfc <- .get_cache()
     rid <- bfcquery(bfc, hashtag, "rname", exact = TRUE)$rid
     if (!length(rid))
-        bfcnew(bfc, hashtag, ext = ".rda")
+        BiocFileCache::bfcnew(bfc, hashtag, ext = ".rda")
     else
-        bfcquery(bfc, hashtag, "rname", exact = TRUE)$rpath
+        BiocFileCache::bfcquery(bfc, hashtag, "rname", exact = TRUE)$rpath
 }

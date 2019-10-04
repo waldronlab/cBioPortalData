@@ -23,38 +23,41 @@ cBioPortal()
 
 getStudies(cbio)
 
-clinicalData(cbio, studyId)
+clinicalData(cbio, studyId = NA_character_)
 
-molecularProfiles(cbio, studyId, projection = c("SUMMARY", "ID",
-  "DETAILED", "META"))
+molecularProfiles(cbio, studyId = NA_character_,
+  projection = c("SUMMARY", "ID", "DETAILED", "META"))
 
-molecularSlice(cbio, molecularProfileId, entrezGeneIds = NULL,
-  sampleIds = NULL)
+molecularSlice(cbio, molecularProfileId = NA_character_,
+  entrezGeneIds = NULL, sampleIds = NULL, check = TRUE)
 
 searchOps(cbio, keyword)
 
 geneTable(cbio, ...)
 
-samplesInSampleLists(cbio, sampleListIds)
+samplesInSampleLists(cbio, sampleListIds = NA_character_, check = TRUE)
 
-sampleLists(cbio, studyId)
+sampleLists(cbio, studyId = NA_character_)
 
-allSamples(cbio, studyId)
+allSamples(cbio, studyId = NA_character_)
 
 genePanels(cbio)
 
-getGenePanel(cbio, genePanelId)
+getGenePanel(cbio, genePanelId = NA_character_)
 
-genePanelMolecular(cbio, molecularProfileId, sampleListId = NULL,
-  sampleIds = NULL)
+genePanelMolecular(cbio, molecularProfileId = NA_character_,
+  sampleListId = NULL, sampleIds = NULL)
 
-getGenePanelMolecular(cbio, molecularProfileIds, sampleIds)
+getGenePanelMolecular(cbio, molecularProfileIds = NA_character_,
+  sampleIds)
 
-getSampleInfo(cbio, studyId, sampleListIds = NULL,
+getSampleInfo(cbio, studyId = NA_character_, sampleListIds = NULL,
   projection = c("SUMMARY", "ID", "DETAILED", "META"))
 
-getDataByGenePanel(cbio, studyId, genePanelId, by = c("entrezGeneId",
-  "hugoGeneSymbol"), molecularProfileId = NULL, sampleListId = NULL)
+getDataByGenePanel(cbio, studyId = NA_character_,
+  genePanelId = NA_character_, by = c("entrezGeneId",
+  "hugoGeneSymbol"), molecularProfileId = NULL, sampleListId = NULL,
+  check = TRUE)
 }
 \arguments{
 \item{cbio}{An object of class `cBioPortal`}
@@ -70,6 +73,10 @@ type for data retrieval for details see API documentation}
 \item{entrezGeneIds}{numeric() A vector indicating entrez gene IDs}
 
 \item{sampleIds}{character() TCGA sample identifiers}
+
+\item{check}{logical(1) Whether to check the inputs against values from the
+API (i.e., for 'studyId', 'genePanelId', 'molecularProfileId', and
+'sampleListId')}
 
 \item{keyword}{character(1) Keyword or pattern for searching through
 available operations}
@@ -87,8 +94,8 @@ from the `genePanels` function}
 
 \item{molecularProfileIds}{character() A vector of molecular profile IDs}
 
-\item{by}{character(1) Whether to use 'entrezGeneId' or 'hugoGeneSymbol'
-as row metadata}
+\item{by}{character(1) Either 'entrezGeneId' or 'hugoGeneSymbol' for row
+metadata}
 }
 \value{
 cBioPortal: An object of class 'cBioPortal'

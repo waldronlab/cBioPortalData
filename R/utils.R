@@ -145,8 +145,8 @@ endpoint_map <- data.frame(
     stringsAsFactors = FALSE
 )
 
-.check_fun <- function(api, x, endpoint, colname, ...) {
-    all(x %in% .invoke_bind(api, endpoint, ...)[[colname]])
+.check_fun <- function(api, x, endpoint, colname, do_cache, ...) {
+    all(x %in% .invoke_bind(api, endpoint, do_cache, ...)[[colname]])
 }
 
 .barg <- function(type) {
@@ -157,13 +157,14 @@ endpoint_map <- data.frame(
 }
 
 .checkIdValidity <- function(api, element, ename = c("studyId", "genePanelId",
-        "molecularProfileId", "sampleListId"), ...) {
+        "molecularProfileId", "sampleListId"), do_cache = TRUE, ...) {
+    if (is.na(element)) return(FALSE)
     ename <- match.arg(ename)
     args <- .barg(ename)
     args <- eval(args)
     ord <- endpoint_map[endpoint_map[["what"]] == ename, , drop = TRUE]
     .check_fun(api = api, x = element,
-        endpoint = ord[["how"]], colname = ename, args)
+        endpoint = ord[["how"]], colname = ename, do_cache = do_cache, args)
 }
 
 .generateIdConvert <- function(longid, shortid) {
