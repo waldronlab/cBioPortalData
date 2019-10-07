@@ -168,10 +168,19 @@ clinicalData <- function(cbio, studyId = NA_character_) {
         stop("Provide a valid 'studyId' from 'getStudies()'")
 
     digcall <- match.call()
+    where <- function(name, env = parent.frame()) {
+        if (identical(env, emptyenv()))
+            stop("Can't find ", name, call. = FALSE)
+        else if (exists(name, envir = env, inherits = FALSE))
+            env
+        else
+            where(name, parent.env(env))
+    }
+
     if (sys.nframe() > 1L) {
         a <- as.list(digcall)
         b <- as.list(match.call(sys.function(sys.parent(1L)),
-            call = sys.call(1L), envir = parent.frame(1L)))
+            call = sys.call(1L), envir = where('cbio')))
         comm <- Filter(nchar, intersect(names(a), names(b)))
         a[comm] <- b[comm]
         digcall <- as.call(a)
