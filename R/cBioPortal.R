@@ -647,6 +647,13 @@ cBioPortalData <-
         stop("Provide a valid 'genePanelId' from 'genePanels()'")
 
     by <- match.arg(by)
+    if (FALSE) {
+    callargs <- c(as.list(match.call())[-1], by = by)
+    formals <- formals()
+    toadd <- setdiff(names(formals), c(names(call), "by"))
+    call[toadd] <- formals[toadd]
+    call["by"] <- by
+    }
 
     explist <- .portalExperiments(cbio = cbio, by = by,
         genePanelId = genePanelId, studyId = studyId,
