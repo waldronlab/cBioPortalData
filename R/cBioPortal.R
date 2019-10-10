@@ -603,6 +603,19 @@ getDataByGenePanel <-
     as(Filter(length, expers), "List")
 }
 
+std.args <- function(call, formals) {
+    callargs <- as.list(call)[-1]
+    toadd <- setdiff(names(formals), names(call))
+    call[toadd] <- formals[toadd]
+    call
+}
+
+match.args <- function(fun, call, ...) {
+    funfor <- formals(fun)
+    exargs <- intersect(names(funfor), names(call))
+    c(as.list(call)[-1][exargs], ...)
+}
+
 #' Download data from the cBioPortal API
 #'
 #' Obtain a `MultiAssayExperiment` object for a particular gene panel,
@@ -647,21 +660,14 @@ cBioPortalData <-
         stop("Provide a valid 'genePanelId' from 'genePanels()'")
 
     by <- match.arg(by)
-    if (FALSE) {
-    callargs <- c(as.list(match.call())[-1], by = by)
-    formals <- formals()
-    toadd <- setdiff(names(formals), c(names(call), "by"))
-    call[toadd] <- formals[toadd]
-    call["by"] <- by
-    }
 
-    explist <- .portalExperiments(cbio = cbio, by = by,
-        genePanelId = genePanelId, studyId = studyId,
-        molecularProfileIds = molecularProfileIds,
-        sampleListId = sampleListId, check = FALSE)
+    call <- std.args(match.call(), formals())
+    exargs <- match.args(.portalExperiments, call, check = FALSE)
+    explist <- do.call(.portalExperiments, exargs)
+
     explist <- as(explist, "ExperimentList")
 
-    clin <- clinicalData(cbio, studyId = studyId)
+    clin <- do.call(clinicalData, match.args(clinicalData, call))
     clin <- as.data.frame(clin)
     rownames(clin) <- clin[["patientId"]]
     if (all(startsWith(rownames(clin), "TCGA")))
