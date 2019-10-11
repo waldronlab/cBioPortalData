@@ -661,7 +661,9 @@ cBioPortalData <-
 
     by <- match.arg(by)
 
-    call <- std.args(match.call(), formals())
+    formals <- formals()
+    formals[["by"]] <- by
+    call <- std.args(match.call(), formals)
     exargs <- match.args(.portalExperiments, call, check = FALSE)
     explist <- do.call(.portalExperiments, exargs)
 
