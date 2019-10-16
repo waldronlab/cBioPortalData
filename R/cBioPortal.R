@@ -99,6 +99,8 @@ utils::globalVariables(c("clinicalAttributeId", "value", "sampleId"))
 #'
 #' searchOps(api = cbio, keyword = "molecular")
 #'
+#' clinicalData(api = cbio, studyId = "acc_tcga")
+#'
 #' molecularProfiles(api = cbio, studyId = "acc_tcga")
 #'
 #' molecularSlice(api = cbio, molecularProfileId = "acc_tcga_rna_seq_v2_mrna",
@@ -162,8 +164,9 @@ getStudies <- function(api) {
 
 #' @name cBioPortal
 #'
-#' @section clinicalData:
-#'      Obtain clinical data for a particular study identifier ('studyId')
+#' @section Patient Data:
+#'      * clinicalData - Obtain clinical data for a particular study identifier
+#'      ('studyId')
 #'
 #' @export
 clinicalData <- function(api, studyId = NA_character_) {

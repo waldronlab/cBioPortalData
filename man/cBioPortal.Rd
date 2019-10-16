@@ -128,9 +128,10 @@ This function gives users access to the cBioPortal data with an
     * genePanels - Show all available gene panels
 }
 
-\section{clinicalData}{
+\section{Patient Data}{
 
-     Obtain clinical data for a particular study identifier ('studyId')
+     * clinicalData - Obtain clinical data for a particular study identifier
+     ('studyId')
 }
 
 \section{Molecular Profiles}{
@@ -176,6 +177,8 @@ cbio <- cBioPortal()
 getStudies(api = cbio)
 
 searchOps(api = cbio, keyword = "molecular")
+
+clinicalData(api = cbio, studyId = "acc_tcga")
 
 molecularProfiles(api = cbio, studyId = "acc_tcga")
 
