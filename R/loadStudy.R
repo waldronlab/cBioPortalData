@@ -1,7 +1,7 @@
-#' @title Convert a data file downloaded from MSKCC's cBioPortal to
+#' @title Obtain pre-packaged data from MSKCC's cBioPortal and represent as
 #' a MultiAssayExperiment object
 #'
-#' @description The \code{loadStudy} function allows the user to
+#' @description The \code{cBioDataPack} function allows the user to
 #' download and process cancer study datasets found in MSKCC's cBioPortal.
 #' Output datasets use the \linkS4class{MultiAssayExperiment} data
 #' representation to faciliate analysis and data management operations.
@@ -30,10 +30,10 @@
 #'
 #' (laml <- studiesTable[["cancer_study_id"]][3L])
 #'
-#' mae <- loadStudy(laml)
+#' mae <- cBioDataPack(laml)
 #'
 #' @export
-loadStudy <- function(cancer_study_id, use_cache = TRUE,
+cBioDataPack <- function(cancer_study_id, use_cache = TRUE,
     split.field = c("Tumor_Sample_Barcode", "ID"),
     names.field = c("Hugo_Symbol", "Entrez_Gene_Id", "Gene")) {
 
