@@ -25,3 +25,4 @@ the study tarball from MSKCC's cBioPortal
 downloadStudy("laml_tcga_pub", use_cache = tempdir())
 
 }
+\keyword{internal}

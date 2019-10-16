@@ -87,7 +87,7 @@
 #'
 #' downloadStudy("laml_tcga_pub", use_cache = tempdir())
 #'
-#' @export
+#' @keywords internal
 downloadStudy <- function(cancer_study_id, use_cache = TRUE, force = FALSE)
 {
     .validStudyID(cancer_study_id)
