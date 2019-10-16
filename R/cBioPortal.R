@@ -1,13 +1,13 @@
 utils::globalVariables(c("clinicalAttributeId", "value", "sampleId"))
 
-.invoke_fun <- function(api, name, do_cache = FALSE, ...) {
+.invoke_fun <- function(api, name, use_cache = FALSE, ...) {
     if (!is(api, "cBioPortal"))
         stop("Provide a 'cBioPortal' class API object")
     ops <- names(AnVIL::operations(api))
     if (!name %in% ops)
         stop("<internal> operation name not found in API")
 
-    if (do_cache) {
+    if (use_cache) {
         .dollarCache(list(api, name), ...)
     } else {
         do.call(`$`, list(api, name))(...)
@@ -34,8 +34,8 @@ utils::globalVariables(c("clinicalAttributeId", "value", "sampleId"))
     )
 }
 
-.invoke_bind <- function(api, name, do_cache = FALSE, ...) {
-    .bind_content(.invoke_fun(api, name, do_cache, ...))
+.invoke_bind <- function(api, name, use_cache = FALSE, ...) {
+    .bind_content(.invoke_fun(api, name, use_cache, ...))
 }
 
 #' @name cBioPortal-class
@@ -214,7 +214,7 @@ molecularProfiles <- function(api, studyId = NA_character_,
 
     projection <- match.arg(projection)
     mols <- .invoke_fun(api, "getAllMolecularProfilesInStudyUsingGET",
-        do_cache = TRUE, studyId = studyId, projection = projection)
+        use_cache = TRUE, studyId = studyId, projection = projection)
     cmols <- httr::content(mols)
     if (projection %in% c("SUMMARY", "ID"))
         dplyr::bind_rows(cmols)
@@ -245,7 +245,7 @@ molecularSlice <- function(api, molecularProfileId = NA_character_,
 
     byGene <- .invoke_bind(api,
         "fetchAllMolecularDataInMolecularProfileUsingPOST",
-        do_cache = TRUE,
+        use_cache = TRUE,
         molecularProfileId = molecularProfileId,
         entrezGeneIds = sort(entrezGeneIds),
         sampleIds = sort(sampleIds)
@@ -310,7 +310,7 @@ samplesInSampleLists <-
     if (missing(api))
         stop("Provide a valid 'api' from 'cBioPortal()'")
     validSLI <- .checkIdValidity(api, element = sampleListIds,
-        ename = "sampleListIds", do_cache = TRUE, check = check)
+        ename = "sampleListIds", use_cache = TRUE, check = check)
     if (!validSLI)
         stop("Provide valid 'sampleListIds' from 'sampleLists()'")
 
@@ -431,12 +431,12 @@ genePanelMolecular <-
         stop("Provide a valid 'molecularProfileId' from 'molecularProfiles()'")
 
     if (!is.null(sampleListId))
-        .invoke_bind(api, "getGenePanelDataUsingPOST", do_cache = TRUE,
+        .invoke_bind(api, "getGenePanelDataUsingPOST", use_cache = TRUE,
             molecularProfileId = molecularProfileId,
             sampleListId = list(sampleListId = sampleListId)
         )
     else if (!is.null(sampleIds))
-        .invoke_bind(api, "getGenePanelDataUsingPOST", do_cache = TRUE,
+        .invoke_bind(api, "getGenePanelDataUsingPOST", use_cache = TRUE,
             molecularProfileId = molecularProfileId,
             sampleIds = list(sampleIds = sort(sampleIds))
         )
