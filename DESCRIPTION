@@ -44,10 +44,10 @@ VignetteBuilder: knitr
 BugReports: https://github.com/waldronlab/cBioPortalData/issues
 RoxygenNote: 6.1.1
 Collate: 
+    'utils.R'
+    'cBioDataPack.R'
     'cBioPortal.R'
     'cBioPortalData-pkg.R'
     'cache.R'
     'data.R'
-    'utils.R'
-    'loadStudy.R'
-    'studyDownload.R'
+    'downloadStudy.R'
