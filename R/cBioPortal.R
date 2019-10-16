@@ -135,7 +135,7 @@ getStudies <- function(cbio) {
     if (missing(cbio))
         stop("Provide a valid 'cbio' from 'cBioPortal()'")
 
-    digi <- .inputDigest(match.call())
+    digi <- .inputDigest(match.call(), "getStudies")
     cacheloc <- .getHashCache(digi)
     if (file.exists(cacheloc)) {
         load(cacheloc)
@@ -167,26 +167,7 @@ clinicalData <- function(cbio, studyId = NA_character_) {
     if (!validStudy)
         stop("Provide a valid 'studyId' from 'getStudies()'")
 
-    digcall <- match.call()
-    where <- function(name, env = parent.frame()) {
-        if (identical(env, emptyenv()))
-            stop("Can't find ", name, call. = FALSE)
-        else if (exists(name, envir = env, inherits = FALSE))
-            env
-        else
-            where(name, parent.env(env))
-    }
-
-    if (sys.nframe() > 1L) {
-        a <- as.list(digcall)
-        b <- as.list(match.call(sys.function(sys.parent(1L)),
-            call = sys.call(1L), envir = where('cbio')))
-        comm <- Filter(nchar, intersect(names(a), names(b)))
-        a[comm] <- b[comm]
-        digcall <- as.call(a)
-    }
-
-    digi <- .inputDigest(digcall)
+    digi <- .inputDigest(match.call(), "clinicalData")
     cacheloc <- .getHashCache(digi)
     if (file.exists(cacheloc)) {
         load(cacheloc)
@@ -330,7 +311,7 @@ samplesInSampleLists <-
     sampleListIds <- sort(sampleListIds)
     sampleListIds <- stats::setNames(sampleListIds, sampleListIds)
 
-    digi <- .inputDigest(match.call())
+    digi <- .inputDigest(match.call(), "samplesInSampleLists")
     cacheloc <- .getHashCache(digi)
     if (file.exists(cacheloc)) {
         load(cacheloc)

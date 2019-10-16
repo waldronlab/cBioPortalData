@@ -106,9 +106,8 @@ removeCache <- function(cancer_study_id) {
         message("No record found: ", cancer_study_id, ".tar.gz")
 }
 
-.inputDigest <- function(cachecall) {
-    callst <- as.list(cachecall)
-    callst <- callst[names(callst) != "cbio"]
+.inputDigest <- function(cachecall, callname) {
+    callst <- c(fun = callname, as.list(cachecall)[-c(1, 2)])
     digest::digest(callst, algo = "md5")
 }
 
