@@ -74,12 +74,15 @@
 #' Download and cache study dataset
 #'
 #' Provide a `cancer_study_id` from the `studiesTable` and retrieve
-#' the study tarball from MSKCC's cBioPortal
+#' the study tarball from cBioPortal
 #'
-#' @param cancer_study_id The cBioPortal study identifier
+#' @param cancer_study_id The cBioPortal study identifier as in
+#'     \url{https://cbioportal.org/webAPI}
+#'
 #' @param use_cache logical (default TRUE) create the default cache location
 #' and use it to track downloaded data. If data found in the cache, data will
 #' not be re-downloaded. A path can also be provided to data cache location.
+#'
 #' @param force logical (default FALSE) whether to force re-download data from
 #' remote location
 #'

@@ -1,4 +1,4 @@
-#' @title Obtain pre-packaged data from MSKCC's cBioPortal and represent as
+#' @title Obtain pre-packaged data from cBioPortal and represent as
 #' a MultiAssayExperiment object
 #'
 #' @description The \code{cBioDataPack} function allows the user to

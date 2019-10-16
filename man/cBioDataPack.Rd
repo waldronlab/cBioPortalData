@@ -2,7 +2,7 @@
 % Please edit documentation in R/cBioDataPack.R
 \name{cBioDataPack}
 \alias{cBioDataPack}
-\title{Obtain pre-packaged data from MSKCC's cBioPortal and represent as
+\title{Obtain pre-packaged data from cBioPortal and represent as
 a MultiAssayExperiment object}
 \usage{
 cBioDataPack(cancer_study_id, use_cache = TRUE,
@@ -10,7 +10,8 @@ cBioDataPack(cancer_study_id, use_cache = TRUE,
   names.field = c("Hugo_Symbol", "Entrez_Gene_Id", "Gene"))
 }
 \arguments{
-\item{cancer_study_id}{The cBioPortal study identifier}
+\item{cancer_study_id}{The cBioPortal study identifier as in
+\url{https://cbioportal.org/webAPI}}
 
 \item{use_cache}{logical (default TRUE) create the default cache location
 and use it to track downloaded data. If data found in the cache, data will
