@@ -204,3 +204,41 @@ endpoint_map <- data.frame(
     }, list(g = filler, z = nrange))
     eval(call("function", args, body))
 }
+
+.invoke_fun <- function(api, name, use_cache = FALSE, ...) {
+    if (!is(api, "cBioPortal"))
+        stop("Provide a 'cBioPortal' class API object")
+    ops <- names(AnVIL::operations(api))
+    if (!name %in% ops)
+        stop("<internal> operation name not found in API")
+
+    if (use_cache) {
+        .dollarCache(list(api, name), ...)
+    } else {
+        do.call(`$`, list(api, name))(...)
+    }
+}
+
+.dollarCache <- function(appname, ...) {
+    if (!is.list(appname))
+        stop("<internal> Provide a list input as 'api$name'")
+    digi <- digest::digest(list(appname, ...))
+    loc <- .getHashCache(digi)
+    if (file.exists(loc)) {
+        load(loc)
+    } else {
+        op <- do.call(`$`, appname)(...)
+        save(op, file = loc)
+    }
+    op
+}
+
+.bind_content <- function(x) {
+    dplyr::bind_rows(
+        httr::content(x)
+    )
+}
+
+.invoke_bind <- function(api, name, use_cache = FALSE, ...) {
+    .bind_content(.invoke_fun(api, name, use_cache, ...))
+}
