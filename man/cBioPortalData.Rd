@@ -4,13 +4,14 @@
 \alias{cBioPortalData}
 \title{Download data from the cBioPortal API}
 \usage{
-cBioPortalData(cbio, studyId = NA_character_,
+cBioPortalData(api, studyId = NA_character_,
   genePanelId = NA_character_, molecularProfileIds = NULL,
   sampleListId = NULL, by = c("entrezGeneId", "hugoGeneSymbol"),
   idConvert = identity)
 }
 \arguments{
-\item{cbio}{An object of class `cBioPortal`}
+\item{api}{An API object of class `cBioPortal` from the `cBioPortal`
+function}
 
 \item{studyId}{character(1) Indicates the "studyId" as taken from
 `getStudies`}
@@ -38,8 +39,9 @@ data.
 }
 \examples{
 
-cb <- cBioPortal()
-cBioPortalData(cb, by = "hugoGeneSymbol", studyId = "acc_tcga",
+cbio <- cBioPortal()
+
+cBioPortalData(cbio, by = "hugoGeneSymbol", studyId = "acc_tcga",
     genePanelId = "IMPACT341",
     molecularProfileIds = c("acc_tcga_rppa", "acc_tcga_linear_CNA")
 )

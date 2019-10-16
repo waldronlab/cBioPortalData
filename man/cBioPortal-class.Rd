@@ -4,16 +4,17 @@
 \name{cBioPortal-class}
 \alias{cBioPortal-class}
 \alias{.cBioPortal}
-\title{A class for representing the cBioPortal API}
+\title{A class for representing the cBioPortal API protocol}
 \description{
-The cBioPortal class is a product of the cBioPortal API that
-    inherits from the `Service` class
+The `cBioPortal` class is a representation of the cBioPortal
+    API protocol that directly inherits from the `Service` class in the
+    `AnVIL` package
 }
 \examples{
 
-cbio <- cBioPortal()
+cBioPortal()
 
 }
 \seealso{
-AnVIL::Service
+\link{cBioPortal}, \link[AnVIL]{Service}
 }

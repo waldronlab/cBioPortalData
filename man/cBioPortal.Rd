@@ -17,50 +17,51 @@
 \alias{getGenePanelMolecular}
 \alias{getSampleInfo}
 \alias{getDataByGenePanel}
-\title{The interface to the cBioPortal API Service}
+\title{The R interface to the cBioPortal API Data Service}
 \usage{
 cBioPortal()
 
-getStudies(cbio)
+getStudies(api)
 
-clinicalData(cbio, studyId = NA_character_)
+clinicalData(api, studyId = NA_character_)
 
-molecularProfiles(cbio, studyId = NA_character_,
+molecularProfiles(api, studyId = NA_character_,
   projection = c("SUMMARY", "ID", "DETAILED", "META"))
 
-molecularSlice(cbio, molecularProfileId = NA_character_,
+molecularSlice(api, molecularProfileId = NA_character_,
   entrezGeneIds = NULL, sampleIds = NULL, check = TRUE)
 
-searchOps(cbio, keyword)
+searchOps(api, keyword)
 
-geneTable(cbio, ...)
+geneTable(api, ...)
 
-samplesInSampleLists(cbio, sampleListIds = NA_character_, check = TRUE)
+samplesInSampleLists(api, sampleListIds = NA_character_, check = TRUE)
 
-sampleLists(cbio, studyId = NA_character_)
+sampleLists(api, studyId = NA_character_)
 
-allSamples(cbio, studyId = NA_character_)
+allSamples(api, studyId = NA_character_)
 
-genePanels(cbio)
+genePanels(api)
 
-getGenePanel(cbio, genePanelId = NA_character_)
+getGenePanel(api, genePanelId = NA_character_)
 
-genePanelMolecular(cbio, molecularProfileId = NA_character_,
+genePanelMolecular(api, molecularProfileId = NA_character_,
   sampleListId = NULL, sampleIds = NULL)
 
-getGenePanelMolecular(cbio, molecularProfileIds = NA_character_,
+getGenePanelMolecular(api, molecularProfileIds = NA_character_,
   sampleIds)
 
-getSampleInfo(cbio, studyId = NA_character_, sampleListIds = NULL,
+getSampleInfo(api, studyId = NA_character_, sampleListIds = NULL,
   projection = c("SUMMARY", "ID", "DETAILED", "META"))
 
-getDataByGenePanel(cbio, studyId = NA_character_,
+getDataByGenePanel(api, studyId = NA_character_,
   genePanelId = NA_character_, by = c("entrezGeneId",
   "hugoGeneSymbol"), molecularProfileId = NULL, sampleListId = NULL,
   check = TRUE)
 }
 \arguments{
-\item{cbio}{An object of class `cBioPortal`}
+\item{api}{An API object of class `cBioPortal` from the `cBioPortal`
+function}
 
 \item{studyId}{character(1) Indicates the "studyId" as taken from
 `getStudies`}
@@ -72,7 +73,7 @@ type for data retrieval for details see API documentation}
 
 \item{entrezGeneIds}{numeric() A vector indicating entrez gene IDs}
 
-\item{sampleIds}{character() TCGA sample identifiers}
+\item{sampleIds}{character() Sample identifiers}
 
 \item{check}{logical(1) Whether to check the inputs against values from the
 API (i.e., for 'studyId', 'genePanelId', 'molecularProfileId', and
@@ -98,12 +99,13 @@ from the `genePanels` function}
 metadata}
 }
 \value{
-cBioPortal: An object of class 'cBioPortal'
+cBioPortal: An API object of class 'cBioPortal'
 
-    cBioPortaldata: An object of class 'MultiAssayExperiment'
+    cBioPortalData: A data object of class 'MultiAssayExperiment'
 }
 \description{
-This function allows the use of the cBioPortal API
+This function gives users access to the cBioPortal data with an
+    API representation invoked from `cBioPortal()`
 }
 \section{API Metadata}{
 
@@ -128,13 +130,13 @@ This function allows the use of the cBioPortal API
 
 \section{clinicalData}{
 
-     Obtain clinical data for a particular study identifier
+     Obtain clinical data for a particular study identifier ('studyId')
 }
 
 \section{Molecular Profiles}{
 
      * molecularProfiles - Produce a molecular profiles dataset for a given
-     study identifier
+     study identifier ('studyId')
 
 
     * molecularSlice - Produce a dataset of molecular profile data based on
@@ -169,26 +171,29 @@ This function allows the use of the cBioPortal API
 }
 
 \examples{
+cbio <- cBioPortal()
 
-cc <- cBioPortal()
+getStudies(api = cbio)
 
-getStudies(cbio = cc)
+searchOps(api = cbio, keyword = "molecular")
 
-searchOps(cbio = cc, keyword = "molecular")
+molecularProfiles(api = cbio, studyId = "acc_tcga")
 
-molecularProfiles(cbio = cc, studyId = "acc_tcga")
-
-molecularSlice(cbio = cc, molecularProfileId = "acc_tcga_rna_seq_v2_mrna",
+molecularSlice(api = cbio, molecularProfileId = "acc_tcga_rna_seq_v2_mrna",
     entrezGeneIds = c(1, 2),
     sampleIds = c("TCGA-OR-A5J1-01", "TCGA-OR-A5J2-01")
 )
 
-sampleLists(cbio = cc, studyId = "acc_tcga")
+sampleLists(api = cbio, studyId = "acc_tcga")
 
-samplesInSampleLists(cbio = cc,
+samplesInSampleLists(api = cbio,
     sampleListIds = c("acc_tcga_rppa", "acc_tcga_cnaseq")
 )
 
-sampleLists(cc, "acc_tcga")
+genePanels(cbio)
+
+getGenePanel(cbio, "IMPACT341")
+
+sampleLists(cbio, "acc_tcga")
 
 }
