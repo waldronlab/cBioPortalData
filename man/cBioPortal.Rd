@@ -182,21 +182,22 @@ clinicalData(api = cbio, studyId = "acc_tcga")
 
 molecularProfiles(api = cbio, studyId = "acc_tcga")
 
-molecularSlice(api = cbio, molecularProfileId = "acc_tcga_rna_seq_v2_mrna",
+molecularSlice(
+    api = cbio,
+    molecularProfileId = "acc_tcga_rna_seq_v2_mrna",
     entrezGeneIds = c(1, 2),
     sampleIds = c("TCGA-OR-A5J1-01", "TCGA-OR-A5J2-01")
 )
 
 sampleLists(api = cbio, studyId = "acc_tcga")
 
-samplesInSampleLists(api = cbio,
+samplesInSampleLists(
+    api = cbio,
     sampleListIds = c("acc_tcga_rppa", "acc_tcga_cnaseq")
 )
 
-genePanels(cbio)
+genePanels(api = cbio)
 
-getGenePanel(cbio, "IMPACT341")
-
-sampleLists(cbio, "acc_tcga")
+getGenePanel(api = cbio, genePanelId = "IMPACT341")
 
 }
