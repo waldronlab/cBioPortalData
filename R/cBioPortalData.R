@@ -25,7 +25,7 @@
 
 std.args <- function(call, formals) {
     callargs <- as.list(call)[-1]
-    toadd <- setdiff(names(formals), names(call))
+    toadd <- setdiff(names(formals), names(callargs))
     call[toadd] <- formals[toadd]
     call
 }
@@ -34,6 +34,15 @@ match.args <- function(fun, call, ...) {
     funfor <- formals(fun)
     exargs <- intersect(names(funfor), names(call))
     c(as.list(call)[-1][exargs], ...)
+}
+
+eval.args <- function(args) {
+    toeval <- !names(args) %in% c("api", "idConvert")
+    ## TODO: find right nframe
+#    evalargs <- lapply(args[toeval], function(namedargs) eval.parent(namedargs))
+#    evalargs <- lapply(args[toeval], eval.parent)
+    args[toeval] <- evalargs
+    args
 }
 
 #' Download data from the cBioPortal API
@@ -86,11 +95,13 @@ cBioPortalData <-
     formals[["by"]] <- by
     call <- std.args(match.call(), formals)
     exargs <- match.args(.portalExperiments, call, check = FALSE)
+    exargs <- eval.args(exargs)
     explist <- do.call(.portalExperiments, exargs)
 
     explist <- as(explist, "ExperimentList")
-
-    clin <- do.call(clinicalData, match.args(clinicalData, call))
+    clinargs <- match.args(clinicalData, call)
+    clinargs <- eval.args(clinargs)
+    clin <- do.call(clinicalData, clinargs)
     clin <- as.data.frame(clin)
     rownames(clin) <- clin[["patientId"]]
     if (all(startsWith(rownames(clin), "TCGA")))
