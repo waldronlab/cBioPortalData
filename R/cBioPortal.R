@@ -211,8 +211,18 @@ molecularSlice <- function(api, molecularProfileId = NA_character_,
     if (is.null(sampleIds))
         stop("Provide a character vector of 'sampleIds'")
 
+    mutation <- grepl("mutation", molecularProfileId)
+    if (mutation) {
+        endpoint <- "fetchMutationsInMolecularProfileUsingPOST"
+        colsOI <- c("entrezGeneId","chr", "startPosition", "endPosition",
+            "ncbiBuild", "sampleId", "mutationType")
+    } else {
+        endpoint <- "fetchAllMolecularDataInMolecularProfileUsingPOST"
+        colsOI <- c("entrezGeneId", "sampleId", "value")
+    }
+
     byGene <- .invoke_bind(api,
-        "fetchAllMolecularDataInMolecularProfileUsingPOST",
+        endpoint,
         use_cache = TRUE,
         molecularProfileId = molecularProfileId,
         entrezGeneIds = sort(entrezGeneIds),
@@ -221,9 +231,13 @@ molecularSlice <- function(api, molecularProfileId = NA_character_,
     if ("message" %in% names(byGene)) {
         warning(byGene[["message"]])
         dplyr::tibble()
-    } else
-        tidyr::spread(byGene[, c("entrezGeneId", "sampleId", "value")],
-            sampleId, value)
+    } else {
+        colsoi <- colsOI[colsOI %in% names(byGene)]
+        if (mutation)
+            tidyr::spread(byGene[, colsoi], "sampleId", "mutationType")
+        else
+            tidyr::spread(byGene[, colsoi], "sampleId", "value")
+    }
 }
 
 #' @name cBioPortal

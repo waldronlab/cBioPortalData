@@ -15,10 +15,7 @@
             genePanelId = genePanelId, studyId = studyId,
             molecularProfileId = molprof, sampleListId = sampleListId,
             check = check)
-        moldata <- as.data.frame(moldata)
-        rownames(moldata) <- moldata[[by]]
-        moldata <- data.matrix(moldata[, names(moldata) != by])
-        SummarizedExperiment(moldata)
+        .getMixedData(moldata, by)
     })
     as(Filter(length, expers), "List")
 }

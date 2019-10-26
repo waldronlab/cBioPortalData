@@ -26,15 +26,26 @@ utils::globalVariables("element")
     if (!any(samplesAsCols)) { return(.biocExtract(x)) }
 
     annote <- x[, !samplesAsCols]
-
-    x <- data.matrix(x[, samplesAsCols])
+    hasRanged <- RTCGAToolbox:::.hasRangeNames(annote)
+    if (hasRanged) {
+        rowranges <- RTCGAToolbox:::.makeGRangesFromDataFrame(annote)
+        build <- RTCGAToolbox:::.hasInfo(annote, "ncbibuild")
+        if (build) {
+            isbuild <- RTCGAToolbox:::.getBuild(annote, "ncbibuild")
+            genome(rowranges) <- isbuild
+        }
+    }
+            
+    x <- as.matrix(x[, samplesAsCols])
 
     if (!is.null(name.field)) {
         rownames(x) <- annote[[name.field]]
     }
 
     x <- RTCGAToolbox:::.standardizeBC(x)
-    SummarizedExperiment::SummarizedExperiment(SimpleList(x), rowData = annote)
+    SummarizedExperiment::SummarizedExperiment(assays = SimpleList(x),
+        if (hasRanged) rowRanges = rowranges else rowData = annote
+    )
 }
 
 .cleanHugo <- function(x) {
