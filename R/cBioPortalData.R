@@ -38,9 +38,7 @@ match.args <- function(fun, call, ...) {
 
 eval.args <- function(args) {
     toeval <- !names(args) %in% c("api", "idConvert")
-    ## TODO: find right nframe
-#    evalargs <- lapply(args[toeval], function(namedargs) eval.parent(namedargs))
-#    evalargs <- lapply(args[toeval], eval.parent)
+    evalargs <- lapply(args[toeval], eval)
     args[toeval] <- evalargs
     args
 }
