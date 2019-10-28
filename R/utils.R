@@ -21,6 +21,25 @@ utils::globalVariables("element")
     return(object)
 }
 
+.getMutationData <- function(x, row.field) {
+    build <- RTCGAToolbox:::.hasInfo(x, "ncbibuild")
+    if (build)
+        buildno <- RTCGAToolbox:::.getBuild(x)
+    rownames <- x[[row.field]]
+    ridx <- na.omit(TCGAutils::findGRangesCols(names(x)))
+    ranged <- x[, ridx]
+    others <- match(c("ncbibuild", "entrezgeneid", "hugogenesymbol"),
+        tolower(names(x)))
+    excl <- na.omit(c(ridx, others))
+    x <- as.matrix(x[, -excl])
+    rownames(x) <- rownames
+    rowranges <- RTCGAToolbox:::.makeGRangesFromDataFrame(ranged)
+    if (build)
+        genome(rowranges) <- buildno
+    SummarizedExperiment::SummarizedExperiment(assays = x,
+        rowRanges = rowranges)
+}
+
 .getMixedData <- function(x, name.field) {
     samplesAsCols <- .samplesAsCols(x)
     if (!any(samplesAsCols)) { return(.biocExtract(x)) }

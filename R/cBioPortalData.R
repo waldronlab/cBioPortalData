@@ -15,7 +15,10 @@
             genePanelId = genePanelId, studyId = studyId,
             molecularProfileId = molprof, sampleListId = sampleListId,
             check = check)
-        .getMixedData(moldata, by)
+        if (grepl("mutation", molprof, ignore.case = TRUE))
+            .getMutationData(moldata, by)
+        else
+            .getMixedData(moldata, by)
     })
     as(Filter(length, expers), "List")
 }
