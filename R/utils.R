@@ -40,9 +40,17 @@ utils::globalVariables("element")
         rowRanges = rowranges)
 }
 
+.getcbiodata <- function(x, name.field) {
+    rowscol <- match(name.field, names(x))
+    rnames <- x[[rowscol]]
+    x <- as.matrix(x[, -rowscol])
+    rownames(x) <- rnames
+    SummarizedExperiment::SummarizedExperiment(x)
+}
+
 .getMixedData <- function(x, name.field) {
     samplesAsCols <- .samplesAsCols(x)
-    if (!any(samplesAsCols)) { return(.biocExtract(x)) }
+    if (!any(samplesAsCols)) { return(.getcbiodata(x, name.field)) }
 
     annote <- x[, !samplesAsCols]
     hasRanged <- RTCGAToolbox:::.hasRangeNames(annote)
