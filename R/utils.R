@@ -62,7 +62,7 @@ utils::globalVariables("element")
             genome(rowranges) <- isbuild
         }
     }
-            
+
     x <- as.matrix(x[, samplesAsCols])
 
     if (!is.null(name.field)) {
@@ -211,35 +211,38 @@ endpoint_map <- data.frame(
     idlist <- strsplit(longid, filler)
     lens <- unique(lengths(idlist))
     if (length(lens) > 1)
-        warning("Inconsistent sample codes (e.g., ", longid[1], ")")
+        warning("Inconsistent sample codes:\n",
+            paste(Biobase::selectSome(longid), collapse = "\n"),
+        call. = FALSE)
 
-    poss <- seq_len(lens)
+    poss <- seq_len(max(lens))[-1]
 
-    recomb <- function(x, range, filler)
-        paste0(x[range], collapse = filler)
-
-    validPOS <- vapply(poss,
-        function(stoppage) {
-            first <- vapply(idlist,
-                function(x) recomb(x, seq_len(stoppage), filler),
-                character(1L)
+    posMAT <- lapply(setNames(poss, poss),
+        function(endindx) {
+            recomb <- vapply(idlist, function(splitid) {
+                paste0(splitid[seq_len(endindx)], collapse = filler)
+                }, character(1L)
             )
-            if (identical(unique(nchar(first)), unique(first)))
-                return(FALSE)
-            all(shortid %in% first)
-        }, logical(1L)
+            recomb %in% shortid
+        }
     )
 
-    if (sum(validPOS) != 1L)
-        stop("Could not determine valid ID position cut-off")
+    hitmat <- do.call(cbind, posMAT)
+    ends <- apply(hitmat, 1L, which.max) + 1L
 
-    nrange <- seq_len(which(validPOS))
     args <- as.pairlist(alist(id =))
-    body <- substitute({
-        vapply(strsplit(id, g),
-            function(x) paste0(x[z], collapse = g), character(1L)
-        )
-    }, list(g = filler, z = nrange))
+    if (identical(length(unique(ends)), 1L))
+        body <- substitute({
+            vapply(strsplit(id, g),
+                function(x) paste0(x[z], collapse = g), character(1L)
+            )
+        }, list(g = filler, z = seq_len(ends)))
+    else
+        body <- substitute({
+            mapply(function(x, y) paste0(x[seq_len(y)], collapse = g),
+                strsplit(id, g), z)
+        }, list(g = filler, z = ends))
+
     eval(call("function", args, body))
 }
 
