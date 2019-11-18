@@ -15,6 +15,9 @@
             genePanelId = genePanelId, studyId = studyId,
             molecularProfileId = molprof, sampleListId = sampleListId,
             check = check)
+        if (!length(moldata))
+            return(moldata)
+
         if (grepl("mutation", molprof, ignore.case = TRUE))
             .getMutationData(moldata, by)
         else
@@ -102,6 +105,8 @@ cBioPortalData <-
     clin <- do.call(clinicalData, clinargs)
     clin <- as.data.frame(clin)
     rownames(clin) <- clin[["patientId"]]
+
+    if (!isEmpty(explist)) {
     if (all(startsWith(rownames(clin), "TCGA")))
         idConvert <- TCGAutils::TCGAbarcode
 
@@ -110,12 +115,12 @@ cBioPortalData <-
             colData = clin, idConverter = idConvert)
     }, silent = TRUE)
 
-    if (is(sampmap, "try-error"))
+    if (is(sampmap, "try-error") && !isEmpty(explist))
         idConvert <- .generateIdConvert(
             unlist(colnames(explist), use.names = FALSE),
             rownames(clin)
         )
-
+    }
     sampmap <- TCGAutils::generateMap(experiments = explist,
         colData = clin, idConverter = idConvert)
 

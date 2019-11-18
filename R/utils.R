@@ -50,6 +50,7 @@ utils::globalVariables("element")
 
 .getMixedData <- function(x, name.field) {
     samplesAsCols <- .samplesAsCols(x)
+    if (!length(x)) { return(x) }
     if (!any(samplesAsCols)) { return(.getcbiodata(x, name.field)) }
 
     annote <- x[, !samplesAsCols]
