@@ -1,4 +1,5 @@
 library(cBioPortalData)
+library(BiocFileCache)
 
 cbioportal <- cBioPortal()
 
@@ -7,10 +8,10 @@ cbioportal <- cBioPortal()
 gps <- genePanels(cbioportal)[["genePanelId"]]
 
 set.seed(100)
-(tests <- sample(studies, 10))
+(tests <- sample(studies, 200))
 
 cblist <- vector("list", length(tests))
-debugonce(cBioPortalData)
+names(cblist) <- tests
 
 for (stud in tests) {
     cblist[[stud]] <- tryCatch({
@@ -21,15 +22,19 @@ for (stud in tests) {
     })
 }
 
+save(cblist, file = "maelistfromcbio.rda")
+load("maelistfromcbio.rda")
 
-# save(studs, file = "liststudies.rda")
-#
-# (sum(sapply(studs, is, "try-error")) / length(studs)) * 100
-#
-# Filter(function(x) !is.null(x), lapply(studs, function(mae) {
-#     if (is(mae, "MultiAssayExperiment")) {
-#         list(length(mae), colnames(mae))
-#     } else NULL
-# }))
-#
-# "nccrcc_genentech_2014"
+chars <- vapply(cblist, is.character, logical(1L))
+cblist[chars]
+
+successrate <- (1 - length(cblist[chars]) / length(cblist) )* 100
+## 62%
+
+
+devtools::load_all()
+debugonce(cBioPortalData)
+debugonce(.portalExperiments)
+debugonce(getDataByGenePanel)
+debugonce(cBioPortalData:::.generateIdConvert)
+
