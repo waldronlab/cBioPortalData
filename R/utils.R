@@ -216,7 +216,7 @@ endpoint_map <- data.frame(
             paste(Biobase::selectSome(longid), collapse = "\n"),
         call. = FALSE)
 
-    poss <- seq_len(max(lens))[-1]
+    poss <- seq_len(max(lens))
 
     posMAT <- lapply(setNames(poss, poss),
         function(endindx) {
@@ -229,7 +229,7 @@ endpoint_map <- data.frame(
     )
 
     hitmat <- do.call(cbind, posMAT)
-    ends <- apply(hitmat, 1L, which.max) + 1L
+    ends <- apply(hitmat, 1L, which.max)
 
     args <- as.pairlist(alist(id =))
     if (identical(length(unique(ends)), 1L))
@@ -237,7 +237,7 @@ endpoint_map <- data.frame(
             vapply(strsplit(id, g),
                 function(x) paste0(x[z], collapse = g), character(1L)
             )
-        }, list(g = filler, z = seq_len(ends)))
+        }, list(g = filler, z = seq_len(unique(ends))))
     else
         body <- substitute({
             mapply(function(x, y) paste0(x[seq_len(y)], collapse = g),
