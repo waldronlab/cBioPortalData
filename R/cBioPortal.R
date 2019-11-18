@@ -228,8 +228,12 @@ molecularSlice <- function(api, molecularProfileId = NA_character_,
         entrezGeneIds = sort(entrezGeneIds),
         sampleIds = sort(sampleIds)
     )
-    if ("message" %in% names(byGene)) {
-        warning(byGene[["message"]])
+    if ("message" %in% names(byGene) || !length(byGene)) {
+        msg <- byGene[["message"]]
+        if (length(msg))
+            warning(msg)
+        else
+            warning("No data found for molecularProfileId: ", molecularProfileId)
         dplyr::tibble()
     } else {
         colsoi <- colsOI[colsOI %in% names(byGene)]
