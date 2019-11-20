@@ -208,6 +208,8 @@ endpoint_map <- data.frame(
 
 .generateIdConvert <- function(longid, shortid) {
     filler <- TCGAutils:::.uniqueDelim(longid)
+    if (!nchar(filler))
+        stop("No clear delimiter in sample identifiers")
 
     idlist <- strsplit(longid, filler)
     lens <- unique(lengths(idlist))
@@ -229,7 +231,7 @@ endpoint_map <- data.frame(
     )
 
     hitmat <- do.call(cbind, posMAT)
-    ends <- apply(hitmat, 1L, which.max)
+    ends <- apply(hitmat, 1L, sum)
 
     args <- as.pairlist(alist(id =))
     if (identical(length(unique(ends)), 1L))
