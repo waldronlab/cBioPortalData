@@ -25,11 +25,19 @@ getStudies(api)
 
 clinicalData(api, studyId = NA_character_)
 
-molecularProfiles(api, studyId = NA_character_,
-  projection = c("SUMMARY", "ID", "DETAILED", "META"))
+molecularProfiles(
+  api,
+  studyId = NA_character_,
+  projection = c("SUMMARY", "ID", "DETAILED", "META")
+)
 
-molecularSlice(api, molecularProfileId = NA_character_,
-  entrezGeneIds = NULL, sampleIds = NULL, check = TRUE)
+molecularSlice(
+  api,
+  molecularProfileId = NA_character_,
+  entrezGeneIds = NULL,
+  sampleIds = NULL,
+  check = TRUE
+)
 
 searchOps(api, keyword)
 
@@ -45,19 +53,31 @@ genePanels(api)
 
 getGenePanel(api, genePanelId = NA_character_)
 
-genePanelMolecular(api, molecularProfileId = NA_character_,
-  sampleListId = NULL, sampleIds = NULL)
+genePanelMolecular(
+  api,
+  molecularProfileId = NA_character_,
+  sampleListId = NULL,
+  sampleIds = NULL
+)
 
-getGenePanelMolecular(api, molecularProfileIds = NA_character_,
-  sampleIds)
+getGenePanelMolecular(api, molecularProfileIds = NA_character_, sampleIds)
 
-getSampleInfo(api, studyId = NA_character_, sampleListIds = NULL,
-  projection = c("SUMMARY", "ID", "DETAILED", "META"))
+getSampleInfo(
+  api,
+  studyId = NA_character_,
+  sampleListIds = NULL,
+  projection = c("SUMMARY", "ID", "DETAILED", "META")
+)
 
-getDataByGenePanel(api, studyId = NA_character_,
-  genePanelId = NA_character_, by = c("entrezGeneId",
-  "hugoGeneSymbol"), molecularProfileId = NULL, sampleListId = NULL,
-  check = TRUE)
+getDataByGenePanel(
+  api,
+  studyId = NA_character_,
+  genePanelId = NA_character_,
+  by = c("entrezGeneId", "hugoGeneSymbol"),
+  molecularProfileId = NULL,
+  sampleListId = NULL,
+  check = TRUE
+)
 }
 \arguments{
 \item{api}{An API object of class `cBioPortal` from the `cBioPortal`

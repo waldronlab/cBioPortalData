@@ -1,6 +1,6 @@
 Package: cBioPortalData
 Title: Exposes and makes available data from the cBioPortal web resources
-Version: 0.99.71
+Version: 0.99.72
 Authors@R: c(person("Levi", "Waldron", email = "lwaldron.research@gmail.com",
     role = "aut"),
     person("Marcel", "Ramos", email = "marcel.ramos@roswellpark.org",
@@ -42,7 +42,7 @@ Encoding: UTF-8
 LazyData: true
 VignetteBuilder: knitr
 BugReports: https://github.com/waldronlab/cBioPortalData/issues
-RoxygenNote: 6.1.1
+RoxygenNote: 7.0.2
 Collate: 
     'utils.R'
     'cBioDataPack.R'

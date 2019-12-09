@@ -5,9 +5,12 @@
 \title{Obtain pre-packaged data from cBioPortal and represent as
 a MultiAssayExperiment object}
 \usage{
-cBioDataPack(cancer_study_id, use_cache = TRUE,
+cBioDataPack(
+  cancer_study_id,
+  use_cache = TRUE,
   split.field = c("Tumor_Sample_Barcode", "ID"),
-  names.field = c("Hugo_Symbol", "Entrez_Gene_Id", "Gene"))
+  names.field = c("Hugo_Symbol", "Entrez_Gene_Id", "Gene")
+)
 }
 \arguments{
 \item{cancer_study_id}{The cBioPortal study identifier as in
