@@ -296,7 +296,7 @@ samplesInSampleLists <-
     if (missing(api))
         stop("Provide a valid 'api' from 'cBioPortal()'")
     validSLI <- .checkIdValidity(api, element = sampleListIds,
-        ename = "sampleListIds", use_cache = TRUE, check = check)
+        ename = "sampleListId", use_cache = TRUE, check = check)
     if (!validSLI)
         stop("Provide valid 'sampleListIds' from 'sampleLists()'")
 
