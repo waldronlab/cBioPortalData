@@ -28,9 +28,9 @@
 #'
 #' data(studiesTable)
 #'
-#' (laml <- studiesTable[["cancer_study_id"]][3L])
+#' head(studiesTable[["cancer_study_id"]])
 #'
-#' mae <- cBioDataPack(laml)
+#' mae <- cBioDataPack("laml_tcga")
 #'
 #' @export
 cBioDataPack <- function(cancer_study_id, use_cache = TRUE,
@@ -82,15 +82,18 @@ cBioDataPack <- function(cancer_study_id, use_cache = TRUE,
         dat <- .cleanStrands(dat)
         dat <- .standardizeBuilds(dat)
 
-        name.field <- .getNameField(dat, names.field = names.field)
+        names.field <- .findValidNames(dat, names.field)
+        names.field <- .findUniqueField(dat, names.field)
+        names.field <- .findMinDupField(dat, names.field)
+
         dat <- as(dat, "DataFrame")
         if (!RTCGAToolbox:::.hasExperimentData(dat))
             return(dat)
         cexp <- xpnames[[i]]
         if (grepl("meth", cexp) || grepl("gist", cexp)) {
-            .getMixedData(dat, name.field)
+            .getMixedData(dat, names.field)
         } else {
-            .biocExtract(dat, name.field)
+            .biocExtract(dat, names.field)
         }
     }, files = exptfiles, xpnames = expnames)
 

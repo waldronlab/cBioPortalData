@@ -41,10 +41,12 @@ utils::globalVariables("element")
 }
 
 .getcbiodata <- function(x, name.field) {
-    rowscol <- match(name.field, names(x))
-    rnames <- x[[rowscol]]
-    x <- as.matrix(x[, -rowscol])
-    rownames(x) <- rnames
+    if (!is.null(name.field) || length(name.field)) {
+        rowscol <- match(name.field, names(x))
+        rnames <- x[[name.field]]
+        x <- as.matrix(x[, -rowscol])
+        rownames(x) <- rnames
+    }
     SummarizedExperiment::SummarizedExperiment(x)
 }
 
@@ -53,7 +55,7 @@ utils::globalVariables("element")
     if (!length(x)) { return(x) }
     if (!any(samplesAsCols)) { return(.getcbiodata(x, name.field)) }
 
-    annote <- x[, !samplesAsCols]
+    annote <- x[, !samplesAsCols, drop = FALSE]
     hasRanged <- RTCGAToolbox:::.hasRangeNames(annote)
     if (hasRanged) {
         rowranges <- RTCGAToolbox:::.makeGRangesFromDataFrame(annote)
@@ -67,11 +69,18 @@ utils::globalVariables("element")
     x <- as.matrix(x[, samplesAsCols])
 
     if (!is.null(name.field)) {
-        rownames(x) <- annote[[name.field]]
+        rnames <- annote[[name.field]]
+        nas <- is.na(rnames)
+        ## remove NA values from both
+        x <- x[!nas, ]
+        annote <- annote[!nas, ]
+        rownames(x) <- rnames[!nas]
+        rownames(annote) <- rnames[!nas]
     }
 
     x <- RTCGAToolbox:::.standardizeBC(x)
-    SummarizedExperiment::SummarizedExperiment(assays = SimpleList(x),
+    SummarizedExperiment::SummarizedExperiment(
+        assays = SimpleList(x),
         if (hasRanged) rowRanges = rowranges else rowData = annote
     )
 }
@@ -115,15 +124,8 @@ utils::globalVariables("element")
     return(x)
 }
 
-
-.nonuniquesymbols <- function(vect) {
-    if (is.null(vect))
-        return(FALSE)
-    as.logical(anyDuplicated(vect))
-}
-
 # vectorized version of finding name fields
-.findNameFields <- function(x, names.field) {
+.findValidNames <- function(x, names.field) {
     names.results <- Filter(length, lapply(names.field, function(nf)
         RTCGAToolbox:::.findCol(x, nf)))
     name.fields <- unlist(names.results, use.names = FALSE)
@@ -134,16 +136,39 @@ utils::globalVariables("element")
 
 # Get the column name of the name field that has unique identifiers at every
 # row
-.getNameField <- function(x, names.field) {
-    names.fields <- .findNameFields(x, names.field = names.field)
-    vnames <- vapply(names.fields, function(ids) {
-            !.nonuniquesymbols(x[[ids]])
-        }, logical(1L))
-    rname <- which(vnames)
-    if (length(rname)) {
-        return(names.fields[rname[[1L]]])
+.findUniqueField <- function(x, names.fields) {
+    if (length(names.fields) > 1L) {
+        vnames <- vapply(names.fields, function(id) {
+            if (is.null(x[[id]]))
+                NULL
+            else
+                as.logical(anyDuplicated(x[[id]]))
+            }, logical(1L))
+        if (!length(vnames))
+            NULL
+        else
+            names(vnames)[which(vnames)]
+    } else {
+        names.fields
     }
-    NULL
+}
+
+.findMinDupField <- function(x, names.fields) {
+    if (length(names.fields) > 1L) {
+        dupsum <- vapply(names.fields, function(id) {
+            if (is.null(x[[id]]))
+                Inf
+            else
+                sum(duplicated(x[[id]]))
+        }, numeric(1L))
+        vmin <- min(dupsum)
+        if (all(is.infinite(vmin)))
+            NULL
+        else # take first when same number of duplicates
+            names.fields[dupsum == vmin][[1L]]
+    } else {
+        names.fields
+    }
 }
 
 .samplesAsCols <- function(x) {

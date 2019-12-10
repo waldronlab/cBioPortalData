@@ -46,9 +46,9 @@ datasets
 
 data(studiesTable)
 
-(laml <- studiesTable[["cancer_study_id"]][3L])
+head(studiesTable[["cancer_study_id"]])
 
-mae <- cBioDataPack(laml)
+mae <- cBioDataPack("laml_tcga")
 
 }
 \seealso{
