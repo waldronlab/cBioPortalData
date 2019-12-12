@@ -50,6 +50,10 @@ utils::globalVariables("element")
     SummarizedExperiment::SummarizedExperiment(x)
 }
 
+.getGisticData <- function(x) {
+    RTCGAToolbox:::.makeGRangesFromDataFrame(x)
+}
+
 .getMixedData <- function(x, name.field) {
     samplesAsCols <- .samplesAsCols(x)
     if (!length(x)) { return(x) }
@@ -177,7 +181,7 @@ utils::globalVariables("element")
 
 .TCGAcols <- function(df) {
     apply(df, 2L, function(col) {
-        all(startsWith(col, "TCGA"))
+        all(grepl("^TCGA", col, ignore.case = TRUE))
     })
 }
 

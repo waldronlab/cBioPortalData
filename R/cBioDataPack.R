@@ -57,7 +57,7 @@ cBioDataPack <- function(cancer_study_id, use_cache = TRUE,
         extras = exarg)
 
     exptfiles <- file.path(worktemp,
-        grep("clinical|study|LICENSE|fusion", datafiles, invert = TRUE,
+        grep("clinical|study|LICENSE|fusion|gistic", datafiles, invert = TRUE,
             value = TRUE))
     clinicalfiles <- file.path(worktemp,
         grep("clinical", datafiles, value = TRUE))
@@ -66,6 +66,8 @@ cBioDataPack <- function(cancer_study_id, use_cache = TRUE,
     licensefile <- file.path(worktemp,
         grep("/LICENSE", datafiles, value = TRUE))
     fusionExtra <- file.path(worktemp, grep("fusion", datafiles,
+        value = TRUE, ignore.case = TRUE))
+    gisticExtra <- file.path(worktemp, grep("gistic", datafiles,
         value = TRUE, ignore.case = TRUE))
 
     expnames <- sub(".*data_", "", sub("\\.txt", "", basename(exptfiles)))
@@ -90,7 +92,7 @@ cBioDataPack <- function(cancer_study_id, use_cache = TRUE,
         if (!RTCGAToolbox:::.hasExperimentData(dat))
             return(dat)
         cexp <- xpnames[[i]]
-        if (grepl("meth", cexp) || grepl("gist", cexp)) {
+        if (grepl("meth", cexp)) {
             .getMixedData(dat, names.field)
         } else {
             .biocExtract(dat, names.field)
@@ -132,8 +134,16 @@ cBioDataPack <- function(cancer_study_id, use_cache = TRUE,
         fudat <- readr::read_tsv(fusionExtra, comment = "#")
     else
         fudat <- list()
+    
+    if (length(gisticExtra))
+        gist <- lapply(gisticExtra, function(x) {
+            gfile <- readr::read_tsv(x, comment = "#")
+            .getGisticData(gfile)
+        })
+    else
+        gist <- list()
 
-    mdat <- c(mdat, metadats, fudat)
+    mdat <- c(mdat, metadats, fudat, gist)
     exptlist <- MultiAssayExperiment::ExperimentList(exptlist)
 
     if (any(.TCGAcols(coldata))) {
