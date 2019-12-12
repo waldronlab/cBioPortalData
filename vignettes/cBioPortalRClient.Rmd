@@ -14,12 +14,10 @@ output:
 ---
 # Installation
 
-```{r, echo=FALSE, warning=FALSE}
-suppressPackageStartupMessages({
-    library(cBioPortalData)
-    library(AnVIL)
-    library(rapiclient)
-})
+```{r,include=TRUE,results="hide",message=FALSE,warning=FALSE}
+library(cBioPortalData)
+library(AnVIL)
+library(rapiclient)
 ```
 
 ## GitHub Packages

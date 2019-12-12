@@ -1,0 +1,49 @@
+---
+title: "cBioPortalData: User Start Guide"
+author: "Marcel Ramos"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+vignette: >
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteIndexEntry{cBioPortal Quick-start Guide}
+  %\VignetteEncoding{UTF-8}
+output:
+  BiocStyle::html_document:
+    number_sections: no
+    toc: yes
+    toc_depth: 4
+---
+
+# Installation
+
+```{r,include=TRUE,results="hide",message=FALSE,warning=FALSE}
+library(cBioPortalData)
+library(AnVIL)
+library(rapiclient)
+```
+
+## Two main interfaces
+
+### cBioDataPack: Obtain Study Data as Zipped Tarballs
+
+This function will access the packaged data from \url{cBioPortal.org/datasets}
+and return an integrative MultiAssayExperiment representation.
+
+```{r}
+cBioDataPack("laml_tcga")
+```
+
+### cBioPortalData: Obtain data from the cBioPortal API
+
+This function provides a more flexible and granular way to request a
+MultiAssayExperiment object from a study ID, molecular profile, gene panel,
+sample list. 
+
+```{r}
+cbio <- cBioPortal()
+acc <- cBioPortalData(api = cbio, by = "hugoGeneSymbol", studyId = "acc_tcga",
+    genePanelId = "IMPACT341",
+    molecularProfileIds = c("acc_tcga_rppa", "acc_tcga_linear_CNA")
+)
+acc
+```
+
