@@ -222,7 +222,7 @@ endpoint_map <- data.frame(
 
 .checkIdValidity <- function(api, element, ename = c("studyId", "genePanelId",
         "molecularProfileId", "sampleListId"), use_cache = TRUE, ...) {
-    if (is.na(element)) return(FALSE)
+    if (all(is.na(element))) return(FALSE)
     ename <- match.arg(ename)
     args <- .barg(ename)
     args <- eval(args)
