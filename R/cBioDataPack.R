@@ -28,9 +28,9 @@
 #'
 #' data(studiesTable)
 #'
-#' (laml <- studiesTable[["cancer_study_id"]][3L])
+#' head(studiesTable[["cancer_study_id"]])
 #'
-#' mae <- cBioDataPack(laml)
+#' mae <- cBioDataPack("laml_tcga")
 #'
 #' @export
 cBioDataPack <- function(cancer_study_id, use_cache = TRUE,
@@ -57,7 +57,7 @@ cBioDataPack <- function(cancer_study_id, use_cache = TRUE,
         extras = exarg)
 
     exptfiles <- file.path(worktemp,
-        grep("clinical|study|LICENSE|fusion", datafiles, invert = TRUE,
+        grep("clinical|study|LICENSE|fusion|gistic", datafiles, invert = TRUE,
             value = TRUE))
     clinicalfiles <- file.path(worktemp,
         grep("clinical", datafiles, value = TRUE))
@@ -66,6 +66,8 @@ cBioDataPack <- function(cancer_study_id, use_cache = TRUE,
     licensefile <- file.path(worktemp,
         grep("/LICENSE", datafiles, value = TRUE))
     fusionExtra <- file.path(worktemp, grep("fusion", datafiles,
+        value = TRUE, ignore.case = TRUE))
+    gisticExtra <- file.path(worktemp, grep("gistic", datafiles,
         value = TRUE, ignore.case = TRUE))
 
     expnames <- sub(".*data_", "", sub("\\.txt", "", basename(exptfiles)))
@@ -82,15 +84,18 @@ cBioDataPack <- function(cancer_study_id, use_cache = TRUE,
         dat <- .cleanStrands(dat)
         dat <- .standardizeBuilds(dat)
 
-        name.field <- .getNameField(dat, names.field = names.field)
+        names.field <- .findValidNames(dat, names.field)
+        names.field <- .findUniqueField(dat, names.field)
+        names.field <- .findMinDupField(dat, names.field)
+
         dat <- as(dat, "DataFrame")
         if (!RTCGAToolbox:::.hasExperimentData(dat))
             return(dat)
         cexp <- xpnames[[i]]
-        if (grepl("meth", cexp) || grepl("gist", cexp)) {
-            .getMixedData(dat, name.field)
+        if (grepl("meth", cexp)) {
+            .getMixedData(dat, names.field)
         } else {
-            .biocExtract(dat, name.field)
+            .biocExtract(dat, names.field)
         }
     }, files = exptfiles, xpnames = expnames)
 
@@ -129,8 +134,16 @@ cBioDataPack <- function(cancer_study_id, use_cache = TRUE,
         fudat <- readr::read_tsv(fusionExtra, comment = "#")
     else
         fudat <- list()
+    
+    if (length(gisticExtra))
+        gist <- lapply(gisticExtra, function(x) {
+            gfile <- readr::read_tsv(x, comment = "#")
+            .getGisticData(gfile)
+        })
+    else
+        gist <- list()
 
-    mdat <- c(mdat, metadats, fudat)
+    mdat <- c(mdat, metadats, fudat, gist)
     exptlist <- MultiAssayExperiment::ExperimentList(exptlist)
 
     if (any(.TCGAcols(coldata))) {
