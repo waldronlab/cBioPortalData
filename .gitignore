@@ -5,3 +5,4 @@
 *.Rproj
 .httr-oauth
 */rsconnect
+vignettes/*_cache

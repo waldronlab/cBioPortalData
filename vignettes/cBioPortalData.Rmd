@@ -13,6 +13,10 @@ output:
     toc_depth: 4
 ---
 
+```{r, setup, include=FALSE}
+knitr::opts_chunk$set(cache = TRUE)
+```
+
 # Installation
 
 ```{r,include=TRUE,results="hide",message=FALSE,warning=FALSE}
@@ -28,7 +32,7 @@ library(rapiclient)
 This function will access the packaged data from \url{cBioPortal.org/datasets}
 and return an integrative MultiAssayExperiment representation.
 
-```{r}
+```{r,message=FALSE,warning=FALSE}
 cBioDataPack("laml_tcga")
 ```
 
@@ -38,7 +42,7 @@ This function provides a more flexible and granular way to request a
 MultiAssayExperiment object from a study ID, molecular profile, gene panel,
 sample list. 
 
-```{r}
+```{r,warning=FALSE}
 cbio <- cBioPortal()
 acc <- cBioPortalData(api = cbio, by = "hugoGeneSymbol", studyId = "acc_tcga",
     genePanelId = "IMPACT341",

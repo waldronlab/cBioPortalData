@@ -454,11 +454,12 @@ getGenePanelMolecular <-
         molecularProfileId = sort(molecularProfileIds),
         sampleId = sort(sampleIds)
     )
+    SampMolIds <- SampMolIds[order(SampMolIds[["molecularProfileId"]]), ]
+
     .invoke_bind(api,
         "fetchGenePanelDataInMultipleMolecularProfilesUsingPOST",
         TRUE,
-        sampleMolecularIdentifiers =
-            list(sampleMolecularIdentifiers = SampMolIds)
+        sampleMolecularIdentifiers = SampMolIds
     )
 }
 

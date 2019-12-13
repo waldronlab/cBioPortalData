@@ -1,5 +1,5 @@
 ---
-title: "cBioPortalData: Quick Start Guide"
+title: "cBioPortalData: API Reference Guide"
 author: "Marcel Ramos & Levi Waldron"
 date: "`r format(Sys.time(), '%B %d, %Y')`"
 vignette: >
@@ -12,6 +12,11 @@ output:
     toc: yes
     toc_depth: 4
 ---
+
+```{r, setup, include=FALSE}
+knitr::opts_chunk$set(cache = TRUE)
+```
+
 # Installation
 
 ```{r,include=TRUE,results="hide",message=FALSE,warning=FALSE}
@@ -55,6 +60,12 @@ tags(cbio)
 head(tags(cbio)$operation)
 ```
 
+### Searching through the API
+
+```{r}
+searchOps(cbio, "clinical")
+```
+
 ## Studies
 
 Get the list of studies available:
@@ -93,7 +104,9 @@ molecularSlice(cbio, molecularProfileId = "acc_tcga_rna_seq_v2_mrna",
 )
 ```
 
-## All available genes
+## Genes
+
+### All available genes
 
 A list of all the genes provided by the API service including hugo symbols,
 and entrez gene IDs can be obtained by using the `geneTable` function:
@@ -101,6 +114,40 @@ and entrez gene IDs can be obtained by using the `geneTable` function:
 ```{r}
 geneTable(cbio)
 ```
+
+### Gene Panels
+
+```{r}
+genePanels(cbio)
+getGenePanel(cbio, "IMPACT341")
+```
+
+## Molecular Gene Panels
+
+### genePanelMolecular
+
+```{r}
+gprppa <- genePanelMolecular(cbio,
+    molecularProfileId = "acc_tcga_rppa",
+    sampleListId = "acc_tcga_all")
+gprppa
+```
+
+### getGenePanelMolecular
+
+```{r}
+getGenePanelMolecular(cbio,
+    molecularProfileIds = c("acc_tcga_rppa", "acc_tcga_gistic"), sampleIds = allSamples(cbio, "acc_tcga")$sampleId)
+```
+
+### getDataByGenePanel
+
+```{r}
+getDataByGenePanel(cbio, "acc_tcga", genePanelId = "IMPACT341",
+    molecularProfileId = "acc_tcga_rppa", by = "entrezGeneId",
+    sampleListId = "acc_tcga_rppa")
+```
+
 
 It uses the `getAllGenesUsingGET` function from the API.
 
@@ -130,6 +177,19 @@ identifier input:
 
 ```{r}
 samplesInSampleLists(cbio, c("acc_tcga_cna", "acc_tcga_cnaseq"))
+```
+
+### All samples within a study ID
+
+```{r}
+allSamples(cbio, "acc_tcga")
+```
+
+### Info on Samples
+
+```{r}
+getSampleInfo(cbio, studyId = "acc_tcga",
+    sampleListIds = c("acc_tcga_rppa", "acc_tcga_gistic"))
 ```
 
 # sessionInfo
