@@ -46,6 +46,18 @@ eval.args <- function(args) {
     args
 }
 
+.buildMap <- function(api, studyid, elist) {
+    samptable <- allSamples(api, studyid)[, c("patientId", "sampleId")]
+    cnames <- colnames(elist)
+    smap <- lapply(cnames, function(cnms) {
+        samptable[samptable[["sampleId"]] %in% cnms, ]
+    })
+    nmap <- cbind(rep(names(cnames), vapply(smap, nrow, integer(1L))),
+        dplyr::bind_rows(smap))
+    names(nmap) <- c("assay", "primary", "colname")
+    nmap
+}
+
 #' Download data from the cBioPortal API
 #'
 #' Obtain a `MultiAssayExperiment` object for a particular gene panel,
@@ -54,10 +66,6 @@ eval.args <- function(args) {
 #' data.
 #'
 #' @inheritParams cBioPortal
-#'
-#' @param idConvert function(default: `identity()`) A function to process
-#'     identifiers for matching patients to samples. It catches TCGA samples
-#'     automatically and uses `TCGAutils::TCGAbarcode` instead.
 #'
 #' @examples
 #'
@@ -74,8 +82,7 @@ cBioPortalData <-
         genePanelId = NA_character_,
         molecularProfileIds = NULL,
         sampleListId = NULL,
-        by = c("entrezGeneId", "hugoGeneSymbol"),
-        idConvert = identity
+        by = c("entrezGeneId", "hugoGeneSymbol")
     )
 {
     if (missing(api))
@@ -106,23 +113,11 @@ cBioPortalData <-
     clin <- as.data.frame(clin)
     rownames(clin) <- clin[["patientId"]]
 
-    if (!isEmpty(explist)) {
-    if (all(startsWith(rownames(clin), "TCGA")))
-        idConvert <- TCGAutils::TCGAbarcode
-
-    sampmap <- try({
-        TCGAutils::generateMap(experiments = explist,
+    if (!isEmpty(explist))
+        sampmap <- .buildMap(cbio, studyId, explist)
+    else
+        sampmap <- TCGAutils::generateMap(experiments = explist,
             colData = clin, idConverter = idConvert)
-    }, silent = TRUE)
-
-    if (is(sampmap, "try-error") && !isEmpty(explist))
-        idConvert <- .generateIdConvert(
-            unlist(colnames(explist), use.names = FALSE),
-            rownames(clin)
-        )
-    }
-    sampmap <- TCGAutils::generateMap(experiments = explist,
-        colData = clin, idConverter = idConvert)
 
     MultiAssayExperiment(explist, clin, sampmap)
 }

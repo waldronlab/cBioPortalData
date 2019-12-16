@@ -21,6 +21,8 @@ utils::globalVariables(c("clinicalAttributeId", "value", "sampleId"))
 
 #' @rdname cBioPortal
 #'
+#' @aliases cBioPortal
+#' 
 #' @title The R interface to the cBioPortal API Data Service
 #'
 #' @description This function gives users access to the cBioPortal data with an
@@ -167,8 +169,6 @@ clinicalData <- function(api, studyId = NA_character_) {
 #'
 #' @param projection character(default: "SUMMARY") Specify the projection
 #'   type for data retrieval for details see API documentation
-#'
-#' @inheritParams cBioPortal
 #'
 #' @export
 molecularProfiles <- function(api, studyId = NA_character_,

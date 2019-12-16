@@ -10,8 +10,7 @@ cBioPortalData(
   genePanelId = NA_character_,
   molecularProfileIds = NULL,
   sampleListId = NULL,
-  by = c("entrezGeneId", "hugoGeneSymbol"),
-  idConvert = identity
+  by = c("entrezGeneId", "hugoGeneSymbol")
 )
 }
 \arguments{
@@ -31,10 +30,6 @@ from the `genePanels` function}
 
 \item{by}{character(1) Either 'entrezGeneId' or 'hugoGeneSymbol' for row
 metadata}
-
-\item{idConvert}{function(default: `identity()`) A function to process
-identifiers for matching patients to samples. It catches TCGA samples
-automatically and uses `TCGAutils::TCGAbarcode` instead.}
 }
 \description{
 Obtain a `MultiAssayExperiment` object for a particular gene panel,

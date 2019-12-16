@@ -235,49 +235,6 @@ endpoint_map <- data.frame(
         endpoint = ord[["how"]], colname = ename, use_cache = use_cache, args)
 }
 
-.generateIdConvert <- function(longid, shortid) {
-    filler <- TCGAutils:::.uniqueDelim(longid)
-    if (!nchar(filler))
-        stop("No clear delimiter in sample identifiers")
-
-    idlist <- strsplit(longid, filler)
-    lens <- unique(lengths(idlist))
-    if (length(lens) > 1)
-        warning("Inconsistent sample codes:\n",
-            paste(Biobase::selectSome(longid), collapse = "\n"),
-        call. = FALSE)
-
-    poss <- seq_len(max(lens))
-
-    posMAT <- lapply(setNames(poss, poss),
-        function(endindx) {
-            recomb <- vapply(idlist, function(splitid) {
-                paste0(splitid[seq_len(endindx)], collapse = filler)
-                }, character(1L)
-            )
-            recomb %in% shortid
-        }
-    )
-
-    hitmat <- do.call(cbind, posMAT)
-    ends <- apply(hitmat, 1L, sum)
-
-    args <- as.pairlist(alist(id =))
-    if (identical(length(unique(ends)), 1L))
-        body <- substitute({
-            vapply(strsplit(id, g),
-                function(x) paste0(x[z], collapse = g), character(1L)
-            )
-        }, list(g = filler, z = seq_len(unique(ends))))
-    else
-        body <- substitute({
-            mapply(function(x, y) paste0(x[seq_len(y)], collapse = g),
-                strsplit(id, g), z)
-        }, list(g = filler, z = ends))
-
-    eval(call("function", args, body))
-}
-
 .invoke_fun <- function(api, name, use_cache = FALSE, ...) {
     if (!is(api, "cBioPortal"))
         stop("Provide a 'cBioPortal' class API object")
