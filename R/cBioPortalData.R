@@ -114,7 +114,7 @@ cBioPortalData <-
     rownames(clin) <- clin[["patientId"]]
 
     if (!isEmpty(explist))
-        sampmap <- .buildMap(cbio, studyId, explist)
+        sampmap <- .buildMap(api, studyId, explist)
     else
         sampmap <- TCGAutils::generateMap(experiments = explist,
             colData = clin, idConverter = idConvert)
