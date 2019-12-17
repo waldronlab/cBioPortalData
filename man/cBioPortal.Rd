@@ -5,7 +5,7 @@
 \alias{getStudies}
 \alias{clinicalData}
 \alias{molecularProfiles}
-\alias{molecularSlice}
+\alias{molecularData}
 \alias{searchOps}
 \alias{geneTable}
 \alias{samplesInSampleLists}
@@ -31,7 +31,7 @@ molecularProfiles(
   projection = c("SUMMARY", "ID", "DETAILED", "META")
 )
 
-molecularSlice(
+molecularData(
   api,
   molecularProfileId = NA_character_,
   entrezGeneIds = NULL,
@@ -160,7 +160,7 @@ This function gives users access to the cBioPortal data with an
      study identifier ('studyId')
 
 
-    * molecularSlice - Produce a dataset of molecular profile data based on
+    * molecularData - Produce a dataset of molecular profile data based on
     `molecularProfileId`, `entrezGeneIds`, and `sampleIds`
 }
 
@@ -202,7 +202,7 @@ clinicalData(api = cbio, studyId = "acc_tcga")
 
 molecularProfiles(api = cbio, studyId = "acc_tcga")
 
-molecularSlice(
+molecularData(
     api = cbio,
     molecularProfileId = "acc_tcga_rna_seq_v2_mrna",
     entrezGeneIds = c(1, 2),

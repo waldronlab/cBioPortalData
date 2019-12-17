@@ -67,7 +67,7 @@ utils::globalVariables(c("clinicalAttributeId", "value", "sampleId"))
 #'
 #' molecularProfiles(api = cbio, studyId = "acc_tcga")
 #'
-#' molecularSlice(
+#' molecularData(
 #'     api = cbio,
 #'     molecularProfileId = "acc_tcga_rna_seq_v2_mrna",
 #'     entrezGeneIds = c(1, 2),
@@ -193,11 +193,11 @@ molecularProfiles <- function(api, studyId = NA_character_,
 #' @name cBioPortal
 #'
 #' @section Molecular Profiles:
-#'     * molecularSlice - Produce a dataset of molecular profile data based on
+#'     * molecularData - Produce a dataset of molecular profile data based on
 #'     `molecularProfileId`, `entrezGeneIds`, and `sampleIds`
 #'
 #' @export
-molecularSlice <- function(api, molecularProfileId = NA_character_,
+molecularData <- function(api, molecularProfileId = NA_character_,
     entrezGeneIds = NULL, sampleIds = NULL, check = TRUE)
 {
     if (missing(api))
@@ -212,14 +212,8 @@ molecularSlice <- function(api, molecularProfileId = NA_character_,
         stop("Provide a character vector of 'sampleIds'")
 
     mutation <- grepl("mutation", molecularProfileId)
-    if (mutation) {
-        endpoint <- "fetchMutationsInMolecularProfileUsingPOST"
-        colsOI <- c("entrezGeneId","chr", "startPosition", "endPosition",
-            "ncbiBuild", "sampleId", "mutationType")
-    } else {
-        endpoint <- "fetchAllMolecularDataInMolecularProfileUsingPOST"
-        colsOI <- c("entrezGeneId", "sampleId", "value")
-    }
+    endpoint <- if (mutation) "fetchMutationsInMolecularProfileUsingPOST"
+        else "fetchAllMolecularDataInMolecularProfileUsingPOST"
 
     byGene <- .invoke_bind(api,
         endpoint,
@@ -228,6 +222,7 @@ molecularSlice <- function(api, molecularProfileId = NA_character_,
         entrezGeneIds = sort(entrezGeneIds),
         sampleIds = sort(sampleIds)
     )
+
     if ("message" %in% names(byGene) || !length(byGene)) {
         msg <- byGene[["message"]]
         if (length(msg))
@@ -236,11 +231,7 @@ molecularSlice <- function(api, molecularProfileId = NA_character_,
             warning("No data found for molecularProfileId: ", molecularProfileId)
         dplyr::tibble()
     } else {
-        colsoi <- colsOI[colsOI %in% names(byGene)]
-        if (mutation)
-            tidyr::spread(byGene[, colsoi], "sampleId", "mutationType")
-        else
-            tidyr::spread(byGene[, colsoi], "sampleId", "value")
+        byGene
     }
 }
 
@@ -533,7 +524,7 @@ getDataByGenePanel <-
         samples <- allSamples(api, studyId)[["sampleId"]]
 
     panel <- getGenePanel(api, genePanelId = genePanelId)
-    molecularData <- molecularSlice(api = api,
+    molecularData <- molecularData(api = api,
         molecularProfileId = molecularProfileId,
         entrezGeneIds = panel[["entrezGeneId"]],
         sampleIds = samples, check = check)

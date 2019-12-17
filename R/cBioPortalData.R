@@ -11,19 +11,58 @@
         molecularProfileIds)
 
     expers <- lapply(molecularProfileIds, function(molprof) {
-        moldata <- getDataByGenePanel(api, by = by,
+        getDataByGenePanel(api, by = by,
             genePanelId = genePanelId, studyId = studyId,
             molecularProfileId = molprof, sampleListId = sampleListId,
             check = check)
-        if (!length(moldata))
-            return(moldata)
-
-        if (grepl("mutation", molprof, ignore.case = TRUE))
-            .getMutationData(moldata, by)
-        else
-            .getMixedData(moldata, by)
     })
-    as(Filter(length, expers), "List")
+    
+    sampmap <- lapply(expers, function(x) {
+        smap <- x[, c("molecularProfileId", "patientId", "sampleId")]
+        names(smap) <- c("assay", "primary", "colname")
+        smap
+    })
+    sampleMap <- dplyr::bind_rows(sampmap)
+    
+    explist <- lapply(molecularProfileIds, function(molprof) {
+        isMut <- grepl("mutation", molprof, ignore.case = TRUE)
+        byGene <- expers[[molprof]]
+        if (isMut)
+            colsOI <- c("entrezGeneId","chr", "startPosition", "endPosition",
+                "ncbiBuild", "sampleId", "mutationType")
+        else
+            colsOI <- c("entrezGeneId", "sampleId", "value")
+        colsoi <- colsOI[colsOI %in% names(byGene)]
+        if (isMut) {
+            res <- tidyr::pivot_wider(byGene[, colsoi], names_from = "sampleId",
+                values_from = "mutationType",
+                values_fn = list(mutationType =
+                    function(x) paste0(x, collapse = ";")))
+            .getMutationData(res, by)
+        } else {
+            res <- tidyr::pivot_wider(byGene[, colsoi], names_from = "sampleId",
+                values_from = "value")
+            .getMixedData(res, by)
+        }
+    })
+    as(Filter(length, explist), "List")
+    
+    metalist <- lapply(names(expers), function(molprof) {
+        isMut <- grepl("mutation", molprof, ignore.case = TRUE)
+        byGene <- expers[[molprof]]
+        if (isMut)
+            colsOI <- c("entrezGeneId","chr", "startPosition", "endPosition",
+                "ncbiBuild", "sampleId", "mutationType")
+        else
+            colsOI <- c("entrezGeneId", "sampleId", "value")
+        byGene[, !names(byGene) %in% colsOI]
+    })
+    
+    list(
+        sampleMap = as(sampleMap, "DataFrame"),
+        experiments = explist,
+        metadata = metalist
+    )
 }
 
 std.args <- function(call, formals) {
@@ -104,20 +143,20 @@ cBioPortalData <-
     call <- std.args(match.call(), formals)
     exargs <- match.args(.portalExperiments, call, check = FALSE)
     exargs <- eval.args(exargs)
-    explist <- do.call(.portalExperiments, exargs)
+    lists <- do.call(.portalExperiments, exargs)
 
-    explist <- as(explist, "ExperimentList")
     clinargs <- match.args(clinicalData, call)
     clinargs <- eval.args(clinargs)
     clin <- do.call(clinicalData, clinargs)
     clin <- as.data.frame(clin)
     rownames(clin) <- clin[["patientId"]]
+    
+    lists[["colData"]] <- clin
+    
+    if (isEmpty(lists[["sampleMap"]]))
+        sampmap <- .buildMap(api, studyId, lists[["ExperimentList"]])
+    #    sampmap <- TCGAutils::generateMap(experiments = explist,
+    #        colData = clin, idConverter = idConvert)
 
-    if (!isEmpty(explist))
-        sampmap <- .buildMap(api, studyId, explist)
-    else
-        sampmap <- TCGAutils::generateMap(experiments = explist,
-            colData = clin, idConverter = idConvert)
-
-    MultiAssayExperiment(explist, clin, sampmap)
+    do.call(MultiAssayExperiment, lists)
 }
