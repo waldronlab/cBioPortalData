@@ -35,7 +35,6 @@ Imports:
     utils
 Suggests:
     BiocStyle,
-    curl,
     knitr
 License: AGPL-3
 Encoding: UTF-8

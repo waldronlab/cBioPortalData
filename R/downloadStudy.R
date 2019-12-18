@@ -59,14 +59,12 @@
 }
 
 .altDownload <- function(fileURL, cancer_study_id, verbose = FALSE) {
-    if (!requireNamespace("curl"))
-        stop("Download the 'curl' package to recover from download errors")
-
     if (verbose)
         message("Downloading study file: ", cancer_study_id, ".tar.gz")
 
     tmpFile <- file.path(tempdir(), paste0(cancer_study_id, ".tar.gz"))
-    download.file(fileURL, destfile = tmpFile, quiet = TRUE, method = "wget")
+    utils::download.file(fileURL, destfile = tmpFile, quiet = TRUE,
+        method = "wget")
 
     .manageLocalFile(cancer_study_id, tmpFile)
 }
