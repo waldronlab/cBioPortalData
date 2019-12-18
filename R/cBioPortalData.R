@@ -85,18 +85,6 @@ eval.args <- function(args) {
     args
 }
 
-.buildMap <- function(api, studyid, elist) {
-    samptable <- allSamples(api, studyid)[, c("patientId", "sampleId")]
-    cnames <- colnames(elist)
-    smap <- lapply(cnames, function(cnms) {
-        samptable[samptable[["sampleId"]] %in% cnms, ]
-    })
-    nmap <- cbind(rep(names(cnames), vapply(smap, nrow, integer(1L))),
-        dplyr::bind_rows(smap))
-    names(nmap) <- c("assay", "primary", "colname")
-    nmap
-}
-
 #' Download data from the cBioPortal API
 #'
 #' Obtain a `MultiAssayExperiment` object for a particular gene panel,
@@ -152,11 +140,5 @@ cBioPortalData <-
     rownames(clin) <- clin[["patientId"]]
     
     lists[["colData"]] <- clin
-    
-    if (isEmpty(lists[["sampleMap"]]))
-        sampmap <- .buildMap(api, studyId, lists[["ExperimentList"]])
-    #    sampmap <- TCGAutils::generateMap(experiments = explist,
-    #        colData = clin, idConverter = idConvert)
-
     do.call(MultiAssayExperiment, lists)
 }
