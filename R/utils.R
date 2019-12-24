@@ -66,20 +66,21 @@ utils::globalVariables("element")
         build <- RTCGAToolbox:::.hasInfo(annote, "ncbibuild")
         if (build) {
             isbuild <- RTCGAToolbox:::.getBuild(annote, "ncbibuild")
+
             genome(rowranges) <- isbuild
         }
     }
 
-    x <- as.matrix(x[, samplesAsCols])
+    x <- data.matrix(x[, samplesAsCols])
 
     if (!is.null(name.field)) {
         rnames <- annote[[name.field]]
-        nas <- is.na(rnames)
-        ## remove NA values from both
-        x <- x[!nas, ]
-        annote <- annote[!nas, ]
-        rownames(x) <- rnames[!nas]
-        rownames(annote) <- rnames[!nas]
+        nasdu <- is.na(rnames) | duplicated(rnames)
+        ## remove NA and duplicate values from both
+        x <- x[!nasdu, ]
+        annote <- as.data.frame(annote[!nasdu, ])
+        rownames(x) <- rnames[!nasdu]
+        rownames(annote) <- rnames[!nasdu]
     }
 
     x <- RTCGAToolbox:::.standardizeBC(x)

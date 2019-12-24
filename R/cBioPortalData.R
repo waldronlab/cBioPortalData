@@ -16,23 +16,24 @@
             molecularProfileId = molprof, sampleListId = sampleListId,
             check = check)
     })
-    
+
     sampmap <- lapply(expers, function(x) {
         smap <- x[, c("molecularProfileId", "patientId", "sampleId")]
         names(smap) <- c("assay", "primary", "colname")
         smap
     })
     sampleMap <- dplyr::bind_rows(sampmap)
-    
+
     explist <- lapply(molecularProfileIds, function(molprof) {
         isMut <- grepl("mutation", molprof, ignore.case = TRUE)
         byGene <- expers[[molprof]]
         if (isMut)
-            colsOI <- c("entrezGeneId","chr", "startPosition", "endPosition",
+            colsOI <- c(by,"chr", "startPosition", "endPosition",
                 "ncbiBuild", "sampleId", "mutationType")
         else
-            colsOI <- c("entrezGeneId", "sampleId", "value")
+            colsOI <- c(by, "sampleId", "value")
         colsoi <- colsOI[colsOI %in% names(byGene)]
+
         if (isMut) {
             res <- tidyr::pivot_wider(byGene[, colsoi], names_from = "sampleId",
                 values_from = "mutationType",
@@ -46,7 +47,7 @@
         }
     })
     as(Filter(length, explist), "List")
-    
+
     metalist <- lapply(names(expers), function(molprof) {
         isMut <- grepl("mutation", molprof, ignore.case = TRUE)
         byGene <- expers[[molprof]]
@@ -57,7 +58,7 @@
             colsOI <- c("entrezGeneId", "sampleId", "value")
         byGene[, !names(byGene) %in% colsOI]
     })
-    
+
     list(
         sampleMap = as(sampleMap, "DataFrame"),
         experiments = explist,
@@ -138,7 +139,7 @@ cBioPortalData <-
     clin <- do.call(clinicalData, clinargs)
     clin <- as.data.frame(clin)
     rownames(clin) <- clin[["patientId"]]
-    
+
     lists[["colData"]] <- clin
     do.call(MultiAssayExperiment, lists)
 }

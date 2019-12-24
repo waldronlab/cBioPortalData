@@ -1,0 +1,82 @@
+---
+output: github_document
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  cache = TRUE,
+  out.width = "100%"
+)
+options(tibble.print_min = 5, tibble.print_max = 5)
+```
+
+# cBioPortalData
+
+## cBioPortal data and MultiAssayExperiment
+
+### Overview
+
+This project aims to import all cBioPortal datasets as
+[MultiAssayExperiment](http://bioconductor.org/packages/MultiAssayExperiment/)
+objects in Bioconductor. It offers some advantages over the CDGS-R package:
+
+1. The MultiAssayExperiment class explicitly links all assays to the patient
+clinical/pathological data
+2. The MultiAssayExperiment class provides a
+[flexible API](https://github.com/waldronlab/MultiAssayExperiment/wiki/MultiAssayExperiment-API)
+including harmonized subsetting and reshaping to convenient wide and long
+formats.
+3. It provides complete datasets, not just for subsets of genes
+4. It provides automatic local caching, thanks to BiocFileCache.
+
+## MultiAssayExperiment Cheatsheet
+
+<a href="https://github.com/waldronlab/cheatsheets/blob/master/MultiAssayExperiment_QuickRef.pdf"><img src="https://raw.githubusercontent.com/waldronlab/cheatsheets/master/pngs/MultiAssayExperiment_QuickRef.png" width="989" height="1091"/></a>
+
+## Minor note
+
+It is a work in progress, and due to some variation in their formats, does not
+yet work for all 268 (as of Dec 2019) datasets. At the time of writing, it
+successfully imports 93% of 200 randomly sampled datasets. Please feel free to
+file an issue to request prioritization of fixing any of the remaining datasets.
+
+## Quick Start
+
+### Installation
+
+```{r,include=TRUE,results="hide",message=FALSE,warning=FALSE}
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+if (!requireNamespace("cBioPortalData", quietly = TRUE))
+    BiocManager::install("waldronlab/cBioPortalData")
+
+library(cBioPortalData)
+```
+
+### API Service
+
+Flexible and granular access to cBioPortal data from `cbioportal.org/api`.
+
+```{r,warning=FALSE}
+cbio <- cBioPortal()
+gbm <- cBioPortalData(api = cbio, by = "hugoGeneSymbol", studyId = "gbm_tcga",
+    genePanelId = "IMPACT341",
+    molecularProfileIds = c("gbm_tcga_rppa", "gbm_tcga_mrna")
+)
+gbm
+```
+
+### Packaged data service (legacy)
+
+This function will download a dataset from the `cbioportal.org/datasets`
+website as a packaged tarball and serve it to users as a `MultiAssayExperiment`
+object.
+
+```{r}
+laml <- cBioDataPack("laml_tcga")
+laml
+```
+

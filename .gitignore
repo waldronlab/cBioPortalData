@@ -6,3 +6,5 @@
 .httr-oauth
 */rsconnect
 vignettes/*_cache
+*_cache
+*.html
