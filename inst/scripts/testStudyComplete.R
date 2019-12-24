@@ -5,16 +5,11 @@ cbioportal <- cBioPortal()
 
 (studies <- getStudies(cbioportal)[["studyId"]])
 
-gps <- genePanels(cbioportal)[["genePanelId"]]
+complete <- vector("list", length(studies))
+names(complete) <- studies
 
-set.seed(100)
-(tests <- sample(studies, 200))
-
-cblist <- vector("list", length(tests))
-names(cblist) <- tests
-
-for (stud in tests) {
-    cblist[[stud]] <- tryCatch({
+for (stud in studies) {
+    complete[[stud]] <- tryCatch({
         cBioPortalData(cbioportal,
                 studyId = stud, genePanelId = "IMPACT341")
     }, error = function(e) {
@@ -22,19 +17,13 @@ for (stud in tests) {
     })
 }
 
-save(cblist, file = "maelistfromcbio.rda")
+save(complete, file = "maelistfromcbio.rda")
 load("maelistfromcbio.rda")
 
-chars <- vapply(cblist, is.character, logical(1L))
-cblist[chars]
+chars <- vapply(complete, is.character, logical(1L))
+complete[chars]
 
-successrate <- (1 - length(cblist[chars]) / length(cblist) )* 100
-## 62%
-
-
-devtools::load_all()
-debugonce(cBioPortalData)
-debugonce(.portalExperiments)
-debugonce(getDataByGenePanel)
-debugonce(cBioPortalData:::.generateIdConvert)
+successrate <- (1 - length(complete[chars]) / length(complete) )* 100
+successrate
+## 92.5
 
