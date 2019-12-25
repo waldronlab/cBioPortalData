@@ -18,9 +18,14 @@
     })
 
     sampmap <- lapply(expers, function(x) {
-        smap <- x[, c("molecularProfileId", "patientId", "sampleId")]
-        names(smap) <- c("assay", "primary", "colname")
-        smap
+        if (length(x)) {
+            smap <- x[, c("molecularProfileId", "patientId", "sampleId")]
+            names(smap) <- c("assay", "primary", "colname")
+            smap
+        } else {
+            tibble::tibble(assay = character(0L), primary = character(0L),
+                colname = character(0L))
+        }
     })
     sampleMap <- dplyr::bind_rows(sampmap)
 
@@ -32,21 +37,25 @@
                 "ncbiBuild", "sampleId", "mutationType")
         else
             colsOI <- c(by, "sampleId", "value")
-        colsoi <- colsOI[colsOI %in% names(byGene)]
+        if (length(byGene)) {
+            colsoi <- colsOI[colsOI %in% names(byGene)]
 
-        if (isMut) {
-            res <- tidyr::pivot_wider(byGene[, colsoi], names_from = "sampleId",
-                values_from = "mutationType",
-                values_fn = list(mutationType =
-                    function(x) paste0(x, collapse = ";")))
-            .getMutationData(res, by)
+            if (isMut) {
+                res <- tidyr::pivot_wider(byGene[, colsoi], names_from = "sampleId",
+                    values_from = "mutationType",
+                    values_fn = list(mutationType =
+                        function(x) paste0(x, collapse = ";")))
+                .getMutationData(res, by)
+            } else {
+                res <- tidyr::pivot_wider(byGene[, colsoi], names_from = "sampleId",
+                    values_from = "value")
+                .getMixedData(res, by)
+            }
         } else {
-            res <- tidyr::pivot_wider(byGene[, colsoi], names_from = "sampleId",
-                values_from = "value")
-            .getMixedData(res, by)
+            SummarizedExperiment::SummarizedExperiment()
         }
     })
-    as(Filter(length, explist), "List")
+    explist <- as(Filter(length, explist), "List")
 
     metalist <- lapply(names(expers), function(molprof) {
         isMut <- grepl("mutation", molprof, ignore.case = TRUE)
