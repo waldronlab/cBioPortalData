@@ -1,3 +1,18 @@
+## CHANGES IN VERSION 1.0.0
+
+### New features
+
+* Package supports nearly all study identifiers based on recent tests
+* Only a handful of study identifiers are unsuccessful (create an issue to
+prioritize).
+
+### Bug fixes and minor improvements
+
+* Make better use of the API return values to craft the sample map for
+`MultiAssayExperiment` creation
+* Additional data included in the metadata slot of the `MultiAssayExperiment`
+object. Future revisions will include this data as `rowData`.
+
 ## CHANGES IN VERSION 0.1.0
 
 ### New features
