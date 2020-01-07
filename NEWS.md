@@ -1,4 +1,4 @@
-## CHANGES IN VERSION 1.0.0
+## CHANGES IN VERSION 1.0.1
 
 ### New features
 
@@ -12,6 +12,7 @@ prioritize).
 `MultiAssayExperiment` creation
 * Additional data included in the metadata slot of the `MultiAssayExperiment`
 object. Future revisions will include this data as `rowData`.
+* Change vignette titles for build
 
 ## CHANGES IN VERSION 0.1.0
 
