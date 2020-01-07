@@ -4,7 +4,7 @@ author: "Marcel Ramos"
 date: "`r format(Sys.time(), '%B %d, %Y')`"
 vignette: >
   %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteIndexEntry{cBioPortal Quick-start Guide}
+  %\VignetteIndexEntry{cBioPortal User Guide}
   %\VignetteEncoding{UTF-8}
 output:
   BiocStyle::html_document:
@@ -40,7 +40,7 @@ cBioDataPack("laml_tcga")
 
 This function provides a more flexible and granular way to request a
 MultiAssayExperiment object from a study ID, molecular profile, gene panel,
-sample list. 
+sample list.
 
 ```{r,warning=FALSE}
 cbio <- cBioPortal()
