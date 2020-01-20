@@ -1,0 +1,23 @@
+# R for travis documentation: https://docs.travis-ci.com/user/languages/r
+
+language: r
+sudo: false
+cache: packages
+
+r: bioc-devel
+bioc_check: true
+
+# Strict checks in place
+warnings_are_errors: false
+
+branches:
+  only:
+    - master
+
+# Test code coverage
+r_github_packages:
+  - jimhester/covr
+
+after_success:
+  - Rscript -e 'library(covr);codecov()'
+
