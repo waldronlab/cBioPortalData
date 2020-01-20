@@ -29,8 +29,12 @@ branches:
 # Adapt as necessary starting from here
 build_script:
   - echo Current directory=%CD%
-  - travis-tool.sh github_package r-lib/covr hadley/devtools
-  - travis-tool.sh install_deps install_bioc_deps
+  - travis-tool.sh github_package r-lib/covr hadley/devtools Bioconductor/AnVIL
+  - travis-tool.sh install_deps
+  - travis-tool.sh install_bioc MultiAssayExperiment BiocFileCache GenomeInfoDb
+    GenomicRanges IRanges RaggedExperiment RTCGAToolbox S4Vectors
+    SummarizedExperiment TCGAutils
+  - travis-tool.sh install_bioc_deps
 
 test_script:
   - travis-tool.sh run_tests
