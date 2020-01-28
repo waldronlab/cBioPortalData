@@ -1,6 +1,14 @@
 
 # cBioPortalData
 
+<!-- start badges here -->
+
+[![Travis Build
+Status](https://travis-ci.org/waldronlab/cBioPortalData.svg?branch=master)](https://travis-ci.org/waldronlab/cBioPortalData)
+[![Build
+status](https://ci.appveyor.com/api/projects/status/42kd6prni3o0q50b?svg=true)](https://ci.appveyor.com/project/waldronlab/cbioportaldata)
+<!-- end badges here -->
+
 ## cBioPortal data and MultiAssayExperiment
 
 ### Overview
@@ -17,8 +25,7 @@ package:
     including harmonized subsetting and reshaping to convenient wide and
     long formats.
 3.  It provides complete datasets, not just for subsets of genes
-4.  It provides automatic local caching, thanks to
-BiocFileCache.
+4.  It provides automatic local caching, thanks to BiocFileCache.
 
 ## MultiAssayExperiment Cheatsheet
 
@@ -57,8 +64,9 @@ gbm <- cBioPortalData(api = cbio, by = "hugoGeneSymbol", studyId = "gbm_tcga",
     genePanelId = "IMPACT341",
     molecularProfileIds = c("gbm_tcga_rppa", "gbm_tcga_mrna")
 )
-#> harmonizing input:
-#>   removing 111 colData rownames not in sampleMap 'primary'
+```
+
+``` r
 gbm
 #> A MultiAssayExperiment object of 2 listed
 #>  experiments with user-defined names and respective classes.
@@ -82,254 +90,9 @@ website as a packaged tarball and serve it to users as a
 
 ``` r
 laml <- cBioDataPack("laml_tcga")
-#> Study file in cache: laml_tcga
-#> Working on: /tmp/RtmpXe2G8L/data_CNA.txt
-#> Parsed with column specification:
-#> cols(
-#>   .default = col_double(),
-#>   Hugo_Symbol = col_character()
-#> )
-#> See spec(...) for full column specifications.
-#> Parsed with column specification:
-#> cols(
-#>   Hugo_Symbol = col_character()
-#> )
-#> Working on: /tmp/RtmpXe2G8L/data_RNA_Seq_expression_median.txt
-#> Parsed with column specification:
-#> cols(
-#>   .default = col_double(),
-#>   Hugo_Symbol = col_character()
-#> )
-#> See spec(...) for full column specifications.
-#> Parsed with column specification:
-#> cols(
-#>   Hugo_Symbol = col_character()
-#> )
-#> Working on: /tmp/RtmpXe2G8L/data_RNA_Seq_mRNA_median_Zscores.txt
-#> Parsed with column specification:
-#> cols(
-#>   .default = col_double(),
-#>   Hugo_Symbol = col_character()
-#> )
-#> See spec(...) for full column specifications.
-#> Parsed with column specification:
-#> cols(
-#>   Hugo_Symbol = col_character()
-#> )
-#> Working on: /tmp/RtmpXe2G8L/data_RNA_Seq_v2_expression_median.txt
-#> Parsed with column specification:
-#> cols(
-#>   .default = col_double(),
-#>   Hugo_Symbol = col_character()
-#> )
-#> See spec(...) for full column specifications.
-#> Parsed with column specification:
-#> cols(
-#>   Hugo_Symbol = col_character()
-#> )
-#> Working on: /tmp/RtmpXe2G8L/data_RNA_Seq_v2_mRNA_median_Zscores.txt
-#> Parsed with column specification:
-#> cols(
-#>   .default = col_double(),
-#>   Hugo_Symbol = col_character()
-#> )
-#> See spec(...) for full column specifications.
-#> Parsed with column specification:
-#> cols(
-#>   Hugo_Symbol = col_character()
-#> )
-#> Working on: /tmp/RtmpXe2G8L/data_cna_hg19.seg
-#> Parsed with column specification:
-#> cols(
-#>   ID = col_character(),
-#>   chrom = col_double(),
-#>   loc.start = col_double(),
-#>   loc.end = col_double(),
-#>   num.mark = col_double(),
-#>   seg.mean = col_double()
-#> )
-#> Working on: /tmp/RtmpXe2G8L/data_linear_CNA.txt
-#> Parsed with column specification:
-#> cols(
-#>   .default = col_double(),
-#>   Hugo_Symbol = col_character()
-#> )
-#> See spec(...) for full column specifications.
-#> Parsed with column specification:
-#> cols(
-#>   Hugo_Symbol = col_character()
-#> )
-#> Working on: /tmp/RtmpXe2G8L/data_methylation_hm27.txt
-#> Parsed with column specification:
-#> cols(
-#>   .default = col_double(),
-#>   Hugo_Symbol = col_character()
-#> )
-#> See spec(...) for full column specifications.
-#> Parsed with column specification:
-#> cols(
-#>   Hugo_Symbol = col_character()
-#> )
-#> Working on: /tmp/RtmpXe2G8L/data_methylation_hm450.txt
-#> Parsed with column specification:
-#> cols(
-#>   .default = col_double(),
-#>   Hugo_Symbol = col_character()
-#> )
-#> See spec(...) for full column specifications.
-#> Parsed with column specification:
-#> cols(
-#>   Hugo_Symbol = col_character()
-#> )
-#> Working on: /tmp/RtmpXe2G8L/data_mutations_extended.txt
-#> Parsed with column specification:
-#> cols(
-#>   .default = col_character(),
-#>   Entrez_Gene_Id = col_double(),
-#>   Start_Position = col_double(),
-#>   End_Position = col_double(),
-#>   dbSNP_Val_Status = col_logical(),
-#>   Score = col_double(),
-#>   t_ref_count = col_double(),
-#>   t_alt_count = col_double(),
-#>   n_ref_count = col_double(),
-#>   n_alt_count = col_double(),
-#>   Protein_position = col_double(),
-#>   Hotspot = col_double(),
-#>   RNAVAF_WU = col_double(),
-#>   RNAVarReads_WU = col_double(),
-#>   stop = col_double(),
-#>   NormalVAF_WU = col_double(),
-#>   start = col_double(),
-#>   TumorVAF_WU = col_double(),
-#>   RNARefReads_WU = col_double()
-#> )
-#> See spec(...) for full column specifications.
-#> Parsed with column specification:
-#> cols(
-#>   .default = col_character()
-#> )
-#> See spec(...) for full column specifications.
-#> Warning in .find_seqnames_col(df_colnames0, seqnames.field0, xfix): cannnot
-#> determine seqnames column unambiguously
+```
 
-#> Warning in .find_seqnames_col(df_colnames0, seqnames.field0, xfix): cannnot
-#> determine seqnames column unambiguously
-
-#> Warning in .find_seqnames_col(df_colnames0, seqnames.field0, xfix): cannnot
-#> determine seqnames column unambiguously
-#> Working on: /tmp/RtmpXe2G8L/data_mutations_mskcc.txt
-#> Parsed with column specification:
-#> cols(
-#>   .default = col_character(),
-#>   Entrez_Gene_Id = col_double(),
-#>   Start_Position = col_double(),
-#>   End_Position = col_double(),
-#>   dbSNP_Val_Status = col_logical(),
-#>   Score = col_double(),
-#>   t_ref_count = col_double(),
-#>   t_alt_count = col_double(),
-#>   n_ref_count = col_double(),
-#>   n_alt_count = col_double(),
-#>   Protein_position = col_double(),
-#>   Hotspot = col_double(),
-#>   RNAVAF_WU = col_double(),
-#>   RNAVarReads_WU = col_double(),
-#>   stop = col_double(),
-#>   NormalVAF_WU = col_double(),
-#>   start = col_double(),
-#>   TumorVAF_WU = col_double(),
-#>   RNARefReads_WU = col_double()
-#> )
-#> See spec(...) for full column specifications.
-#> Parsed with column specification:
-#> cols(
-#>   .default = col_character()
-#> )
-#> See spec(...) for full column specifications.
-#> Warning in .find_seqnames_col(df_colnames0, seqnames.field0, xfix): cannnot
-#> determine seqnames column unambiguously
-
-#> Warning in .find_seqnames_col(df_colnames0, seqnames.field0, xfix): cannnot
-#> determine seqnames column unambiguously
-
-#> Warning in .find_seqnames_col(df_colnames0, seqnames.field0, xfix): cannnot
-#> determine seqnames column unambiguously
-#> Parsed with column specification:
-#> cols(
-#>   .default = col_character(),
-#>   INITIAL_PATHOLOGIC_DX_YEAR = col_double(),
-#>   AGE = col_double(),
-#>   PLATELET_COUNT_PRERESECTION = col_double(),
-#>   BLAST_COUNT = col_double(),
-#>   BASOPHILS_COUNT = col_double(),
-#>   ABNORMAL_LYMPHOCYTE_PERCENT = col_double(),
-#>   OS_MONTHS = col_double()
-#> )
-#> See spec(...) for full column specifications.
-#> Parsed with column specification:
-#> cols(
-#>   .default = col_character(),
-#>   SAMPLE_TYPE_ID = col_double()
-#> )
-#> See spec(...) for full column specifications.
-#> Parsed with column specification:
-#> cols(
-#>   .default = col_character(),
-#>   SAMPLE_TYPE_ID = col_double()
-#> )
-#> See spec(...) for full column specifications.
-#> Parsed with column specification:
-#> cols(
-#>   .default = col_character()
-#> )
-#> See spec(...) for full column specifications.
-#> Parsed with column specification:
-#> cols(
-#>   index = col_double(),
-#>   chromosome = col_double(),
-#>   region_start = col_double(),
-#>   region_end = col_double(),
-#>   peak_start = col_double(),
-#>   peak_end = col_double(),
-#>   enlarged_peak_start = col_double(),
-#>   enlarged_peak_end = col_double(),
-#>   n_genes_in_region = col_double(),
-#>   genes_in_region = col_character(),
-#>   n_genes_in_peak = col_double(),
-#>   genes_in_peak = col_character(),
-#>   n_genes_on_chip = col_character(),
-#>   genes_on_chip = col_character(),
-#>   `top 3` = col_character(),
-#>   amp = col_double(),
-#>   cytoband = col_character(),
-#>   q_value = col_double()
-#> )
-#> Warning in .find_with_xfix(df_colnames, prefixes1, prefixes2, start.field, :
-#> Multiple prefixes found, using keyword 'region' or taking first one
-#> Parsed with column specification:
-#> cols(
-#>   index = col_double(),
-#>   chromosome = col_double(),
-#>   region_start = col_double(),
-#>   region_end = col_double(),
-#>   peak_start = col_double(),
-#>   peak_end = col_double(),
-#>   enlarged_peak_start = col_double(),
-#>   enlarged_peak_end = col_double(),
-#>   n_genes_in_region = col_double(),
-#>   genes_in_region = col_character(),
-#>   n_genes_in_peak = col_double(),
-#>   genes_in_peak = col_character(),
-#>   n_genes_on_chip = col_character(),
-#>   genes_on_chip = col_character(),
-#>   `top 3` = col_character(),
-#>   amp = col_double(),
-#>   cytoband = col_character(),
-#>   q_value = col_double()
-#> )
-#> Warning in .find_with_xfix(df_colnames, prefixes1, prefixes2, start.field, :
-#> Multiple prefixes found, using keyword 'region' or taking first one
+``` r
 laml
 #> A MultiAssayExperiment object of 11 listed
 #>  experiments with user-defined names and respective classes.

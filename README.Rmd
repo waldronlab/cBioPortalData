@@ -14,6 +14,11 @@ options(tibble.print_min = 5, tibble.print_max = 5)
 
 # cBioPortalData
 
+<!-- start badges here -->
+[![Travis Build Status](https://travis-ci.org/waldronlab/cBioPortalData.svg?branch=master)](https://travis-ci.org/waldronlab/cBioPortalData)
+[![Build status](https://ci.appveyor.com/api/projects/status/42kd6prni3o0q50b?svg=true)](https://ci.appveyor.com/project/waldronlab/cbioportaldata)
+<!-- end badges here -->
+
 ## cBioPortal data and MultiAssayExperiment
 
 ### Overview
@@ -60,12 +65,15 @@ library(cBioPortalData)
 
 Flexible and granular access to cBioPortal data from `cbioportal.org/api`.
 
-```{r,warning=FALSE}
+```{r,warning=FALSE,message=FALSE,include=TRUE,results="hide"}
 cbio <- cBioPortal()
 gbm <- cBioPortalData(api = cbio, by = "hugoGeneSymbol", studyId = "gbm_tcga",
     genePanelId = "IMPACT341",
     molecularProfileIds = c("gbm_tcga_rppa", "gbm_tcga_mrna")
 )
+```
+
+```{r}
 gbm
 ```
 
@@ -75,8 +83,11 @@ This function will download a dataset from the `cbioportal.org/datasets`
 website as a packaged tarball and serve it to users as a `MultiAssayExperiment`
 object.
 
-```{r}
+```{r,warning=FALSE,message=FALSE,include=TRUE,results="hide"}
 laml <- cBioDataPack("laml_tcga")
+```
+
+```{r}
 laml
 ```
 
