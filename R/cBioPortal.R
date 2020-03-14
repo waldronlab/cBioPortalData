@@ -22,7 +22,7 @@ utils::globalVariables(c("clinicalAttributeId", "value", "sampleId"))
 #' @rdname cBioPortal
 #'
 #' @aliases cBioPortal
-#' 
+#'
 #' @title The R interface to the cBioPortal API Data Service
 #'
 #' @description This function gives users access to the cBioPortal data with an
@@ -93,6 +93,7 @@ cBioPortal <- function() {
             host = "www.cbioportal.org",
             config = httr::config(ssl_verifypeer = 0L, ssl_verifyhost = 0L,
                 http_version = 0L),
+            authenticate = FALSE,
             api_url = "https://www.cbioportal.org/api/api-docs",
             package = "cBioPortalData",
             schemes = "http"
