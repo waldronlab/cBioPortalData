@@ -1,6 +1,6 @@
 Package: cBioPortalData
 Title: Exposes and makes available data from the cBioPortal web resources
-Version: 1.0.2
+Version: 1.0.3
 Authors@R: c(person("Levi", "Waldron", email = "lwaldron.research@gmail.com",
     role = "aut"),
     person("Marcel", "Ramos", email = "marcel.ramos@roswellpark.org",
@@ -16,6 +16,7 @@ Remotes:
     Bioconductor/AnVIL
 Imports:
     BiocFileCache (>= 1.5.3),
+    digest,
     dplyr,
     GenomeInfoDb,
     GenomicRanges,
@@ -30,6 +31,7 @@ Imports:
     S4Vectors,
     SummarizedExperiment,
     stats,
+    tibble,
     tidyr,
     TCGAutils,
     utils
@@ -41,7 +43,7 @@ Encoding: UTF-8
 LazyData: true
 VignetteBuilder: knitr
 BugReports: https://github.com/waldronlab/cBioPortalData/issues
-RoxygenNote: 7.0.2
+RoxygenNote: 7.1.0
 Collate: 
     'utils.R'
     'cBioDataPack.R'

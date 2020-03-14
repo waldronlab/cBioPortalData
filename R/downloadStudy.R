@@ -84,10 +84,6 @@
 #' @param force logical (default FALSE) whether to force re-download data from
 #' remote location
 #'
-#' @examples
-#'
-#' downloadStudy("laml_tcga_pub", use_cache = tempdir())
-#'
 #' @keywords internal
 downloadStudy <- function(cancer_study_id, use_cache = TRUE, force = FALSE)
 {

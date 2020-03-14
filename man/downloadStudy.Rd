@@ -21,9 +21,4 @@ remote location}
 Provide a `cancer_study_id` from the `studiesTable` and retrieve
 the study tarball from cBioPortal
 }
-\examples{
-
-downloadStudy("laml_tcga_pub", use_cache = tempdir())
-
-}
 \keyword{internal}
