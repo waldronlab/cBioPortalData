@@ -1,3 +1,11 @@
+## CHANGES IN VERSION 2.0.0
+
+### New features
+
+* Updated the `README.md` file from R Markdown file.
+* Make use of `rapiclient` on CRAN
+* Prepare package for Bioconductor submission
+
 ## CHANGES IN VERSION 1.0.1
 
 ### New features
