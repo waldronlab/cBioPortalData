@@ -73,7 +73,6 @@ getDataByGenePanel(
   api,
   studyId = NA_character_,
   genePanelId = NA_character_,
-  by = c("entrezGeneId", "hugoGeneSymbol"),
   molecularProfileId = NULL,
   sampleListId = NULL,
   check = TRUE
@@ -114,9 +113,6 @@ from the `genePanels` function}
 `sampleLists()``}
 
 \item{molecularProfileIds}{character() A vector of molecular profile IDs}
-
-\item{by}{character(1) Either 'entrezGeneId' or 'hugoGeneSymbol' for row
-metadata}
 }
 \value{
 cBioPortal: An API object of class 'cBioPortal'
@@ -219,5 +215,9 @@ samplesInSampleLists(
 genePanels(api = cbio)
 
 getGenePanel(api = cbio, genePanelId = "IMPACT341")
+
+
+getDataByGenePanel(cbio, studyId = "acc_tcga", genePanelId = "IMPACT341",
+   molecularProfileId = "acc_tcga_rppa")
 
 }

@@ -11,7 +11,7 @@
         molecularProfileIds)
 
     expers <- lapply(molecularProfileIds, function(molprof) {
-        getDataByGenePanel(api, by = by,
+        getDataByGenePanel(api,
             genePanelId = genePanelId, studyId = studyId,
             molecularProfileId = molprof, sampleListId = sampleListId,
             check = check)
@@ -57,15 +57,24 @@
     })
     explist <- as(Filter(length, explist), "List")
 
+    isTCGA <- grepl("tcga", studyId, ignore.case = TRUE)
     metalist <- lapply(names(expers), function(molprof) {
         isMut <- grepl("mutation", molprof, ignore.case = TRUE)
         byGene <- expers[[molprof]]
-        if (isMut)
-            colsOI <- c("entrezGeneId","chr", "startPosition", "endPosition",
+        if (isMut) {
+            colsOI <- c(by, "chr", "startPosition", "endPosition",
                 "ncbiBuild", "sampleId", "mutationType")
-        else
-            colsOI <- c("entrezGeneId", "sampleId", "value")
-        byGene[, !names(byGene) %in% colsOI]
+            metaGene <- byGene[, !names(byGene) %in% colsOI]
+            if (isTCGA) {
+                ragex <- .getRagEx(byGene)
+                explist <<- c(explist, list(proteinPos = ragex))
+            }
+        } else {
+            colsOI <- c(by, "sampleId", "value")
+            metaGene <- byGene[, !names(byGene) %in% colsOI]
+            explist <<- .updateRowData(metaGene, by, molprof, explist)
+        }
+        metaGene
     })
 
     list(
@@ -73,6 +82,42 @@
         experiments = explist,
         metadata = metalist
     )
+}
+
+.getRagEx <- function(metainfo, byname, assayname, explist) {
+    ncbiBuildCol <- grep("ncbiBuild", names(metainfo), value = TRUE,
+        fixed = TRUE)
+    splitframe <- GenomicRanges::makeGRangesListFromDataFrame(metainfo,
+        split.field = "sampleId", start.field = "proteinPosStart",
+        end.field = "proteinPosEnd", keep.extra.columns = TRUE)
+    ptIds <- TCGAutils::TCGAbarcode(names(splitframe))
+    rex <- RaggedExperiment::RaggedExperiment(splitframe, colData =
+        S4Vectors::DataFrame(row.names = ptIds)
+    )
+    if (length(ncbiBuildCol))
+        genome(rex) <- TCGAutils::uniformBuilds(metainfo[[ncbiBuildCol]])
+    rex
+}
+
+.updateRowData <- function(metainfo, byname, assayname, explist) {
+    newby <- grep(byname, x = c("hugoGeneSymbol", "entrezGeneId"), value = TRUE,
+        fixed = TRUE, invert = TRUE)
+    stopifnot(is.character(newby), length(newby) == 1L)
+    if (length(newby)) {
+        exptoupdate <- explist[[assayname]]
+        altNames <- unique(metainfo[[newby]])
+        allName <- all.equal(
+            altNames,
+            Reduce(intersect, split(metainfo[[newby]], metainfo[["patientId"]]))
+        )
+        if (allName) {
+            altDF <- DataFrame(altNames)
+            names(altDF) <- newby
+            rowData(exptoupdate) <- altDF
+            explist[[assayname]] <- exptoupdate
+        }
+    }
+    explist
 }
 
 std.args <- function(call, formals) {
@@ -110,7 +155,8 @@ eval.args <- function(args) {
 #'
 #' cBioPortalData(cbio, by = "hugoGeneSymbol", studyId = "acc_tcga",
 #'     genePanelId = "IMPACT341",
-#'     molecularProfileIds = c("acc_tcga_rppa", "acc_tcga_linear_CNA")
+#'     molecularProfileIds = c("acc_tcga_rppa", "acc_tcga_linear_CNA",
+#'     "acc_tcga_mutations")
 #' )
 #'
 #' @export

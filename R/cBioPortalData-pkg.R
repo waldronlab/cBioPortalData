@@ -1,5 +1,5 @@
 #' @importFrom S4Vectors isSingleString metadata metadata<- SimpleList DataFrame
-#' @importFrom SummarizedExperiment SummarizedExperiment rowData
+#' @importFrom SummarizedExperiment SummarizedExperiment rowData rowData<-
 #' @importFrom GenomicRanges makeGRangesListFromDataFrame
 #' @importFrom GenomeInfoDb genome genome<-
 #' @importFrom readr read_tsv type_convert

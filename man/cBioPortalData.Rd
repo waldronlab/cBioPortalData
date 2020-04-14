@@ -27,9 +27,6 @@ from the `genePanels` function}
 
 \item{sampleListId}{character(1) A sample list identifier as obtained from
 `sampleLists()``}
-
-\item{by}{character(1) Either 'entrezGeneId' or 'hugoGeneSymbol' for row
-metadata}
 }
 \description{
 Obtain a `MultiAssayExperiment` object for a particular gene panel,
@@ -43,7 +40,8 @@ cbio <- cBioPortal()
 
 cBioPortalData(cbio, by = "hugoGeneSymbol", studyId = "acc_tcga",
     genePanelId = "IMPACT341",
-    molecularProfileIds = c("acc_tcga_rppa", "acc_tcga_linear_CNA")
+    molecularProfileIds = c("acc_tcga_rppa", "acc_tcga_linear_CNA",
+    "acc_tcga_mutations")
 )
 
 }

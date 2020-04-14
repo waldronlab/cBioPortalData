@@ -3,8 +3,14 @@
 ### New features
 
 * Updated the `README.md` file from R Markdown file.
-* Make use of `rapiclient` on CRAN
+* Uses the latest version of `rapiclient` on CRAN
 * Prepare package for Bioconductor submission
+* Include protein metadata as a `RaggedExperiment` from mutation molecular
+profiles (TCGA only)
+
+### Bug fixes and minor improvements
+
+* API authentication option removed and not needed
 
 ## CHANGES IN VERSION 1.0.1
 

@@ -493,17 +493,18 @@ getSampleInfo <-
 #'     `molecularProfileId` combination, optionally a `sampleListId` can be
 #'     provided.
 #'
-#' @param by character(1) Either 'entrezGeneId' or 'hugoGeneSymbol' for row
-#'     metadata
-#'
 #' @param check logical(1) Whether to check the inputs against values from the
 #'     API (i.e., for 'studyId', 'genePanelId', 'molecularProfileId', and
 #'     'sampleListId')
 #'
+#' @examples
+#'
+#' getDataByGenePanel(cbio, studyId = "acc_tcga", genePanelId = "IMPACT341",
+#'    molecularProfileId = "acc_tcga_rppa")
+#'
 #' @export
 getDataByGenePanel <-
     function(api, studyId = NA_character_, genePanelId = NA_character_,
-        by = c("entrezGeneId", "hugoGeneSymbol"),
         molecularProfileId = NULL, sampleListId = NULL, check = TRUE)
 {
     if (missing(api))
@@ -518,7 +519,6 @@ getDataByGenePanel <-
     if (!validGP)
         stop("Provide a valid 'genePanelId' from 'genePanels()'")
 
-    by <- match.arg(by)
     if (!is.null(sampleListId))
         samples <- samplesInSampleLists(api, sampleListId, check = check)[[1L]]
     else
@@ -530,13 +530,7 @@ getDataByGenePanel <-
         entrezGeneIds = panel[["entrezGeneId"]],
         sampleIds = samples, check = check)
 
-    if (identical(by , "hugoGeneSymbol"))
-        dplyr::bind_cols(
-            hugoGeneSymbol = unlist(
-                panel[match(molecularData[["entrezGeneId"]],
-                    panel[["entrezGeneId"]]), by]),
-            molecularData[, names(molecularData) != "entrezGeneId"]
-        )
-    else
-        molecularData
+    suppressMessages({
+        dplyr::left_join(molecularData, panel)
+    })
 }
