@@ -22,7 +22,6 @@ knitr::opts_chunk$set(cache = TRUE)
 ```{r,include=TRUE,results="hide",message=FALSE,warning=FALSE}
 library(cBioPortalData)
 library(AnVIL)
-library(rapiclient)
 ```
 
 ## Two main interfaces

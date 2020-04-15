@@ -1,6 +1,6 @@
 Package: cBioPortalData
 Title: Exposes and makes available data from the cBioPortal web resources
-Version: 1.99.6
+Version: 1.99.7
 Authors@R: c(person("Levi", "Waldron", email = "lwaldron.research@gmail.com",
     role = "aut"),
     person("Marcel", "Ramos", email = "marcel.ramos@roswellpark.org",
@@ -22,7 +22,6 @@ Imports:
     httr,
     IRanges,
     methods,
-    rapiclient (>= 0.1.3),
     rappdirs,
     readr,
     RaggedExperiment,

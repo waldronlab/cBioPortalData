@@ -27,6 +27,9 @@ from the `genePanels` function}
 
 \item{sampleListId}{character(1) A sample list identifier as obtained from
 `sampleLists()``}
+
+\item{by}{character(1) Either 'entrezGeneId' or 'hugoGeneSymbol' for row
+metadata}
 }
 \description{
 Obtain a `MultiAssayExperiment` object for a particular gene panel,
