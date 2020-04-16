@@ -87,6 +87,9 @@
 .getRagEx <- function(metainfo, byname, assayname, explist) {
     ncbiBuildCol <- grep("ncbiBuild", names(metainfo), value = TRUE,
         fixed = TRUE)
+    rangeSet <- cbind(metainfo[["proteinPosStart"]], metainfo[["proteinPosEnd"]])
+    metainfo[["proteinPosStart"]] <- apply(rangeSet, 1L, min, na.rm = TRUE)
+    metainfo[["proteinPosEnd"]] <- apply(rangeSet, 1L, max, na.rm = TRUE)
     splitframe <- GenomicRanges::makeGRangesListFromDataFrame(metainfo,
         split.field = "sampleId", start.field = "proteinPosStart",
         end.field = "proteinPosEnd", keep.extra.columns = TRUE)
