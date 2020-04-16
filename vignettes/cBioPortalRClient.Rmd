@@ -19,28 +19,19 @@ knitr::opts_chunk$set(cache = TRUE)
 
 # Installation
 
-```{r,include=TRUE,results="hide",message=FALSE,warning=FALSE}
-library(cBioPortalData)
-library(AnVIL)
-library(rapiclient)
-```
-
 ## GitHub Packages
 
-Changes in the development branch of `rapiclient` are yet to be merged to the
-CRAN package. Please use the devel version of `rapiclient` along with the
-`AnVIL` Bioconductor package.
+Please use the devel version of the `AnVIL` Bioconductor package.
 
 ```{r, eval=FALSE}
 library(BiocManager)
-install(c("Bioconductor/AnVIL_rapiclient", "Bioconductor/AnVIL"))
+install("Bioconductor/AnVIL")
 install("waldronlab/cBioPortalData")
 ```
 
-```{r, eval=FALSE}
+```{r,include=TRUE,results="hide",message=FALSE,warning=FALSE}
 library(cBioPortalData)
 library(AnVIL)
-library(rapiclient)
 ```
 
 # API representation
@@ -144,8 +135,7 @@ getGenePanelMolecular(cbio,
 
 ```{r}
 getDataByGenePanel(cbio, "acc_tcga", genePanelId = "IMPACT341",
-    molecularProfileId = "acc_tcga_rppa", by = "entrezGeneId",
-    sampleListId = "acc_tcga_rppa")
+    molecularProfileId = "acc_tcga_rppa", sampleListId = "acc_tcga_rppa")
 ```
 
 

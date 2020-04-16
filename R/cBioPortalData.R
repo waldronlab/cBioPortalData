@@ -149,6 +149,9 @@ eval.args <- function(args) {
 #'
 #' @inheritParams cBioPortal
 #'
+#' @param by character(1) Either 'entrezGeneId' or 'hugoGeneSymbol' for row
+#'     metadata
+#'
 #' @examples
 #'
 #' cbio <- cBioPortal()

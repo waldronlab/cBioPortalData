@@ -22,7 +22,6 @@ Imports:
     httr,
     IRanges,
     methods,
-    rapiclient (>= 0.1.3),
     rappdirs,
     readr,
     RaggedExperiment,

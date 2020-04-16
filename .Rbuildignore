@@ -21,3 +21,6 @@
 ^data-raw$
 ^\.httr-oauth$
 ^README\.Rmd
+inst/rsconnect
+.*_cache
+
