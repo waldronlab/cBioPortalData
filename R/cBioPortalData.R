@@ -110,7 +110,7 @@
             altNames,
             Reduce(intersect, split(metainfo[[newby]], metainfo[["patientId"]]))
         )
-        if (allName) {
+        if (isTRUE(allName)) {
             altDF <- DataFrame(altNames)
             names(altDF) <- newby
             rowData(exptoupdate) <- altDF
