@@ -8,3 +8,4 @@
 vignettes/*_cache
 *_cache
 *.html
+docs/

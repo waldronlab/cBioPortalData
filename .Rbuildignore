@@ -24,3 +24,4 @@
 inst/rsconnect
 .*_cache
 
+^docs$

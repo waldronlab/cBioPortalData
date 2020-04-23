@@ -17,6 +17,7 @@ branches:
 # Test code coverage
 r_github_packages:
   - jimhester/covr
+  - Bioconductor/AnVIL
 
 after_success:
   - Rscript -e 'library(covr);codecov()'

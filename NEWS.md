@@ -1,6 +1,6 @@
-## CHANGES IN VERSION 2.0.0
+# cBioPortalData 2.0.0
 
-### New features
+## New features
 
 * Updated the `README.md` file from R Markdown file.
 * Uses the latest version of `rapiclient` on CRAN
@@ -8,19 +8,19 @@
 * Include protein metadata as a `RaggedExperiment` from mutation molecular
 profiles (TCGA only)
 
-### Bug fixes and minor improvements
+## Bug fixes and minor improvements
 
 * API authentication option removed and not needed
 
-## CHANGES IN VERSION 1.0.1
+# cBioPortalData 1.0.1
 
-### New features
+## New features
 
 * Package supports nearly all study identifiers based on recent tests
 * Only a handful of study identifiers are unsuccessful (create an issue to
 prioritize).
 
-### Bug fixes and minor improvements
+## Bug fixes and minor improvements
 
 * Make better use of the API return values to craft the sample map for
 `MultiAssayExperiment` creation
@@ -28,9 +28,9 @@ prioritize).
 object. Future revisions will include this data as `rowData`.
 * Change vignette titles for build
 
-## CHANGES IN VERSION 0.1.0
+# cBioPortalData 0.1.0
 
-### New features
+## New features
 
 * `cBioDataPack` allows users to download packaged data objects from
 download.cbioportal.org/
@@ -46,7 +46,7 @@ can arise with mismatched or munged identifiers
 * The cBioPortal API representation is handled by the `AnVIL` package
 which makes use of `rapiclient` to provide an automatic R interface to the API
 
-### Bug fixes and minor improvements
+## Bug fixes and minor improvements
 
 * Data pack downloads use an alternative method for download when a download
 fails
