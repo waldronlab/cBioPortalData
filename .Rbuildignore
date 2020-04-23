@@ -15,6 +15,7 @@
 # Continuous Integration
 #----------------------------
 ^\.travis\.yml$
+^appveyor.yml$
 #----------------------------
 # Data and files
 #----------------------------

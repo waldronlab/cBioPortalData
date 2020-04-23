@@ -12,12 +12,18 @@ warnings_are_errors: false
 
 branches:
   only:
-    - master
+    - RELEASE_2.0
 
 # Test code coverage
 r_github_packages:
   - jimhester/covr
   - Bioconductor/AnVIL
+
+before_cache: Rscript -e 'remotes::install_cran("pkgdown")'
+  deploy:
+    provider: script
+    script: Rscript -e 'pkgdown::deploy_site_github()'
+    skip_cleanup: true
 
 after_success:
   - Rscript -e 'library(covr);codecov()'
