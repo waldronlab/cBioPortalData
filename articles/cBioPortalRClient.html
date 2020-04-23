@@ -107,7 +107,7 @@
 <div class="sourceCode" id="cb3"><html><body><pre class="r">(<span class="no">cbio</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/cBioPortal.html">cBioPortal</a></span>())</pre></body></html></div>
 <pre><code>## service: cBioPortal
 ## tags(); use cbioportal$&lt;tab completion&gt;:
-## # A tibble: 65 x 3
+## # A tibble: 70 x 3
 ##    tag             operation                          summary                   
 ##    &lt;chr&gt;           &lt;chr&gt;                              &lt;chr&gt;                     
 ##  1 A. Cancer Types getAllCancerTypesUsingGET          Get all cancer types      
@@ -120,24 +120,24 @@
 ##  8 C. Patients     fetchPatientsUsingPOST             fetchPatients             
 ##  9 C. Patients     getAllPatientsInStudyUsingGET      Get all patients in a stu…
 ## 10 C. Patients     getAllPatientsUsingGET             Get all patients          
-## # … with 55 more rows
+## # … with 60 more rows
 ## tag values:
 ##   A. Cancer Types, B. Studies, C. Patients, D. Samples, E. Sample
 ##   Lists, F. Clinical Attributes, G. Clinical Data, H. Clinical Events,
 ##   I. Molecular Data, J. Molecular Profiles, K. Mutations, L. Discrete
 ##   Copy Number Alterations, M. Copy Number Segments, N. Genes, O. Gene
-##   Panels, P. Generic Assay, Q. Structural Variants, Reference Genome
-##   Genes
+##   Panels, P. Generic Assay, Q. Structural Variants, R. Reference Genome
+##   Genes, S. Resource Definitions, T. Resource Data
 ## schemas():
 ##   AlleleSpecificCopyNumber, CancerStudy, CancerStudyTags,
 ##   ClinicalAttribute, ClinicalAttributeCount
-##   # ... with 49 more elements</code></pre>
+##   # ... with 51 more elements</code></pre>
 <div id="operations" class="section level2">
 <h2 class="hasAnchor">
 <a href="#operations" class="anchor"></a>Operations</h2>
 <p>Check available tags, operations, and descriptions as a <code>tibble</code>:</p>
 <div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/pkg/AnVIL/man/Services.html">tags</a></span>(<span class="no">cbio</span>)</pre></body></html></div>
-<pre><code>## # A tibble: 65 x 3
+<pre><code>## # A tibble: 70 x 3
 ##    tag             operation                          summary                   
 ##    &lt;chr&gt;           &lt;chr&gt;                              &lt;chr&gt;                     
 ##  1 A. Cancer Types getAllCancerTypesUsingGET          Get all cancer types      
@@ -150,7 +150,7 @@
 ##  8 C. Patients     fetchPatientsUsingPOST             fetchPatients             
 ##  9 C. Patients     getAllPatientsInStudyUsingGET      Get all patients in a stu…
 ## 10 C. Patients     getAllPatientsUsingGET             Get all patients          
-## # … with 55 more rows</code></pre>
+## # … with 60 more rows</code></pre>
 <div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="fu"><a href="https://rdrr.io/pkg/AnVIL/man/Services.html">tags</a></span>(<span class="no">cbio</span>)$<span class="no">operation</span>)</pre></body></html></div>
 <pre><code>## [1] "getAllCancerTypesUsingGET"          "getCancerTypeUsingGET"             
 ## [3] "fetchStudiesUsingPOST"              "getAllStudiesUsingGET"             
@@ -253,14 +253,15 @@
 <p>A table of molecular profiles for a particular study can be obtained by running the following:</p>
 <div class="sourceCode" id="cb15"><html><body><pre class="r"><span class="no">mols</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/cBioPortal.html">molecularProfiles</a></span>(<span class="no">cbio</span>, <span class="st">"acc_tcga"</span>)
 <span class="no">mols</span><span class="kw">[[</span><span class="st">"molecularProfileId"</span>]]</pre></body></html></div>
-<pre><code>## [1] "acc_tcga_rppa"                          
-## [2] "acc_tcga_rppa_Zscores"                  
-## [3] "acc_tcga_gistic"                        
-## [4] "acc_tcga_rna_seq_v2_mrna"               
-## [5] "acc_tcga_rna_seq_v2_mrna_median_Zscores"
-## [6] "acc_tcga_linear_CNA"                    
-## [7] "acc_tcga_methylation_hm450"             
-## [8] "acc_tcga_mutations"</code></pre>
+<pre><code>## [1] "acc_tcga_rppa"                                     
+## [2] "acc_tcga_rppa_Zscores"                             
+## [3] "acc_tcga_gistic"                                   
+## [4] "acc_tcga_rna_seq_v2_mrna"                          
+## [5] "acc_tcga_rna_seq_v2_mrna_median_Zscores"           
+## [6] "acc_tcga_linear_CNA"                               
+## [7] "acc_tcga_methylation_hm450"                        
+## [8] "acc_tcga_mutations"                                
+## [9] "acc_tcga_rna_seq_v2_mrna_median_all_sample_Zscores"</code></pre>
 </div>
 <div id="molecular-profile-data" class="section level2">
 <h2 class="hasAnchor">
@@ -387,7 +388,7 @@
 <a href="#getdatabygenepanel" class="anchor"></a>getDataByGenePanel</h3>
 <div class="sourceCode" id="cb29"><html><body><pre class="r"><span class="fu"><a href="../reference/cBioPortal.html">getDataByGenePanel</a></span>(<span class="no">cbio</span>, <span class="st">"acc_tcga"</span>, <span class="kw">genePanelId</span> <span class="kw">=</span> <span class="st">"IMPACT341"</span>,
     <span class="kw">molecularProfileId</span> <span class="kw">=</span> <span class="st">"acc_tcga_rppa"</span>, <span class="kw">sampleListId</span> <span class="kw">=</span> <span class="st">"acc_tcga_rppa"</span>)</pre></body></html></div>
-<pre><code>## # A tibble: 2,622 x 9
+<pre><code>## # A tibble: 2,622 x 8
 ##    uniqueSampleKey uniquePatientKey entrezGeneId molecularProfil… sampleId
 ##    &lt;chr&gt;           &lt;chr&gt;                   &lt;int&gt; &lt;chr&gt;            &lt;chr&gt;   
 ##  1 VENHQS1PUi1BNU… VENHQS1PUi1BNUo…          207 acc_tcga_rppa    TCGA-OR…
@@ -400,8 +401,8 @@
 ##  8 VENHQS1PUi1BNU… VENHQS1PUi1BNUo…          598 acc_tcga_rppa    TCGA-OR…
 ##  9 VENHQS1PUi1BNU… VENHQS1PUi1BNUo…        10018 acc_tcga_rppa    TCGA-OR…
 ## 10 VENHQS1PUi1BNU… VENHQS1PUi1BNUo…          673 acc_tcga_rppa    TCGA-OR…
-## # … with 2,612 more rows, and 4 more variables: patientId &lt;chr&gt;, studyId &lt;chr&gt;,
-## #   value &lt;dbl&gt;, hugoGeneSymbol &lt;chr&gt;</code></pre>
+## # … with 2,612 more rows, and 3 more variables: patientId &lt;chr&gt;, studyId &lt;chr&gt;,
+## #   value &lt;dbl&gt;</code></pre>
 <p>It uses the <code>getAllGenesUsingGET</code> function from the API.</p>
 </div>
 </div>
@@ -505,7 +506,7 @@
 ## [8] methods   base     
 ## 
 ## other attached packages:
-##  [1] cBioPortalData_1.99.8        MultiAssayExperiment_1.13.24
+##  [1] cBioPortalData_1.0.3         MultiAssayExperiment_1.13.24
 ##  [3] SummarizedExperiment_1.17.5  DelayedArray_0.13.12        
 ##  [5] matrixStats_0.56.0           Biobase_2.47.3              
 ##  [7] GenomicRanges_1.39.3         GenomeInfoDb_1.23.17        
