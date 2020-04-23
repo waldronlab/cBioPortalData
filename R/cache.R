@@ -1,5 +1,5 @@
 .get_cache <- function() {
-    cache <- getOption("cbioCache", setCache(verbose = FALSE))
+    cache <- getOption("cBioCache", setCache(verbose = FALSE))
 
     BiocFileCache::BiocFileCache(cache)
 }
@@ -25,7 +25,7 @@
     identical(header_bytes, local_bytes)
 }
 
-#' @name cbioCache
+#' @name cBioCache
 #'
 #' @title Manage cache / download directories for study data
 #'
@@ -33,7 +33,7 @@
 #' re-downloading data files. This can be done effortlessly via the integrated
 #' BiocFileCache system.
 #'
-#' @section cbioCache:
+#' @section cBioCache:
 #' Get the directory location of the cache. It will prompt the user to create
 #' a cache if not already created. A specific directory can be used via
 #' \code{setCache}.
@@ -55,16 +55,16 @@
 #' location of the cache directory
 #' @param cancer_study_id A single string from `studiesTable` associated
 #' with a study tarball
-#' @param ... For `cbioCache`, arguments passed to `setCache`
+#' @param ... For `cBioCache`, arguments passed to `setCache`
 #'
 #' @md
 #'
 #' @export
-cbioCache <- function(...) {
-    getOption("cbioCache", setCache(..., verbose = FALSE))
+cBioCache <- function(...) {
+    getOption("cBioCache", setCache(..., verbose = FALSE))
 }
 
-#' @rdname cbioCache
+#' @rdname cBioCache
 #' @export
 setCache <-
     function(directory = rappdirs::user_cache_dir("cBioPortalData"),
@@ -82,11 +82,11 @@ setCache <-
             )
             answer <- .getAnswer(qtxt, allowed = c("y", "Y", "n", "N"))
             if ("n" == answer)
-                stop("'cbioCache' directory not created. Use 'setCache'")
+                stop("'cBioCache' directory not created. Use 'setCache'")
         }
         dir.create(directory, recursive = TRUE, showWarnings = FALSE)
     }
-    options("cbioCache" = directory)
+    options("cBioCache" = directory)
 
     if (verbose)
         message("cBioPortalData cache directory set to:\n    ",
@@ -94,7 +94,7 @@ setCache <-
     invisible(directory)
 }
 
-#' @rdname cbioCache
+#' @rdname cBioCache
 #' @export
 removeCache <- function(cancer_study_id) {
     bfc <- .get_cache()
