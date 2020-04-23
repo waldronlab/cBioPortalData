@@ -12,7 +12,7 @@ warnings_are_errors: false
 
 branches:
   only:
-    - RELEASE_2.0
+    - 'RELEASE_2.0'
 
 # Test code coverage
 r_github_packages:
