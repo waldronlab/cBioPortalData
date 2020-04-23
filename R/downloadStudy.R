@@ -93,9 +93,9 @@ downloadStudy <- function(cancer_study_id, use_cache = TRUE, force = FALSE)
     url_file <- file.path(url_location, paste0(cancer_study_id, ".tar.gz"))
 
     if (is.character(use_cache) && length(use_cache) == 1L)
-        cbioCache(directory = use_cache)
+        cBioCache(directory = use_cache)
     else if (isTRUE(use_cache))
-        cbioCache()
+        cBioCache()
     else
         stop("Use 'setCache' or specify a download location")
 
