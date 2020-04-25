@@ -11,8 +11,6 @@ Description: The cBioPortalData package takes compressed resources
 Depends: R (>= 3.5.0),
     AnVIL,
     MultiAssayExperiment
-Remotes:
-    Bioconductor/AnVIL
 Imports:
     BiocFileCache (>= 1.5.3),
     digest,
