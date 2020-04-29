@@ -39,6 +39,8 @@ Encoding: UTF-8
 LazyData: true
 VignetteBuilder: knitr
 BugReports: https://github.com/waldronlab/cBioPortalData/issues
+biocViews: ExperimentData, CancerData, ExperimentHub, Homo_sapiens_Data,
+    ReproducibleResearch
 RoxygenNote: 7.1.0
 Collate: 
     'utils.R'
