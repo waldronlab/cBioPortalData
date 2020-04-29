@@ -8,7 +8,7 @@ Authors@R: c(person("Levi", "Waldron", email = "lwaldron.research@gmail.com",
 Description: The cBioPortalData package takes compressed resources
     from repositories such as cBioPortal and assembles a MultiAssayExperiment
     object with Bioconductor classes.
-Depends: R (>= 3.5.0),
+Depends: R (>= 4.0.0),
     AnVIL,
     MultiAssayExperiment
 Imports:
