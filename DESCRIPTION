@@ -1,6 +1,6 @@
 Package: cBioPortalData
 Title: Exposes and makes available data from the cBioPortal web resources
-Version: 1.99.12
+Version: 1.99.13
 Authors@R: c(person("Levi", "Waldron", email = "lwaldron.research@gmail.com",
     role = "aut"),
     person("Marcel", "Ramos", email = "marcel.ramos@roswellpark.org",
