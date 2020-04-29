@@ -48,7 +48,7 @@ data(studiesTable)
 
 head(studiesTable[["cancer_study_id"]])
 
-mae <- cBioDataPack("laml_tcga")
+mae <- cBioDataPack("acc_tcga")
 
 }
 \seealso{

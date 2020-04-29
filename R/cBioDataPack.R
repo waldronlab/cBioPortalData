@@ -13,12 +13,15 @@
 #' datasets
 #'
 #' @inheritParams downloadStudy
+#'
 #' @param split.field A character vector of possible column names for the column
 #' that is used to identify samples in a mutations or copy number file.
+#'
 #' @param names.field A character vector of possible column names for the column
 #' that is used to label ranges from a mutations or copy number file.
 #'
 #' @return A \linkS4class{MultiAssayExperiment} object
+#'
 #' @seealso \url{http://cbioportal.org/data_sets.jsp}
 #'
 #' @author Levi Waldron, M. Ramos
@@ -30,7 +33,7 @@
 #'
 #' head(studiesTable[["cancer_study_id"]])
 #'
-#' mae <- cBioDataPack("laml_tcga")
+#' mae <- cBioDataPack("acc_tcga")
 #'
 #' @export
 cBioDataPack <- function(cancer_study_id, use_cache = TRUE,
@@ -134,7 +137,7 @@ cBioDataPack <- function(cancer_study_id, use_cache = TRUE,
         fudat <- readr::read_tsv(fusionExtra, comment = "#")
     else
         fudat <- list()
-    
+
     if (length(gisticExtra))
         gist <- lapply(gisticExtra, function(x) {
             gfile <- readr::read_tsv(x, comment = "#")

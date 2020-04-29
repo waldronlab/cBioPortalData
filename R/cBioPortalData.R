@@ -161,9 +161,8 @@ eval.args <- function(args) {
 #'
 #' cBioPortalData(cbio, by = "hugoGeneSymbol", studyId = "acc_tcga",
 #'     genePanelId = "IMPACT341",
-#'     molecularProfileIds = c("acc_tcga_rppa", "acc_tcga_linear_CNA",
-#'     "acc_tcga_mutations")
-#' )
+#'     molecularProfileIds = c("acc_tcga_rppa", "acc_tcga_linear_CNA")
+#'     )
 #'
 #' @export
 cBioPortalData <-
