@@ -50,14 +50,22 @@
 #'
 #' @param directory The file location where the cache is located. Once set
 #' future downloads will go to this folder.
+#'
 #' @param verbose Whether to print descriptive messages
+#'
 #' @param ask logical (default TRUE when interactive session) Confirm the file
 #' location of the cache directory
+#'
 #' @param cancer_study_id A single string from `studiesTable` associated
 #' with a study tarball
+#'
 #' @param ... For `cBioCache`, arguments passed to `setCache`
 #'
 #' @md
+#'
+#' @examples
+#'
+#' cBioCache()
 #'
 #' @return cBioCache: The path to the cache location
 #' @export

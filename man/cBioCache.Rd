@@ -59,3 +59,8 @@ the user to delete the tarball associated with a \code{cancer_study_id} in the
 cache.
 }
 
+\examples{
+
+cBioCache()
+
+}
