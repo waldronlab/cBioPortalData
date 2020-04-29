@@ -17,6 +17,9 @@ not be re-downloaded. A path can also be provided to data cache location.}
 \item{force}{logical (default FALSE) whether to force re-download data from
 remote location}
 }
+\value{
+The file location of the data tarball
+}
 \description{
 Provide a `cancer_study_id` from the `studiesTable` and retrieve
 the study tarball from cBioPortal

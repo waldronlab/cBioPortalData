@@ -84,6 +84,8 @@
 #' @param force logical (default FALSE) whether to force re-download data from
 #' remote location
 #'
+#' @return The file location of the data tarball
+#'
 #' @keywords internal
 downloadStudy <- function(cancer_study_id, use_cache = TRUE, force = FALSE)
 {

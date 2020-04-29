@@ -30,6 +30,9 @@ location of the cache directory}
 \item{cancer_study_id}{A single string from \code{studiesTable} associated
 with a study tarball}
 }
+\value{
+cBioCache: The path to the cache location
+}
 \description{
 Managing data downloads is important to save disk space and
 re-downloading data files. This can be done effortlessly via the integrated

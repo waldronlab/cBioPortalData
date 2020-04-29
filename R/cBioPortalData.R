@@ -164,6 +164,8 @@ eval.args <- function(args) {
 #'     molecularProfileIds = c("acc_tcga_rppa", "acc_tcga_linear_CNA")
 #'     )
 #'
+#' @return A \linkS4class{MultiAssayExperiment} object
+#'
 #' @export
 cBioPortalData <-
     function(api, studyId = NA_character_,

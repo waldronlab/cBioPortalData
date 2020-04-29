@@ -31,6 +31,9 @@ from the `genePanels` function}
 \item{by}{character(1) Either 'entrezGeneId' or 'hugoGeneSymbol' for row
 metadata}
 }
+\value{
+A \linkS4class{MultiAssayExperiment} object
+}
 \description{
 Obtain a `MultiAssayExperiment` object for a particular gene panel,
 `studyId`, `molecularProfileIds`, and `sampleListIds` combination. Default
