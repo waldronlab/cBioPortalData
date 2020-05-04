@@ -434,7 +434,7 @@ getGenePanelMolecular <-
     if (!validMolProf)
         stop(
             paste0("Provide multiple valid 'molecularProfileIds' from",
-             " 'molecularProfiles()'")
+            " 'molecularProfiles()'")
         )
     if (missing(sampleIds))
         stop(

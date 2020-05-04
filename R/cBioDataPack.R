@@ -168,7 +168,7 @@ cbioportal2metadata <- function(meta_file, lic_file) {
         return(list())
     md <- readLines(meta_file, warn = FALSE)
     mdl <- lapply(seq_along(md), function(i) {
-      sub(".+: ", "", md[[i]])
+        sub(".+: ", "", md[[i]])
     })
     names(mdl) <- sub(":.+", "", md)
     if (length(lic_file)) {
@@ -280,7 +280,7 @@ cbioportal2clinicaldf <- function(file) {
     clinmeta <- sub("^\\#", "", clinmeta)
     colnames(clinmeta) <- c("column", "definition")
     clinmeta <- lapply(seq_along(colnames(clin)), function(i) {
-      clinmeta[i, ]
+        clinmeta[i, ]
     })
     names(clinmeta) <- colnames(clin)
     clin <- DataFrame(clin)
