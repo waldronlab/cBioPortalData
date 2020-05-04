@@ -19,20 +19,20 @@ knitr::opts_chunk$set(cache = TRUE)
 
 # Installation
 
-## GitHub Packages
-
 Please use the devel version of the `AnVIL` Bioconductor package.
-
-```{r, eval=FALSE}
-library(BiocManager)
-install("Bioconductor/AnVIL")
-install("waldronlab/cBioPortalData")
-```
 
 ```{r,include=TRUE,results="hide",message=FALSE,warning=FALSE}
 library(cBioPortalData)
 library(AnVIL)
 ```
+
+# Introduction
+
+This vignette is for users / developers who would like to learn more about
+the available in `cBioPortalData` and possibly hit other endpoints
+in the cBioPortal API implementation. The functionality demonstrated
+here is used internally by the package to create integrative representations
+of study datasets.
 
 # API representation
 
@@ -128,7 +128,9 @@ gprppa
 
 ```{r}
 getGenePanelMolecular(cbio,
-    molecularProfileIds = c("acc_tcga_rppa", "acc_tcga_gistic"), sampleIds = allSamples(cbio, "acc_tcga")$sampleId)
+    molecularProfileIds = c("acc_tcga_rppa", "acc_tcga_gistic"),
+    sampleIds = allSamples(cbio, "acc_tcga")$sampleId
+)
 ```
 
 ### getDataByGenePanel
@@ -180,6 +182,32 @@ allSamples(cbio, "acc_tcga")
 ```{r}
 getSampleInfo(cbio, studyId = "acc_tcga",
     sampleListIds = c("acc_tcga_rppa", "acc_tcga_gistic"))
+```
+
+# Advanced Usage
+
+The `cBioPortal` API representation is not limited to the functions
+provided in the package. Users who wish to make use of any of the endpoints
+provided by the API specification should use the dollar sign `$` function
+to access the endpoints.
+
+First the user should see the input for a particular endpoint as detailed
+in the API:
+
+```{r}
+cbio$getGeneUsingGET
+```
+
+Then the user can provide such input:
+
+```{r}
+(resp <- cbio$getGeneUsingGET("BRCA1"))
+```
+
+which will require the user to 'translate' the response using `httr::content`:
+
+```{r}
+httr::content(resp)
 ```
 
 # sessionInfo

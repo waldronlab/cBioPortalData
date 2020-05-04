@@ -24,6 +24,15 @@ library(cBioPortalData)
 library(AnVIL)
 ```
 
+# Introduction
+
+This vignette lays out the two main user-facing functions for downloading
+and representing data from the cBioPortal API. `cBioDataPack`
+makes use of the legacy distribution data method in `cBioPortal` (via
+tarballs). `cBioPortalData` allows for a more flexibile approach to obtaining
+data based on several available parameters including available molecular
+profiles.
+
 ## Two main interfaces
 
 ### cBioDataPack: Obtain Study Data as Zipped Tarballs
@@ -48,5 +57,11 @@ acc <- cBioPortalData(api = cbio, by = "hugoGeneSymbol", studyId = "acc_tcga",
     molecularProfileIds = c("acc_tcga_rppa", "acc_tcga_linear_CNA")
 )
 acc
+```
+
+# sessionInfo
+
+```{r}
+sessionInfo()
 ```
 
