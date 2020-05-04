@@ -8,7 +8,16 @@
 \description{
 The `cBioPortal` class is a representation of the cBioPortal
     API protocol that directly inherits from the `Service` class in the
-    `AnVIL` package
+    `AnVIL` package. For more information, see the 'AnVIL' package.
+}
+\details{
+This class takes the static API as provided at
+    \url{https://www.cbioportal.org/api/api-docs} and creates an R object
+    with the help from underlying infrastructure (i.e., 'rapiclient' and
+    'AnVIL') to give the user a unified representation of the API
+    specification provided by the cBioPortal group. Users are not
+    expected to interact with this class other than to use it as input
+    to the functionality provided by the rest of the package.
 }
 \examples{
 
