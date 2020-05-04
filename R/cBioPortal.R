@@ -237,7 +237,9 @@ molecularData <- function(api, molecularProfileId = NA_character_,
         if (length(msg))
             warning(msg)
         else
-            warning("No data found for molecularProfileId: ", molecularProfileId)
+            warning(
+                "No data found for molecularProfileId: ", molecularProfileId
+            )
         dplyr::tibble()
     } else {
         byGene

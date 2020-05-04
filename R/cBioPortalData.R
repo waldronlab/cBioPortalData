@@ -41,14 +41,19 @@
             colsoi <- colsOI[colsOI %in% names(byGene)]
 
             if (isMut) {
-                res <- tidyr::pivot_wider(byGene[, colsoi], names_from = "sampleId",
+                res <- tidyr::pivot_wider(byGene[, colsoi],
+                    names_from = "sampleId",
                     values_from = "mutationType",
                     values_fn = list(mutationType =
-                        function(x) paste0(x, collapse = ";")))
+                        function(x) paste0(x, collapse = ";")
+                    )
+                )
                 .getMutationData(res, by)
             } else {
-                res <- tidyr::pivot_wider(byGene[, colsoi], names_from = "sampleId",
-                    values_from = "value")
+                res <- tidyr::pivot_wider(byGene[, colsoi],
+                    names_from = "sampleId",
+                    values_from = "value"
+                )
                 .getMixedData(res, by)
             }
         } else {
@@ -87,7 +92,9 @@
 .getRagEx <- function(metainfo, byname, assayname, explist) {
     ncbiBuildCol <- grep("ncbiBuild", names(metainfo), value = TRUE,
         fixed = TRUE)
-    rangeSet <- cbind(metainfo[["proteinPosStart"]], metainfo[["proteinPosEnd"]])
+    rangeSet <- cbind(
+        metainfo[["proteinPosStart"]], metainfo[["proteinPosEnd"]]
+    )
     metainfo[["proteinPosStart"]] <- apply(rangeSet, 1L, min, na.rm = TRUE)
     metainfo[["proteinPosEnd"]] <- apply(rangeSet, 1L, max, na.rm = TRUE)
     splitframe <- GenomicRanges::makeGRangesListFromDataFrame(metainfo,
