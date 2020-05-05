@@ -1,6 +1,6 @@
 Package: cBioPortalData
 Title: Exposes and makes available data from the cBioPortal web resources
-Version: 1.99.15
+Version: 1.99.16
 Authors@R: c(person("Levi", "Waldron", email = "lwaldron.research@gmail.com",
     role = "aut"),
     person("Marcel", "Ramos", email = "marcel.ramos@roswellpark.org",
@@ -39,8 +39,7 @@ Encoding: UTF-8
 LazyData: true
 VignetteBuilder: knitr
 BugReports: https://github.com/waldronlab/cBioPortalData/issues
-biocViews: ExperimentData, CancerData, ExperimentHub, Homo_sapiens_Data,
-    ReproducibleResearch
+biocViews: Software, Infrastructure, ThirdPartyClient
 RoxygenNote: 7.1.0
 Collate: 
     'utils.R'
