@@ -173,16 +173,18 @@ metadata</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>A MultiAssayExperiment object</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='no'>cbio</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='cBioPortal.html'>cBioPortal</a></span>()
+<span class='no'>cbio</span> <span class='kw'>&lt;-</span> <span class='fu'>cBioPortal</span>()
 
 <span class='fu'>cBioPortalData</span>(<span class='no'>cbio</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='st'>"hugoGeneSymbol"</span>, <span class='kw'>studyId</span> <span class='kw'>=</span> <span class='st'>"acc_tcga"</span>,
     <span class='kw'>genePanelId</span> <span class='kw'>=</span> <span class='st'>"IMPACT341"</span>,
-    <span class='kw'>molecularProfileIds</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"acc_tcga_rppa"</span>, <span class='st'>"acc_tcga_linear_CNA"</span>,
-    <span class='st'>"acc_tcga_mutations"</span>)
-)</div><div class='output co'>#&gt; <span class='error'>Error in is(api, "cBioPortal"): object 'cbio' not found</span></div><div class='input'>
+    <span class='kw'>molecularProfileIds</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"acc_tcga_rppa"</span>, <span class='st'>"acc_tcga_linear_CNA"</span>)
+    )</div><div class='output co'>#&gt; <span class='error'>Error in is(api, "cBioPortal"): object 'cbio' not found</span></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
