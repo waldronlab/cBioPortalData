@@ -33,11 +33,11 @@ package:
 
 ## Minor note
 
-It is a work in progress, and due to some variation in their formats,
-does not yet work for all 268 (as of Dec 2019) datasets. At the time of
-writing, it successfully imports 93% of 200 randomly sampled datasets.
-Please feel free to file an issue to request prioritization of fixing
-any of the remaining datasets.
+cBioPortalData is a work in progress. Due to variation in data
+formatting, the package does not import all 268 (as of Dec 2019)
+datasets. Currently, it successfully imports 93% of 200 randomly sampled
+datasets. Please file an issue to request prioritization of any of the
+remaining datasets.
 
 ## Quick Start
 
@@ -48,7 +48,7 @@ if (!requireNamespace("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
 
 if (!requireNamespace("cBioPortalData", quietly = TRUE))
-    BiocManager::install("waldronlab/cBioPortalData")
+    BiocManager::install("cBioPortalData")
 
 library(cBioPortalData)
 ```
@@ -73,13 +73,14 @@ gbm
 #>  Containing an ExperimentList class object of length 2:
 #>  [1] gbm_tcga_rppa: SummarizedExperiment with 67 rows and 244 columns
 #>  [2] gbm_tcga_mrna: SummarizedExperiment with 334 rows and 401 columns
-#> Features:
+#> Functionality:
 #>  experiments() - obtain the ExperimentList instance
-#>  colData() - the primary/phenotype DFrame
-#>  sampleMap() - the sample availability DFrame
+#>  colData() - the primary/phenotype DataFrame
+#>  sampleMap() - the sample coordination DataFrame
 #>  `$`, `[`, `[[` - extract colData columns, subset, or experiment
-#>  *Format() - convert into a long or wide DFrame
+#>  *Format() - convert into a long or wide DataFrame
 #>  assays() - convert ExperimentList to a SimpleList of matrices
+#>  exportClass() - save all data to files
 ```
 
 ### Packaged data service (legacy)
@@ -108,11 +109,12 @@ laml
 #>  [9] methylation_hm450: SummarizedExperiment with 10919 rows and 194 columns
 #>  [10] mutations_extended: RaggedExperiment with 2584 rows and 197 columns
 #>  [11] mutations_mskcc: RaggedExperiment with 2584 rows and 197 columns
-#> Features:
+#> Functionality:
 #>  experiments() - obtain the ExperimentList instance
-#>  colData() - the primary/phenotype DFrame
-#>  sampleMap() - the sample availability DFrame
+#>  colData() - the primary/phenotype DataFrame
+#>  sampleMap() - the sample coordination DataFrame
 #>  `$`, `[`, `[[` - extract colData columns, subset, or experiment
-#>  *Format() - convert into a long or wide DFrame
+#>  *Format() - convert into a long or wide DataFrame
 #>  assays() - convert ExperimentList to a SimpleList of matrices
+#>  exportClass() - save all data to files
 ```
