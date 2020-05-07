@@ -1,0 +1,41 @@
+title: cBiocPortalData
+
+template:
+  params:
+    bootswatch: spacelab
+
+reference:
+  - title: High-level Primary Functions
+    desc: Choose either bulk data download or API-based download
+    contents:
+      - studiesTable
+      - cBioDataPack
+      - cBioPortalData
+  - title: Low-level API interface
+    desc: Conveniently explore the cBioPortal API
+    contents:
+      - cBioPortal
+      - cBioPortal-class
+  - title: Helper functions
+    desc: Miscellaneous
+    contents:
+      - cBioCache
+
+navbar:
+  title: ~
+  type: default
+  left:
+    - text: Quick Reference
+      href: reference/index.html
+    - text: User Start Guide
+      href: articles/cBioPortalData.html
+    - text: API Reference Guide
+      href: articles/cBioPortalRClient.html
+    - text: NEWS
+      icon: fa-newspaper-o
+      href: news/index.html
+  right:
+  - icon: fa-github fa-lg
+    href: https://github.com/waldronlab/cBioPortalData
+
+
