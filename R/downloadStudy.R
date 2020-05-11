@@ -9,7 +9,7 @@
     cancer_study_id <- tolower(cancer_study_id)
     ## Load dataset to envir
     loc_data <- new.env(parent = emptyenv())
-    data("studiesTable", envir = loc_data)
+    data("studiesTable", envir = loc_data, package = "cBioPortalData")
     studiesTable <- loc_data[["studiesTable"]]
 
     ## Ensure study ID is valid
