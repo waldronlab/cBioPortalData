@@ -210,6 +210,15 @@ which will require the user to 'translate' the response using `httr::content`:
 httr::content(resp)
 ```
 
+## Clearing the cache
+
+For users who wish to clear the entire `cBioPortalData` cache, it is
+recommended that they use:
+
+```{r,eval=FALSE}
+unlink("~/.cache/cBioPortalData/")
+```
+
 # sessionInfo
 
 ```{r}

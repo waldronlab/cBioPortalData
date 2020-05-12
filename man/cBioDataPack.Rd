@@ -36,11 +36,13 @@ Output datasets use the \linkS4class{MultiAssayExperiment} data
 representation to faciliate analysis and data management operations.
 }
 \details{
-The list of datasets can be found in the `studiesTable` dataset
+The list of datasets can be found in the \code{studiesTable} dataset
 by doing \code{data("studiesTable")}. Some datasets may not be available
 for download. Please refer to the
 \href{http://cbioportal.org/data_sets.jsp}{website} for the full list of
-datasets
+datasets. Users who would like to obtain a more fine grain approach to
+downloading data from the cBioPortal API, refer to the \code{cBioPortalData}
+function.
 }
 \examples{
 
@@ -52,7 +54,7 @@ mae <- cBioDataPack("acc_tcga")
 
 }
 \seealso{
-\url{http://cbioportal.org/data_sets.jsp}
+\url{http://cbioportal.org/data_sets.jsp}, \link{cBioPortalData}
 }
 \author{
 Levi Waldron, M. Ramos

@@ -56,11 +56,12 @@ got to the user's home/.cache and "appname" directory as specified by
 
 Some files may become corrupt when downloading, this function allows
 the user to delete the tarball associated with a \code{cancer_study_id} in the
-cache.
+cache. This only works for the \code{cBioDataPack} function. To remove the entire
+\code{cBioPortalData} cache, run \code{unlink("~/.cache/cBioPortalData")}.
 }
 
 \examples{
 
-cBioCache()
+(cacheloc <- cBioCache())
 
 }

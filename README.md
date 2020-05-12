@@ -56,7 +56,9 @@ library(cBioPortalData)
 ### API Service
 
 Flexible and granular access to cBioPortal data from
-`cbioportal.org/api`.
+`cbioportal.org/api`. This option is best used with a particular gene
+panel of interest. It allows users to download sections of the data with
+molecular profile and gene panel combinations within a study.
 
 ``` r
 cbio <- cBioPortal()
@@ -73,20 +75,22 @@ gbm
 #>  Containing an ExperimentList class object of length 2:
 #>  [1] gbm_tcga_rppa: SummarizedExperiment with 67 rows and 244 columns
 #>  [2] gbm_tcga_mrna: SummarizedExperiment with 334 rows and 401 columns
-#> Features:
+#> Functionality:
 #>  experiments() - obtain the ExperimentList instance
-#>  colData() - the primary/phenotype DFrame
-#>  sampleMap() - the sample availability DFrame
+#>  colData() - the primary/phenotype DataFrame
+#>  sampleMap() - the sample coordination DataFrame
 #>  `$`, `[`, `[[` - extract colData columns, subset, or experiment
-#>  *Format() - convert into a long or wide DFrame
+#>  *Format() - convert into a long or wide DataFrame
 #>  assays() - convert ExperimentList to a SimpleList of matrices
+#>  exportClass() - save all data to files
 ```
 
-### Packaged data service (legacy)
+### Packaged Data Service
 
 This function will download a dataset from the `cbioportal.org/datasets`
 website as a packaged tarball and serve it to users as a
-`MultiAssayExperiment` object.
+`MultiAssayExperiment` object. This option is good for users who are
+interested in obtaining all the data for a particular study.
 
 ``` r
 laml <- cBioDataPack("laml_tcga")
@@ -108,11 +112,12 @@ laml
 #>  [9] methylation_hm450: SummarizedExperiment with 10919 rows and 194 columns
 #>  [10] mutations_extended: RaggedExperiment with 2584 rows and 197 columns
 #>  [11] mutations_mskcc: RaggedExperiment with 2584 rows and 197 columns
-#> Features:
+#> Functionality:
 #>  experiments() - obtain the ExperimentList instance
-#>  colData() - the primary/phenotype DFrame
-#>  sampleMap() - the sample availability DFrame
+#>  colData() - the primary/phenotype DataFrame
+#>  sampleMap() - the sample coordination DataFrame
 #>  `$`, `[`, `[[` - extract colData columns, subset, or experiment
-#>  *Format() - convert into a long or wide DFrame
+#>  *Format() - convert into a long or wide DataFrame
 #>  assays() - convert ExperimentList to a SimpleList of matrices
+#>  exportClass() - save all data to files
 ```

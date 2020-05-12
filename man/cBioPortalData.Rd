@@ -35,10 +35,13 @@ metadata}
 A \linkS4class{MultiAssayExperiment} object
 }
 \description{
-Obtain a `MultiAssayExperiment` object for a particular gene panel,
-`studyId`, `molecularProfileIds`, and `sampleListIds` combination. Default
-`molecularProfileIds` and `sampleListIds` are set to NULL for including all
-data.
+Obtain a \code{MultiAssayExperiment} object for a particular gene panel,
+\code{studyId}, \code{molecularProfileIds}, and \code{sampleListIds} combination. Default
+\code{molecularProfileIds} and \code{sampleListIds} are set to NULL for including all
+data. This option is best for users who wish to obtain a section of the
+study data that pertains to a specific molecular profile and gene panel
+combination. For users looking to download the entire study data as provided
+by the \url{https://cbioportal.org/datasets}, refer to \code{cBioDataPack}.
 }
 \examples{
 
@@ -49,4 +52,7 @@ cBioPortalData(cbio, by = "hugoGeneSymbol", studyId = "acc_tcga",
     molecularProfileIds = c("acc_tcga_rppa", "acc_tcga_linear_CNA")
     )
 
+}
+\seealso{
+\link{cBioDataPack}
 }
