@@ -56,7 +56,9 @@ library(cBioPortalData)
 ### API Service
 
 Flexible and granular access to cBioPortal data from
-`cbioportal.org/api`.
+`cbioportal.org/api`. This option is best used with a particular gene
+panel of interest. It allows users to download sections of the data with
+molecular profile and gene panel combinations within a study.
 
 ``` r
 cbio <- cBioPortal()
@@ -83,11 +85,12 @@ gbm
 #>  exportClass() - save all data to files
 ```
 
-### Packaged data service (legacy)
+### Packaged Data Service
 
 This function will download a dataset from the `cbioportal.org/datasets`
 website as a packaged tarball and serve it to users as a
-`MultiAssayExperiment` object.
+`MultiAssayExperiment` object. This option is good for users who are
+interested in obtaining all the data for a particular study.
 
 ``` r
 laml <- cBioDataPack("laml_tcga")

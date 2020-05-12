@@ -36,7 +36,7 @@
 #' @section cBioCache:
 #' Get the directory location of the cache. It will prompt the user to create
 #' a cache if not already created. A specific directory can be used via
-#' \code{setCache}.
+#' `setCache`.
 #'
 #' @section setCache:
 #' Specify the directory location of the data cache. By default, it will
@@ -46,7 +46,8 @@
 #' @section removeCache:
 #' Some files may become corrupt when downloading, this function allows
 #' the user to delete the tarball associated with a `cancer_study_id` in the
-#' cache.
+#' cache. This only works for the `cBioDataPack` function. To remove the entire
+#' `cBioPortalData` cache, run `unlink("~/.cache/cBioPortalData")`.
 #'
 #' @param directory The file location where the cache is located. Once set
 #' future downloads will go to this folder.
@@ -65,7 +66,7 @@
 #'
 #' @examples
 #'
-#' cBioCache()
+#' (cacheloc <- cBioCache())
 #'
 #' @return cBioCache: The path to the cache location
 #' @export

@@ -1,16 +1,18 @@
 #' @title Obtain pre-packaged data from cBioPortal and represent as
 #' a MultiAssayExperiment object
 #'
-#' @description The \code{cBioDataPack} function allows the user to
+#' @description The `cBioDataPack` function allows the user to
 #' download and process cancer study datasets found in MSKCC's cBioPortal.
 #' Output datasets use the \linkS4class{MultiAssayExperiment} data
 #' representation to faciliate analysis and data management operations.
 #'
 #' @details The list of datasets can be found in the `studiesTable` dataset
-#' by doing \code{data("studiesTable")}. Some datasets may not be available
+#' by doing `data("studiesTable")`. Some datasets may not be available
 #' for download. Please refer to the
 #' \href{http://cbioportal.org/data_sets.jsp}{website} for the full list of
-#' datasets
+#' datasets. Users who would like to obtain a more fine grain approach to
+#' downloading data from the cBioPortal API, refer to the `cBioPortalData`
+#' function.
 #'
 #' @inheritParams downloadStudy
 #'
@@ -22,10 +24,12 @@
 #'
 #' @return A \linkS4class{MultiAssayExperiment} object
 #'
-#' @seealso \url{http://cbioportal.org/data_sets.jsp}
+#' @seealso \url{http://cbioportal.org/data_sets.jsp}, \link{cBioPortalData}
 #'
 #' @author Levi Waldron, M. Ramos
 #' @include utils.R
+#'
+#' @md
 #'
 #' @examples
 #'

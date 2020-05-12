@@ -59,6 +59,28 @@ acc <- cBioPortalData(api = cbio, by = "hugoGeneSymbol", studyId = "acc_tcga",
 acc
 ```
 
+## Clearing the cache
+
+### cBioDataPack
+
+In cases where a download is interrupted, the user may experience a corrupt
+cache. The user can clear the cache for a particular study by using the
+`removeCache` function. Note that this function only works for data downloaded
+through the `cBioDataPack` function.
+
+```{r,eval=FALSE}
+removeCache("laml_tcga")
+```
+
+### cBioPortalData
+
+For users who wish to clear the entire `cBioPortalData` cache, it is
+recommended that they use:
+
+```{r,eval=FALSE}
+unlink("~/.cache/cBioPortalData/")
+```
+
 # sessionInfo
 
 ```{r}

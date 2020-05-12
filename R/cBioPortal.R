@@ -33,8 +33,14 @@ utils::globalVariables(c("clinicalAttributeId", "value", "sampleId"))
 #'
 #' @title The R interface to the cBioPortal API Data Service
 #'
-#' @description This function gives users access to the cBioPortal data with an
-#'     API representation invoked from `cBioPortal()`
+#' @description This section of the documentation lists the functions that
+#'     allow users to access the cBioPortal API. The main representation of the
+#'     API can be obtained from the `cBioPortal` function. The supporting
+#'     functions listed here give access to specific parts of the API and
+#'     allow the user to explore the API with individual calls. Many of the
+#'     functions here are listed for documentation purposes and are
+#'     recommended for advanced usage only. Users should only need to use the
+#'     `cBioPortalData` main function to obtain data.
 #'
 #' @param api An API object of class `cBioPortal` from the `cBioPortal`
 #'     function
