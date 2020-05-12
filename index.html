@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">cBiocPortalData</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.3</span>
       </span>
     </div>
 
@@ -103,7 +103,7 @@
 <div id="minor-note" class="section level2">
 <h2 class="hasAnchor">
 <a href="#minor-note" class="anchor"></a>Minor note</h2>
-<p>It is a work in progress, and due to some variation in their formats, does not yet work for all 268 (as of Dec 2019) datasets. At the time of writing, it successfully imports 93% of 200 randomly sampled datasets. Please feel free to file an issue to request prioritization of fixing any of the remaining datasets.</p>
+<p>cBioPortalData is a work in progress. Due to variation in data formatting, the package does not import all 268 (as of Dec 2019) datasets. Currently, it successfully imports 93% of 200 randomly sampled datasets. Please file an issue to request prioritization of any of the remaining datasets.</p>
 </div>
 <div id="quick-start" class="section level2">
 <h2 class="hasAnchor">
@@ -115,16 +115,16 @@
     <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"BiocManager"</span>)
 
 <span class="kw">if</span> (!<span class="fu"><a href="https://rdrr.io/r/base/ns-load.html">requireNamespace</a></span>(<span class="st">"cBioPortalData"</span>, <span class="kw">quietly</span> <span class="kw">=</span> <span class="fl">TRUE</span>))
-    <span class="kw pkg">BiocManager</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/install.html">install</a></span>(<span class="st">"waldronlab/cBioPortalData"</span>)
+    <span class="kw pkg">BiocManager</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/install.html">install</a></span>(<span class="st">"cBioPortalData"</span>)
 
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">cBioPortalData</span>)</pre></div>
 </div>
 <div id="api-service" class="section level3">
 <h3 class="hasAnchor">
 <a href="#api-service" class="anchor"></a>API Service</h3>
-<p>Flexible and granular access to cBioPortal data from <code>cbioportal.org/api</code>.</p>
-<div class="sourceCode" id="cb2"><pre class="r"><span class="no">cbio</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/cBioPortalData/man/cBioPortal.html">cBioPortal</a></span>()
-<span class="no">gbm</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/cBioPortalData/man/cBioPortalData.html">cBioPortalData</a></span>(<span class="kw">api</span> <span class="kw">=</span> <span class="no">cbio</span>, <span class="kw">by</span> <span class="kw">=</span> <span class="st">"hugoGeneSymbol"</span>, <span class="kw">studyId</span> <span class="kw">=</span> <span class="st">"gbm_tcga"</span>,
+<p>Flexible and granular access to cBioPortal data from <code>cbioportal.org/api</code>. This option is best used with a particular gene panel of interest. It allows users to download sections of the data with molecular profile and gene panel combinations within a study.</p>
+<div class="sourceCode" id="cb2"><pre class="r"><span class="no">cbio</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/cBioPortal.html">cBioPortal</a></span>()
+<span class="no">gbm</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/cBioPortalData.html">cBioPortalData</a></span>(<span class="kw">api</span> <span class="kw">=</span> <span class="no">cbio</span>, <span class="kw">by</span> <span class="kw">=</span> <span class="st">"hugoGeneSymbol"</span>, <span class="kw">studyId</span> <span class="kw">=</span> <span class="st">"gbm_tcga"</span>,
     <span class="kw">genePanelId</span> <span class="kw">=</span> <span class="st">"IMPACT341"</span>,
     <span class="kw">molecularProfileIds</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"gbm_tcga_rppa"</span>, <span class="st">"gbm_tcga_mrna"</span>)
 )</pre></div>
@@ -134,19 +134,20 @@
 <span class="co">#&gt;  Containing an ExperimentList class object of length 2:</span>
 <span class="co">#&gt;  [1] gbm_tcga_rppa: SummarizedExperiment with 67 rows and 244 columns</span>
 <span class="co">#&gt;  [2] gbm_tcga_mrna: SummarizedExperiment with 334 rows and 401 columns</span>
-<span class="co">#&gt; Features:</span>
+<span class="co">#&gt; Functionality:</span>
 <span class="co">#&gt;  experiments() - obtain the ExperimentList instance</span>
-<span class="co">#&gt;  colData() - the primary/phenotype DFrame</span>
-<span class="co">#&gt;  sampleMap() - the sample availability DFrame</span>
+<span class="co">#&gt;  colData() - the primary/phenotype DataFrame</span>
+<span class="co">#&gt;  sampleMap() - the sample coordination DataFrame</span>
 <span class="co">#&gt;  `$`, `[`, `[[` - extract colData columns, subset, or experiment</span>
-<span class="co">#&gt;  *Format() - convert into a long or wide DFrame</span>
-<span class="co">#&gt;  assays() - convert ExperimentList to a SimpleList of matrices</span></pre></div>
+<span class="co">#&gt;  *Format() - convert into a long or wide DataFrame</span>
+<span class="co">#&gt;  assays() - convert ExperimentList to a SimpleList of matrices</span>
+<span class="co">#&gt;  exportClass() - save all data to files</span></pre></div>
 </div>
-<div id="packaged-data-service-legacy" class="section level3">
+<div id="packaged-data-service" class="section level3">
 <h3 class="hasAnchor">
-<a href="#packaged-data-service-legacy" class="anchor"></a>Packaged data service (legacy)</h3>
-<p>This function will download a dataset from the <code>cbioportal.org/datasets</code> website as a packaged tarball and serve it to users as a <code>MultiAssayExperiment</code> object.</p>
-<div class="sourceCode" id="cb4"><pre class="r"><span class="no">laml</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/cBioPortalData/man/cBioDataPack.html">cBioDataPack</a></span>(<span class="st">"laml_tcga"</span>)</pre></div>
+<a href="#packaged-data-service" class="anchor"></a>Packaged Data Service</h3>
+<p>This function will download a dataset from the <code>cbioportal.org/datasets</code> website as a packaged tarball and serve it to users as a <code>MultiAssayExperiment</code> object. This option is good for users who are interested in obtaining all the data for a particular study.</p>
+<div class="sourceCode" id="cb4"><pre class="r"><span class="no">laml</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/cBioDataPack.html">cBioDataPack</a></span>(<span class="st">"laml_tcga"</span>)</pre></div>
 <div class="sourceCode" id="cb5"><pre class="r"><span class="no">laml</span>
 <span class="co">#&gt; A MultiAssayExperiment object of 11 listed</span>
 <span class="co">#&gt;  experiments with user-defined names and respective classes.</span>
@@ -162,13 +163,14 @@
 <span class="co">#&gt;  [9] methylation_hm450: SummarizedExperiment with 10919 rows and 194 columns</span>
 <span class="co">#&gt;  [10] mutations_extended: RaggedExperiment with 2584 rows and 197 columns</span>
 <span class="co">#&gt;  [11] mutations_mskcc: RaggedExperiment with 2584 rows and 197 columns</span>
-<span class="co">#&gt; Features:</span>
+<span class="co">#&gt; Functionality:</span>
 <span class="co">#&gt;  experiments() - obtain the ExperimentList instance</span>
-<span class="co">#&gt;  colData() - the primary/phenotype DFrame</span>
-<span class="co">#&gt;  sampleMap() - the sample availability DFrame</span>
+<span class="co">#&gt;  colData() - the primary/phenotype DataFrame</span>
+<span class="co">#&gt;  sampleMap() - the sample coordination DataFrame</span>
 <span class="co">#&gt;  `$`, `[`, `[[` - extract colData columns, subset, or experiment</span>
-<span class="co">#&gt;  *Format() - convert into a long or wide DFrame</span>
-<span class="co">#&gt;  assays() - convert ExperimentList to a SimpleList of matrices</span></pre></div>
+<span class="co">#&gt;  *Format() - convert into a long or wide DataFrame</span>
+<span class="co">#&gt;  assays() - convert ExperimentList to a SimpleList of matrices</span>
+<span class="co">#&gt;  exportClass() - save all data to files</span></pre></div>
 </div>
 </div>
 </div>
@@ -178,6 +180,8 @@
     <div class="links">
 <h2>Links</h2>
 <ul class="list-unstyled">
+<li>Download from BIOC at <br><a href="https://www.bioconductor.org/packages/cBioPortalData">https://​www.bioconductor.org/​packages/​cBioPortalData</a>
+</li>
 <li>Browse source code at <br><a href="https://github.com/waldronlab/cBioPortalData/">https://​github.com/​waldronlab/​cBioPortalData/​</a>
 </li>
 <li>Report a bug at <br><a href="https://github.com/waldronlab/cBioPortalData/issues">https://​github.com/​waldronlab/​cBioPortalData/​issues</a>

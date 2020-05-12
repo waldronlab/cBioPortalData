@@ -40,10 +40,13 @@
 
 
 <meta property="og:title" content="Download data from the cBioPortal API — cBioPortalData" />
-<meta property="og:description" content="Obtain a `MultiAssayExperiment` object for a particular gene panel,
-`studyId`, `molecularProfileIds`, and `sampleListIds` combination. Default
-`molecularProfileIds` and `sampleListIds` are set to NULL for including all
-data." />
+<meta property="og:description" content="Obtain a MultiAssayExperiment object for a particular gene panel,
+studyId, molecularProfileIds, and sampleListIds combination. Default
+molecularProfileIds and sampleListIds are set to NULL for including all
+data. This option is best for users who wish to obtain a section of the
+study data that pertains to a specific molecular profile and gene panel
+combination. For users looking to download the entire study data as provided
+by the https://cbioportal.org/datasets, refer to cBioDataPack." />
 
 
 
@@ -75,7 +78,7 @@ data." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">cBiocPortalData</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.3</span>
       </span>
     </div>
 
@@ -124,10 +127,13 @@ data." />
     </div>
 
     <div class="ref-description">
-    <p>Obtain a `MultiAssayExperiment` object for a particular gene panel,
-`studyId`, `molecularProfileIds`, and `sampleListIds` combination. Default
-`molecularProfileIds` and `sampleListIds` are set to NULL for including all
-data.</p>
+    <p>Obtain a <code>MultiAssayExperiment</code> object for a particular gene panel,
+<code>studyId</code>, <code>molecularProfileIds</code>, and <code>sampleListIds</code> combination. Default
+<code>molecularProfileIds</code> and <code>sampleListIds</code> are set to NULL for including all
+data. This option is best for users who wish to obtain a section of the
+study data that pertains to a specific molecular profile and gene panel
+combination. For users looking to download the entire study data as provided
+by the <a href='https://cbioportal.org/datasets'>https://cbioportal.org/datasets</a>, refer to <code>cBioDataPack</code>.</p>
     </div>
 
     <pre class="usage"><span class='fu'>cBioPortalData</span>(
@@ -176,10 +182,13 @@ metadata</p></td>
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A MultiAssayExperiment object</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><a href='cBioDataPack.html'>cBioDataPack</a></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='no'>cbio</span> <span class='kw'>&lt;-</span> <span class='fu'>cBioPortal</span>()
+<span class='no'>cbio</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='cBioPortal.html'>cBioPortal</a></span>()
 
 <span class='fu'>cBioPortalData</span>(<span class='no'>cbio</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='st'>"hugoGeneSymbol"</span>, <span class='kw'>studyId</span> <span class='kw'>=</span> <span class='st'>"acc_tcga"</span>,
     <span class='kw'>genePanelId</span> <span class='kw'>=</span> <span class='st'>"IMPACT341"</span>,

@@ -74,7 +74,7 @@ BiocFileCache system." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">cBiocPortalData</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.3</span>
       </span>
     </div>
 
@@ -189,11 +189,13 @@ user_cache_dir. (default appname: cBioPortalData)</p>
 
 <p>Some files may become corrupt when downloading, this function allows
 the user to delete the tarball associated with a <code>cancer_study_id</code> in the
-cache.</p>
+cache. This only works for the <code>cBioDataPack</code> function. To remove the entire
+<code>cBioPortalData</code> cache, run <code><a href='https://rdrr.io/r/base/unlink.html'>unlink("~/.cache/cBioPortalData")</a></code>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='fu'>cBioCache</span>()</div></pre>
+(<span class='no'>cacheloc</span> <span class='kw'>&lt;-</span> <span class='fu'>cBioCache</span>())</div><div class='output co'>#&gt; [1] "/home/mr148/.cache/cBioPortalData"</div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
