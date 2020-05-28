@@ -163,17 +163,21 @@ clinicalData <- function(api, studyId = NA_character_) {
     if (file.exists(cacheloc)) {
         load(cacheloc)
     } else {
-        pttable <- .invoke_bind(api,
-            "getAllPatientsInStudyUsingGET", studyId = studyId)
+        pttable <- .invoke_bind(
+            api = api, name = "getAllPatientsInStudyUsingGET",
+            use_cache = TRUE, studyId = studyId
+        )
         ptrow <- lapply(pttable[["patientId"]], function(pt) {
-            .invoke_bind(api,
-                "getAllClinicalDataOfPatientInStudyUsingGET",
-                studyId = studyId, patientId = pt)
+            .invoke_bind(
+                api = api, name = "getAllClinicalDataOfPatientInStudyUsingGET",
+                use_cache = TRUE, studyId = studyId, patientId = pt
+            )
         })
         save(ptrow, file = cacheloc)
     }
     clin <- dplyr::bind_rows(ptrow)
-    tidyr::spread(clin, clinicalAttributeId, value)
+    tidyr::pivot_wider(data = clin, names_from = "clinicalAttributeId",
+        values_from = "value")
 }
 
 #' @name cBioPortal
@@ -196,8 +200,10 @@ molecularProfiles <- function(api, studyId = NA_character_,
         stop("Provide a valid 'studyId' from 'getStudies()'")
 
     projection <- match.arg(projection)
-    mols <- .invoke_fun(api, "getAllMolecularProfilesInStudyUsingGET",
-        use_cache = TRUE, studyId = studyId, projection = projection)
+    mols <- .invoke_fun(
+        api = api, name = "getAllMolecularProfilesInStudyUsingGET",
+        use_cache = TRUE, studyId = studyId, projection = projection
+    )
     cmols <- httr::content(mols)
     if (projection %in% c("SUMMARY", "ID"))
         dplyr::bind_rows(cmols)
@@ -319,7 +325,9 @@ samplesInSampleLists <-
         meta <- structure(vector("list", length(sampleListIds)),
             .Names = sampleListIds)
         res <- lapply(sampleListIds, function(x) {
-            res <- .invoke_fun(api, "getSampleListUsingGET", sampleListId = x)
+            res <- .invoke_fun(
+                api, "getSampleListUsingGET", TRUE, sampleListId = x
+            )
             res2 <- httr::content(res)
             meta[[x]] <<- res2[names(res2) != "sampleIds"]
             unlist(res2[["sampleIds"]])
@@ -464,9 +472,10 @@ getGenePanelMolecular <-
     )
     SampMolIds <- SampMolIds[order(SampMolIds[["molecularProfileId"]]), ]
 
-    .invoke_bind(api,
-        "fetchGenePanelDataInMultipleMolecularProfilesUsingPOST",
-        TRUE,
+    .invoke_bind(
+        api = api,
+        name = "fetchGenePanelDataInMultipleMolecularProfilesUsingPOST",
+        use_cache = TRUE,
         sampleMolecularIdentifiers = SampMolIds
     )
 }
@@ -497,7 +506,7 @@ getSampleInfo <-
             )
         )
 
-    .invoke_bind(api, "fetchSamplesUsingPOST", TRUE,
+    .invoke_bind(api = api, name = "fetchSamplesUsingPOST", use_cache = TRUE,
         projection = projection, sampleIdentifiers = queryobj
     )
 }
