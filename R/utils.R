@@ -214,26 +214,18 @@ endpoint_map <- data.frame(
     stringsAsFactors = FALSE
 )
 
-.check_fun <- function(api, x, endpoint, colname, use_cache, ...) {
-    all(x %in% .invoke_bind(api, endpoint, use_cache, ...)[[colname]])
-}
-
-.barg <- function(type) {
-    switch(type,
-        studyId = expression(list(keyword = element))[[1]],
-        NULL
-    )
-}
-
-.checkIdValidity <- function(api, element, ename = c("studyId", "genePanelId",
-        "molecularProfileId", "sampleListId"), use_cache = TRUE, ...) {
-    if (all(is.na(element))) return(FALSE)
-    ename <- match.arg(ename)
-    args <- .barg(ename)
-    args <- eval(args)
-    ord <- endpoint_map[endpoint_map[["what"]] == ename, , drop = TRUE]
-    .check_fun(api = api, x = element,
-        endpoint = ord[["how"]], colname = ename, use_cache = use_cache, args)
+.dollarCache <- function(appname, ...) {
+    if (!is.list(appname))
+        stop("<internal> Provide a list input as 'api$name'")
+    digi <- digest::digest(list(appname, ...))
+    loc <- .getHashCache(digi)
+    if (file.exists(loc)) {
+        load(loc)
+    } else {
+        op <- do.call(`$`, appname)(...)
+        save(op, file = loc)
+    }
+    op
 }
 
 .invoke_fun <- function(api, name, use_cache = FALSE, ...) {
@@ -250,26 +242,34 @@ endpoint_map <- data.frame(
     }
 }
 
-.dollarCache <- function(appname, ...) {
-    if (!is.list(appname))
-        stop("<internal> Provide a list input as 'api$name'")
-    digi <- digest::digest(list(appname, ...))
-    loc <- .getHashCache(digi)
-    if (file.exists(loc)) {
-        load(loc)
-    } else {
-        op <- do.call(`$`, appname)(...)
-        save(op, file = loc)
-    }
-    op
-}
-
 .bind_content <- function(x) {
     dplyr::bind_rows(
         httr::content(x)
     )
 }
 
-.invoke_bind <- function(api, name, use_cache = FALSE, ...) {
+.invoke_bind <- function(api, name, use_cache, ...)  {
     .bind_content(.invoke_fun(api, name, use_cache, ...))
+}
+
+.check_fun <- function(api, x, endpoint, colname, use_cache, ...) {
+    funres <- .invoke_fun(
+        api = api, name = endpoint, use_cache = use_cache, ...
+    )
+    fields <- .bind_content(funres)[[colname]]
+    all(x %in% fields)
+}
+
+.checkIdValidity <- function(api, element, ename = c("studyId", "genePanelId",
+        "molecularProfileId", "sampleListId"), use_cache = TRUE, check = TRUE) {
+    if (all(is.na(element))) return(FALSE)
+    ename <- match.arg(ename)
+    ord <- endpoint_map[endpoint_map[["what"]] == ename, , drop = TRUE]
+    if (check)
+        .check_fun(
+            api = api, x = element, endpoint = ord[["how"]],
+            colname = ename, use_cache = use_cache
+        )
+    else
+        TRUE
 }
