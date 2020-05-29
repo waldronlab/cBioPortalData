@@ -100,26 +100,20 @@ utils::globalVariables(c("clinicalAttributeId", "value", "sampleId"))
 #' getGenePanel(api = cbio, genePanelId = "IMPACT341")
 #'
 #' @export
-cBioPortal <- function(apiHostUrl) {
-    if (missing(apiHostUrl)) {
-        apiHost <- "www.cbioportal.org"
-        apiUrl <- "https://www.cbioportal.org/api/api-docs"
-    } else {
-        library(stringr)
-        apiHost <- str_split(apiHostUrl,"//")[[1]][2]
-        apiUrl <- paste(apiHostUrl,"/api/docs", sep="")
-    }
-        
+cBioPortal <- function(subdomain = "www", protocol = "https") {
+    hostname <- paste0(subdomain, ".cbioportal.org")
+    apiUrl <- paste0(protocol, "://", hostname, "/api/api-docs")
     .cBioPortal(
         Service(
             service = "cBioPortal",
-            host = apiHost,
-            config = httr::config(ssl_verifypeer = 0L, ssl_verifyhost = 0L,
-                http_version = 0L),
+            host = hostname,
+            config = httr::config(
+                ssl_verifypeer = 0L, ssl_verifyhost = 0L, http_version = 0L
+            ),
             authenticate = FALSE,
             api_url = apiUrl,
             package = "cBioPortalData",
-            schemes = "http"
+            schemes = protocol
         )
     )
 }
