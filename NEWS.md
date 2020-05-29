@@ -1,7 +1,19 @@
+# cBioPortalData 2.2.0
+
+## New features
+
+* Allow more flexibility in the hostname when accessing the API with
+`cBioPortal` (@inodb, #16)
+
+## Bug fixes and minor improvements
+
+* Add tests using `testthat`
+
 # cBioPortalData 2.0.0
 
 ## New features
 
+* Bioconductor release!
 * Updated the `README.md` file from R Markdown file.
 * Uses the latest version of `rapiclient` on CRAN
 * Prepare package for Bioconductor submission
