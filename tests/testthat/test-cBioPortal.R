@@ -1,8 +1,8 @@
 test_that("digesting different API works", {
     expect_true(
         !identical(
-            digest(list(cBioPortal())),
-            digest(list(cBioPortal("beta")))
+            digest::digest(list(cBioPortal())),
+            digest::digest(list(cBioPortal("beta.cbioportal.org")))
         )
     )
 })
