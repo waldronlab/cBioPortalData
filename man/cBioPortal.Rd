@@ -19,7 +19,11 @@
 \alias{getDataByGenePanel}
 \title{The R interface to the cBioPortal API Data Service}
 \usage{
-cBioPortal()
+cBioPortal(
+  hostname = "www.cbioportal.org",
+  protocol = "https",
+  api. = "/api/api-docs"
+)
 
 getStudies(api)
 
@@ -79,6 +83,15 @@ getDataByGenePanel(
 )
 }
 \arguments{
+\item{hostname}{character(1) The internet location of the service
+(default: 'www.cbioportal.org')}
+
+\item{protocol}{character(1) The internet protocol used to access the
+hostname (default: 'https')}
+
+\item{api.}{character(1) The directory location of the API protocol within
+the hostname (default: '/api/api-docs')}
+
 \item{api}{An API object of class `cBioPortal` from the `cBioPortal`
 function}
 

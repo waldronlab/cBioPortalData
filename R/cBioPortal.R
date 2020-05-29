@@ -45,6 +45,15 @@ utils::globalVariables(c("clinicalAttributeId", "value", "sampleId"))
 #' @param api An API object of class `cBioPortal` from the `cBioPortal`
 #'     function
 #'
+#' @param hostname character(1) The internet location of the service
+#'     (default: 'www.cbioportal.org')
+#'
+#' @param protocol character(1) The internet protocol used to access the
+#'     hostname (default: 'https')
+#'
+#' @param api. character(1) The directory location of the API protocol within
+#'     the hostname (default: '/api/api-docs')
+#'
 #' @param studyId character(1) Indicates the "studyId" as taken from
 #'     `getStudies`
 #'
@@ -100,9 +109,10 @@ utils::globalVariables(c("clinicalAttributeId", "value", "sampleId"))
 #' getGenePanel(api = cbio, genePanelId = "IMPACT341")
 #'
 #' @export
-cBioPortal <- function(subdomain = "www", protocol = "https") {
-    hostname <- paste0(subdomain, ".cbioportal.org")
-    apiUrl <- paste0(protocol, "://", hostname, "/api/api-docs")
+cBioPortal <- function(
+    hostname = "www.cbioportal.org", protocol = "https", api. = "/api/api-docs"
+) {
+    apiUrl <- paste0(protocol, "://", hostname, api.)
     .cBioPortal(
         Service(
             service = "cBioPortal",
