@@ -171,7 +171,9 @@ clinicalData <- function(api, studyId = NA_character_) {
     if (!validStudy)
         stop("Provide a valid 'studyId' from 'getStudies()'")
 
-    digi <- .inputDigest(match.call(), "clinicalData")
+    mcall <- match.call()
+    mcall[["studyId"]] <- eval(mcall[["studyId"]])
+    digi <- .inputDigest(mcall, "clinicalData")
     cacheloc <- .getHashCache(digi)
     if (file.exists(cacheloc)) {
         load(cacheloc)
