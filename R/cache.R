@@ -116,11 +116,6 @@ removeCache <- function(cancer_study_id) {
         message("No record found: ", cancer_study_id, ".tar.gz")
 }
 
-.inputDigest <- function(cachecall, callname) {
-    callst <- c(fun = callname, as.list(cachecall)[-c(1, 2)])
-    digest::digest(callst, algo = "md5")
-}
-
 .getHashCache <- function(hashtag) {
     bfc <- .get_cache()
     rid <- bfcquery(bfc, hashtag, "rname", exact = TRUE)$rid

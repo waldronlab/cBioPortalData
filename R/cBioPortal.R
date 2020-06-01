@@ -138,7 +138,7 @@ getStudies <- function(api) {
     if (missing(api))
         stop("Provide a valid 'api' from 'cBioPortal()'")
 
-    digi <- .inputDigest(match.call(), "getStudies")
+    digi <- digest::digest(list("getStudies", api))
     cacheloc <- .getHashCache(digi)
     if (file.exists(cacheloc)) {
         load(cacheloc)
@@ -171,9 +171,8 @@ clinicalData <- function(api, studyId = NA_character_) {
     if (!validStudy)
         stop("Provide a valid 'studyId' from 'getStudies()'")
 
-    mcall <- match.call()
-    mcall[["studyId"]] <- eval(mcall[["studyId"]])
-    digi <- .inputDigest(mcall, "clinicalData")
+    studyId <- force(studyId)
+    digi <- digest::digest(list("clinicalData", api, studyId))
     cacheloc <- .getHashCache(digi)
     if (file.exists(cacheloc)) {
         load(cacheloc)
@@ -332,7 +331,7 @@ samplesInSampleLists <-
     sampleListIds <- sort(sampleListIds)
     sampleListIds <- stats::setNames(sampleListIds, sampleListIds)
 
-    digi <- .inputDigest(match.call(), "samplesInSampleLists")
+    digi <- digest::digest(list("samplesInSampleLists", api, sampleListIds))
     cacheloc <- .getHashCache(digi)
     if (file.exists(cacheloc)) {
         load(cacheloc)
