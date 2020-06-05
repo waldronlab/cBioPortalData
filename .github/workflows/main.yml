@@ -1,0 +1,34 @@
+
+name: CBIO
+
+on: push
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container: bioconductor/bioconductor_docker:devel
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@master
+
+      - name: Install Package Dependencies
+        run: |
+          Rscript -e "BiocManager::install(c('remotes', 'rcmdcheck', 'covr', 'pkgdown', 'AnVIL'))"
+          Rscript -e "remotes::install(dependencies = TRUE)"
+
+      - name: System dependencies
+        run: |
+          pip install ghp-import
+
+      - name: Check Package
+        run: Rscript -e "rcmdcheck::rcmdcheck(error_on = 'error', check_dir = 'check')"
+
+      - name: Document Package
+        run: |
+          Rscript -e "pkgdown::build_site()"
+
+      - name: Deploy to GitHub Pages
+        if: github.ref == 'refs/heads/RELEASE_3_11'
+        run: |
+          ghp-import -n docs && \
+          git push -qf https://${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git gh-pages

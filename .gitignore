@@ -5,7 +5,10 @@
 *.Rproj
 .httr-oauth
 */rsconnect
+vignettes/*.html
+vignettes/*.pdf
 vignettes/*_cache
-*_cache
-*.html
+/*_cache/
+*/*_cache/
+/cache/
 docs/
