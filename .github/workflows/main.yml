@@ -21,7 +21,9 @@ jobs:
           pip install ghp-import
 
       - name: Check Package
-        run: Rscript -e "rcmdcheck::rcmdcheck(error_on = 'error', check_dir = 'check')"
+        env:
+          _R_CHECK_CRAN_INCOMING_REMOTE_: false
+        run: Rscript -e "rcmdcheck::rcmdcheck(args = c('--no-manual'), error_on = 'error', check_dir = 'check')"
 
       - name: Document Package
         run: |
