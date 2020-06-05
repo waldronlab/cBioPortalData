@@ -29,8 +29,14 @@ jobs:
         run: |
           Rscript -e "pkgdown::build_site()"
 
-      - name: Deploy to GitHub Pages
-        if: github.ref == 'refs/heads/RELEASE_3_11'
+      - name: Install deploy dependencies
         run: |
-          ghp-import -n docs && \
-          git push -qf https://${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git gh-pages
+          apt-get update
+          apt-get -y install rsync
+
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@releases/v3
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: gh-pages # The branch the action should deploy to.
+          FOLDER: docs # The folder the action should deploy.
