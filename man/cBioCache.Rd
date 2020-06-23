@@ -9,7 +9,7 @@
 cBioCache(...)
 
 setCache(
-  directory = rappdirs::user_cache_dir("cBioPortalData"),
+  directory = tools::R_user_dir("cBioPortalData", "cache"),
   verbose = TRUE,
   ask = interactive()
 )

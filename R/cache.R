@@ -77,7 +77,7 @@ cBioCache <- function(...) {
 #' @rdname cBioCache
 #' @export
 setCache <-
-    function(directory = rappdirs::user_cache_dir("cBioPortalData"),
+    function(directory = tools::R_user_dir("cBioPortalData", "cache"),
         verbose = TRUE,
         ask = interactive())
 {
