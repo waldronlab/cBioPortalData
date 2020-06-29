@@ -46,7 +46,8 @@ cBioDataPack <- function(cancer_study_id, use_cache = TRUE,
 
     cancer_file <- downloadStudy(cancer_study_id, use_cache)
 
-    exarg <- if (identical(.Platform$OS.type, "unix"))
+    exarg <- if (identical(.Platform$OS.type, "unix") &&
+        Sys.info()["sysname"] != "Darwin")
         "--warning=no-unknown-keyword" else NULL
 
     filelist <- untar(cancer_file, list = TRUE, extras = exarg)
