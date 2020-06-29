@@ -48,8 +48,10 @@ a cache if not already created. A specific directory can be used via
 \section{setCache}{
 
 Specify the directory location of the data cache. By default, it will
-got to the user's home/.cache and "appname" directory as specified by
-\link{user_cache_dir}. (default appname: cBioPortalData)
+go to the user directory as given by:
+\preformatted{
+    tools::R_user_dir("cBioPortalData", "cache")
+}
 }
 
 \section{removeCache}{

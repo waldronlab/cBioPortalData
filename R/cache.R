@@ -40,8 +40,10 @@
 #'
 #' @section setCache:
 #' Specify the directory location of the data cache. By default, it will
-#' got to the user's home/.cache and "appname" directory as specified by
-#' \link{user_cache_dir}. (default appname: cBioPortalData)
+#' go to the user directory as given by:
+#' \preformatted{
+#'     tools::R_user_dir("cBioPortalData", "cache")
+#' }
 #'
 #' @section removeCache:
 #' Some files may become corrupt when downloading, this function allows
