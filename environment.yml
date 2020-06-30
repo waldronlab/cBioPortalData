@@ -1,4 +1,3 @@
-name: cbioportaldata
 channels:
   - conda-forge
   - bioconda
