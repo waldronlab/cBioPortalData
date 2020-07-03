@@ -12,3 +12,4 @@ jobs:
           repository: waldronlab/cBioPortalData
           # don't push, since this is a test
           push: false
+          dockerfile: inst/docker/Dockerfile
