@@ -160,6 +160,18 @@ eval.args <- function(args) {
 #' combination. For users looking to download the entire study data as provided
 #' by the \url{https://cbioportal.org/datasets}, refer to `cBioDataPack`.
 #'
+#' @details As of May 2020, there were about 96.6 percent of the 268 datasets
+#'     successfully imported. The datasets that currently fail to import are:
+#'     \preformatted{
+#'         c("all_stjude_2015", "sclc_ucologne_2015", "skcm_ucla_201
+#'         "sclc_jhu", "gbm_tcga_pub2013", "hnsc_tcga_pub", "kirc_tc
+#'         "brca_tcga_pub", "brca_tcga_pub2015")
+#'     }
+#'     Note that changes to the cBioPortal API may affect this rate at any
+#'     time. If you encounter any issues, please open a GitHub issue at the
+#'     \url{https://github.com/waldronlab/cBioPortalData/issues/} page with
+#'     a fully reproducible example.
+#'
 #' @inheritParams cBioPortal
 #'
 #' @param by character(1) Either 'entrezGeneId' or 'hugoGeneSymbol' for row
