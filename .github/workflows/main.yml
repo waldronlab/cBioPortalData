@@ -1,0 +1,42 @@
+
+name: CBIO
+
+on: push
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container: bioconductor/bioconductor_docker:devel
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@master
+
+      - name: Install Package Dependencies
+        run: |
+          Rscript -e "BiocManager::install(c('remotes', 'rcmdcheck', 'covr', 'pkgdown', 'AnVIL'))"
+          Rscript -e "remotes::install_deps(dependencies = TRUE)"
+
+      - name: System dependencies
+        run: |
+          pip install ghp-import
+
+      - name: Check Package
+        env:
+          _R_CHECK_CRAN_INCOMING_REMOTE_: false
+        run: Rscript -e "rcmdcheck::rcmdcheck(args = c('--no-manual'), error_on = 'error', check_dir = 'check')"
+
+      - name: Build pkgdown
+        run: |
+           PATH=$PATH:$HOME/bin/ Rscript -e 'pkgdown::build_site(".")'
+
+      - name: Install deploy dependencies
+        run: |
+          apt-get update
+          apt-get -y install rsync
+
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@releases/v3
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: gh-pages # The branch the action should deploy to.
+          FOLDER: docs # The folder the action should deploy.
