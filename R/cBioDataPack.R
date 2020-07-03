@@ -8,11 +8,15 @@
 #'
 #' @details The list of datasets can be found in the `studiesTable` dataset
 #' by doing `data("studiesTable")`. Some datasets may not be available
-#' for download. Please refer to the
-#' \href{http://cbioportal.org/data_sets.jsp}{website} for the full list of
-#' datasets. Users who would like to obtain a more fine grain approach to
-#' downloading data from the cBioPortal API, refer to the `cBioPortalData`
-#' function.
+#' for download and are not guaranteed to be represented as MultiAssayExperiment
+#' data objects. After taking a random sample of 100
+#' (using \code{set.seed(1234)}), we were able to succesfully represent about
+#' 76 percent of the study identifiers as MultiAssayExperiment objects. Please
+#' refer to the #' \href{http://cbioportal.org/data_sets.jsp}{website} for the
+#' full list of available datasets. Users who would like to prioritize
+#' particular datasets should open GitHub issues at the URL in the `DESCRIPTION`
+#' file. For a more fine-grained approach to downloading data from the
+#' cBioPortal API, refer to the `cBioPortalData` function.
 #'
 #' @inheritParams downloadStudy
 #'
