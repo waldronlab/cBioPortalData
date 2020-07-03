@@ -29,6 +29,7 @@ complete[chars]
 
 successrate <- (1 - length(complete[chars]) / length(complete) )* 100
 successrate
+## success rate for cBioPortalData out of 287 studies
 ## 96.6
 
 maelengths <- lengths(
