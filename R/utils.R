@@ -77,7 +77,7 @@ utils::globalVariables("element")
         rnames <- annote[[name.field]]
         nasdu <- is.na(rnames) | duplicated(rnames)
         ## remove NA and duplicate values from both
-        x <- x[!nasdu, ]
+        x <- x[!nasdu, , drop = FALSE]
         annote <- as.data.frame(annote[!nasdu, ])
         rownames(x) <- rnames[!nasdu]
         rownames(annote) <- rnames[!nasdu]
