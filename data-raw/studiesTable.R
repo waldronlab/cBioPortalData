@@ -22,7 +22,7 @@ studiesTable[["description"]] <- gsub("<.*?>", "", studiesTable[["description"]]
 studiesTable <- as(studiesTable, "DataFrame")
 studiesTable[["URL"]] <- URL
 
-fileURLs <- file.path("http://download-mirror.cbioportal.org",
+fileURLs <- file.path("https://cbioportal-datahub.s3.amazonaws.com",
     paste0(studiesTable[["cancer_study_id"]], ".tar.gz"))
 ## Requires internet connection
 validURLs <- vapply(fileURLs, RCurl::url.exists, logical(1L))
