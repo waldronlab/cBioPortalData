@@ -69,6 +69,9 @@
     .manageLocalFile(cancer_study_id, tmpFile)
 }
 
+# previously http://download.cbioportal.org
+.url_location <- "https://cbioportal-datahub.s3.amazonaws.com"
+
 #' Download and cache study dataset
 #'
 #' Provide a `cancer_study_id` from the `studiesTable` and retrieve
@@ -84,14 +87,18 @@
 #' @param force logical (default FALSE) whether to force re-download data from
 #' remote location
 #'
+#' @param url_location (default "https://cbioportal-datahub.s3.amazonaws.com")
+#' the URL location for downloading packaged data. Can be set using the
+#' 'cBio_URL' option
+#'
 #' @return The file location of the data tarball
 #'
 #' @keywords internal
-downloadStudy <- function(cancer_study_id, use_cache = TRUE, force = FALSE)
+downloadStudy <- function(cancer_study_id, use_cache = TRUE, force = FALSE,
+    url_location = getOption("cBio_URL", .url_location))
 {
     .validStudyID(cancer_study_id)
 
-    url_location <- "http://download.cbioportal.org"
     url_file <- file.path(url_location, paste0(cancer_study_id, ".tar.gz"))
 
     if (is.character(use_cache) && length(use_cache) == 1L)

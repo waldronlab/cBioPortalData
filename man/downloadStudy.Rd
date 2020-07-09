@@ -4,7 +4,12 @@
 \alias{downloadStudy}
 \title{Download and cache study dataset}
 \usage{
-downloadStudy(cancer_study_id, use_cache = TRUE, force = FALSE)
+downloadStudy(
+  cancer_study_id,
+  use_cache = TRUE,
+  force = FALSE,
+  url_location = getOption("cBio_URL", .url_location)
+)
 }
 \arguments{
 \item{cancer_study_id}{The cBioPortal study identifier as in
@@ -16,6 +21,10 @@ not be re-downloaded. A path can also be provided to data cache location.}
 
 \item{force}{logical (default FALSE) whether to force re-download data from
 remote location}
+
+\item{url_location}{(default "https://cbioportal-datahub.s3.amazonaws.com")
+the URL location for downloading packaged data. Can be set using the
+'cBio_URL' option}
 }
 \value{
 The file location of the data tarball
