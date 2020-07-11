@@ -30,7 +30,17 @@ the URL location for downloading packaged data. Can be set using the
 The file location of the data tarball
 }
 \description{
-Provide a `cancer_study_id` from the `studiesTable` and retrieve
-the study tarball from cBioPortal
+Provide a \code{cancer_study_id} from the \code{studiesTable} and retrieve
+the study tarball from cBioPortal. This function is used by \code{cBioDataPack}
+to retrieve the tarball datasets and cache them. As stated in
+\code{?cBioDataPack} not all studies are currently working as
+\code{MultiAssayExperiment} representations. As of July 2020, about ~80\% of
+datasets can be successfully imported into the \code{MultiAssayExperiment} data
+class. Please open an issue if you would like the team to prioritize a
+study.
 }
-\keyword{internal}
+\examples{
+
+downloadStudy("acc_tcga")
+
+}

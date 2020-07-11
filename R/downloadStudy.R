@@ -75,7 +75,13 @@
 #' Download and cache study dataset
 #'
 #' Provide a `cancer_study_id` from the `studiesTable` and retrieve
-#' the study tarball from cBioPortal
+#' the study tarball from cBioPortal. This function is used by `cBioDataPack`
+#' to retrieve the tarball datasets and cache them. As stated in
+#' `?cBioDataPack` not all studies are currently working as
+#' `MultiAssayExperiment` representations. As of July 2020, about ~80% of
+#' datasets can be successfully imported into the `MultiAssayExperiment` data
+#' class. Please open an issue if you would like the team to prioritize a
+#' study.
 #'
 #' @param cancer_study_id The cBioPortal study identifier as in
 #'     \url{https://cbioportal.org/webAPI}
@@ -93,7 +99,13 @@
 #'
 #' @return The file location of the data tarball
 #'
-#' @keywords internal
+#' @md
+#'
+#' @examples
+#'
+#' downloadStudy("acc_tcga")
+#'
+#' @export
 downloadStudy <- function(cancer_study_id, use_cache = TRUE, force = FALSE,
     url_location = getOption("cBio_URL", .url_location))
 {
