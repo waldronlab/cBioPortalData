@@ -200,7 +200,7 @@ cbioportal2metadata <- function(meta_file, lic_file) {
 .subBCLetters <- function(df, ptID = "PATIENT_ID") {
     idVector <- df[[ptID]]
     allBC <- all(grepl("[A-Z]{4}.[0-9]{2}.[0-9]{4}", idVector))
-    noTCGAstart <- !all(startsWith(idVector, "TCGA"))
+    noTCGAstart <- is.character(idVector) && !all(startsWith(idVector, "TCGA"))
     if (allBC && noTCGAstart) {
         idVector <- gsub("^[A-Z]{4}", "TCGA", idVector)
         df[[ptID]] <- idVector
