@@ -26,7 +26,7 @@ jobs:
 
       - name: Install Package Dependencies
         run: |
-          Rscript -e "BiocManager::install(c('remotes', 'rcmdcheck', 'covr', 'pkgdown', 'AnVIL'), ask = FALSE, update = TRUE)"
+          Rscript -e "options(repos = c(CRAN = 'https://cran.r-project.org')); BiocManager::install(c('remotes', 'rcmdcheck', 'covr', 'pkgdown', 'AnVIL'), ask = FALSE, update = TRUE)"
           Rscript -e "remotes::install_deps(dependencies = TRUE)"
 
       - name: System dependencies
