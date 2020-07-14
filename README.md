@@ -7,7 +7,7 @@
 [![Platforms](http://www.bioconductor.org/shields/availability/3.11/cBioPortalData.svg)](https://www.bioconductor.org/packages/release/bioc/html/cBioPortalData.html#archives)
 [![Travis Build Status](https://travis-ci.org/waldronlab/cBioPortalData.svg?branch=master)](https://travis-ci.org/waldronlab/cBioPortalData)
 [![Build status](https://ci.appveyor.com/api/projects/status/42kd6prni3o0q50b?svg=true)](https://ci.appveyor.com/project/waldronlab/cbioportaldata)
-[![Downloads](http://www.bioconductor.org/shields/downloads/cBioPortalData.svg)](https://bioconductor.org/packages/stats/bioc/cBioPortalData)
+[![Downloads](https://www.bioconductor.org/shields/downloads/release/cBioPortalData.svg)](https://bioconductor.org/packages/stats/bioc/cBioPortalData/)
 
 <!-- end badges here -->
 
