@@ -77,7 +77,7 @@ representation to faciliate analysis and data management operations." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">cBiocPortalData</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.7</span>
       </span>
     </div>
 
@@ -173,14 +173,18 @@ that is used to label ranges from a mutations or copy number file.</p></td>
 
     <p>The list of datasets can be found in the <code>studiesTable</code> dataset
 by doing <code><a href='https://rdrr.io/r/utils/data.html'>data("studiesTable")</a></code>. Some datasets may not be available
-for download. Please refer to the
-<a href='http://cbioportal.org/data_sets.jsp'>website</a> for the full list of
-datasets. Users who would like to obtain a more fine grain approach to
-downloading data from the cBioPortal API, refer to the <code>cBioPortalData</code>
-function.</p>
+for download and are not guaranteed to be represented as MultiAssayExperiment
+data objects. After taking a random sample of 100
+(using <code><a href='https://rdrr.io/r/base/Random.html'>set.seed(1234)</a></code>), we were able to succesfully represent about
+76 percent of the study identifiers as MultiAssayExperiment objects. Please
+refer to the #' <a href='http://cbioportal.org/data_sets.jsp'>website</a> for the
+full list of available datasets. Users who would like to prioritize
+particular datasets should open GitHub issues at the URL in the <code>DESCRIPTION</code>
+file. For a more fine-grained approach to downloading data from the
+cBioPortal API, refer to the <code>cBioPortalData</code> function.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><a href='http://cbioportal.org/data_sets.jsp'>http://cbioportal.org/data_sets.jsp</a>, <a href='cBioPortalData.html'>cBioPortalData</a></p></div>
+    <div class='dont-index'><p><a href='http://cbioportal.org/data_sets.jsp'>http://cbioportal.org/data_sets.jsp</a>, cBioPortalData</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
@@ -188,181 +192,188 @@ function.</p>
 
 <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>studiesTable</span><span class='kw'>[[</span><span class='st'>"cancer_study_id"</span>]])</div><div class='output co'>#&gt; [1] "paac_jhu_2014"       "mel_tsam_liang_2017" "all_stjude_2015"    
 #&gt; [4] "all_stjude_2016"     "aml_ohsu_2018"       "laml_tcga_pub"      </div><div class='input'>
-<span class='no'>mae</span> <span class='kw'>&lt;-</span> <span class='fu'>cBioDataPack</span>(<span class='st'>"acc_tcga"</span>)</div><div class='output co'>#&gt; <span class='message'>Study file in cache: acc_tcga</span></div><div class='output co'>#&gt; <span class='message'>Working on: /tmp/RtmpnA5GZ9/data_CNA.txt</span></div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
+<span class='no'>mae</span> <span class='kw'>&lt;-</span> <span class='fu'>cBioDataPack</span>(<span class='st'>"acc_tcga"</span>)</div><div class='output co'>#&gt; <span class='message'>Study file in cache: acc_tcga</span></div><div class='output co'>#&gt; <span class='message'>Working on: /tmp/RtmphRYt88/data_CNA.txt</span></div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
 #&gt; <span class='message'>cols(</span>
 #&gt; <span class='message'>  .default = col_double(),</span>
-#&gt; <span class='message'>  Hugo_Symbol = <span style='color: #BB0000;'>col_character()</span><span></span>
+#&gt; <span class='message'>  Hugo_Symbol = col_character()</span>
 #&gt; <span class='message'>)</span></div><div class='output co'>#&gt; <span class='message'>See spec(...) for full column specifications.</span></div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
 #&gt; <span class='message'>cols(</span>
-#&gt; <span class='message'>  Hugo_Symbol = </span><span style='color: #BB0000;'>col_character()</span><span></span>
-#&gt; <span class='message'>)</span></div><div class='output co'>#&gt; <span class='message'>Working on: /tmp/RtmpnA5GZ9/data_RNA_Seq_v2_expression_median.txt</span></div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
+#&gt; <span class='message'>  Hugo_Symbol = col_character()</span>
+#&gt; <span class='message'>)</span></div><div class='output co'>#&gt; <span class='message'>Working on: /tmp/RtmphRYt88/data_RNA_Seq_v2_expression_median.txt</span></div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
 #&gt; <span class='message'>cols(</span>
 #&gt; <span class='message'>  .default = col_double(),</span>
-#&gt; <span class='message'>  Hugo_Symbol = </span><span style='color: #BB0000;'>col_character()</span><span></span>
+#&gt; <span class='message'>  Hugo_Symbol = col_character()</span>
 #&gt; <span class='message'>)</span></div><div class='output co'>#&gt; <span class='message'>See spec(...) for full column specifications.</span></div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
 #&gt; <span class='message'>cols(</span>
-#&gt; <span class='message'>  Hugo_Symbol = </span><span style='color: #BB0000;'>col_character()</span><span></span>
-#&gt; <span class='message'>)</span></div><div class='output co'>#&gt; <span class='message'>Working on: /tmp/RtmpnA5GZ9/data_RNA_Seq_v2_mRNA_median_Zscores.txt</span></div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
+#&gt; <span class='message'>  Hugo_Symbol = col_character()</span>
+#&gt; <span class='message'>)</span></div><div class='output co'>#&gt; <span class='message'>Working on: /tmp/RtmphRYt88/data_RNA_Seq_v2_mRNA_median_Zscores.txt</span></div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
 #&gt; <span class='message'>cols(</span>
 #&gt; <span class='message'>  .default = col_double(),</span>
-#&gt; <span class='message'>  Hugo_Symbol = </span><span style='color: #BB0000;'>col_character()</span><span></span>
+#&gt; <span class='message'>  Hugo_Symbol = col_character()</span>
 #&gt; <span class='message'>)</span></div><div class='output co'>#&gt; <span class='message'>See spec(...) for full column specifications.</span></div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
 #&gt; <span class='message'>cols(</span>
-#&gt; <span class='message'>  Hugo_Symbol = </span><span style='color: #BB0000;'>col_character()</span><span></span>
-#&gt; <span class='message'>)</span></div><div class='output co'>#&gt; <span class='message'>Working on: /tmp/RtmpnA5GZ9/data_cna_hg19.seg</span></div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
-#&gt; <span class='message'>cols(</span>
-#&gt; <span class='message'>  ID = </span><span style='color: #BB0000;'>col_character()</span><span>,</span>
-#&gt; <span class='message'>  chrom = </span><span style='color: #00BB00;'>col_double()</span><span>,</span>
-#&gt; <span class='message'>  loc.start = </span><span style='color: #00BB00;'>col_double()</span><span>,</span>
-#&gt; <span class='message'>  loc.end = </span><span style='color: #00BB00;'>col_double()</span><span>,</span>
-#&gt; <span class='message'>  num.mark = </span><span style='color: #00BB00;'>col_double()</span><span>,</span>
-#&gt; <span class='message'>  seg.mean = </span><span style='color: #00BB00;'>col_double()</span><span></span>
-#&gt; <span class='message'>)</span></div><div class='output co'>#&gt; <span class='message'>Working on: /tmp/RtmpnA5GZ9/data_linear_CNA.txt</span></div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
+#&gt; <span class='message'>  Hugo_Symbol = col_character()</span>
+#&gt; <span class='message'>)</span></div><div class='output co'>#&gt; <span class='message'>Working on: /tmp/RtmphRYt88/data_RNA_Seq_v2_mRNA_median_all_sample_Zscores.txt</span></div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
 #&gt; <span class='message'>cols(</span>
 #&gt; <span class='message'>  .default = col_double(),</span>
-#&gt; <span class='message'>  Hugo_Symbol = </span><span style='color: #BB0000;'>col_character()</span><span></span>
+#&gt; <span class='message'>  Hugo_Symbol = col_character()</span>
 #&gt; <span class='message'>)</span></div><div class='output co'>#&gt; <span class='message'>See spec(...) for full column specifications.</span></div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
 #&gt; <span class='message'>cols(</span>
-#&gt; <span class='message'>  Hugo_Symbol = </span><span style='color: #BB0000;'>col_character()</span><span></span>
-#&gt; <span class='message'>)</span></div><div class='output co'>#&gt; <span class='message'>Working on: /tmp/RtmpnA5GZ9/data_methylation_hm450.txt</span></div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
+#&gt; <span class='message'>  Hugo_Symbol = col_character()</span>
+#&gt; <span class='message'>)</span></div><div class='output co'>#&gt; <span class='message'>Working on: /tmp/RtmphRYt88/data_cna_hg19.seg</span></div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
+#&gt; <span class='message'>cols(</span>
+#&gt; <span class='message'>  ID = col_character(),</span>
+#&gt; <span class='message'>  chrom = col_double(),</span>
+#&gt; <span class='message'>  loc.start = col_double(),</span>
+#&gt; <span class='message'>  loc.end = col_double(),</span>
+#&gt; <span class='message'>  num.mark = col_double(),</span>
+#&gt; <span class='message'>  seg.mean = col_double()</span>
+#&gt; <span class='message'>)</span></div><div class='output co'>#&gt; <span class='message'>Working on: /tmp/RtmphRYt88/data_linear_CNA.txt</span></div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
 #&gt; <span class='message'>cols(</span>
 #&gt; <span class='message'>  .default = col_double(),</span>
-#&gt; <span class='message'>  Hugo_Symbol = </span><span style='color: #BB0000;'>col_character()</span><span></span>
+#&gt; <span class='message'>  Hugo_Symbol = col_character()</span>
 #&gt; <span class='message'>)</span></div><div class='output co'>#&gt; <span class='message'>See spec(...) for full column specifications.</span></div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
 #&gt; <span class='message'>cols(</span>
-#&gt; <span class='message'>  Hugo_Symbol = </span><span style='color: #BB0000;'>col_character()</span><span></span>
-#&gt; <span class='message'>)</span></div><div class='output co'>#&gt; <span class='message'>Working on: /tmp/RtmpnA5GZ9/data_mutations_extended.txt</span></div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
+#&gt; <span class='message'>  Hugo_Symbol = col_character()</span>
+#&gt; <span class='message'>)</span></div><div class='output co'>#&gt; <span class='message'>Working on: /tmp/RtmphRYt88/data_methylation_hm450.txt</span></div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
+#&gt; <span class='message'>cols(</span>
+#&gt; <span class='message'>  .default = col_double(),</span>
+#&gt; <span class='message'>  Hugo_Symbol = col_character()</span>
+#&gt; <span class='message'>)</span></div><div class='output co'>#&gt; <span class='message'>See spec(...) for full column specifications.</span></div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
+#&gt; <span class='message'>cols(</span>
+#&gt; <span class='message'>  Hugo_Symbol = col_character()</span>
+#&gt; <span class='message'>)</span></div><div class='output co'>#&gt; <span class='message'>Working on: /tmp/RtmphRYt88/data_mutations_extended.txt</span></div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
 #&gt; <span class='message'>cols(</span>
 #&gt; <span class='message'>  .default = col_character(),</span>
-#&gt; <span class='message'>  Entrez_Gene_Id = </span><span style='color: #00BB00;'>col_double()</span><span>,</span>
-#&gt; <span class='message'>  Start_Position = </span><span style='color: #00BB00;'>col_double()</span><span>,</span>
-#&gt; <span class='message'>  End_Position = </span><span style='color: #00BB00;'>col_double()</span><span>,</span>
-#&gt; <span class='message'>  t_ref_count = </span><span style='color: #BBBB00;'>col_logical()</span><span>,</span>
-#&gt; <span class='message'>  t_alt_count = </span><span style='color: #BBBB00;'>col_logical()</span><span>,</span>
-#&gt; <span class='message'>  n_ref_count = </span><span style='color: #BBBB00;'>col_logical()</span><span>,</span>
-#&gt; <span class='message'>  n_alt_count = </span><span style='color: #BBBB00;'>col_logical()</span><span>,</span>
-#&gt; <span class='message'>  Protein_position = </span><span style='color: #00BB00;'>col_double()</span><span>,</span>
-#&gt; <span class='message'>  Hotspot = </span><span style='color: #00BB00;'>col_double()</span><span>,</span>
-#&gt; <span class='message'>  TVarCov = </span><span style='color: #00BB00;'>col_double()</span><span>,</span>
-#&gt; <span class='message'>  Trna_ref = </span><span style='color: #00BB00;'>col_double()</span><span>,</span>
-#&gt; <span class='message'>  NTotCov = </span><span style='color: #00BB00;'>col_double()</span><span>,</span>
-#&gt; <span class='message'>  Trna_var = </span><span style='color: #00BB00;'>col_double()</span><span>,</span>
-#&gt; <span class='message'>  NVarCov = </span><span style='color: #00BB00;'>col_double()</span><span>,</span>
-#&gt; <span class='message'>  Trna_alt1 = </span><span style='color: #00BB00;'>col_double()</span><span>,</span>
-#&gt; <span class='message'>  Trna_alt2 = </span><span style='color: #00BB00;'>col_double()</span><span>,</span>
-#&gt; <span class='message'>  Trna_tot = </span><span style='color: #00BB00;'>col_double()</span><span>,</span>
-#&gt; <span class='message'>  TTotCov = </span><span style='color: #00BB00;'>col_double()</span><span></span>
+#&gt; <span class='message'>  Entrez_Gene_Id = col_double(),</span>
+#&gt; <span class='message'>  Start_Position = col_double(),</span>
+#&gt; <span class='message'>  End_Position = col_double(),</span>
+#&gt; <span class='message'>  t_ref_count = col_logical(),</span>
+#&gt; <span class='message'>  t_alt_count = col_logical(),</span>
+#&gt; <span class='message'>  n_ref_count = col_logical(),</span>
+#&gt; <span class='message'>  n_alt_count = col_logical(),</span>
+#&gt; <span class='message'>  Protein_position = col_double(),</span>
+#&gt; <span class='message'>  Hotspot = col_double(),</span>
+#&gt; <span class='message'>  TVarCov = col_double(),</span>
+#&gt; <span class='message'>  Trna_ref = col_double(),</span>
+#&gt; <span class='message'>  NTotCov = col_double(),</span>
+#&gt; <span class='message'>  Trna_var = col_double(),</span>
+#&gt; <span class='message'>  NVarCov = col_double(),</span>
+#&gt; <span class='message'>  Trna_alt1 = col_double(),</span>
+#&gt; <span class='message'>  Trna_alt2 = col_double(),</span>
+#&gt; <span class='message'>  Trna_tot = col_double(),</span>
+#&gt; <span class='message'>  TTotCov = col_double()</span>
 #&gt; <span class='message'>)</span></div><div class='output co'>#&gt; <span class='message'>See spec(...) for full column specifications.</span></div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
 #&gt; <span class='message'>cols(</span>
 #&gt; <span class='message'>  .default = col_character()</span>
-#&gt; <span class='message'>)</span></div><div class='output co'>#&gt; <span class='message'>See spec(...) for full column specifications.</span></div><div class='output co'>#&gt; <span class='message'>Working on: /tmp/RtmpnA5GZ9/data_mutations_mskcc.txt</span></div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
+#&gt; <span class='message'>)</span></div><div class='output co'>#&gt; <span class='message'>See spec(...) for full column specifications.</span></div><div class='output co'>#&gt; <span class='message'>Working on: /tmp/RtmphRYt88/data_mutations_mskcc.txt</span></div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
 #&gt; <span class='message'>cols(</span>
 #&gt; <span class='message'>  .default = col_character(),</span>
-#&gt; <span class='message'>  Entrez_Gene_Id = </span><span style='color: #00BB00;'>col_double()</span><span>,</span>
-#&gt; <span class='message'>  Start_Position = </span><span style='color: #00BB00;'>col_double()</span><span>,</span>
-#&gt; <span class='message'>  End_Position = </span><span style='color: #00BB00;'>col_double()</span><span>,</span>
-#&gt; <span class='message'>  t_ref_count = </span><span style='color: #BBBB00;'>col_logical()</span><span>,</span>
-#&gt; <span class='message'>  t_alt_count = </span><span style='color: #BBBB00;'>col_logical()</span><span>,</span>
-#&gt; <span class='message'>  n_ref_count = </span><span style='color: #BBBB00;'>col_logical()</span><span>,</span>
-#&gt; <span class='message'>  n_alt_count = </span><span style='color: #BBBB00;'>col_logical()</span><span>,</span>
-#&gt; <span class='message'>  Protein_position = </span><span style='color: #00BB00;'>col_double()</span><span>,</span>
-#&gt; <span class='message'>  Hotspot = </span><span style='color: #00BB00;'>col_double()</span><span>,</span>
-#&gt; <span class='message'>  TVarCov = </span><span style='color: #00BB00;'>col_double()</span><span>,</span>
-#&gt; <span class='message'>  Trna_ref = </span><span style='color: #00BB00;'>col_double()</span><span>,</span>
-#&gt; <span class='message'>  NTotCov = </span><span style='color: #00BB00;'>col_double()</span><span>,</span>
-#&gt; <span class='message'>  Trna_var = </span><span style='color: #00BB00;'>col_double()</span><span>,</span>
-#&gt; <span class='message'>  NVarCov = </span><span style='color: #00BB00;'>col_double()</span><span>,</span>
-#&gt; <span class='message'>  Trna_alt1 = </span><span style='color: #00BB00;'>col_double()</span><span>,</span>
-#&gt; <span class='message'>  Trna_alt2 = </span><span style='color: #00BB00;'>col_double()</span><span>,</span>
-#&gt; <span class='message'>  Trna_tot = </span><span style='color: #00BB00;'>col_double()</span><span>,</span>
-#&gt; <span class='message'>  TTotCov = </span><span style='color: #00BB00;'>col_double()</span><span></span>
+#&gt; <span class='message'>  Entrez_Gene_Id = col_double(),</span>
+#&gt; <span class='message'>  Start_Position = col_double(),</span>
+#&gt; <span class='message'>  End_Position = col_double(),</span>
+#&gt; <span class='message'>  t_ref_count = col_logical(),</span>
+#&gt; <span class='message'>  t_alt_count = col_logical(),</span>
+#&gt; <span class='message'>  n_ref_count = col_logical(),</span>
+#&gt; <span class='message'>  n_alt_count = col_logical(),</span>
+#&gt; <span class='message'>  Protein_position = col_double(),</span>
+#&gt; <span class='message'>  Hotspot = col_double(),</span>
+#&gt; <span class='message'>  TVarCov = col_double(),</span>
+#&gt; <span class='message'>  Trna_ref = col_double(),</span>
+#&gt; <span class='message'>  NTotCov = col_double(),</span>
+#&gt; <span class='message'>  Trna_var = col_double(),</span>
+#&gt; <span class='message'>  NVarCov = col_double(),</span>
+#&gt; <span class='message'>  Trna_alt1 = col_double(),</span>
+#&gt; <span class='message'>  Trna_alt2 = col_double(),</span>
+#&gt; <span class='message'>  Trna_tot = col_double(),</span>
+#&gt; <span class='message'>  TTotCov = col_double()</span>
 #&gt; <span class='message'>)</span></div><div class='output co'>#&gt; <span class='message'>See spec(...) for full column specifications.</span></div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
 #&gt; <span class='message'>cols(</span>
 #&gt; <span class='message'>  .default = col_character()</span>
-#&gt; <span class='message'>)</span></div><div class='output co'>#&gt; <span class='message'>See spec(...) for full column specifications.</span></div><div class='output co'>#&gt; <span class='message'>Working on: /tmp/RtmpnA5GZ9/data_mutsig.txt</span></div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
+#&gt; <span class='message'>)</span></div><div class='output co'>#&gt; <span class='message'>See spec(...) for full column specifications.</span></div><div class='output co'>#&gt; <span class='message'>Working on: /tmp/RtmphRYt88/data_mutsig.txt</span></div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
 #&gt; <span class='message'>cols(</span>
 #&gt; <span class='message'>  .default = col_double(),</span>
-#&gt; <span class='message'>  gene = </span><span style='color: #BB0000;'>col_character()</span><span>,</span>
-#&gt; <span class='message'>  description = </span><span style='color: #BB0000;'>col_character()</span><span>,</span>
-#&gt; <span class='message'>  p = </span><span style='color: #BB0000;'>col_character()</span><span>,</span>
-#&gt; <span class='message'>  q = </span><span style='color: #BB0000;'>col_character()</span><span></span>
-#&gt; <span class='message'>)</span></div><div class='output co'>#&gt; <span class='message'>See spec(...) for full column specifications.</span></div><div class='output co'>#&gt; <span class='message'>Working on: /tmp/RtmpnA5GZ9/data_rppa.txt</span></div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
+#&gt; <span class='message'>  gene = col_character(),</span>
+#&gt; <span class='message'>  description = col_character(),</span>
+#&gt; <span class='message'>  p = col_character(),</span>
+#&gt; <span class='message'>  q = col_character()</span>
+#&gt; <span class='message'>)</span></div><div class='output co'>#&gt; <span class='message'>See spec(...) for full column specifications.</span></div><div class='output co'>#&gt; <span class='message'>Working on: /tmp/RtmphRYt88/data_rppa.txt</span></div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
 #&gt; <span class='message'>cols(</span>
 #&gt; <span class='message'>  .default = col_double(),</span>
-#&gt; <span class='message'>  Composite.Element.REF = </span><span style='color: #BB0000;'>col_character()</span><span></span>
-#&gt; <span class='message'>)</span></div><div class='output co'>#&gt; <span class='message'>See spec(...) for full column specifications.</span></div><div class='output co'>#&gt; <span class='message'>Working on: /tmp/RtmpnA5GZ9/data_rppa_Zscores.txt</span></div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
+#&gt; <span class='message'>  Composite.Element.REF = col_character()</span>
+#&gt; <span class='message'>)</span></div><div class='output co'>#&gt; <span class='message'>See spec(...) for full column specifications.</span></div><div class='output co'>#&gt; <span class='message'>Working on: /tmp/RtmphRYt88/data_rppa_Zscores.txt</span></div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
 #&gt; <span class='message'>cols(</span>
 #&gt; <span class='message'>  .default = col_double(),</span>
-#&gt; <span class='message'>  Composite.Element.REF = </span><span style='color: #BB0000;'>col_character()</span><span></span>
+#&gt; <span class='message'>  Composite.Element.REF = col_character()</span>
 #&gt; <span class='message'>)</span></div><div class='output co'>#&gt; <span class='message'>See spec(...) for full column specifications.</span></div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
 #&gt; <span class='message'>cols(</span>
 #&gt; <span class='message'>  .default = col_character(),</span>
-#&gt; <span class='message'>  INITIAL_PATHOLOGIC_DX_YEAR = </span><span style='color: #00BB00;'>col_double()</span><span>,</span>
-#&gt; <span class='message'>  WEISS_SCORE_OVERALL = </span><span style='color: #00BB00;'>col_double()</span><span>,</span>
-#&gt; <span class='message'>  MITOSES_PER_50_HPF = </span><span style='color: #00BB00;'>col_double()</span><span>,</span>
-#&gt; <span class='message'>  AGE = </span><span style='color: #00BB00;'>col_double()</span><span>,</span>
-#&gt; <span class='message'>  DAYS_TO_INITIAL_PATHOLOGIC_DIAGNOSIS = </span><span style='color: #00BB00;'>col_double()</span><span>,</span>
-#&gt; <span class='message'>  OS_MONTHS = </span><span style='color: #00BB00;'>col_double()</span><span>,</span>
-#&gt; <span class='message'>  DFS_MONTHS = </span><span style='color: #00BB00;'>col_double()</span><span></span>
+#&gt; <span class='message'>  INITIAL_PATHOLOGIC_DX_YEAR = col_double(),</span>
+#&gt; <span class='message'>  WEISS_SCORE_OVERALL = col_double(),</span>
+#&gt; <span class='message'>  MITOSES_PER_50_HPF = col_double(),</span>
+#&gt; <span class='message'>  AGE = col_double(),</span>
+#&gt; <span class='message'>  DAYS_TO_INITIAL_PATHOLOGIC_DIAGNOSIS = col_double(),</span>
+#&gt; <span class='message'>  OS_MONTHS = col_double(),</span>
+#&gt; <span class='message'>  DFS_MONTHS = col_double()</span>
 #&gt; <span class='message'>)</span></div><div class='output co'>#&gt; <span class='message'>See spec(...) for full column specifications.</span></div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
 #&gt; <span class='message'>cols(</span>
 #&gt; <span class='message'>  .default = col_character(),</span>
-#&gt; <span class='message'>  DAYS_TO_COLLECTION = </span><span style='color: #00BB00;'>col_double()</span><span>,</span>
-#&gt; <span class='message'>  SAMPLE_INITIAL_WEIGHT = </span><span style='color: #00BB00;'>col_double()</span><span>,</span>
-#&gt; <span class='message'>  OCT_EMBEDDED = </span><span style='color: #BBBB00;'>col_logical()</span><span>,</span>
-#&gt; <span class='message'>  SAMPLE_TYPE_ID = </span><span style='color: #00BB00;'>col_double()</span><span></span>
+#&gt; <span class='message'>  DAYS_TO_COLLECTION = col_double(),</span>
+#&gt; <span class='message'>  SAMPLE_INITIAL_WEIGHT = col_double(),</span>
+#&gt; <span class='message'>  OCT_EMBEDDED = col_logical(),</span>
+#&gt; <span class='message'>  SAMPLE_TYPE_ID = col_double()</span>
 #&gt; <span class='message'>)</span></div><div class='output co'>#&gt; <span class='message'>See spec(...) for full column specifications.</span></div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
 #&gt; <span class='message'>cols(</span>
 #&gt; <span class='message'>  .default = col_character(),</span>
-#&gt; <span class='message'>  DAYS_TO_COLLECTION = </span><span style='color: #00BB00;'>col_double()</span><span>,</span>
-#&gt; <span class='message'>  SAMPLE_INITIAL_WEIGHT = </span><span style='color: #00BB00;'>col_double()</span><span>,</span>
-#&gt; <span class='message'>  OCT_EMBEDDED = </span><span style='color: #BBBB00;'>col_logical()</span><span>,</span>
-#&gt; <span class='message'>  SAMPLE_TYPE_ID = </span><span style='color: #00BB00;'>col_double()</span><span></span>
+#&gt; <span class='message'>  DAYS_TO_COLLECTION = col_double(),</span>
+#&gt; <span class='message'>  SAMPLE_INITIAL_WEIGHT = col_double(),</span>
+#&gt; <span class='message'>  OCT_EMBEDDED = col_logical(),</span>
+#&gt; <span class='message'>  SAMPLE_TYPE_ID = col_double()</span>
 #&gt; <span class='message'>)</span></div><div class='output co'>#&gt; <span class='message'>See spec(...) for full column specifications.</span></div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
 #&gt; <span class='message'>cols(</span>
 #&gt; <span class='message'>  .default = col_character()</span>
 #&gt; <span class='message'>)</span></div><div class='output co'>#&gt; <span class='message'>See spec(...) for full column specifications.</span></div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
 #&gt; <span class='message'>cols(</span>
-#&gt; <span class='message'>  index = </span><span style='color: #00BB00;'>col_double()</span><span>,</span>
-#&gt; <span class='message'>  chromosome = </span><span style='color: #BB0000;'>col_character()</span><span>,</span>
-#&gt; <span class='message'>  region_start = </span><span style='color: #00BB00;'>col_double()</span><span>,</span>
-#&gt; <span class='message'>  region_end = </span><span style='color: #00BB00;'>col_double()</span><span>,</span>
-#&gt; <span class='message'>  peak_start = </span><span style='color: #00BB00;'>col_double()</span><span>,</span>
-#&gt; <span class='message'>  peak_end = </span><span style='color: #00BB00;'>col_double()</span><span>,</span>
-#&gt; <span class='message'>  enlarged_peak_start = </span><span style='color: #00BB00;'>col_double()</span><span>,</span>
-#&gt; <span class='message'>  enlarged_peak_end = </span><span style='color: #00BB00;'>col_double()</span><span>,</span>
-#&gt; <span class='message'>  n_genes_in_region = </span><span style='color: #00BB00;'>col_double()</span><span>,</span>
-#&gt; <span class='message'>  genes_in_region = </span><span style='color: #BB0000;'>col_character()</span><span>,</span>
-#&gt; <span class='message'>  n_genes_in_peak = </span><span style='color: #00BB00;'>col_double()</span><span>,</span>
-#&gt; <span class='message'>  genes_in_peak = </span><span style='color: #BB0000;'>col_character()</span><span>,</span>
-#&gt; <span class='message'>  n_genes_on_chip = </span><span style='color: #BB0000;'>col_character()</span><span>,</span>
-#&gt; <span class='message'>  genes_on_chip = </span><span style='color: #BB0000;'>col_character()</span><span>,</span>
-#&gt; <span class='message'>  `top 3` = </span><span style='color: #BB0000;'>col_character()</span><span>,</span>
-#&gt; <span class='message'>  amp = </span><span style='color: #00BB00;'>col_double()</span><span>,</span>
-#&gt; <span class='message'>  cytoband = </span><span style='color: #BB0000;'>col_character()</span><span>,</span>
-#&gt; <span class='message'>  q_value = </span><span style='color: #00BB00;'>col_double()</span><span></span>
+#&gt; <span class='message'>  index = col_double(),</span>
+#&gt; <span class='message'>  chromosome = col_character(),</span>
+#&gt; <span class='message'>  region_start = col_double(),</span>
+#&gt; <span class='message'>  region_end = col_double(),</span>
+#&gt; <span class='message'>  peak_start = col_double(),</span>
+#&gt; <span class='message'>  peak_end = col_double(),</span>
+#&gt; <span class='message'>  enlarged_peak_start = col_double(),</span>
+#&gt; <span class='message'>  enlarged_peak_end = col_double(),</span>
+#&gt; <span class='message'>  n_genes_in_region = col_double(),</span>
+#&gt; <span class='message'>  genes_in_region = col_character(),</span>
+#&gt; <span class='message'>  n_genes_in_peak = col_double(),</span>
+#&gt; <span class='message'>  genes_in_peak = col_character(),</span>
+#&gt; <span class='message'>  n_genes_on_chip = col_character(),</span>
+#&gt; <span class='message'>  genes_on_chip = col_character(),</span>
+#&gt; <span class='message'>  `top 3` = col_character(),</span>
+#&gt; <span class='message'>  amp = col_double(),</span>
+#&gt; <span class='message'>  cytoband = col_character(),</span>
+#&gt; <span class='message'>  q_value = col_double()</span>
 #&gt; <span class='message'>)</span></div><div class='output co'>#&gt; <span class='warning'>Warning:  Multiple prefixes found, using keyword 'region' or taking first one</span></div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
 #&gt; <span class='message'>cols(</span>
-#&gt; <span class='message'>  index = </span><span style='color: #00BB00;'>col_double()</span><span>,</span>
-#&gt; <span class='message'>  chromosome = </span><span style='color: #00BB00;'>col_double()</span><span>,</span>
-#&gt; <span class='message'>  region_start = </span><span style='color: #00BB00;'>col_double()</span><span>,</span>
-#&gt; <span class='message'>  region_end = </span><span style='color: #00BB00;'>col_double()</span><span>,</span>
-#&gt; <span class='message'>  peak_start = </span><span style='color: #00BB00;'>col_double()</span><span>,</span>
-#&gt; <span class='message'>  peak_end = </span><span style='color: #00BB00;'>col_double()</span><span>,</span>
-#&gt; <span class='message'>  enlarged_peak_start = </span><span style='color: #00BB00;'>col_double()</span><span>,</span>
-#&gt; <span class='message'>  enlarged_peak_end = </span><span style='color: #00BB00;'>col_double()</span><span>,</span>
-#&gt; <span class='message'>  n_genes_in_region = </span><span style='color: #00BB00;'>col_double()</span><span>,</span>
-#&gt; <span class='message'>  genes_in_region = </span><span style='color: #BB0000;'>col_character()</span><span>,</span>
-#&gt; <span class='message'>  n_genes_in_peak = </span><span style='color: #00BB00;'>col_double()</span><span>,</span>
-#&gt; <span class='message'>  genes_in_peak = </span><span style='color: #BB0000;'>col_character()</span><span>,</span>
-#&gt; <span class='message'>  n_genes_on_chip = </span><span style='color: #BB0000;'>col_character()</span><span>,</span>
-#&gt; <span class='message'>  genes_on_chip = </span><span style='color: #BB0000;'>col_character()</span><span>,</span>
-#&gt; <span class='message'>  `top 3` = </span><span style='color: #BB0000;'>col_character()</span><span>,</span>
-#&gt; <span class='message'>  amp = </span><span style='color: #00BB00;'>col_double()</span><span>,</span>
-#&gt; <span class='message'>  cytoband = </span><span style='color: #BB0000;'>col_character()</span><span>,</span>
-#&gt; <span class='message'>  q_value = </span><span style='color: #00BB00;'>col_double()</span><span></span>
+#&gt; <span class='message'>  index = col_double(),</span>
+#&gt; <span class='message'>  chromosome = col_double(),</span>
+#&gt; <span class='message'>  region_start = col_double(),</span>
+#&gt; <span class='message'>  region_end = col_double(),</span>
+#&gt; <span class='message'>  peak_start = col_double(),</span>
+#&gt; <span class='message'>  peak_end = col_double(),</span>
+#&gt; <span class='message'>  enlarged_peak_start = col_double(),</span>
+#&gt; <span class='message'>  enlarged_peak_end = col_double(),</span>
+#&gt; <span class='message'>  n_genes_in_region = col_double(),</span>
+#&gt; <span class='message'>  genes_in_region = col_character(),</span>
+#&gt; <span class='message'>  n_genes_in_peak = col_double(),</span>
+#&gt; <span class='message'>  genes_in_peak = col_character(),</span>
+#&gt; <span class='message'>  n_genes_on_chip = col_character(),</span>
+#&gt; <span class='message'>  genes_on_chip = col_character(),</span>
+#&gt; <span class='message'>  `top 3` = col_character(),</span>
+#&gt; <span class='message'>  amp = col_double(),</span>
+#&gt; <span class='message'>  cytoband = col_character(),</span>
+#&gt; <span class='message'>  q_value = col_double()</span>
 #&gt; <span class='message'>)</span></div><div class='output co'>#&gt; <span class='warning'>Warning:  Multiple prefixes found, using keyword 'region' or taking first one</span></div><div class='input'>
-</div></span></pre>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

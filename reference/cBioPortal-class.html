@@ -74,7 +74,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">cBiocPortalData</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.7</span>
       </span>
     </div>
 
@@ -141,38 +141,37 @@
     to the functionality provided by the rest of the package.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><a href='cBioPortal.html'>cBioPortal</a>, <a href='https://rdrr.io/pkg/AnVIL/man/Service.html'>Service</a></p></div>
+    <div class='dont-index'><p>cBioPortal, <a href='https://rdrr.io/pkg/AnVIL/man/Service.html'>Service</a></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='fu'><a href='cBioPortal.html'>cBioPortal</a></span>()</div><div class='output co'>#&gt; service: cBioPortal
+<span class='fu'>cBioPortal</span>()</div><div class='output co'>#&gt; service: cBioPortal
 #&gt; tags(); use cbioportal$&lt;tab completion&gt;:
-#&gt; <span style='color: #555555;'># A tibble: 70 x 3</span><span>
-#&gt;    tag             operation                          summary                   
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>           </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                              </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                     
-#&gt; </span><span style='color: #555555;'> 1</span><span> A. Cancer Types getAllCancerTypesUsingGET          Get all cancer types      
-#&gt; </span><span style='color: #555555;'> 2</span><span> A. Cancer Types getCancerTypeUsingGET              Get a cancer type         
-#&gt; </span><span style='color: #555555;'> 3</span><span> B. Studies      fetchStudiesUsingPOST              Fetch studies by IDs      
-#&gt; </span><span style='color: #555555;'> 4</span><span> B. Studies      getAllStudiesUsingGET              Get all studies           
-#&gt; </span><span style='color: #555555;'> 5</span><span> B. Studies      getStudyUsingGET                   Get a study               
-#&gt; </span><span style='color: #555555;'> 6</span><span> B. Studies      getTagsForMultipleStudiesUsingPOST Get the study tags by IDs 
-#&gt; </span><span style='color: #555555;'> 7</span><span> B. Studies      getTagsUsingGET                    Get the tags of a study   
-#&gt; </span><span style='color: #555555;'> 8</span><span> C. Patients     fetchPatientsUsingPOST             fetchPatients             
-#&gt; </span><span style='color: #555555;'> 9</span><span> C. Patients     getAllPatientsInStudyUsingGET      Get all patients in a stu…
-#&gt; </span><span style='color: #555555;'>10</span><span> C. Patients     getAllPatientsUsingGET             Get all patients          
-#&gt; </span><span style='color: #555555;'># … with 60 more rows</span><span>
+#&gt; # A tibble: 70 x 3
+#&gt;    tag          operation               summary                                 
+#&gt;    &lt;chr&gt;        &lt;chr&gt;                   &lt;chr&gt;                                   
+#&gt;  1 Cancer Types getAllCancerTypesUsing… Get all cancer types                    
+#&gt;  2 Cancer Types getCancerTypeUsingGET   Get a cancer type                       
+#&gt;  3 Clinical At… fetchClinicalAttribute… Fetch clinical attributes               
+#&gt;  4 Clinical At… getAllClinicalAttribut… Get all clinical attributes in the spec…
+#&gt;  5 Clinical At… getAllClinicalAttribut… Get all clinical attributes             
+#&gt;  6 Clinical At… getClinicalAttributeCo… Get counts for clinical attributes acco…
+#&gt;  7 Clinical At… getClinicalAttributeIn… Get specified clinical attribute        
+#&gt;  8 Clinical Da… fetchAllClinicalDataIn… Fetch clinical data by patient IDs or s…
+#&gt;  9 Clinical Da… fetchClinicalDataUsing… Fetch clinical data by patient IDs or s…
+#&gt; 10 Clinical Da… getAllClinicalDataInSt… Get all clinical data in a study        
+#&gt; # … with 60 more rows
 #&gt; tag values:
-#&gt;   A. Cancer Types, B. Studies, C. Patients, D. Samples, E. Sample
-#&gt;   Lists, F. Clinical Attributes, G. Clinical Data, H. Clinical Events,
-#&gt;   I. Molecular Data, J. Molecular Profiles, K. Mutations, L. Discrete
-#&gt;   Copy Number Alterations, M. Copy Number Segments, N. Genes, O. Gene
-#&gt;   Panels, P. Generic Assay, Q. Structural Variants, R. Reference Genome
-#&gt;   Genes, S. Resource Definitions, T. Resource Data
+#&gt;   Cancer Types, Clinical Attributes, Clinical Data, Clinical Events,
+#&gt;   Copy Number Segments, Discrete Copy Number Alterations, Gene Panels,
+#&gt;   Generic Assays, Genes, Molecular Data, Molecular Profiles, Mutations,
+#&gt;   Patients, Reference Genome Genes, Resource Data, Resource
+#&gt;   Definitions, Sample Lists, Samples, Structural Variants, Studies
 #&gt; schemas():
 #&gt;   AlleleSpecificCopyNumber, CancerStudy, CancerStudyTags,
 #&gt;   ClinicalAttribute, ClinicalAttributeCount
 #&gt;   # ... with 51 more elements</div><div class='input'>
-</div></span></pre>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
