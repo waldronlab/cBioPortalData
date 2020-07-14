@@ -1,11 +1,11 @@
-name: CBIO
+name: cBioRel
 
 on: push
 
 jobs:
-  check:
+  checkRelease:
     runs-on: ubuntu-latest
-    container: bioconductor/bioconductor_docker:release
+    container: bioconductor/bioconductor_docker:RELEASE_3_11
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v1
