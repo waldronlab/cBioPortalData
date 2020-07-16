@@ -29,6 +29,15 @@ jobs:
           Rscript -e "options(repos = c(CRAN = 'https://cran.r-project.org')); BiocManager::install(c('remotes', 'rcmdcheck', 'covr', 'pkgdown', 'AnVIL'), ask = FALSE, update = TRUE)"
           Rscript -e "remotes::install_local(repos = BiocManager::repositories(), dependencies = TRUE)"
 
+      - name: Publish Docker
+        uses: elgohr/Publish-Docker-Github-Action@2.18
+        with:
+          name: LiNk-NY/cBioPortalData/cbiocontainer
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          registry: docker.pkg.github.com
+          tags: latest
+
       - name: Check Package
         env:
           _R_CHECK_CRAN_INCOMING_REMOTE_: false
