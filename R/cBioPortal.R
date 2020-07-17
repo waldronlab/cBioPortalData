@@ -289,25 +289,19 @@ searchOps <- function(api, keyword) {
 #'     * geneTable - Get a table of all genes by 'entrezGeneId' or
 #'     'hugoGeneSymbol'
 #'
+#' @param pageSize numeric(1) The number of rows in the table to return
+#'
+#' @param pageNumber numeric(1) The pagination page number
+#'
 #' @param ... Additional arguments to lower level API functions
 #'
 #' @export
-geneTable <- function(api, ...) {
+geneTable <- function(api, pageSize = 1000, pageNumber = 0, ...) {
     if (missing(api))
         stop("Provide a valid 'api' from 'cBioPortal()'")
 
-    gres <- .invoke_fun(api, "getAllGenesUsingGET", TRUE, ...)
-    glist <- httr::content(gres)
-    glix <- lapply(glist, function(x) {
-        if (is.null(x[["cytoband"]]))
-            x[["cytoband"]] <- NA_character_
-        if (is.null(x[["length"]]))
-            x[["length"]] <- NA_integer_
-        if (is.null(x[["chromosome"]]))
-            x[["chromosome"]] <- NA_character_
-        x
-    })
-    dplyr::bind_rows(glix)
+    .invoke_bind(api, "getAllGenesUsingGET", TRUE, pageSize = pageSize,
+        pageNumber = pageNumber, ...)
 }
 
 #' @name cBioPortal

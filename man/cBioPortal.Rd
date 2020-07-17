@@ -45,7 +45,7 @@ molecularData(
 
 searchOps(api, keyword)
 
-geneTable(api, ...)
+geneTable(api, pageSize = 1000, pageNumber = 0, ...)
 
 samplesInSampleLists(api, sampleListIds = NA_character_, check = TRUE)
 
@@ -113,6 +113,10 @@ API (i.e., for 'studyId', 'genePanelId', 'molecularProfileId', and
 
 \item{keyword}{character(1) Keyword or pattern for searching through
 available operations}
+
+\item{pageSize}{numeric(1) The number of rows in the table to return}
+
+\item{pageNumber}{numeric(1) The pagination page number}
 
 \item{...}{Additional arguments to lower level API functions}
 

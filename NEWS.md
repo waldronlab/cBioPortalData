@@ -12,6 +12,7 @@
 * Update and include percentages of studies successfully imported using
 `cBioDataPack` and `cBioPortalData` in the documentation
 * Fix read-in when identifiers are numeric instead of character (@jucor, #27)
+* Include pagination parameters in `geneTable` function (@xinwei-sher, #29)
 
 # cBioPortalData 2.0.0
 
