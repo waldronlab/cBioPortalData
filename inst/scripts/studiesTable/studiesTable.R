@@ -1,6 +1,12 @@
 ## Script to create resource table with file names and links
+pkgs <- c("S4Vectors", "cgdsr", "stringr", "stringi", "tibble", "dplyr",
+    "RCurl", "usethis")
+ninst <- !vapply(pkgs, requireNamespace, logical(1L), quietly = TRUE)
+if (any(ninst))
+    BiocManager::install(pkgs[ninst])
+
+library(S4Vectors)
 library(cgdsr)
-library(magrittr)
 library(stringr)
 library(stringi)
 library(tibble)
@@ -13,17 +19,18 @@ studiesTable <- getCancerStudies(cgds)
 names(studiesTable) <-
     gsub("name", "study_name", names(studiesTable), fixed = TRUE)
 
-URL <- gsub("<\\/{0,1}[Aaibr]{1,2}>", "", studiesTable[["description"]]) %>%
-    str_extract_all("<.*?>") %>% IRanges::CharacterList() %>%
-    S4Vectors::endoapply(., function(x) {
-    gsub("<[aA]\\s[Hh][Rr][Ee][Ff]=|\"|>", "", x)
-     })
+parseURL <- gsub("<\\/{0,1}[Aaibr]{1,2}>", "", studiesTable[["description"]])
+URL <- str_extract_all(parseURL, "<.*?>")
+cleanURL <- lapply(URL, function(x) { gsub("<[aA]\\s[Hh][Rr][Ee][Ff]=|\"|>", "", x) })
+cleanURL <- vapply(cleanURL, paste, character(1L), collapse = ", ")
+
 studiesTable[["description"]] <- gsub("<.*?>", "", studiesTable[["description"]])
 studiesTable <- as(studiesTable, "DataFrame")
-studiesTable[["URL"]] <- URL
+studiesTable[["URL"]] <- cleanURL
 
 fileURLs <- file.path("https://cbioportal-datahub.s3.amazonaws.com",
     paste0(studiesTable[["cancer_study_id"]], ".tar.gz"))
+
 ## Requires internet connection
 validURLs <- vapply(fileURLs, RCurl::url.exists, logical(1L))
 
@@ -34,4 +41,15 @@ if (any(changeCol))
     studiesTable[, changeCol] <-
         stringi::stri_enc_toascii(studiesTable[, changeCol])
 
-usethis::use_data(studiesTable, overwrite = TRUE)
+denv <- new.env(parent = emptyenv())
+data("studiesTable", package = "cBioPortalData", envir = denv)
+oldStudies <- denv[["studiesTable"]]
+
+errcode <- 0
+
+if (!identical(studiesTable, oldStudies)) {
+    errcode <- 1
+    usethis::use_data(studiesTable, overwrite = TRUE)
+}
+
+q("no", errcode)

@@ -1,0 +1,49 @@
+name: studiesTable
+
+on:
+  schedule:
+    - cron: '0 9 * * 6'
+
+jobs:
+  runcode:
+    runs-on: ubuntu-latest
+    container: bioconductor/bioconductor_docker:devel
+
+    steps:
+      - name: Query dependencies
+        run: |
+          install.packages('remotes')
+          saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
+        shell: Rscript {0}
+
+      - name: Cache R packages
+        if: runner.os != 'Windows'
+        uses: actions/cache@v1
+        with:
+          path: /usr/local/lib/R/site-library
+          key: ${{ runner.os }}-r-1-${{ hashFiles('.github/depends.Rds') }}
+          restore-keys: ${{ runner.os }}-r-1-
+      - name: Checkout Repository
+        uses: actions/checkout@v1
+
+      - name: Install Dependencies
+        run: |
+          options(repos = c(CRAN = 'https://cran.r-project.org')); BiocManager::install(c('remotes', 'rcmdcheck', 'covr', 'pkgdown', 'AnVIL'), ask = FALSE, update = TRUE)
+          remotes::install_local(repos = BiocManager::repositories(), dependencies = TRUE)
+          BiocManager::install(c("cgdsr", "stringr", "stringi", "tibble", "dplyr", "Rcurl", "usethis"))
+        shell: Rscript {0}
+
+      - name: Generate Package Data
+        run: sh ./inst/scripts/studiesTable/buildTable.sh
+
+      - name: Commit changes
+        if: ${{ failure() }}
+        run: |
+          git config --local user.email ${{ secrets.EMAIL }}
+          git config --local user.name "LiNk-NY"
+          git commit -am "Update studiesTable dataset"
+
+      - name: Push action
+        uses: ad-m/github-push-action@master
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
