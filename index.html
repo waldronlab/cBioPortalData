@@ -123,8 +123,8 @@
 <h3 class="hasAnchor">
 <a href="#api-service" class="anchor"></a>API Service</h3>
 <p>Flexible and granular access to cBioPortal data from <code>cbioportal.org/api</code>. This option is best used with a particular gene panel of interest. It allows users to download sections of the data with molecular profile and gene panel combinations within a study.</p>
-<div class="sourceCode" id="cb2"><pre class="r"><span class="no">cbio</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/cBioPortalData/man/cBioPortal.html">cBioPortal</a></span>()
-<span class="no">gbm</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/cBioPortalData/man/cBioPortalData.html">cBioPortalData</a></span>(<span class="kw">api</span> <span class="kw">=</span> <span class="no">cbio</span>, <span class="kw">by</span> <span class="kw">=</span> <span class="st">"hugoGeneSymbol"</span>, <span class="kw">studyId</span> <span class="kw">=</span> <span class="st">"gbm_tcga"</span>,
+<div class="sourceCode" id="cb2"><pre class="r"><span class="no">cbio</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/cBioPortal.html">cBioPortal</a></span>()
+<span class="no">gbm</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/cBioPortalData.html">cBioPortalData</a></span>(<span class="kw">api</span> <span class="kw">=</span> <span class="no">cbio</span>, <span class="kw">by</span> <span class="kw">=</span> <span class="st">"hugoGeneSymbol"</span>, <span class="kw">studyId</span> <span class="kw">=</span> <span class="st">"gbm_tcga"</span>,
     <span class="kw">genePanelId</span> <span class="kw">=</span> <span class="st">"IMPACT341"</span>,
     <span class="kw">molecularProfileIds</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"gbm_tcga_rppa"</span>, <span class="st">"gbm_tcga_mrna"</span>)
 )</pre></div>
@@ -147,7 +147,7 @@
 <h3 class="hasAnchor">
 <a href="#packaged-data-service" class="anchor"></a>Packaged Data Service</h3>
 <p>This function will download a dataset from the <code>cbioportal.org/datasets</code> website as a packaged tarball and serve it to users as a <code>MultiAssayExperiment</code> object. This option is good for users who are interested in obtaining all the data for a particular study.</p>
-<div class="sourceCode" id="cb4"><pre class="r"><span class="no">laml</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/cBioPortalData/man/cBioDataPack.html">cBioDataPack</a></span>(<span class="st">"laml_tcga"</span>)</pre></div>
+<div class="sourceCode" id="cb4"><pre class="r"><span class="no">laml</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/cBioDataPack.html">cBioDataPack</a></span>(<span class="st">"laml_tcga"</span>)</pre></div>
 <div class="sourceCode" id="cb5"><pre class="r"><span class="no">laml</span>
 <span class="co">#&gt; A MultiAssayExperiment object of 11 listed</span>
 <span class="co">#&gt;  experiments with user-defined names and respective classes.</span>

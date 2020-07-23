@@ -77,7 +77,7 @@
       <h1 data-toc-skip>cBioPortalData: User Start Guide</h1>
                         <h4 class="author">Marcel Ramos</h4>
             
-            <h4 class="date">July 14, 2020</h4>
+            <h4 class="date">July 23, 2020</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/waldronlab/cBioPortalData/blob/master/vignettes/cBioPortalData.Rmd"><code>vignettes/cBioPortalData.Rmd</code></a></small>
       <div class="hidden name"><code>cBioPortalData.Rmd</code></div>
@@ -103,7 +103,7 @@
 <h3 class="hasAnchor">
 <a href="#cbiodatapack-obtain-study-data-as-zipped-tarballs" class="anchor"></a>cBioDataPack: Obtain Study Data as Zipped Tarballs</h3>
 <p>This function will access the packaged data from  and return an integrative MultiAssayExperiment representation.</p>
-<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/pkg/cBioPortalData/man/cBioDataPack.html">cBioDataPack</a></span>(<span class="st">"laml_tcga"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="fu"><a href="../reference/cBioDataPack.html">cBioDataPack</a></span>(<span class="st">"laml_tcga"</span>)</pre></body></html></div>
 <pre><code>## A MultiAssayExperiment object of 12 listed
 ##  experiments with user-defined names and respective classes.
 ##  Containing an ExperimentList class object of length 12:
@@ -119,20 +119,21 @@
 ##  [10] methylation_hm450: SummarizedExperiment with 10919 rows and 194 columns
 ##  [11] mutations_extended: RaggedExperiment with 2584 rows and 197 columns
 ##  [12] mutations_mskcc: RaggedExperiment with 2584 rows and 197 columns
-## Features:
+## Functionality:
 ##  experiments() - obtain the ExperimentList instance
-##  colData() - the primary/phenotype DFrame
-##  sampleMap() - the sample availability DFrame
+##  colData() - the primary/phenotype DataFrame
+##  sampleMap() - the sample coordination DataFrame
 ##  `$`, `[`, `[[` - extract colData columns, subset, or experiment
-##  *Format() - convert into a long or wide DFrame
-##  assays() - convert ExperimentList to a SimpleList of matrices</code></pre>
+##  *Format() - convert into a long or wide DataFrame
+##  assays() - convert ExperimentList to a SimpleList of matrices
+##  exportClass() - save all data to files</code></pre>
 </div>
 <div id="cbioportaldata-obtain-data-from-the-cbioportal-api" class="section level3">
 <h3 class="hasAnchor">
 <a href="#cbioportaldata-obtain-data-from-the-cbioportal-api" class="anchor"></a>cBioPortalData: Obtain data from the cBioPortal API</h3>
 <p>This function provides a more flexible and granular way to request a MultiAssayExperiment object from a study ID, molecular profile, gene panel, sample list.</p>
-<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="no">cbio</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/cBioPortalData/man/cBioPortal.html">cBioPortal</a></span>()
-<span class="no">acc</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/cBioPortalData/man/cBioPortalData.html">cBioPortalData</a></span>(<span class="kw">api</span> <span class="kw">=</span> <span class="no">cbio</span>, <span class="kw">by</span> <span class="kw">=</span> <span class="st">"hugoGeneSymbol"</span>, <span class="kw">studyId</span> <span class="kw">=</span> <span class="st">"acc_tcga"</span>,
+<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="no">cbio</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/cBioPortal.html">cBioPortal</a></span>()
+<span class="no">acc</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/cBioPortalData.html">cBioPortalData</a></span>(<span class="kw">api</span> <span class="kw">=</span> <span class="no">cbio</span>, <span class="kw">by</span> <span class="kw">=</span> <span class="st">"hugoGeneSymbol"</span>, <span class="kw">studyId</span> <span class="kw">=</span> <span class="st">"acc_tcga"</span>,
     <span class="kw">genePanelId</span> <span class="kw">=</span> <span class="st">"IMPACT341"</span>,
     <span class="kw">molecularProfileIds</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"acc_tcga_rppa"</span>, <span class="st">"acc_tcga_linear_CNA"</span>)
 )</pre></body></html></div>
@@ -144,13 +145,14 @@
 ##  Containing an ExperimentList class object of length 2:
 ##  [1] acc_tcga_rppa: SummarizedExperiment with 57 rows and 46 columns
 ##  [2] acc_tcga_linear_CNA: SummarizedExperiment with 339 rows and 90 columns
-## Features:
+## Functionality:
 ##  experiments() - obtain the ExperimentList instance
-##  colData() - the primary/phenotype DFrame
-##  sampleMap() - the sample availability DFrame
+##  colData() - the primary/phenotype DataFrame
+##  sampleMap() - the sample coordination DataFrame
 ##  `$`, `[`, `[[` - extract colData columns, subset, or experiment
-##  *Format() - convert into a long or wide DFrame
-##  assays() - convert ExperimentList to a SimpleList of matrices</code></pre>
+##  *Format() - convert into a long or wide DataFrame
+##  assays() - convert ExperimentList to a SimpleList of matrices
+##  exportClass() - save all data to files</code></pre>
 </div>
 </div>
 <div id="clearing-the-cache" class="section level2">
@@ -160,7 +162,7 @@
 <h3 class="hasAnchor">
 <a href="#cbiodatapack" class="anchor"></a>cBioDataPack</h3>
 <p>In cases where a download is interrupted, the user may experience a corrupt cache. The user can clear the cache for a particular study by using the <code>removeCache</code> function. Note that this function only works for data downloaded through the <code>cBioDataPack</code> function.</p>
-<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/pkg/cBioPortalData/man/cBioCache.html">removeCache</a></span>(<span class="st">"laml_tcga"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="fu"><a href="../reference/cBioCache.html">removeCache</a></span>(<span class="st">"laml_tcga"</span>)</pre></body></html></div>
 </div>
 <div id="cbioportaldata" class="section level3">
 <h3 class="hasAnchor">
@@ -194,60 +196,60 @@
 ## [8] methods   base     
 ## 
 ## other attached packages:
-##  [1] cBioPortalData_2.0.7        MultiAssayExperiment_1.14.0
-##  [3] SummarizedExperiment_1.18.2 DelayedArray_0.14.0        
-##  [5] matrixStats_0.56.0          Biobase_2.48.0             
-##  [7] GenomicRanges_1.40.0        GenomeInfoDb_1.24.2        
-##  [9] IRanges_2.22.2              S4Vectors_0.26.1           
-## [11] BiocGenerics_0.34.0         AnVIL_1.0.3                
-## [13] dplyr_1.0.0                 BiocStyle_2.16.0           
+##  [1] cBioPortalData_2.0.7        MultiAssayExperiment_1.15.2
+##  [3] SummarizedExperiment_1.19.6 DelayedArray_0.15.7        
+##  [5] matrixStats_0.56.0          Matrix_1.2-18              
+##  [7] Biobase_2.49.0              GenomicRanges_1.41.5       
+##  [9] GenomeInfoDb_1.25.8         IRanges_2.23.10            
+## [11] S4Vectors_0.27.12           BiocGenerics_0.35.4        
+## [13] AnVIL_1.1.14                dplyr_1.0.0                
+## [15] BiocStyle_2.17.0           
 ## 
 ## loaded via a namespace (and not attached):
 ##  [1] bitops_1.0-6              fs_1.4.2                 
-##  [3] bit64_0.9-7               progress_1.2.2           
-##  [5] httr_1.4.1                rprojroot_1.3-2          
-##  [7] GenomicDataCommons_1.12.0 tools_4.0.0              
+##  [3] bit64_0.9-7.1             progress_1.2.2           
+##  [5] httr_1.4.2                rprojroot_1.3-2          
+##  [7] GenomicDataCommons_1.13.0 tools_4.0.0              
 ##  [9] backports_1.1.8           R6_2.4.1                 
 ## [11] DBI_1.1.0                 tidyselect_1.1.0         
-## [13] prettyunits_1.1.1         TCGAutils_1.8.0          
+## [13] prettyunits_1.1.1         TCGAutils_1.9.3          
 ## [15] bit_1.1-15.2              curl_4.3                 
 ## [17] compiler_4.0.0            rvest_0.3.5              
 ## [19] formatR_1.7               xml2_1.3.2               
-## [21] desc_1.2.0                rtracklayer_1.48.0       
+## [21] desc_1.2.0                rtracklayer_1.49.3       
 ## [23] bookdown_0.20             readr_1.3.1              
 ## [25] askpass_1.1               rappdirs_0.3.1           
 ## [27] pkgdown_1.5.1             rapiclient_0.1.3         
 ## [29] RCircos_1.2.1             stringr_1.4.0            
-## [31] digest_0.6.25             Rsamtools_2.4.0          
-## [33] rmarkdown_2.3             XVector_0.28.0           
+## [31] digest_0.6.25             Rsamtools_2.5.3          
+## [33] rmarkdown_2.3             XVector_0.29.3           
 ## [35] pkgconfig_2.0.3           htmltools_0.5.0          
-## [37] dbplyr_1.4.4              limma_3.44.3             
+## [37] dbplyr_1.4.4              limma_3.45.9             
 ## [39] rlang_0.4.7               RSQLite_2.2.0            
 ## [41] generics_0.0.2            jsonlite_1.7.0           
-## [43] BiocParallel_1.22.0       RCurl_1.98-1.2           
+## [43] BiocParallel_1.23.2       RCurl_1.98-1.2           
 ## [45] magrittr_1.5              GenomeInfoDbData_1.2.3   
-## [47] futile.logger_1.4.3       Matrix_1.2-18            
-## [49] Rcpp_1.0.5                lifecycle_0.2.0          
-## [51] stringi_1.4.6             yaml_2.2.1               
-## [53] RaggedExperiment_1.12.0   MASS_7.3-51.6            
-## [55] RJSONIO_1.3-1.4           zlibbioc_1.34.0          
-## [57] BiocFileCache_1.12.0      grid_4.0.0               
-## [59] blob_1.2.1                crayon_1.3.4             
-## [61] lattice_0.20-41           Biostrings_2.56.0        
-## [63] splines_4.0.0             GenomicFeatures_1.40.1   
-## [65] hms_0.5.3                 knitr_1.29               
-## [67] pillar_1.4.6              codetools_0.2-16         
-## [69] biomaRt_2.44.1            futile.options_1.0.1     
-## [71] XML_3.99-0.4              glue_1.4.1               
-## [73] evaluate_0.14             lambda.r_1.2.4           
-## [75] data.table_1.12.8         BiocManager_1.30.10      
-## [77] vctrs_0.3.1               tidyr_1.1.0              
-## [79] openssl_1.4.2             purrr_0.3.4              
-## [81] assertthat_0.2.1          xfun_0.15                
-## [83] survival_3.2-3            tibble_3.0.3             
-## [85] RTCGAToolbox_2.18.0       GenomicAlignments_1.24.0 
-## [87] AnnotationDbi_1.50.1      memoise_1.1.0            
-## [89] ellipsis_0.3.1</code></pre>
+## [47] futile.logger_1.4.3       Rcpp_1.0.5               
+## [49] lifecycle_0.2.0           stringi_1.4.6            
+## [51] yaml_2.2.1                RaggedExperiment_1.13.0  
+## [53] MASS_7.3-51.6             RJSONIO_1.3-1.4          
+## [55] zlibbioc_1.35.0           BiocFileCache_1.13.0     
+## [57] grid_4.0.0                blob_1.2.1               
+## [59] crayon_1.3.4              lattice_0.20-41          
+## [61] Biostrings_2.57.2         splines_4.0.0            
+## [63] GenomicFeatures_1.41.2    hms_0.5.3                
+## [65] knitr_1.29                pillar_1.4.6             
+## [67] codetools_0.2-16          biomaRt_2.45.2           
+## [69] futile.options_1.0.1      XML_3.99-0.5             
+## [71] glue_1.4.1                evaluate_0.14            
+## [73] lambda.r_1.2.4            data.table_1.12.8        
+## [75] BiocManager_1.30.10       vctrs_0.3.2              
+## [77] tidyr_1.1.0               openssl_1.4.2            
+## [79] purrr_0.3.4               assertthat_0.2.1         
+## [81] xfun_0.15                 survival_3.2-3           
+## [83] tibble_3.0.3              RTCGAToolbox_2.19.2      
+## [85] GenomicAlignments_1.25.3  AnnotationDbi_1.51.1     
+## [87] memoise_1.1.0             ellipsis_0.3.1</code></pre>
 </div>
   </div>
 

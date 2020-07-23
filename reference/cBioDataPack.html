@@ -184,7 +184,7 @@ file. For a more fine-grained approach to downloading data from the
 cBioPortal API, refer to the <code>cBioPortalData</code> function.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><a href='http://cbioportal.org/data_sets.jsp'>http://cbioportal.org/data_sets.jsp</a>, cBioPortalData</p></div>
+    <div class='dont-index'><p><a href='http://cbioportal.org/data_sets.jsp'>http://cbioportal.org/data_sets.jsp</a>, <a href='cBioPortalData.html'>cBioPortalData</a></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
@@ -192,35 +192,35 @@ cBioPortal API, refer to the <code>cBioPortalData</code> function.</p>
 
 <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>studiesTable</span><span class='kw'>[[</span><span class='st'>"cancer_study_id"</span>]])</div><div class='output co'>#&gt; [1] "paac_jhu_2014"       "mel_tsam_liang_2017" "all_stjude_2015"    
 #&gt; [4] "all_stjude_2016"     "aml_ohsu_2018"       "laml_tcga_pub"      </div><div class='input'>
-<span class='no'>mae</span> <span class='kw'>&lt;-</span> <span class='fu'>cBioDataPack</span>(<span class='st'>"acc_tcga"</span>)</div><div class='output co'>#&gt; <span class='message'>Study file in cache: acc_tcga</span></div><div class='output co'>#&gt; <span class='message'>Working on: /tmp/RtmphRYt88/data_CNA.txt</span></div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
+<span class='no'>mae</span> <span class='kw'>&lt;-</span> <span class='fu'>cBioDataPack</span>(<span class='st'>"acc_tcga"</span>)</div><div class='output co'>#&gt; <span class='message'>Study file in cache: acc_tcga</span></div><div class='output co'>#&gt; <span class='message'>Working on: /tmp/RtmpaXEahi/data_CNA.txt</span></div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
 #&gt; <span class='message'>cols(</span>
 #&gt; <span class='message'>  .default = col_double(),</span>
 #&gt; <span class='message'>  Hugo_Symbol = col_character()</span>
 #&gt; <span class='message'>)</span></div><div class='output co'>#&gt; <span class='message'>See spec(...) for full column specifications.</span></div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
 #&gt; <span class='message'>cols(</span>
 #&gt; <span class='message'>  Hugo_Symbol = col_character()</span>
-#&gt; <span class='message'>)</span></div><div class='output co'>#&gt; <span class='message'>Working on: /tmp/RtmphRYt88/data_RNA_Seq_v2_expression_median.txt</span></div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
+#&gt; <span class='message'>)</span></div><div class='output co'>#&gt; <span class='message'>Working on: /tmp/RtmpaXEahi/data_RNA_Seq_v2_expression_median.txt</span></div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
 #&gt; <span class='message'>cols(</span>
 #&gt; <span class='message'>  .default = col_double(),</span>
 #&gt; <span class='message'>  Hugo_Symbol = col_character()</span>
 #&gt; <span class='message'>)</span></div><div class='output co'>#&gt; <span class='message'>See spec(...) for full column specifications.</span></div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
 #&gt; <span class='message'>cols(</span>
 #&gt; <span class='message'>  Hugo_Symbol = col_character()</span>
-#&gt; <span class='message'>)</span></div><div class='output co'>#&gt; <span class='message'>Working on: /tmp/RtmphRYt88/data_RNA_Seq_v2_mRNA_median_Zscores.txt</span></div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
+#&gt; <span class='message'>)</span></div><div class='output co'>#&gt; <span class='message'>Working on: /tmp/RtmpaXEahi/data_RNA_Seq_v2_mRNA_median_Zscores.txt</span></div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
 #&gt; <span class='message'>cols(</span>
 #&gt; <span class='message'>  .default = col_double(),</span>
 #&gt; <span class='message'>  Hugo_Symbol = col_character()</span>
 #&gt; <span class='message'>)</span></div><div class='output co'>#&gt; <span class='message'>See spec(...) for full column specifications.</span></div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
 #&gt; <span class='message'>cols(</span>
 #&gt; <span class='message'>  Hugo_Symbol = col_character()</span>
-#&gt; <span class='message'>)</span></div><div class='output co'>#&gt; <span class='message'>Working on: /tmp/RtmphRYt88/data_RNA_Seq_v2_mRNA_median_all_sample_Zscores.txt</span></div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
+#&gt; <span class='message'>)</span></div><div class='output co'>#&gt; <span class='message'>Working on: /tmp/RtmpaXEahi/data_RNA_Seq_v2_mRNA_median_all_sample_Zscores.txt</span></div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
 #&gt; <span class='message'>cols(</span>
 #&gt; <span class='message'>  .default = col_double(),</span>
 #&gt; <span class='message'>  Hugo_Symbol = col_character()</span>
 #&gt; <span class='message'>)</span></div><div class='output co'>#&gt; <span class='message'>See spec(...) for full column specifications.</span></div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
 #&gt; <span class='message'>cols(</span>
 #&gt; <span class='message'>  Hugo_Symbol = col_character()</span>
-#&gt; <span class='message'>)</span></div><div class='output co'>#&gt; <span class='message'>Working on: /tmp/RtmphRYt88/data_cna_hg19.seg</span></div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
+#&gt; <span class='message'>)</span></div><div class='output co'>#&gt; <span class='message'>Working on: /tmp/RtmpaXEahi/data_cna_hg19.seg</span></div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
 #&gt; <span class='message'>cols(</span>
 #&gt; <span class='message'>  ID = col_character(),</span>
 #&gt; <span class='message'>  chrom = col_double(),</span>
@@ -228,21 +228,21 @@ cBioPortal API, refer to the <code>cBioPortalData</code> function.</p>
 #&gt; <span class='message'>  loc.end = col_double(),</span>
 #&gt; <span class='message'>  num.mark = col_double(),</span>
 #&gt; <span class='message'>  seg.mean = col_double()</span>
-#&gt; <span class='message'>)</span></div><div class='output co'>#&gt; <span class='message'>Working on: /tmp/RtmphRYt88/data_linear_CNA.txt</span></div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
+#&gt; <span class='message'>)</span></div><div class='output co'>#&gt; <span class='message'>Working on: /tmp/RtmpaXEahi/data_linear_CNA.txt</span></div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
 #&gt; <span class='message'>cols(</span>
 #&gt; <span class='message'>  .default = col_double(),</span>
 #&gt; <span class='message'>  Hugo_Symbol = col_character()</span>
 #&gt; <span class='message'>)</span></div><div class='output co'>#&gt; <span class='message'>See spec(...) for full column specifications.</span></div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
 #&gt; <span class='message'>cols(</span>
 #&gt; <span class='message'>  Hugo_Symbol = col_character()</span>
-#&gt; <span class='message'>)</span></div><div class='output co'>#&gt; <span class='message'>Working on: /tmp/RtmphRYt88/data_methylation_hm450.txt</span></div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
+#&gt; <span class='message'>)</span></div><div class='output co'>#&gt; <span class='message'>Working on: /tmp/RtmpaXEahi/data_methylation_hm450.txt</span></div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
 #&gt; <span class='message'>cols(</span>
 #&gt; <span class='message'>  .default = col_double(),</span>
 #&gt; <span class='message'>  Hugo_Symbol = col_character()</span>
 #&gt; <span class='message'>)</span></div><div class='output co'>#&gt; <span class='message'>See spec(...) for full column specifications.</span></div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
 #&gt; <span class='message'>cols(</span>
 #&gt; <span class='message'>  Hugo_Symbol = col_character()</span>
-#&gt; <span class='message'>)</span></div><div class='output co'>#&gt; <span class='message'>Working on: /tmp/RtmphRYt88/data_mutations_extended.txt</span></div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
+#&gt; <span class='message'>)</span></div><div class='output co'>#&gt; <span class='message'>Working on: /tmp/RtmpaXEahi/data_mutations_extended.txt</span></div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
 #&gt; <span class='message'>cols(</span>
 #&gt; <span class='message'>  .default = col_character(),</span>
 #&gt; <span class='message'>  Entrez_Gene_Id = col_double(),</span>
@@ -266,7 +266,7 @@ cBioPortal API, refer to the <code>cBioPortalData</code> function.</p>
 #&gt; <span class='message'>)</span></div><div class='output co'>#&gt; <span class='message'>See spec(...) for full column specifications.</span></div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
 #&gt; <span class='message'>cols(</span>
 #&gt; <span class='message'>  .default = col_character()</span>
-#&gt; <span class='message'>)</span></div><div class='output co'>#&gt; <span class='message'>See spec(...) for full column specifications.</span></div><div class='output co'>#&gt; <span class='message'>Working on: /tmp/RtmphRYt88/data_mutations_mskcc.txt</span></div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
+#&gt; <span class='message'>)</span></div><div class='output co'>#&gt; <span class='message'>See spec(...) for full column specifications.</span></div><div class='output co'>#&gt; <span class='message'>Working on: /tmp/RtmpaXEahi/data_mutations_mskcc.txt</span></div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
 #&gt; <span class='message'>cols(</span>
 #&gt; <span class='message'>  .default = col_character(),</span>
 #&gt; <span class='message'>  Entrez_Gene_Id = col_double(),</span>
@@ -290,18 +290,18 @@ cBioPortal API, refer to the <code>cBioPortalData</code> function.</p>
 #&gt; <span class='message'>)</span></div><div class='output co'>#&gt; <span class='message'>See spec(...) for full column specifications.</span></div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
 #&gt; <span class='message'>cols(</span>
 #&gt; <span class='message'>  .default = col_character()</span>
-#&gt; <span class='message'>)</span></div><div class='output co'>#&gt; <span class='message'>See spec(...) for full column specifications.</span></div><div class='output co'>#&gt; <span class='message'>Working on: /tmp/RtmphRYt88/data_mutsig.txt</span></div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
+#&gt; <span class='message'>)</span></div><div class='output co'>#&gt; <span class='message'>See spec(...) for full column specifications.</span></div><div class='output co'>#&gt; <span class='message'>Working on: /tmp/RtmpaXEahi/data_mutsig.txt</span></div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
 #&gt; <span class='message'>cols(</span>
 #&gt; <span class='message'>  .default = col_double(),</span>
 #&gt; <span class='message'>  gene = col_character(),</span>
 #&gt; <span class='message'>  description = col_character(),</span>
 #&gt; <span class='message'>  p = col_character(),</span>
 #&gt; <span class='message'>  q = col_character()</span>
-#&gt; <span class='message'>)</span></div><div class='output co'>#&gt; <span class='message'>See spec(...) for full column specifications.</span></div><div class='output co'>#&gt; <span class='message'>Working on: /tmp/RtmphRYt88/data_rppa.txt</span></div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
+#&gt; <span class='message'>)</span></div><div class='output co'>#&gt; <span class='message'>See spec(...) for full column specifications.</span></div><div class='output co'>#&gt; <span class='message'>Working on: /tmp/RtmpaXEahi/data_rppa.txt</span></div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
 #&gt; <span class='message'>cols(</span>
 #&gt; <span class='message'>  .default = col_double(),</span>
 #&gt; <span class='message'>  Composite.Element.REF = col_character()</span>
-#&gt; <span class='message'>)</span></div><div class='output co'>#&gt; <span class='message'>See spec(...) for full column specifications.</span></div><div class='output co'>#&gt; <span class='message'>Working on: /tmp/RtmphRYt88/data_rppa_Zscores.txt</span></div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
+#&gt; <span class='message'>)</span></div><div class='output co'>#&gt; <span class='message'>See spec(...) for full column specifications.</span></div><div class='output co'>#&gt; <span class='message'>Working on: /tmp/RtmpaXEahi/data_rppa_Zscores.txt</span></div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
 #&gt; <span class='message'>cols(</span>
 #&gt; <span class='message'>  .default = col_double(),</span>
 #&gt; <span class='message'>  Composite.Element.REF = col_character()</span>
