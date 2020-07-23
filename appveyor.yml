@@ -24,7 +24,7 @@ install:
 
 branches:
   only:
-    - master
+    - RELEASE_3_11
 
 # Adapt as necessary starting from here
 build_script:
