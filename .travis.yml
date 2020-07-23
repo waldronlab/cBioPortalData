@@ -19,6 +19,11 @@ r_github_packages:
   - jimhester/covr
   - Bioconductor/AnVIL
 
+script:
+  - |
+    R CMD build .
+    travis_wait 30 R CMD check cBioPortalData*tar.gz
+
 after_success:
   - Rscript -e 'library(covr);codecov()'
 
