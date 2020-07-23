@@ -3,10 +3,15 @@
 
 <!-- start badges here -->
 
+[![BioC
+status](http://www.bioconductor.org/shields/build/release/bioc/cBioPortalData.svg
+"BioC Status")](https://bioconductor.org/checkResults/release/bioc-LATEST/cBioPortalData)
 [![Travis Build
-Status](https://travis-ci.org/waldronlab/cBioPortalData.svg?branch=master)](https://travis-ci.org/waldronlab/cBioPortalData)
-[![Build
-status](https://ci.appveyor.com/api/projects/status/42kd6prni3o0q50b?svg=true)](https://ci.appveyor.com/project/waldronlab/cbioportaldata)
+Status](https://travis-ci.org/waldronlab/cBioPortalData.svg?branch=RELEASE_3_11
+"Travis CI status")](https://travis-ci.org/waldronlab/cBioPortalData)
+[![Appveyor Build
+status](https://ci.appveyor.com/api/projects/status/42kd6prni3o0q50b/branch/RELEASE_3_11?svg=true
+"appveyor status")](https://ci.appveyor.com/project/waldronlab/cbioportaldata/branch/RELEASE_3_11)
 <!-- end badges here -->
 
 ## cBioPortal data and MultiAssayExperiment
