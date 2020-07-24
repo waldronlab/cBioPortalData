@@ -34,7 +34,7 @@ jobs:
           BiocManager::install(c("cgdsr", "stringr", "stringi", "tibble", "dplyr", "Rcurl", "usethis"))
         shell: Rscript {0}
 
-      - name: Generate Package Data
+      - name: Build studiesTable
         run: sh ./inst/scripts/studiesTable/buildTable.sh
 
       - name: Commit changes

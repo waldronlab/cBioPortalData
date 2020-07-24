@@ -14,14 +14,19 @@ names(complete) <- studies
 
 for (stud in studies) {
     message("Working on: ", stud)
-    complete[[stud]] <- tryCatch({
-        is(
-            cBioDataPack(cancer_study_id = stud),
-            "MultiAssayExperiment"
-        )
-    }, error = function(e) conditionMessage(e))
+    ## avoid segfault
+    if (identical(stud, "ccrcc_utokyo_2013"))
+        complete[[stud]] <- FALSE
+    else
+        complete[[stud]] <- tryCatch({
+            is(
+                cBioDataPack(cancer_study_id = stud),
+                "MultiAssayExperiment"
+            )
+        }, error = function(e) conditionMessage(e))
 }
 
 studiesTable$building <- unname(complete)
 usethis::use_data(studiesTable, overwrite = TRUE)
 
+q("no", 0)

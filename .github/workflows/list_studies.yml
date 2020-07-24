@@ -7,7 +7,7 @@ on:
 jobs:
   listStudies:
     runs-on: ubuntu-latest
-    container: mr148/multiassayworkshop:latest
+    container: bioconductor/bioconductor_docker:devel
 
     steps:
       - name: Checkout Repository
@@ -34,7 +34,7 @@ jobs:
           BiocManager::install(c("cgdsr", "stringr", "stringi", "tibble", "dplyr", "Rcurl", "usethis"))
         shell: Rscript {0}
 
-      - name: Generate Package Data
+      - name: Annotate studiesTable
         run: sh ./inst/scripts/studiesTable/list_studies.sh
 
       - name: Commit changes
