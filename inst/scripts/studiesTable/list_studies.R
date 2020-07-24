@@ -18,12 +18,12 @@ for (stud in studies) {
     if (identical(stud, "ccrcc_utokyo_2013"))
         complete[[stud]] <- FALSE
     else
-        complete[[stud]] <- tryCatch({
-            is(
+        complete[[stud]] <- is(
+            tryCatch({
                 cBioDataPack(cancer_study_id = stud),
-                "MultiAssayExperiment"
-            )
-        }, error = function(e) conditionMessage(e))
+            }, error = function(e) conditionMessage(e)),
+            "MultiAssayExperiment"
+        )
 }
 
 studiesTable$building <- unname(complete)
