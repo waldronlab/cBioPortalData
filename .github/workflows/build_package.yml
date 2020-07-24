@@ -53,6 +53,6 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
           repository: mr148/cbioportaldata
-          path: inst/docker/pkg
+          dockerfile: inst/docker/pkg/Dockerfile
           tag_with_ref: true
 
