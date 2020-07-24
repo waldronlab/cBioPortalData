@@ -33,7 +33,7 @@ build_script:
   - travis-tool.sh install_deps
   - travis-tool.sh install_bioc MultiAssayExperiment BiocFileCache GenomeInfoDb
     GenomicRanges IRanges RaggedExperiment RTCGAToolbox S4Vectors
-    SummarizedExperiment TCGAutils
+    SummarizedExperiment TCGAutils BiocStyle
   - travis-tool.sh install_bioc_deps
 
 test_script:
@@ -55,7 +55,7 @@ environment:
     USE_RTOOLS: true 
 
   matrix:
-    - R_VERSION: devel
+    - R_VERSION: release
       R_ARCH: x64
       GCC_PATH: mingw_64
 
