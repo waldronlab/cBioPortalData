@@ -21,15 +21,16 @@ for (stud in studies) {
 }
 
 # save(complete, file = "inst/scripts/maelistfromcbio.rda")
-load("inst/scripts/maelistfromcbio.rda")
+# load("inst/scripts/maelistfromcbio.rda")
 # load("maelistfromcbio.rda")
 
-chars <- vapply(complete, is.character, logical(1L))
-complete[chars]
+isMAE <- vapply(
+    complete, function(x) is(x, "MultiAssayExperiment"), logical(1L)
+)
 
-successrate <- (1 - length(complete[chars]) / length(complete) )* 100
+successrate <- (sum(isMAE) * 100) / length(isMAE)
 successrate
-## success rate for cBioPortalData out of 287 studies
+## success rate for cBioPortalData out of 268 studies
 ## 96.6
 
 maelengths <- lengths(
