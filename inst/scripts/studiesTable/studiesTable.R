@@ -45,10 +45,10 @@ denv <- new.env(parent = emptyenv())
 data("studiesTable", package = "cBioPortalData", envir = denv)
 oldStudies <- denv[["studiesTable"]]
 
-errcode <- 0
+errcode <- 1
 
 if (!identical(studiesTable, oldStudies)) {
-    errcode <- 1
+    errcode <- 0
     usethis::use_data(studiesTable, overwrite = TRUE)
 }
 

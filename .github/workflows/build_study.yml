@@ -38,7 +38,7 @@ jobs:
         run: sh ./inst/scripts/studiesTable/buildTable.sh
 
       - name: Commit changes
-        if: ${{ failure() }}
+        if: ${{ success() }}
         run: |
           git config --local user.email ${{ secrets.EMAIL }}
           git config --local user.name "LiNk-NY"
