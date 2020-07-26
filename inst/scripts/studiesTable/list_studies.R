@@ -20,7 +20,7 @@ for (stud in studies) {
     else
         complete[[stud]] <- is(
             tryCatch({
-                cBioDataPack(cancer_study_id = stud),
+                cBioDataPack(cancer_study_id = stud)
             }, error = function(e) conditionMessage(e)),
             "MultiAssayExperiment"
         )
