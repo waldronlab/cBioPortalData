@@ -58,6 +58,29 @@ cBioDataPack <- function(cancer_study_id, use_cache = TRUE,
     split.field = c("Tumor_Sample_Barcode", "ID"),
     names.field = c("Hugo_Symbol", "Entrez_Gene_Id", "Gene")) {
 
+    denv <- new.env(parent = emptyenv())
+    data("studiesTable", package = "cBioPortalData", envir = denv)
+    studiesTable <- denv[["studiesTable"]]
+
+    intable <- studiesTable[["cancer_study_id"]] %in% cancer_study_id
+    if (!any(intable))
+        stop("'cancer_study_id', ", cancer_study_id, ", not found.",
+            " See 'data(\"studiesTable\")'.")
+
+    hasbuilt <- unlist(studiesTable[intable, "building"])
+
+    if (!hasbuilt) {
+        qtxt <- sprintf(
+            paste0("Based on our tests, '%s' is not currently building.",
+                "\n Proceed anyway? [y/n]: "),
+            cancer_study_id
+        )
+        answer <- .getAnswer(qtxt, allowed = c("y", "Y", "n", "N"))
+        if (identical(answer, "n"))
+            stop("'", cancer_study_id, "' is not yet supported.",
+                " \n Use 'downloadStudy()' to obtain the study files.")
+    }
+
     cancer_file <- downloadStudy(cancer_study_id, use_cache)
 
     exarg <- if (identical(.Platform$OS.type, "unix") &&
