@@ -10,7 +10,7 @@ test_that("cBioDataPack works on at least 70% of studies", {
     for (stud in studies) {
         message("Working on: ", stud)
         complete[[stud]] <- tryCatch({
-            cBioDataPack(cancer_study_id = stuid)
+            cBioDataPack(cancer_study_id = stud)
         }, error = function(e) conditionMessage(e))
     }
 

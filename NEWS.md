@@ -4,10 +4,15 @@
 
 * Allow more flexibility in the hostname when accessing the API with
 `cBioPortal` (@inodb, #16)
+* `cBioDataPack` downloads from a more robust repository (AWS S3; @inodb, #22)
 
 ## Bug fixes and minor improvements
 
 * Add tests using `testthat`
+* Update and include percentages of studies successfully imported using
+`cBioDataPack` and `cBioPortalData` in the documentation
+* Fix read-in when identifiers are numeric instead of character (@jucor, #27)
+* Include pagination parameters in `geneTable` function (@xinwei-sher, #29)
 
 # cBioPortalData 2.0.0
 

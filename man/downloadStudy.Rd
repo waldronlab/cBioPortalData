@@ -4,7 +4,12 @@
 \alias{downloadStudy}
 \title{Download and cache study dataset}
 \usage{
-downloadStudy(cancer_study_id, use_cache = TRUE, force = FALSE)
+downloadStudy(
+  cancer_study_id,
+  use_cache = TRUE,
+  force = FALSE,
+  url_location = getOption("cBio_URL", .url_location)
+)
 }
 \arguments{
 \item{cancer_study_id}{The cBioPortal study identifier as in
@@ -16,12 +21,26 @@ not be re-downloaded. A path can also be provided to data cache location.}
 
 \item{force}{logical (default FALSE) whether to force re-download data from
 remote location}
+
+\item{url_location}{(default "https://cbioportal-datahub.s3.amazonaws.com")
+the URL location for downloading packaged data. Can be set using the
+'cBio_URL' option}
 }
 \value{
 The file location of the data tarball
 }
 \description{
-Provide a `cancer_study_id` from the `studiesTable` and retrieve
-the study tarball from cBioPortal
+Provide a \code{cancer_study_id} from the \code{studiesTable} and retrieve
+the study tarball from cBioPortal. This function is used by \code{cBioDataPack}
+to retrieve the tarball datasets and cache them. As stated in
+\code{?cBioDataPack} not all studies are currently working as
+\code{MultiAssayExperiment} representations. As of July 2020, about ~80\% of
+datasets can be successfully imported into the \code{MultiAssayExperiment} data
+class. Please open an issue if you would like the team to prioritize a
+study.
 }
-\keyword{internal}
+\examples{
+
+downloadStudy("acc_tcga")
+
+}

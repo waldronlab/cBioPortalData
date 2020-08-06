@@ -10,17 +10,16 @@ test_that("cBioPortal API is working with most studies", {
     for (stud in studies) {
         message("Working on: ", stud)
         complete[[stud]] <- tryCatch({
-            cBioPortalData(
-                cbioportal, studyId = stud, genePanelId = "IMPACT341"
+            is(
+                cBioPortalData(
+                    cbioportal, studyId = stud, genePanelId = "IMPACT341"
+                ),
+                "MultiAssayExperiment"
             )
         }, error = function(e) conditionMessage(e))
     }
 
-    isMAE <- vapply(
-        complete, function(x) is(x, "MultiAssayExperiment"), logical(1L)
-    )
-
-    successrate <- (100 * sum(isMAE)) / length(isMAE)
+    successrate <- (100 * sum(complete)) / length(complete)
 
     expect_true(successrate > 90)
 })

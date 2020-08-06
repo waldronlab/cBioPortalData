@@ -18,6 +18,16 @@
 #' file. For a more fine-grained approach to downloading data from the
 #' cBioPortal API, refer to the `cBioPortalData` function.
 #'
+#' @section cBio_URL:
+#' The `cBioDataPack` function accesses data from the `cBio_URL` option.
+#' By default, it points to an Amazon S3 bucket location. Previously, it
+#' pointed to 'http://download.cbioportal.org'. This recent change
+#' (> 2.1.17) should provide faster and more reliable downloads for all users.
+#' See the URL using `cBioPortalData:::.url_location`. This can be changed
+#' if there are mirrors that host this data by setting the `cBio_URL` option
+#' with `getOption("cBio_URL", "https://some.url.com/")` before running the
+#' function.
+#'
 #' @inheritParams downloadStudy
 #'
 #' @param split.field A character vector of possible column names for the column
@@ -47,6 +57,29 @@
 cBioDataPack <- function(cancer_study_id, use_cache = TRUE,
     split.field = c("Tumor_Sample_Barcode", "ID"),
     names.field = c("Hugo_Symbol", "Entrez_Gene_Id", "Gene")) {
+
+    denv <- new.env(parent = emptyenv())
+    data("studiesTable", package = "cBioPortalData", envir = denv)
+    studiesTable <- denv[["studiesTable"]]
+
+    intable <- studiesTable[["cancer_study_id"]] %in% cancer_study_id
+    if (!any(intable))
+        stop("'cancer_study_id', ", cancer_study_id, ", not found.",
+            " See 'data(\"studiesTable\")'.")
+
+    hasbuilt <- unlist(studiesTable[intable, "building"])
+
+    if (!hasbuilt) {
+        qtxt <- sprintf(
+            paste0("Based on our tests, '%s' is not currently building.",
+                "\n Proceed anyway? [y/n]: "),
+            cancer_study_id
+        )
+        answer <- .getAnswer(qtxt, allowed = c("y", "Y", "n", "N"))
+        if (identical(answer, "n"))
+            stop("'", cancer_study_id, "' is not yet supported.",
+                " \n Use 'downloadStudy()' to obtain the study files.")
+    }
 
     cancer_file <- downloadStudy(cancer_study_id, use_cache)
 
@@ -190,7 +223,7 @@ cbioportal2metadata <- function(meta_file, lic_file) {
 .subBCLetters <- function(df, ptID = "PATIENT_ID") {
     idVector <- df[[ptID]]
     allBC <- all(grepl("[A-Z]{4}.[0-9]{2}.[0-9]{4}", idVector))
-    noTCGAstart <- !all(startsWith(idVector, "TCGA"))
+    noTCGAstart <- is.character(idVector) && !all(startsWith(idVector, "TCGA"))
     if (allBC && noTCGAstart) {
         idVector <- gsub("^[A-Z]{4}", "TCGA", idVector)
         df[[ptID]] <- idVector

@@ -1,0 +1,35 @@
+name: cBioDev 
+
+on: push
+
+jobs:
+  checkDevel:
+    runs-on: ubuntu-latest
+    container: bioconductor/bioconductor_docker:devel
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v1
+
+      - name: Query dependencies
+        run: |
+          install.packages('remotes')
+          saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
+        shell: Rscript {0}
+
+      - name: Cache R packages
+        if: runner.os != 'Windows'
+        uses: actions/cache@v1
+        with:
+          path: /usr/local/lib/R/site-library
+          key: ${{ runner.os }}-r-1-${{ hashFiles('.github/depends.Rds') }}
+          restore-keys: ${{ runner.os }}-r-1-
+
+      - name: Install Package Dependencies
+        run: |
+          Rscript -e "options(repos = c(CRAN = 'https://cran.r-project.org')); BiocManager::install(c('rcmdcheck', 'covr', 'pkgdown', 'AnVIL'), ask = FALSE, update = TRUE)"
+          Rscript -e "remotes::install_local(repos = BiocManager::repositories(), dependencies = TRUE)"
+
+      - name: Check Package
+        env:
+          _R_CHECK_CRAN_INCOMING_REMOTE_: false
+        run: Rscript -e "rcmdcheck::rcmdcheck(args = c('--no-manual'), error_on = 'error', check_dir = 'check')"
