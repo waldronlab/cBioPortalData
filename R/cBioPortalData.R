@@ -1,19 +1,17 @@
 .portalExperiments <-
-    function(api, by, genePanelId, studyId, molecularProfileIds, sampleListId,
-        check)
+    function(api, by, genePanelId, studyId, molecularProfileIds, sampleListId)
 {
     if (is.null(molecularProfileIds)) {
         molecularProfileIds <-
             molecularProfiles(api, studyId)[["molecularProfileId"]]
-    } else { check <- TRUE }
+    }
 
     molecularProfileIds <- stats::setNames(molecularProfileIds,
         molecularProfileIds)
 
     expers <- getDataByGenePanel(api,
         genePanelId = genePanelId, studyId = studyId,
-        molecularProfileId = molecularProfileIds, sampleListId = sampleListId,
-        check = check)
+        molecularProfileId = molecularProfileIds, sampleListId = sampleListId)
 
     sampmap <- lapply(expers, function(x) {
         if (length(x)) {
@@ -190,13 +188,10 @@ eval.args <- function(args) {
 #' cbio, molecularProfileIds = c("acc_tcga_rppa", "acc_tcga_linear_CNA"),
 #' samps)
 #'
-#' \dontrun{
-#'     acc_tcga <- cBioPortalData(cbio, by = "hugoGeneSymbol", studyId = "acc_tcga",
-#'         genePanelId = "AmpliSeq",
-#'         molecularProfileIds = c("acc_tcga_rppa", "acc_tcga_linear_CNA", "acc_tcga_mutations")
-#'         )
-#' gbm_tcga <- cBioPortalData(cbio, studyId = "gbm_tcga", genePanelId = "AmpliSeq")
-#' }
+#' acc_tcga <- cBioPortalData(cbio, by = "hugoGeneSymbol", studyId = "acc_tcga",
+#'     genePanelId = "AmpliSeq",
+#'     molecularProfileIds = c("acc_tcga_rppa", "acc_tcga_linear_CNA", "acc_tcga_mutations")
+#' )
 #'
 #' @return A \linkS4class{MultiAssayExperiment} object
 #'
@@ -219,14 +214,21 @@ cBioPortalData <-
     formals <- formals()
     formals[["by"]] <- by
     call <- std.args(match.call(), formals)
-    exargs <- match.args(.portalExperiments, call, check = FALSE)
+    exargs <- match.args(.portalExperiments, call)
     exargs <- eval.args(exargs)
     lists <- do.call(.portalExperiments, exargs)
 
     clinargs <- match.args(clinicalData, call)
     clinargs <- eval.args(clinargs)
     clin <- do.call(clinicalData, clinargs)
-    clin <- as.data.frame(clin)
+    clin <- as(clin, "DataFrame")
+
+    # resolve duplicate IDs
+    if (anyDuplicated(clin[["patientId"]])) {
+        mets <- clin[duplicated(clin[["patientId"]]), ]
+        metadata(clin) <- list(duplicated = mets)
+        clin <- clin[!duplicated(clin[["patientId"]]), ]
+    }
     rownames(clin) <- clin[["patientId"]]
 
     lists[["colData"]] <- clin
