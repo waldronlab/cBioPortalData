@@ -9,7 +9,7 @@ studiesTable <- denv[["studiesTable"]]
 studies <- studiesTable$cancer_study_id
 studies <- stats::setNames(studies, studies)
 
-complete <- vector("list", length(studies))
+complete <- vector("logical", length(studies))
 names(complete) <- studies
 
 for (stud in studies) {
