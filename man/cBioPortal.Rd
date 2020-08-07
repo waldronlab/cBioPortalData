@@ -5,6 +5,7 @@
 \alias{getStudies}
 \alias{clinicalData}
 \alias{molecularProfiles}
+\alias{mutationData}
 \alias{molecularData}
 \alias{searchOps}
 \alias{geneTable}
@@ -35,19 +36,25 @@ molecularProfiles(
   projection = c("SUMMARY", "ID", "DETAILED", "META")
 )
 
+mutationData(
+  api,
+  molecularProfileIds = NA_character_,
+  entrezGeneIds = NULL,
+  sampleIds = NULL
+)
+
 molecularData(
   api,
-  molecularProfileId = NA_character_,
+  molecularProfileIds = NA_character_,
   entrezGeneIds = NULL,
-  sampleIds = NULL,
-  check = TRUE
+  sampleIds = NULL
 )
 
 searchOps(api, keyword)
 
 geneTable(api, pageSize = 1000, pageNumber = 0, ...)
 
-samplesInSampleLists(api, sampleListIds = NA_character_, check = TRUE)
+samplesInSampleLists(api, sampleListIds = NA_character_)
 
 sampleLists(api, studyId = NA_character_)
 
@@ -77,9 +84,8 @@ getDataByGenePanel(
   api,
   studyId = NA_character_,
   genePanelId = NA_character_,
-  molecularProfileId = NULL,
-  sampleListId = NULL,
-  check = TRUE
+  molecularProfileIds = NULL,
+  sampleListId = NULL
 )
 }
 \arguments{
@@ -101,15 +107,11 @@ function}
 \item{projection}{character(default: "SUMMARY") Specify the projection
 type for data retrieval for details see API documentation}
 
-\item{molecularProfileId}{character(1) Indicates a molecular profile ID}
+\item{molecularProfileIds}{character() A vector of molecular profile IDs}
 
 \item{entrezGeneIds}{numeric() A vector indicating entrez gene IDs}
 
 \item{sampleIds}{character() Sample identifiers}
-
-\item{check}{logical(1) Whether to check the inputs against values from the
-API (i.e., for 'studyId', 'genePanelId', 'molecularProfileId', and
-'sampleListId')}
 
 \item{keyword}{character(1) Keyword or pattern for searching through
 available operations}
@@ -126,10 +128,10 @@ available operations}
 \item{genePanelId}{character(1) Identifies the gene panel, as obtained
 from the `genePanels` function}
 
+\item{molecularProfileId}{character(1) Indicates a molecular profile ID}
+
 \item{sampleListId}{character(1) A sample list identifier as obtained from
 `sampleLists()``}
-
-\item{molecularProfileIds}{character() A vector of molecular profile IDs}
 }
 \value{
 cBioPortal: An API object of class 'cBioPortal'
@@ -183,6 +185,12 @@ This section of the documentation lists the functions that
     `molecularProfileId`, `entrezGeneIds`, and `sampleIds`
 }
 
+\section{Mutation Data}{
+
+    * mutationData - Produce a dataset of mutation data using
+    `molecularProfileId`, `entrezGeneIds`, and `sampleIds`
+}
+
 \section{Sample Data}{
 
     * samplesInSampleLists - get all samples associated with a 'sampleListId'
@@ -217,14 +225,26 @@ getStudies(api = cbio)
 
 searchOps(api = cbio, keyword = "molecular")
 
-clinicalData(api = cbio, studyId = "acc_tcga")
+## obtain clinical data
+acc_clin <- clinicalData(api = cbio, studyId = "acc_tcga")
+acc_clin
 
 molecularProfiles(api = cbio, studyId = "acc_tcga")
 
-molecularData(
+genePanels(cbio)
+
+(gp <- getGenePanel(cbio, "AmpliSeq"))
+
+muts <- mutationData(
     api = cbio,
-    molecularProfileId = "acc_tcga_rna_seq_v2_mrna",
-    entrezGeneIds = c(1, 2),
+    molecularProfileIds = "acc_tcga_mutations",
+    entrezGeneIds = 1:1000,
+    sampleIds = c("TCGA-OR-A5J1-01", "TCGA-OR-A5J2-01")
+)
+exps <- molecularData(
+    api = cbio,
+    molecularProfileIds = c("acc_tcga_rna_seq_v2_mrna", "acc_tcga_rppa"),
+    entrezGeneIds = 1:1000,
     sampleIds = c("TCGA-OR-A5J1-01", "TCGA-OR-A5J2-01")
 )
 

@@ -77,7 +77,7 @@ utils::globalVariables("element")
         rnames <- annote[[name.field]]
         nasdu <- is.na(rnames) | duplicated(rnames)
         ## remove NA and duplicate values from both
-        x <- x[!nasdu, ]
+        x <- x[!nasdu, , drop = FALSE]
         annote <- as.data.frame(annote[!nasdu, ])
         rownames(x) <- rnames[!nasdu]
         rownames(annote) <- rnames[!nasdu]
@@ -231,9 +231,6 @@ endpoint_map <- data.frame(
 .invoke_fun <- function(api, name, use_cache = FALSE, ...) {
     if (!is(api, "cBioPortal"))
         stop("Provide a 'cBioPortal' class API object")
-    ops <- names(AnVIL::operations(api))
-    if (!name %in% ops)
-        stop("<internal> operation name not found in API")
 
     if (use_cache) {
         .dollarCache(list(api, name), ...)
@@ -252,24 +249,3 @@ endpoint_map <- data.frame(
     .bind_content(.invoke_fun(api, name, use_cache, ...))
 }
 
-.check_fun <- function(api, x, endpoint, colname, use_cache, ...) {
-    funres <- .invoke_fun(
-        api = api, name = endpoint, use_cache = use_cache, ...
-    )
-    fields <- .bind_content(funres)[[colname]]
-    all(x %in% fields)
-}
-
-.checkIdValidity <- function(api, element, ename = c("studyId", "genePanelId",
-        "molecularProfileId", "sampleListId"), use_cache = TRUE, check = TRUE) {
-    if (all(is.na(element))) return(FALSE)
-    ename <- match.arg(ename)
-    ord <- endpoint_map[endpoint_map[["what"]] == ename, , drop = TRUE]
-    if (check)
-        .check_fun(
-            api = api, x = element, endpoint = ord[["how"]],
-            colname = ename, use_cache = use_cache
-        )
-    else
-        TRUE
-}
