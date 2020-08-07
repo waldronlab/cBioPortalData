@@ -128,6 +128,8 @@ available operations}
 \item{genePanelId}{character(1) Identifies the gene panel, as obtained
 from the `genePanels` function}
 
+\item{molecularProfileId}{character(1) Indicates a molecular profile ID}
+
 \item{sampleListId}{character(1) A sample list identifier as obtained from
 `sampleLists()``}
 }

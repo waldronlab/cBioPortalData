@@ -60,6 +60,8 @@ utils::globalVariables(c("clinicalAttributeId", "value", "sampleId"))
 #' @param keyword character(1) Keyword or pattern for searching through
 #'     available operations
 #'
+#' @param molecularProfileId character(1) Indicates a molecular profile ID
+#'
 #' @param molecularProfileIds character() A vector of molecular profile IDs
 #'
 #' @param entrezGeneIds numeric() A vector indicating entrez gene IDs
@@ -238,6 +240,7 @@ molecularProfiles <- function(api, studyId = NA_character_,
 #'     * mutationData - Produce a dataset of mutation data using
 #'     `molecularProfileId`, `entrezGeneIds`, and `sampleIds`
 #'
+#' @export
 mutationData <- function(api, molecularProfileIds = NA_character_,
     entrezGeneIds = NULL, sampleIds = NULL)
 {
@@ -589,7 +592,7 @@ getDataByGenePanel <-
         molData <- molecularData(api = api,
             molecularProfileIds = molecularProfileIds,
             entrezGeneIds = panel[["entrezGeneId"]],
-            sampleIds = samples,
+            sampleIds = samples
         )
         molData <- lapply(molData, function(x) suppressMessages({
             dplyr::left_join(x, panel)

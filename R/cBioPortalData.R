@@ -11,7 +11,7 @@
 
     expers <- getDataByGenePanel(api,
         genePanelId = genePanelId, studyId = studyId,
-        molecularProfileId = molecularProfileIds, sampleListId = sampleListId)
+        molecularProfileIds = molecularProfileIds, sampleListId = sampleListId)
 
     sampmap <- lapply(expers, function(x) {
         if (length(x)) {
@@ -185,12 +185,16 @@ eval.args <- function(args) {
 #' samps <- samplesInSampleLists(cbio, "acc_tcga_rppa")[[1]]
 #'
 #' getGenePanelMolecular(
-#' cbio, molecularProfileIds = c("acc_tcga_rppa", "acc_tcga_linear_CNA"),
-#' samps)
+#'     cbio, molecularProfileIds = c("acc_tcga_rppa", "acc_tcga_linear_CNA"),
+#'     samps
+#' )
 #'
-#' acc_tcga <- cBioPortalData(cbio, by = "hugoGeneSymbol", studyId = "acc_tcga",
+#' acc_tcga <- cBioPortalData(
+#'     cbio, by = "hugoGeneSymbol",
+#'     studyId = "acc_tcga",
 #'     genePanelId = "AmpliSeq",
-#'     molecularProfileIds = c("acc_tcga_rppa", "acc_tcga_linear_CNA", "acc_tcga_mutations")
+#'     molecularProfileIds =
+#'         c("acc_tcga_rppa", "acc_tcga_linear_CNA", "acc_tcga_mutations")
 #' )
 #'
 #' @return A \linkS4class{MultiAssayExperiment} object
