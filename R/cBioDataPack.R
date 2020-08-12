@@ -98,28 +98,30 @@ cBioDataPack <- function(cancer_study_id, use_cache = TRUE,
     filelist <- gsub("^\\.\\/", "", filelist)
     filekeepind <- grep("^\\._", basename(filelist), invert = TRUE)
     filelist <- filelist[filekeepind]
-    ## Remove files that are corrupt / hidden (start with ._)
-    datafiles <- grep(x = filelist, pattern = "data.*\\.(txt|seg)$",
-        value = TRUE)
-    datafiles <- c(datafiles, grep("meta_study", filelist, value = TRUE),
-        grep("/LICENSE", filelist, value = TRUE))
+    datafiles <- getRelevantFilesFromStudy(filelist)
 
     worktemp <- tempdir()
     untar(cancer_file, files = datafiles, exdir = worktemp,
         extras = exarg)
+    extractedStudyFolder2MultiAssayExperiment(worktemp, names.field)
+}
 
-    exptfiles <- file.path(worktemp,
+extractedStudyFolder2MultiAssayExperiment <- function(filepath,
+                                                      names.field = c("Hugo_Symbol", "Entrez_Gene_Id", "Gene")) {
+    datafiles <- getRelevantFilesFromStudy(list.files(filepath, recursive = TRUE))
+
+    exptfiles <- file.path(filepath,
         grep("clinical|study|LICENSE|fusion|gistic", datafiles, invert = TRUE,
             value = TRUE))
-    clinicalfiles <- file.path(worktemp,
+    clinicalfiles <- file.path(filepath,
         grep("clinical", datafiles, value = TRUE))
-    mdatafile <- file.path(worktemp,
+    mdatafile <- file.path(filepath,
         grep("meta_study", datafiles, value = TRUE))
-    licensefile <- file.path(worktemp,
+    licensefile <- file.path(filepath,
         grep("/LICENSE", datafiles, value = TRUE))
-    fusionExtra <- file.path(worktemp, grep("fusion", datafiles,
+    fusionExtra <- file.path(filepath, grep("fusion", datafiles,
         value = TRUE, ignore.case = TRUE))
-    gisticExtra <- file.path(worktemp, grep("gistic", datafiles,
+    gisticExtra <- file.path(filepath, grep("gistic", datafiles,
         value = TRUE, ignore.case = TRUE))
 
     expnames <- sub(".*data_", "", sub("\\.txt", "", basename(exptfiles)))
@@ -210,6 +212,15 @@ cBioDataPack <- function(cancer_study_id, use_cache = TRUE,
 
     MultiAssayExperiment(experiments = exptlist,
         colData = coldata, sampleMap = gmap, metadata = mdat)
+}
+
+getRelevantFilesFromStudy <- function(filelist) {
+    ## Remove files that are corrupt / hidden (start with ._)
+    datafiles <- grep(x = filelist, pattern = "data.*\\.(txt|seg)$",
+        value = TRUE)
+    datafiles <- c(datafiles, grep("meta_study", filelist, value = TRUE),
+        grep("/LICENSE", filelist, value = TRUE))
+    datafiles
 }
 
 cbioportal2metadata <- function(meta_file, lic_file) {
