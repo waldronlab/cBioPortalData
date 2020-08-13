@@ -89,8 +89,6 @@ cBioDataPack <- function(cancer_study_id, use_cache = TRUE,
     }
 
     cancer_study_file <- downloadStudy(cancer_study_id, use_cache)
-
-
     exdir <- extractStudyTar(cancer_study_file, worktemp)
     loadStudy(exdir, names.field)
 }
