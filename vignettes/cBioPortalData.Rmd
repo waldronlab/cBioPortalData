@@ -41,7 +41,8 @@ This function will access the packaged data from \url{cBioPortal.org/datasets}
 and return an integrative MultiAssayExperiment representation.
 
 ```{r,message=FALSE,warning=FALSE}
-cBioDataPack("laml_tcga")
+## Use ask=FALSE for non-interactive use
+cBioDataPack("laml_tcga", ask = FALSE)
 ```
 
 ### cBioPortalData: Obtain data from the cBioPortal API
