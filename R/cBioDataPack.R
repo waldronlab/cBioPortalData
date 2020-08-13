@@ -45,7 +45,7 @@
 #'
 #' @return A \linkS4class{MultiAssayExperiment} object
 #'
-#' @seealso \url{http://cbioportal.org/data_sets.jsp}, \link{cBioPortalData}
+#' @seealso \url{https://www.cbioportal.org/datasets}, \link{cBioPortalData}
 #'
 #' @author Levi Waldron, M. Ramos
 #' @include utils.R
@@ -88,26 +88,32 @@ cBioDataPack <- function(cancer_study_id, use_cache = TRUE,
                 " \n Use 'downloadStudy()' to obtain the study files.")
     }
 
-    cancer_file <- downloadStudy(cancer_study_id, use_cache)
+    cancer_study_file <- downloadStudy(cancer_study_id, use_cache)
 
+
+    exdir <- extractStudyTar(cancer_study_file, worktemp)
+    loadStudy(exdir, names.field)
+}
+
+#' @export
+extractStudyTar <- function(cancer_study_file, exdir=tempdir()) {
     exarg <- if (identical(.Platform$OS.type, "unix") &&
         Sys.info()["sysname"] != "Darwin")
         "--warning=no-unknown-keyword" else NULL
 
-    filelist <- untar(cancer_file, list = TRUE, extras = exarg)
+    filelist <- untar(cancer_study_file, list = TRUE, extras = exarg)
     filelist <- gsub("^\\.\\/", "", filelist)
     filekeepind <- grep("^\\._", basename(filelist), invert = TRUE)
     filelist <- filelist[filekeepind]
     datafiles <- getRelevantFilesFromStudy(filelist)
-
-    worktemp <- tempdir()
-    untar(cancer_file, files = datafiles, exdir = worktemp,
+    untar(cancer_study_file, files = datafiles, exdir = dir,
         extras = exarg)
-    extractedStudyFolder2MultiAssayExperiment(worktemp, names.field)
+    exdir
 }
 
-extractedStudyFolder2MultiAssayExperiment <- function(filepath,
-                                                      names.field = c("Hugo_Symbol", "Entrez_Gene_Id", "Gene")) {
+#' @export
+loadStudy <- function(filepath, names.field = c("Hugo_Symbol",
+                                                "Entrez_Gene_Id", "Gene")) {
     datafiles <- getRelevantFilesFromStudy(list.files(filepath, recursive = TRUE))
 
     exptfiles <- file.path(filepath,
