@@ -58,7 +58,8 @@
 #'
 #' head(studiesTable[["cancer_study_id"]])
 #'
-#' mae <- cBioDataPack("acc_tcga")
+#' # ask=FALSE for non-interactive use
+#' mae <- cBioDataPack("acc_tcga", ask = FALSE)
 #'
 #' @export
 cBioDataPack <- function(cancer_study_id, use_cache = TRUE,

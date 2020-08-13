@@ -1,12 +1,7 @@
 library(cBioPortalData)
+cbioportal <- cBioPortal()
 
-.invoke_bind <- cBioPortalData:::.invoke_bind
-
-allstudies <- .invoke_bind(
-    cbioportal, "getAllStudiesUsingGET"
-)
-
-studyIds <- allstudies[["studyId"]]
+studyIds <- getStudies(cbioportal)[["studyId"]]
 
 pancans <- grepl("pan_can", studyIds, fixed = TRUE)
 

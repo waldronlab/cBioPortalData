@@ -26,7 +26,7 @@ for (stud in studies) {
         )
 }
 
-studiesTable$building <- unname(complete)
+studiesTable$pack_build <- unname(complete)
 usethis::use_data(studiesTable, overwrite = TRUE)
 
 q("no", 0)
