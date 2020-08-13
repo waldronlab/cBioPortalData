@@ -89,12 +89,12 @@ cBioDataPack <- function(cancer_study_id, use_cache = TRUE,
     }
 
     cancer_study_file <- downloadStudy(cancer_study_id, use_cache)
-    exdir <- untarStudy(cancer_study_file, worktemp)
+    exdir <- untarStudy(cancer_study_file, tempdir())
     loadStudy(exdir, names.field)
 }
 
 #' @export
-untarStudy <- function(cancer_study_file, exdir=tempdir()) {
+untarStudy <- function(cancer_study_file, exdir) {
     exarg <- if (identical(.Platform$OS.type, "unix") &&
         Sys.info()["sysname"] != "Darwin")
         "--warning=no-unknown-keyword" else NULL
