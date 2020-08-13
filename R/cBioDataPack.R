@@ -36,6 +36,13 @@
 #' @param names.field A character vector of possible column names for the column
 #' that is used to label ranges from a mutations or copy number file.
 #'
+#' @param ask A logical vector of length one indicating whether to prompt the
+#' the user before downloading and loading study `MultiAssayExperiment`. If
+#' TRUE, the user will be prompted to continue for studies that are not
+#' currently building as `MultiAssayExperiment` based on previous testing
+#' (in a non-interactive session, no data will be downloaded and built unless
+#' `ask = FALSE`).
+#'
 #' @return A \linkS4class{MultiAssayExperiment} object
 #'
 #' @seealso \url{http://cbioportal.org/data_sets.jsp}, \link{cBioPortalData}
@@ -56,7 +63,7 @@
 #' @export
 cBioDataPack <- function(cancer_study_id, use_cache = TRUE,
     split.field = c("Tumor_Sample_Barcode", "ID"),
-    names.field = c("Hugo_Symbol", "Entrez_Gene_Id", "Gene")) {
+    names.field = c("Hugo_Symbol", "Entrez_Gene_Id", "Gene"), ask = TRUE) {
 
     denv <- new.env(parent = emptyenv())
     data("studiesTable", package = "cBioPortalData", envir = denv)
@@ -75,8 +82,7 @@ cBioDataPack <- function(cancer_study_id, use_cache = TRUE,
                 "\n Proceed anyway? [y/n]: "),
             cancer_study_id
         )
-        answer <- .getAnswer(qtxt, allowed = c("y", "Y", "n", "N"))
-        if (identical(answer, "n"))
+        if (ask && .getAnswer(qtxt, allowed = c("y", "Y", "n", "N")) == "n")
             stop("'", cancer_study_id, "' is not yet supported.",
                 " \n Use 'downloadStudy()' to obtain the study files.")
     }

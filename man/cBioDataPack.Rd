@@ -9,7 +9,8 @@ cBioDataPack(
   cancer_study_id,
   use_cache = TRUE,
   split.field = c("Tumor_Sample_Barcode", "ID"),
-  names.field = c("Hugo_Symbol", "Entrez_Gene_Id", "Gene")
+  names.field = c("Hugo_Symbol", "Entrez_Gene_Id", "Gene"),
+  ask = TRUE
 )
 }
 \arguments{
@@ -25,6 +26,13 @@ that is used to identify samples in a mutations or copy number file.}
 
 \item{names.field}{A character vector of possible column names for the column
 that is used to label ranges from a mutations or copy number file.}
+
+\item{ask}{A logical vector of length one indicating whether to prompt the
+the user before downloading and loading study \code{MultiAssayExperiment}. If
+TRUE, the user will be prompted to continue for studies that are not
+currently building as \code{MultiAssayExperiment} based on previous testing
+(in a non-interactive session, no data will be downloaded and built unless
+\code{ask = FALSE}).}
 }
 \value{
 A \linkS4class{MultiAssayExperiment} object
