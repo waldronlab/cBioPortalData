@@ -1,100 +1,221 @@
-#' @title Obtain pre-packaged data from cBioPortal and represent as
-#' a MultiAssayExperiment object
+# previously http://download.cbioportal.org
+.url_location <- "https://cbioportal-datahub.s3.amazonaws.com"
+
+getRelevantFilesFromStudy <- function(filelist) {
+    ## Remove files that are corrupt / hidden (start with ._)
+    datafiles <- grep(x = filelist, pattern = "data.*\\.(txt|seg)$",
+        value = TRUE)
+    datafiles <- c(datafiles, grep("meta_study", filelist, value = TRUE),
+        grep("/LICENSE", filelist, value = TRUE))
+    datafiles
+}
+
+cbioportal2metadata <- function(meta_file, lic_file) {
+    if (!length(meta_file) & !length(lic_file))
+        return(list())
+    md <- readLines(meta_file, warn = FALSE)
+    mdl <- lapply(seq_along(md), function(i) {
+        sub(".+: ", "", md[[i]])
+    })
+    names(mdl) <- sub(":.+", "", md)
+    if (length(lic_file)) {
+        lic <- readLines(lic_file, warn = FALSE)
+        lic <- paste0(lic[lic != ""], collapse = "\n")
+    }
+    c(mdl, if (exists("lic")) LICENSE = lic)
+}
+
+.subBCLetters <- function(df, ptID = "PATIENT_ID") {
+    idVector <- df[[ptID]]
+    allBC <- all(grepl("[A-Z]{4}.[0-9]{2}.[0-9]{4}", idVector))
+    noTCGAstart <- is.character(idVector) && !all(startsWith(idVector, "TCGA"))
+    if (allBC && noTCGAstart) {
+        idVector <- gsub("^[A-Z]{4}", "TCGA", idVector)
+        df[[ptID]] <- idVector
+    }
+    df
+}
+
+cbioportal2clinicaldf <- function(file) {
+    clin <- readr::read_tsv(file, comment = "#")
+    clinmeta <- readr::read_tsv(file, col_names = FALSE, n_max = 2)
+    clinmeta <- t(clinmeta)
+    clinmeta <- sub("^\\#", "", clinmeta)
+    colnames(clinmeta) <- c("column", "definition")
+    clinmeta <- lapply(seq_along(colnames(clin)), function(i) {
+        clinmeta[i, ]
+    })
+    names(clinmeta) <- colnames(clin)
+    clin <- DataFrame(clin)
+    metadata(clin) <- clinmeta
+    clin <- .subBCLetters(clin)
+    rownames(clin) <- clin[["PATIENT_ID"]]
+    clin
+}
+
+.validStudyID <- function(cancer_study_id) {
+
+    if (missing(cancer_study_id))
+        stop("Provide a valid 'cancer_study_id' from 'studiesTable'")
+
+    stopifnot(is.character(cancer_study_id),
+        !is.na(cancer_study_id), length(cancer_study_id) == 1L)
+
+    cancer_study_id <- tolower(cancer_study_id)
+    ## Load dataset to envir
+    loc_data <- new.env(parent = emptyenv())
+    data("studiesTable", envir = loc_data, package = "cBioPortalData")
+    studiesTable <- loc_data[["studiesTable"]]
+
+    ## Ensure study ID is valid
+    inTable <- cancer_study_id %in% studiesTable[["cancer_study_id"]]
+
+    if (!inTable)
+        stop("Study identifier not found in look up table")
+    else
+        inTable
+}
+
+.download_data_file <-
+    function(fileURL, cancer_study_id, verbose = FALSE, force = FALSE)
+{
+    bfc <- .get_cache()
+    rid <- bfcquery(bfc, cancer_study_id, "rname", exact = TRUE)$rid
+    if (!length(rid)) {
+        rid <- names(bfcadd(bfc, cancer_study_id, fileURL, download = FALSE))
+    }
+    if (!.cache_exists(bfc, cancer_study_id) || force) {
+        if (verbose)
+            message("Downloading study file: ", cancer_study_id, ".tar.gz")
+            bfcdownload(bfc, rid, ask = FALSE)
+    } else
+        message("Study file in cache: ", cancer_study_id)
+
+    bfcrpath(bfc, rids = rid)
+}
+
+.manageLocalFile <- function(cancer_study_id, inpath) {
+    bfc <- .get_cache()
+    rid <- bfcquery(bfc, cancer_study_id, "rname", exact = TRUE)$rid
+    if (!length(rid))
+        stop("Can't update non-existing cache item")
+
+    cachedir <- bfccache(bfc)
+    finalname <- paste0(gsub("file", "", basename(tempfile())), "_",
+        cancer_study_id, ".tar.gz")
+    fileLoc <- file.path(cachedir, finalname)
+    file.copy(inpath, fileLoc)
+
+    bfcupdate(bfc, rids = rid, rpath = fileLoc)
+
+    file.remove(inpath)
+
+    bfcrpath(bfc, rids = rid)
+}
+
+.altDownload <- function(fileURL, cancer_study_id, verbose = FALSE) {
+    if (verbose)
+        message("Downloading study file: ", cancer_study_id, ".tar.gz")
+
+    tmpFile <- file.path(tempdir(), paste0(cancer_study_id, ".tar.gz"))
+    utils::download.file(fileURL, destfile = tmpFile, quiet = TRUE,
+        method = "wget")
+
+    .manageLocalFile(cancer_study_id, tmpFile)
+}
+
+#' @name downloadStudy
 #'
-#' @description The `cBioDataPack` function allows the user to
-#' download and process cancer study datasets found in MSKCC's cBioPortal.
-#' Output datasets use the \linkS4class{MultiAssayExperiment} data
-#' representation to faciliate analysis and data management operations.
+#' @title Manually download, untar, and load study tarballs
 #'
-#' @details The list of datasets can be found in the `studiesTable` dataset
-#' by doing `data("studiesTable")`. Some datasets may not be available
-#' for download and are not guaranteed to be represented as MultiAssayExperiment
-#' data objects. After taking a random sample of 100
-#' (using \code{set.seed(1234)}), we were able to succesfully represent about
-#' 76 percent of the study identifiers as MultiAssayExperiment objects. Please
-#' refer to the #' \href{http://cbioportal.org/data_sets.jsp}{website} for the
-#' full list of available datasets. Users who would like to prioritize
-#' particular datasets should open GitHub issues at the URL in the `DESCRIPTION`
-#' file. For a more fine-grained approach to downloading data from the
-#' cBioPortal API, refer to the `cBioPortalData` function.
+#' @description **Note** that these functions should be used when a particular
+#' study is _not_ currently available as a `MultiAssayExperiment`
+#' representation. Otherwise, use `cBioDataPack`. Provide a `cancer_study_id`
+#' from the `studiesTable` and retrieve the study tarball from cBioPortal.
+#' These functions are used by `cBioDataPack` under the hood to download,
+#' untar, and load the tarball datasets with caching. As stated in
+#' `?cBioDataPack`, not all studies are currently working as
+#' `MultiAssayExperiment` objects. As of July 2020, about ~80% of
+#' datasets can be successfully imported into the `MultiAssayExperiment` data
+#' class. Please open an issue if you would like the team to prioritize a
+#' study. You may also check `studiesTable$pack_build` for a more current
+#' status.
 #'
-#' @section cBio_URL:
-#' The `cBioDataPack` function accesses data from the `cBio_URL` option.
-#' By default, it points to an Amazon S3 bucket location. Previously, it
-#' pointed to 'http://download.cbioportal.org'. This recent change
-#' (> 2.1.17) should provide faster and more reliable downloads for all users.
-#' See the URL using `cBioPortalData:::.url_location`. This can be changed
-#' if there are mirrors that host this data by setting the `cBio_URL` option
-#' with `getOption("cBio_URL", "https://some.url.com/")` before running the
-#' function.
+#' @param cancer_study_id character(1) The study identifier from cBioPortal as
+#' in \url{https://cbioportal.org/webAPI}
 #'
-#' @inheritParams downloadStudy
+#' @param use_cache logical(1) (default TRUE) create the default cache location
+#' and use it to track downloaded data. If data found in the cache, data will
+#' not be re-downloaded. A path can also be provided to data cache location.
 #'
-#' @param split.field A character vector of possible column names for the column
-#' that is used to identify samples in a mutations or copy number file.
+#' @param force logical(1) (default FALSE) whether to force re-download data from
+#' remote location
+#'
+#' @param url_location character(1)
+#' (default "https://cbioportal-datahub.s3.amazonaws.com") the URL location for
+#' downloading packaged data. Can be set using the 'cBio_URL' option (see
+#' `?cBioDataPack` for more details)
 #'
 #' @param names.field A character vector of possible column names for the column
 #' that is used to label ranges from a mutations or copy number file.
 #'
-#' @param ask A logical vector of length one indicating whether to prompt the
-#' the user before downloading and loading study `MultiAssayExperiment`. If
-#' TRUE, the user will be prompted to continue for studies that are not
-#' currently building as `MultiAssayExperiment` based on previous testing
-#' (in a non-interactive session, no data will be downloaded and built unless
-#' `ask = FALSE`).
+#' @param cancer_study_file character(1) indicates the on-disk location
+#' of the downloaded tarball
 #'
-#' @return A \linkS4class{MultiAssayExperiment} object
+#' @param exdir character(1) indicates the folder location to *put*
+#' the contents of the tarball (default `tempdir()`; see also `?untar`)
 #'
-#' @seealso \url{https://www.cbioportal.org/datasets}, \link{cBioPortalData}
+#' @param filepath character(1) indicates the folder location where
+#' the contents of the tarball are *located* (usually the same as `exdir`)
 #'
-#' @author Levi Waldron, M. Ramos
-#' @include utils.R
+#' @return
+#'     downloadStudy: The file location of the data tarball
+#'     untarStudy: The directory location of the contents
+#'     loadStudy: A \linkS4class{MultiAssayExperiment} object
 #'
 #' @md
 #'
+#' @seealso \link{cBioDataPack}
+#'
 #' @examples
 #'
-#' data(studiesTable)
+#' (acc_file <- downloadStudy("acc_tcga"))
 #'
-#' head(studiesTable[["cancer_study_id"]])
+#' (file_dir <- untarStudy(acc_file, tempdir()))
 #'
-#' # ask=FALSE for non-interactive use
-#' mae <- cBioDataPack("acc_tcga", ask = FALSE)
+#' loadStudy(file_dir)
 #'
 #' @export
-cBioDataPack <- function(cancer_study_id, use_cache = TRUE,
-    split.field = c("Tumor_Sample_Barcode", "ID"),
-    names.field = c("Hugo_Symbol", "Entrez_Gene_Id", "Gene"), ask = TRUE) {
+downloadStudy <- function(cancer_study_id, use_cache = TRUE, force = FALSE,
+    url_location = getOption("cBio_URL", .url_location))
+{
+    .validStudyID(cancer_study_id)
 
-    denv <- new.env(parent = emptyenv())
-    data("studiesTable", package = "cBioPortalData", envir = denv)
-    studiesTable <- denv[["studiesTable"]]
+    url_file <- file.path(url_location, paste0(cancer_study_id, ".tar.gz"))
 
-    intable <- studiesTable[["cancer_study_id"]] %in% cancer_study_id
-    if (!any(intable))
-        stop("'cancer_study_id', ", cancer_study_id, ", not found.",
-            " See 'data(\"studiesTable\")'.")
+    if (is.character(use_cache) && length(use_cache) == 1L)
+        cBioCache(directory = use_cache)
+    else if (isTRUE(use_cache))
+        cBioCache()
+    else
+        stop("Use 'setCache' or specify a download location")
 
-    hasbuilt <- unlist(studiesTable[intable, "pack_build"])
-
-    if (!hasbuilt) {
-        qtxt <- sprintf(
-            paste0("Based on our tests, '%s' is not currently building.",
-                "\n Proceed anyway? [y/n]: "),
-            cancer_study_id
-        )
-        if (ask && .getAnswer(qtxt, allowed = c("y", "Y", "n", "N")) == "n")
-            stop("'", cancer_study_id, "' is not yet supported.",
-                " \n Use 'downloadStudy()' to obtain the study files.")
-    }
-
-    cancer_study_file <- downloadStudy(cancer_study_id, use_cache)
-    exdir <- untarStudy(cancer_study_file, tempdir())
-    loadStudy(exdir, names.field)
+    tryCatch({
+        .download_data_file(url_file, cancer_study_id, verbose = TRUE,
+            force = force)
+        },
+        error = function(cond) {
+            message("\n", cond)
+            message("\nRetrying download with alternative function...")
+            .altDownload(url_file, cancer_study_id, verbose = TRUE)
+        }
+    )
 }
 
+#' @rdname downloadStudy
+#'
 #' @export
-untarStudy <- function(cancer_study_file, exdir) {
+untarStudy <- function(cancer_study_file, exdir = tempdir()) {
     exarg <- if (identical(.Platform$OS.type, "unix") &&
         Sys.info()["sysname"] != "Darwin")
         "--warning=no-unknown-keyword" else NULL
@@ -104,15 +225,22 @@ untarStudy <- function(cancer_study_file, exdir) {
     filekeepind <- grep("^\\._", basename(filelist), invert = TRUE)
     filelist <- filelist[filekeepind]
     datafiles <- getRelevantFilesFromStudy(filelist)
-    untar(cancer_study_file, files = datafiles, exdir = dir,
+    untar(cancer_study_file, files = datafiles, exdir = exdir,
         extras = exarg)
     exdir
 }
 
+#' @rdname downloadStudy
+#'
 #' @export
-loadStudy <- function(filepath, names.field = c("Hugo_Symbol",
-                                                "Entrez_Gene_Id", "Gene")) {
-    datafiles <- getRelevantFilesFromStudy(list.files(filepath, recursive = TRUE))
+loadStudy <-
+    function(
+        filepath, names.field = c("Hugo_Symbol", "Entrez_Gene_Id", "Gene")
+    )
+{
+    datafiles <- getRelevantFilesFromStudy(
+        list.files(filepath, recursive = TRUE)
+    )
 
     exptfiles <- file.path(filepath,
         grep("clinical|study|LICENSE|fusion|gistic", datafiles, invert = TRUE,
@@ -218,54 +346,96 @@ loadStudy <- function(filepath, names.field = c("Hugo_Symbol",
         colData = coldata, sampleMap = gmap, metadata = mdat)
 }
 
-getRelevantFilesFromStudy <- function(filelist) {
-    ## Remove files that are corrupt / hidden (start with ._)
-    datafiles <- grep(x = filelist, pattern = "data.*\\.(txt|seg)$",
-        value = TRUE)
-    datafiles <- c(datafiles, grep("meta_study", filelist, value = TRUE),
-        grep("/LICENSE", filelist, value = TRUE))
-    datafiles
-}
+#' @name cBioDataPack
+#'
+#' @title Obtain pre-packaged data from cBioPortal and represent as
+#' a MultiAssayExperiment object
+#'
+#' @description The `cBioDataPack` function allows the user to
+#' download and process cancer study datasets found in MSKCC's cBioPortal.
+#' Output datasets use the \linkS4class{MultiAssayExperiment} data
+#' representation to faciliate analysis and data management operations.
+#'
+#' @details The list of datasets can be found in the `studiesTable` dataset
+#' by doing `data("studiesTable")`. Some datasets may not be available
+#' for download and are not guaranteed to be represented as MultiAssayExperiment
+#' data objects. After taking a random sample of 100
+#' (using \code{set.seed(1234)}), we were able to succesfully represent about
+#' 76 percent of the study identifiers as MultiAssayExperiment objects. Please
+#' refer to the #' \href{http://cbioportal.org/data_sets.jsp}{website} for the
+#' full list of available datasets. Users who would like to prioritize
+#' particular datasets should open GitHub issues at the URL in the `DESCRIPTION`
+#' file. For a more fine-grained approach to downloading data from the
+#' cBioPortal API, refer to the `cBioPortalData` function.
+#'
+#' @section cBio_URL:
+#' The `cBioDataPack` function accesses data from the `cBio_URL` option.
+#' By default, it points to an Amazon S3 bucket location. Previously, it
+#' pointed to 'http://download.cbioportal.org'. This recent change
+#' (> 2.1.17) should provide faster and more reliable downloads for all users.
+#' See the URL using `cBioPortalData:::.url_location`. This can be changed
+#' if there are mirrors that host this data by setting the `cBio_URL` option
+#' with `getOption("cBio_URL", "https://some.url.com/")` before running the
+#' function.
+#'
+#' @inheritParams downloadStudy
+#'
+#' @param names.field A character vector of possible column names for the column
+#' that is used to label ranges from a mutations or copy number file.
+#'
+#' @param ask A logical vector of length one indicating whether to prompt the
+#' the user before downloading and loading study `MultiAssayExperiment`. If
+#' TRUE, the user will be prompted to continue for studies that are not
+#' currently building as `MultiAssayExperiment` based on previous testing
+#' (in a non-interactive session, no data will be downloaded and built unless
+#' `ask = FALSE`).
+#'
+#' @return A \linkS4class{MultiAssayExperiment} object
+#'
+#' @seealso \url{https://www.cbioportal.org/datasets}, \link{cBioPortalData}
+#'
+#' @author Levi Waldron, Marcel R., Ino dB.
+#' @include utils.R
+#'
+#' @md
+#'
+#' @examples
+#'
+#' data(studiesTable)
+#'
+#' head(studiesTable[["cancer_study_id"]])
+#'
+#' # ask=FALSE for non-interactive use
+#' mae <- cBioDataPack("acc_tcga", ask = FALSE)
+#'
+#' @export
+cBioDataPack <- function(cancer_study_id, use_cache = TRUE,
+    names.field = c("Hugo_Symbol", "Entrez_Gene_Id", "Gene"), ask = TRUE) {
 
-cbioportal2metadata <- function(meta_file, lic_file) {
-    if (!length(meta_file) & !length(lic_file))
-        return(list())
-    md <- readLines(meta_file, warn = FALSE)
-    mdl <- lapply(seq_along(md), function(i) {
-        sub(".+: ", "", md[[i]])
-    })
-    names(mdl) <- sub(":.+", "", md)
-    if (length(lic_file)) {
-        lic <- readLines(lic_file, warn = FALSE)
-        lic <- paste0(lic[lic != ""], collapse = "\n")
+    denv <- new.env(parent = emptyenv())
+    data("studiesTable", package = "cBioPortalData", envir = denv)
+    studiesTable <- denv[["studiesTable"]]
+
+    intable <- studiesTable[["cancer_study_id"]] %in% cancer_study_id
+    if (!any(intable))
+        stop("'cancer_study_id', ", cancer_study_id, ", not found.",
+            " See 'data(\"studiesTable\")'.")
+
+    hasbuilt <- unlist(studiesTable[intable, "pack_build"])
+
+    if (!hasbuilt) {
+        qtxt <- sprintf(
+            paste0("Based on our tests, '%s' is not currently building.",
+                "\n Proceed anyway? [y/n]: "),
+            cancer_study_id
+        )
+        if (ask && .getAnswer(qtxt, allowed = c("y", "Y", "n", "N")) == "n")
+            stop("'", cancer_study_id, "' is not yet supported.",
+                " \n Use 'downloadStudy()' to obtain the study files.")
     }
-    c(mdl, if (exists("lic")) LICENSE = lic)
+
+    cancer_study_file <- downloadStudy(cancer_study_id, use_cache)
+    exdir <- untarStudy(cancer_study_file)
+    loadStudy(exdir, names.field)
 }
 
-.subBCLetters <- function(df, ptID = "PATIENT_ID") {
-    idVector <- df[[ptID]]
-    allBC <- all(grepl("[A-Z]{4}.[0-9]{2}.[0-9]{4}", idVector))
-    noTCGAstart <- is.character(idVector) && !all(startsWith(idVector, "TCGA"))
-    if (allBC && noTCGAstart) {
-        idVector <- gsub("^[A-Z]{4}", "TCGA", idVector)
-        df[[ptID]] <- idVector
-    }
-    df
-}
-
-cbioportal2clinicaldf <- function(file) {
-    clin <- readr::read_tsv(file, comment = "#")
-    clinmeta <- readr::read_tsv(file, col_names = FALSE, n_max = 2)
-    clinmeta <- t(clinmeta)
-    clinmeta <- sub("^\\#", "", clinmeta)
-    colnames(clinmeta) <- c("column", "definition")
-    clinmeta <- lapply(seq_along(colnames(clin)), function(i) {
-        clinmeta[i, ]
-    })
-    names(clinmeta) <- colnames(clin)
-    clin <- DataFrame(clin)
-    metadata(clin) <- clinmeta
-    clin <- .subBCLetters(clin)
-    rownames(clin) <- clin[["PATIENT_ID"]]
-    clin
-}

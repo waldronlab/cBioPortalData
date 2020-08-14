@@ -8,21 +8,17 @@ a MultiAssayExperiment object}
 cBioDataPack(
   cancer_study_id,
   use_cache = TRUE,
-  split.field = c("Tumor_Sample_Barcode", "ID"),
   names.field = c("Hugo_Symbol", "Entrez_Gene_Id", "Gene"),
   ask = TRUE
 )
 }
 \arguments{
-\item{cancer_study_id}{The cBioPortal study identifier as in
-\url{https://cbioportal.org/webAPI}}
+\item{cancer_study_id}{character(1) The study identifier from cBioPortal as
+in \url{https://cbioportal.org/webAPI}}
 
-\item{use_cache}{logical (default TRUE) create the default cache location
+\item{use_cache}{logical(1) (default TRUE) create the default cache location
 and use it to track downloaded data. If data found in the cache, data will
 not be re-downloaded. A path can also be provided to data cache location.}
-
-\item{split.field}{A character vector of possible column names for the column
-that is used to identify samples in a mutations or copy number file.}
 
 \item{names.field}{A character vector of possible column names for the column
 that is used to label ranges from a mutations or copy number file.}
@@ -79,8 +75,8 @@ mae <- cBioDataPack("acc_tcga", ask = FALSE)
 
 }
 \seealso{
-\url{http://cbioportal.org/data_sets.jsp}, \link{cBioPortalData}
+\url{https://www.cbioportal.org/datasets}, \link{cBioPortalData}
 }
 \author{
-Levi Waldron, M. Ramos
+Levi Waldron, Marcel R., Ino dB.
 }
