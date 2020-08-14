@@ -1,3 +1,5 @@
+devtools::install(".", dependencies = TRUE)
+
 library(cBioPortalData)
 cbioportal <- cBioPortal()
 
