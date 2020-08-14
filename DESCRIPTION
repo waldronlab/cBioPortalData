@@ -49,4 +49,3 @@ Collate:
     'cBioPortalData.R'
     'cache.R'
     'data.R'
-    'downloadStudy.R'
