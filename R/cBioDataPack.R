@@ -75,7 +75,7 @@ cBioDataPack <- function(cancer_study_id, use_cache = TRUE,
         stop("'cancer_study_id', ", cancer_study_id, ", not found.",
             " See 'data(\"studiesTable\")'.")
 
-    hasbuilt <- unlist(studiesTable[intable, "building"])
+    hasbuilt <- unlist(studiesTable[intable, "pack_build"])
 
     if (!hasbuilt) {
         qtxt <- sprintf(
