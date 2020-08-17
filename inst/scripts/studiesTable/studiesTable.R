@@ -37,9 +37,15 @@ validURLs <- vapply(fileURLs, RCurl::url.exists, logical(1L))
 studiesTable <- studiesTable[validURLs, ]
 changeCol <- vapply(studiesTable, function(x)
     any(stringi::stri_enc_mark(unlist(x)) == "native"), logical(1L))
+
 if (any(changeCol))
     studiesTable[, changeCol] <-
         stringi::stri_enc_toascii(studiesTable[, changeCol])
+
+studiesTable[["pack_build"]] <- FALSE
+studiesTable[["api_build"]] <- FALSE
+
+source("inst/scripts/studiesTable/pack_studies.R")
 
 denv <- new.env(parent = emptyenv())
 data("studiesTable", package = "cBioPortalData", envir = denv)
