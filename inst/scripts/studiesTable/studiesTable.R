@@ -45,17 +45,10 @@ if (any(changeCol))
 studiesTable[["pack_build"]] <- FALSE
 studiesTable[["api_build"]] <- FALSE
 
-source("inst/scripts/studiesTable/pack_studies.R")
-
 denv <- new.env(parent = emptyenv())
 data("studiesTable", package = "cBioPortalData", envir = denv)
-oldStudies <- denv[["studiesTable"]]
+previous <- denv[["studiesTable"]]
 
-errcode <- 1
-
-if (!identical(studiesTable, oldStudies)) {
-    errcode <- 0
+if (!identical(studiesTable$cancer_study_id, previous$cancer_study_id)) {
     usethis::use_data(studiesTable, overwrite = TRUE)
 }
-
-q("no", errcode)

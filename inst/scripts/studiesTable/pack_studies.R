@@ -1,6 +1,9 @@
-devtools::install(".", dependencies = TRUE)
-
 library(cBioPortalData)
+
+denv <- new.env(parent = emptyenv())
+load("./data/studiesTable.rda", envir = denv)
+studiesTable <- denv[["studiesTable"]]
+
 
 ## PACK BUILD
 message("PACK BUILD")
@@ -24,36 +27,13 @@ for (pack_stud in studies) {
         )
 }
 
-studiesTable[["pack_build"]] <- comp_pack
 
-## API BUILD
-message("API BUILD")
-cbioportal <- cBioPortal()
+denv <- new.env(parent = emptyenv())
+data("studiesTable", package = "cBioPortalData", envir = denv)
+previous <- denv[["studiesTable"]]
 
-(studies <- getStudies(cbioportal)[["studyId"]])
-
-comp_api <- vector("logical", length(studies))
-names(comp_api) <- studies
-
-for (api_stud in studies) {
-    message("Working on: ", api_stud)
-    comp_api[[api_stud]] <- is(
-        tryCatch({
-            cBioPortalData(
-                cbioportal, studyId = api_stud, genePanelId = "IMPACT341"
-            )
-        }, error = function(e) conditionMessage(e)),
-        "MultiAssayExperiment"
-    )
+if (!identical(previous[["pack_build"]], comp_pack)) {
+    studiesTable[["pack_build"]] <- comp_pack
+    usethis::use_data(studiesTable, overwrite = TRUE)
 }
-
-missingStudy <- studiesTable$cancer_study_id[
-    !studiesTable$cancer_study_id %in% names(comp_api)
-]
-
-if (length(missingStudy))
-    message("These datasets are not in the new API: ",
-        paste0(missingStudy, collapse = ", "))
-
-studiesTable[["api_build"]] <- comp_api[studiesTable$cancer_study_id]
 
