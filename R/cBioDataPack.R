@@ -421,9 +421,10 @@ cBioDataPack <- function(cancer_study_id, use_cache = TRUE,
         stop("'cancer_study_id', ", cancer_study_id, ", not found.",
             " See 'data(\"studiesTable\")'.")
 
-    hasbuilt <- unlist(studiesTable[intable, "pack_build"])
+    builds <- studiesTable[["pack_build"]]
+    hasbuilt <- unlist(builds[intable])
 
-    if (!hasbuilt) {
+    if (!hasbuilt && any(builds)) {
         qtxt <- sprintf(
             paste0("Based on our tests, '%s' is not currently building.",
                 "\n Proceed anyway? [y/n]: "),

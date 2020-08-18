@@ -23,6 +23,8 @@ for (api_stud in studies) {
         }, error = function(e) conditionMessage(e)),
         "MultiAssayExperiment"
     )
+    ## try to free up memory
+    gc()
 }
 
 missingStudy <- studiesTable$cancer_study_id[
