@@ -319,7 +319,7 @@ molecularData <- function(api, molecularProfileIds = NA_character_,
             entrezGeneIds = sort(entrezGeneIds),
             sampleIds = sort(sampleIds)
         )
-    } else {
+    } else if (length(molecularProfileIds)) {
         endpoint <- "fetchMolecularDataInMultipleMolecularProfilesUsingPOST"
         byGene <- .invoke_bind(api,
             endpoint,
@@ -330,7 +330,10 @@ molecularData <- function(api, molecularProfileIds = NA_character_,
                 molecularProfileIds, sampleIds
             )
         )
+    } else {
+        byGene <- dplyr::tibble(molecularProfileId = NA_character_)
     }
+
     byGene <- split(byGene, byGene[["molecularProfileId"]])
     byGeneList[names(byGene)] <- byGene
 
