@@ -9,6 +9,7 @@ last <- denv[["studiesTable"]]
 errcode <- 1
 
 if (!identical(latest, last)) {
+    studiesTable <- latest
     errcode <- 0
     usethis::use_data(studiesTable, overwrite = TRUE)
 }
