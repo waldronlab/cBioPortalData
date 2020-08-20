@@ -2,8 +2,14 @@
     function(api, by, genePanelId, studyId, molecularProfileIds, sampleListId)
 {
     if (is.null(molecularProfileIds)) {
-        molecularProfileIds <-
-            molecularProfiles(api, studyId)[["molecularProfileId"]]
+        molProfs <- molecularProfiles(api, studyId)
+        ## data type not working yet
+        ## https://github.com/cBioPortal/cbioportal/issues/7816
+        molecularProfileIds <- molProfs[
+            molProfs[["molecularAlterationType"]] != "STRUCTURAL_VARIANT",
+            "molecularProfileId",
+            drop = TRUE
+        ]
     }
 
     molecularProfileIds <- stats::setNames(molecularProfileIds,

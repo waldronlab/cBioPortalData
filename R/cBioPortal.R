@@ -133,7 +133,8 @@ cBioPortal <- function(
                 ssl_verifypeer = 0L, ssl_verifyhost = 0L, http_version = 0L
             ),
             authenticate = FALSE,
-            api_url = apiUrl,
+            api_reference_url = apiUrl,
+            api_reference_md5sum = "7fbb61026e0561cd4c12d88e093272bd",
             package = "cBioPortalData",
             schemes = protocol
         )
