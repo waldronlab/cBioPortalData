@@ -223,7 +223,7 @@ endpoint_map <- data.frame(
         load(loc)
     } else {
         op <- do.call(`$`, appname)(...)
-        save(op, file = loc)
+        save(op, file = loc, compress = FALSE)
     }
     op
 }
