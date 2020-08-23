@@ -225,8 +225,13 @@ untarStudy <- function(cancer_study_file, exdir = tempdir()) {
     filekeepind <- grep("^\\._", basename(filelist), invert = TRUE)
     filelist <- filelist[filekeepind]
     datafiles <- getRelevantFilesFromStudy(filelist)
-    untar(cancer_study_file, files = datafiles, exdir = exdir,
-        extras = exarg)
+    
+    folder <- basename(cancer_study_file)  
+    exdir <- file.path(exdir, gsub(".tar.gz", "", folder))
+    if (!dir.exists(exdir))
+        dir.create(exdir)
+    
+    untar(cancer_study_file, files = datafiles, exdir = exdir, extras = exarg)
     exdir
 }
 
