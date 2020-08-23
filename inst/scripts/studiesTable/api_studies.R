@@ -1,28 +1,27 @@
 library(cBioPortalData)
 
 denv <- new.env(parent = emptyenv())
+# setwd("../../..")
 load("./data/studiesTable.rda", envir = denv)
 studiesTable <- denv[["studiesTable"]]
 
 ## API BUILD
 message("API BUILD")
-cbioportal <- cBioPortal()
 
-(studies <- getStudies(cbioportal)[["studyId"]])
+cbioportal <- cBioPortal()
+studies <- getStudies(cbioportal)[["studyId"]]
 
 comp_api <- vector("logical", length(studies))
 names(comp_api) <- studies
 
 for (api_stud in studies) {
     message("Working on: ", api_stud)
-    comp_api[[api_stud]] <- is(
-        tryCatch({
-            cBioPortalData(
-                cbioportal, studyId = api_stud, genePanelId = "IMPACT341"
-            )
-        }, error = function(e) conditionMessage(e)),
-        "MultiAssayExperiment"
-    )
+    dats <- tryCatch({
+        cBioPortalData(
+            cbioportal, studyId = api_stud, genePanelId = "IMPACT341"
+        )
+    }, error = function(e) conditionMessage(e))
+    comp_api[[api_stud]] <- is(dats, "MultiAssayExperiment")
     ## try to free up memory
     gc()
 }

@@ -1,9 +1,6 @@
 name: Test Build cBioPortal Studies
 
-on:
-  workflow_dispatch:
-  schedule:
-    - cron: '0 8 * * 6'
+on: workflow_dispatch
 
 jobs:
   makeTable:
