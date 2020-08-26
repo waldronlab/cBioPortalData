@@ -1,7 +1,34 @@
+# cBioPortalData 2.0.10
+
+## New features
+
+* Allow more flexibility in the hostname when accessing the API with
+`cBioPortal` (@inodb, #16)
+* `cBioDataPack` downloads from a more robust repository (AWS S3; @inodb, #22)
+* `cBioDataPack` now calls several exported functions `downloadStudy`,
+`untarStudy`, `loadStudy` (@inodb, #33)
+* Internal use of better endpoints to obtain data in larger chunks
+* Disabled `"molecularAlterationType" == "STRUCTURAL_VARIANT"` types
+until datahub issue is resolved (@cbioportal/datahub#7816)
+
+## Bug fixes and minor improvements
+
+* Add more tests using `testthat`
+* Update and include percentages of studies successfully imported using
+`cBioDataPack` and `cBioPortalData` in the documentation
+* Fix read-in when identifiers are numeric instead of character (@jucor, #27)
+* Include pagination parameters in `geneTable` function (@xinwei-sher, #29)
+* Avoid excessive caching for performance increases
+* Remove validity checking of inputs to increase performance
+* Add `mutationData` internal helper function for `cBioPortalData`
+* Caching calls using `save` are uncompressed by default.
+* Enabled Bioconductor longtests directory
+
 # cBioPortalData 2.0.0
 
 ## New features
 
+* Bioconductor release!
 * Updated the `README.md` file from R Markdown file.
 * Uses the latest version of `rapiclient` on CRAN
 * Prepare package for Bioconductor submission

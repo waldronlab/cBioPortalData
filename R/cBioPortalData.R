@@ -1,21 +1,23 @@
 .portalExperiments <-
-    function(api, by, genePanelId, studyId, molecularProfileIds, sampleListId,
-        check)
+    function(api, by, genePanelId, studyId, molecularProfileIds, sampleListId)
 {
     if (is.null(molecularProfileIds)) {
-        molecularProfileIds <-
-            molecularProfiles(api, studyId)[["molecularProfileId"]]
-    } else { check <- TRUE }
+        molProfs <- molecularProfiles(api, studyId)
+        ## data type not working yet
+        ## https://github.com/cBioPortal/cbioportal/issues/7816
+        molecularProfileIds <- molProfs[
+            molProfs[["molecularAlterationType"]] != "STRUCTURAL_VARIANT",
+            "molecularProfileId",
+            drop = TRUE
+        ]
+    }
 
     molecularProfileIds <- stats::setNames(molecularProfileIds,
         molecularProfileIds)
 
-    expers <- lapply(molecularProfileIds, function(molprof) {
-        getDataByGenePanel(api,
-            genePanelId = genePanelId, studyId = studyId,
-            molecularProfileId = molprof, sampleListId = sampleListId,
-            check = check)
-    })
+    expers <- getDataByGenePanel(api,
+        genePanelId = genePanelId, studyId = studyId,
+        molecularProfileIds = molecularProfileIds, sampleListId = sampleListId)
 
     sampmap <- lapply(expers, function(x) {
         if (length(x)) {
@@ -29,41 +31,44 @@
     })
     sampleMap <- dplyr::bind_rows(sampmap)
 
-    explist <- lapply(molecularProfileIds, function(molprof) {
-        isMut <- grepl("mutation", molprof, ignore.case = TRUE)
-        byGene <- expers[[molprof]]
-        if (isMut)
-            colsOI <- c(by,"chr", "startPosition", "endPosition",
-                "ncbiBuild", "sampleId", "mutationType")
-        else
-            colsOI <- c(by, "sampleId", "value")
-        if (length(byGene)) {
-            colsoi <- colsOI[colsOI %in% names(byGene)]
+    experlist <- lapply(stats::setNames(names(expers), names(expers)),
+        function(molprof) {
+            byGene <- expers[[molprof]]
+            isMut <- grepl("mutation", molprof, ignore.case = TRUE)
+            if (isMut)
+                colsOI <- c(by,"chr", "startPosition", "endPosition",
+                    "ncbiBuild", "sampleId", "mutationType")
+            else
+                colsOI <- c(by, "sampleId", "value")
+            if (length(byGene)) {
+                colsoi <- colsOI[colsOI %in% names(byGene)]
 
-            if (isMut) {
-                res <- tidyr::pivot_wider(byGene[, colsoi],
-                    names_from = "sampleId",
-                    values_from = "mutationType",
-                    values_fn = list(mutationType =
-                        function(x) paste0(x, collapse = ";")
+                if (isMut) {
+                    res <- tidyr::pivot_wider(byGene[, colsoi],
+                        names_from = "sampleId",
+                        values_from = "mutationType",
+                        values_fn = list(mutationType =
+                            function(x) paste0(x, collapse = ";")
+                        )
                     )
-                )
-                .getMutationData(res, by)
+                    .getMutationData(res, by)
+                } else {
+                    res <- tidyr::pivot_wider(byGene[, colsoi],
+                        names_from = "sampleId",
+                        values_from = "value"
+                    )
+                    .getMixedData(res, by)
+                }
             } else {
-                res <- tidyr::pivot_wider(byGene[, colsoi],
-                    names_from = "sampleId",
-                    values_from = "value"
-                )
-                .getMixedData(res, by)
+                SummarizedExperiment::SummarizedExperiment()
             }
-        } else {
-            SummarizedExperiment::SummarizedExperiment()
         }
-    })
-    explist <- as(Filter(length, explist), "List")
+    )
+    experlist <- as(Filter(length, experlist), "List")
 
     isTCGA <- grepl("tcga", studyId, ignore.case = TRUE)
-    metalist <- lapply(names(expers), function(molprof) {
+
+    metalist <- lapply(names(experlist), function(molprof) {
         isMut <- grepl("mutation", molprof, ignore.case = TRUE)
         byGene <- expers[[molprof]]
         if (isMut) {
@@ -72,19 +77,19 @@
             metaGene <- byGene[, !names(byGene) %in% colsOI]
             if (isTCGA) {
                 ragex <- .getRagEx(byGene)
-                explist <<- c(explist, list(proteinPos = ragex))
+                experlist <<- c(experlist, list(proteinPos = ragex))
             }
         } else {
             colsOI <- c(by, "sampleId", "value")
             metaGene <- byGene[, !names(byGene) %in% colsOI]
-            explist <<- .updateRowData(metaGene, by, molprof, explist)
+            experlist <<- .updateRowData(metaGene, by, molprof, experlist)
         }
         metaGene
     })
 
     list(
         sampleMap = as(sampleMap, "DataFrame"),
-        experiments = explist,
+        experiments = experlist,
         metadata = metalist
     )
 }
@@ -183,10 +188,20 @@ eval.args <- function(args) {
 #'
 #' cbio <- cBioPortal()
 #'
-#' cBioPortalData(cbio, by = "hugoGeneSymbol", studyId = "acc_tcga",
-#'     genePanelId = "IMPACT341",
-#'     molecularProfileIds = c("acc_tcga_rppa", "acc_tcga_linear_CNA")
-#'     )
+#' samps <- samplesInSampleLists(cbio, "acc_tcga_rppa")[[1]]
+#'
+#' getGenePanelMolecular(
+#'     cbio, molecularProfileIds = c("acc_tcga_rppa", "acc_tcga_linear_CNA"),
+#'     samps
+#' )
+#'
+#' acc_tcga <- cBioPortalData(
+#'     cbio, by = "hugoGeneSymbol",
+#'     studyId = "acc_tcga",
+#'     genePanelId = "AmpliSeq",
+#'     molecularProfileIds =
+#'         c("acc_tcga_rppa", "acc_tcga_linear_CNA", "acc_tcga_mutations")
+#' )
 #'
 #' @return A \linkS4class{MultiAssayExperiment} object
 #'
@@ -204,28 +219,26 @@ cBioPortalData <-
     if (missing(api))
         stop("Provide a valid 'api' from 'cBioPortal()'")
 
-    validStudy <- .checkIdValidity(api, element = studyId, ename = "studyId")
-    if (!validStudy)
-        stop("Provide a valid 'studyId' from 'getStudies()'")
-
-    validGP <-
-        .checkIdValidity(api, element = genePanelId, ename = "genePanelId")
-    if (!validGP)
-        stop("Provide a valid 'genePanelId' from 'genePanels()'")
-
     by <- match.arg(by)
 
     formals <- formals()
     formals[["by"]] <- by
     call <- std.args(match.call(), formals)
-    exargs <- match.args(.portalExperiments, call, check = FALSE)
+    exargs <- match.args(.portalExperiments, call)
     exargs <- eval.args(exargs)
     lists <- do.call(.portalExperiments, exargs)
 
     clinargs <- match.args(clinicalData, call)
     clinargs <- eval.args(clinargs)
     clin <- do.call(clinicalData, clinargs)
-    clin <- as.data.frame(clin)
+    clin <- as(clin, "DataFrame")
+
+    # resolve duplicate IDs
+    if (anyDuplicated(clin[["patientId"]])) {
+        mets <- clin[duplicated(clin[["patientId"]]), ]
+        metadata(clin) <- list(duplicated = mets)
+        clin <- clin[!duplicated(clin[["patientId"]]), ]
+    }
     rownames(clin) <- clin[["patientId"]]
 
     lists[["colData"]] <- clin

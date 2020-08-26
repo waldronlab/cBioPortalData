@@ -23,6 +23,8 @@
 ^\.httr-oauth$
 ^README\.Rmd
 inst/rsconnect
+inst/docker
 .*_cache
+.BBSoptions
 
 ^docs$

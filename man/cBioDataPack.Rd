@@ -8,23 +8,27 @@ a MultiAssayExperiment object}
 cBioDataPack(
   cancer_study_id,
   use_cache = TRUE,
-  split.field = c("Tumor_Sample_Barcode", "ID"),
-  names.field = c("Hugo_Symbol", "Entrez_Gene_Id", "Gene")
+  names.field = c("Hugo_Symbol", "Entrez_Gene_Id", "Gene"),
+  ask = TRUE
 )
 }
 \arguments{
-\item{cancer_study_id}{The cBioPortal study identifier as in
-\url{https://cbioportal.org/webAPI}}
+\item{cancer_study_id}{character(1) The study identifier from cBioPortal as
+in \url{https://cbioportal.org/webAPI}}
 
-\item{use_cache}{logical (default TRUE) create the default cache location
+\item{use_cache}{logical(1) (default TRUE) create the default cache location
 and use it to track downloaded data. If data found in the cache, data will
 not be re-downloaded. A path can also be provided to data cache location.}
 
-\item{split.field}{A character vector of possible column names for the column
-that is used to identify samples in a mutations or copy number file.}
-
 \item{names.field}{A character vector of possible column names for the column
 that is used to label ranges from a mutations or copy number file.}
+
+\item{ask}{A logical vector of length one indicating whether to prompt the
+the user before downloading and loading study \code{MultiAssayExperiment}. If
+TRUE, the user will be prompted to continue for studies that are not
+currently building as \code{MultiAssayExperiment} based on previous testing
+(in a non-interactive session, no data will be downloaded and built unless
+\code{ask = FALSE}).}
 }
 \value{
 A \linkS4class{MultiAssayExperiment} object
@@ -48,18 +52,31 @@ particular datasets should open GitHub issues at the URL in the \code{DESCRIPTIO
 file. For a more fine-grained approach to downloading data from the
 cBioPortal API, refer to the \code{cBioPortalData} function.
 }
+\section{cBio_URL}{
+
+The \code{cBioDataPack} function accesses data from the \code{cBio_URL} option.
+By default, it points to an Amazon S3 bucket location. Previously, it
+pointed to 'http://download.cbioportal.org'. This recent change
+(> 2.1.17) should provide faster and more reliable downloads for all users.
+See the URL using \code{cBioPortalData:::.url_location}. This can be changed
+if there are mirrors that host this data by setting the \code{cBio_URL} option
+with \code{getOption("cBio_URL", "https://some.url.com/")} before running the
+function.
+}
+
 \examples{
 
 data(studiesTable)
 
 head(studiesTable[["cancer_study_id"]])
 
-mae <- cBioDataPack("acc_tcga")
+# ask=FALSE for non-interactive use
+mae <- cBioDataPack("acc_tcga", ask = FALSE)
 
 }
 \seealso{
-\url{http://cbioportal.org/data_sets.jsp}, \link{cBioPortalData}
+\url{https://www.cbioportal.org/datasets}, \link{cBioPortalData}
 }
 \author{
-Levi Waldron, M. Ramos
+Levi Waldron, Marcel R., Ino dB.
 }

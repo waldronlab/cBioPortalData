@@ -1,3 +1,5 @@
+library(S4Vectors)
+library(tidyr)
 library(cgdsr)
 cgds <- CGDS("http://www.cbioportal.org/")
 

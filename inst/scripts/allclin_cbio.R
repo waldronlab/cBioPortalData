@@ -1,28 +1,24 @@
 library(cBioPortalData)
+cbioportal <- cBioPortal()
 
-.invoke_bind <- cBioPortalData:::.invoke_bind
-
-allstudies <- .invoke_bind(
-    cbioportal, "getAllStudiesUsingGET"
-)
-
-studyIds <- allstudies[["studyId"]]
+studyIds <- getStudies(cbioportal)[["studyId"]]
 
 pancans <- grepl("pan_can", studyIds, fixed = TRUE)
 
 allIds <- studyIds[!pancans]
 allIds <- setNames(allIds, allIds)
 
+devtools::load_all()
 res <- lapply(allIds, function(study) {
     ptids <- .invoke_bind(cbioportal, "getAllPatientsInStudyUsingGET",
-        studyId = study)[["patientId"]]
+        FALSE, studyId = study)[["patientId"]]
     ca <- .invoke_bind(cbioportal, "getAllClinicalAttributesInStudyUsingGET",
-        studyId = study)
+        FALSE, studyId = study)
     ethrace <- c("ETHNICITY", "RACE")
     if (all(ethrace %in% ca[["clinicalAttributeId"]]))
         tidyr::spread(
             .invoke_bind(
-                    cbioportal, "fetchAllClinicalDataInStudyUsingPOST",
+                    cbioportal, "fetchAllClinicalDataInStudyUsingPOST", FALSE,
                         clinicalDataType = "PATIENT",
                         studyId = study,
                         attributeIds = c("ETHNICITY", "RACE"),
