@@ -71,7 +71,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">cBiocPortalData</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.10</span>
       </span>
     </div>
 
@@ -118,41 +118,76 @@
       <small>Source: <a href='https://github.com/waldronlab/cBioPortalData/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
-    <div id="cbioportaldata-2-0-0" class="section level1">
-<h1 class="page-header" data-toc-text="2.0.0">
-<a href="#cbioportaldata-2-0-0" class="anchor"></a>cBioPortalData 2.0.0</h1>
+    <div id="cbioportaldata-2010" class="section level1">
+<h1 class="page-header" data-toc-text="2.0.10">
+<a href="#cbioportaldata-2010" class="anchor"></a>cBioPortalData 2.0.10</h1>
 <div id="new-features" class="section level2">
 <h2 class="hasAnchor">
 <a href="#new-features" class="anchor"></a>New features</h2>
 <ul>
-<li>Updated the <code>README.md</code> file from R Markdown file.</li>
-<li>Uses the latest version of <code>rapiclient</code> on CRAN</li>
-<li>Prepare package for Bioconductor submission</li>
-<li>Include protein metadata as a <code>RaggedExperiment</code> from mutation molecular profiles (TCGA only)</li>
+<li>Allow more flexibility in the hostname when accessing the API with <code>cBioPortal</code> (<a href='https://github.com/inodb'>@inodb</a>, <a href='https://github.com/waldronlab/cBioPortalData/issues/16'>#16</a>)</li>
+<li>
+<code>cBioDataPack</code> downloads from a more robust repository (AWS S3; <a href='https://github.com/inodb'>@inodb</a>, <a href='https://github.com/waldronlab/cBioPortalData/issues/22'>#22</a>)</li>
+<li>
+<code>cBioDataPack</code> now calls several exported functions <code>downloadStudy</code>, <code>untarStudy</code>, <code>loadStudy</code> (<a href='https://github.com/inodb'>@inodb</a>, <a href='https://github.com/waldronlab/cBioPortalData/issues/33'>#33</a>)</li>
+<li>Internal use of better endpoints to obtain data in larger chunks</li>
+<li>Disabled <code>"molecularAlterationType" == "STRUCTURAL_VARIANT"</code> types until datahub issue is resolved (<a href='https://github.com/cbioportal'>@cbioportal</a>/datahub<a href='https://github.com/waldronlab/cBioPortalData/issues/7816'>#7816</a>)</li>
 </ul>
 </div>
 <div id="bug-fixes-and-minor-improvements" class="section level2">
 <h2 class="hasAnchor">
 <a href="#bug-fixes-and-minor-improvements" class="anchor"></a>Bug fixes and minor improvements</h2>
 <ul>
-<li>API authentication option removed and not needed</li>
+<li>Add more tests using <code>testthat</code>
+</li>
+<li>Update and include percentages of studies successfully imported using <code>cBioDataPack</code> and <code>cBioPortalData</code> in the documentation</li>
+<li>Fix read-in when identifiers are numeric instead of character (<a href='https://github.com/jucor'>@jucor</a>, <a href='https://github.com/waldronlab/cBioPortalData/issues/27'>#27</a>)</li>
+<li>Include pagination parameters in <code>geneTable</code> function (<a href='https://github.com/xinwei-sher'>@xinwei-sher</a>, <a href='https://github.com/waldronlab/cBioPortalData/issues/29'>#29</a>)</li>
+<li>Avoid excessive caching for performance increases</li>
+<li>Remove validity checking of inputs to increase performance</li>
+<li>Add <code>mutationData</code> internal helper function for <code>cBioPortalData</code>
+</li>
+<li>Caching calls using <code>save</code> are uncompressed by default.</li>
+<li>Enabled Bioconductor longtests directory</li>
 </ul>
 </div>
 </div>
-    <div id="cbioportaldata-1-0-1" class="section level1">
-<h1 class="page-header" data-toc-text="1.0.1">
-<a href="#cbioportaldata-1-0-1" class="anchor"></a>cBioPortalData 1.0.1</h1>
+    <div id="cbioportaldata-200" class="section level1">
+<h1 class="page-header" data-toc-text="2.0.0">
+<a href="#cbioportaldata-200" class="anchor"></a>cBioPortalData 2.0.0</h1>
 <div id="new-features-1" class="section level2">
 <h2 class="hasAnchor">
 <a href="#new-features-1" class="anchor"></a>New features</h2>
 <ul>
-<li>Package supports nearly all study identifiers based on recent tests</li>
-<li>Only a handful of study identifiers are unsuccessful (create an issue to prioritize).</li>
+<li>Bioconductor release!</li>
+<li>Updated the <code>README.md</code> file from R Markdown file.</li>
+<li>Uses the latest version of <code>rapiclient</code> on CRAN</li>
+<li>Prepare package for Bioconductor submission</li>
+<li>Include protein metadata as a <code>RaggedExperiment</code> from mutation molecular profiles (TCGA only)</li>
 </ul>
 </div>
 <div id="bug-fixes-and-minor-improvements-1" class="section level2">
 <h2 class="hasAnchor">
 <a href="#bug-fixes-and-minor-improvements-1" class="anchor"></a>Bug fixes and minor improvements</h2>
+<ul>
+<li>API authentication option removed and not needed</li>
+</ul>
+</div>
+</div>
+    <div id="cbioportaldata-101" class="section level1">
+<h1 class="page-header" data-toc-text="1.0.1">
+<a href="#cbioportaldata-101" class="anchor"></a>cBioPortalData 1.0.1</h1>
+<div id="new-features-2" class="section level2">
+<h2 class="hasAnchor">
+<a href="#new-features-2" class="anchor"></a>New features</h2>
+<ul>
+<li>Package supports nearly all study identifiers based on recent tests</li>
+<li>Only a handful of study identifiers are unsuccessful (create an issue to prioritize).</li>
+</ul>
+</div>
+<div id="bug-fixes-and-minor-improvements-2" class="section level2">
+<h2 class="hasAnchor">
+<a href="#bug-fixes-and-minor-improvements-2" class="anchor"></a>Bug fixes and minor improvements</h2>
 <ul>
 <li>Make better use of the API return values to craft the sample map for <code>MultiAssayExperiment</code> creation</li>
 <li>Additional data included in the metadata slot of the <code>MultiAssayExperiment</code> object. Future revisions will include this data as <code>rowData</code>.</li>
@@ -160,12 +195,12 @@
 </ul>
 </div>
 </div>
-    <div id="cbioportaldata-0-1-0" class="section level1">
+    <div id="cbioportaldata-010" class="section level1">
 <h1 class="page-header" data-toc-text="0.1.0">
-<a href="#cbioportaldata-0-1-0" class="anchor"></a>cBioPortalData 0.1.0</h1>
-<div id="new-features-2" class="section level2">
+<a href="#cbioportaldata-010" class="anchor"></a>cBioPortalData 0.1.0</h1>
+<div id="new-features-3" class="section level2">
 <h2 class="hasAnchor">
-<a href="#new-features-2" class="anchor"></a>New features</h2>
+<a href="#new-features-3" class="anchor"></a>New features</h2>
 <ul>
 <li>
 <code>cBioDataPack</code> allows users to download packaged data objects from download.cbioportal.org/</li>
@@ -178,9 +213,9 @@
 <li>The cBioPortal API representation is handled by the <code>AnVIL</code> package which makes use of <code>rapiclient</code> to provide an automatic R interface to the API</li>
 </ul>
 </div>
-<div id="bug-fixes-and-minor-improvements-2" class="section level2">
+<div id="bug-fixes-and-minor-improvements-3" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-and-minor-improvements-2" class="anchor"></a>Bug fixes and minor improvements</h2>
+<a href="#bug-fixes-and-minor-improvements-3" class="anchor"></a>Bug fixes and minor improvements</h2>
 <ul>
 <li>Data pack downloads use an alternative method for download when a download fails</li>
 </ul>

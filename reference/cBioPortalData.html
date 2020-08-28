@@ -78,7 +78,7 @@ by the https://cbioportal.org/datasets, refer to cBioDataPack." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">cBiocPortalData</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.10</span>
       </span>
     </div>
 
@@ -201,10 +201,32 @@ a fully reproducible example.</p>
     <pre class="examples"><div class='input'>
 <span class='no'>cbio</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='cBioPortal.html'>cBioPortal</a></span>()
 
-<span class='fu'>cBioPortalData</span>(<span class='no'>cbio</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='st'>"hugoGeneSymbol"</span>, <span class='kw'>studyId</span> <span class='kw'>=</span> <span class='st'>"acc_tcga"</span>,
-    <span class='kw'>genePanelId</span> <span class='kw'>=</span> <span class='st'>"IMPACT341"</span>,
-    <span class='kw'>molecularProfileIds</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"acc_tcga_rppa"</span>, <span class='st'>"acc_tcga_linear_CNA"</span>)
-    )</div><div class='output co'>#&gt; <span class='error'>Error in is(api, "cBioPortal"): object 'cbio' not found</span></div><div class='input'>
+<span class='no'>samps</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='cBioPortal.html'>samplesInSampleLists</a></span>(<span class='no'>cbio</span>, <span class='st'>"acc_tcga_rppa"</span>)<span class='kw'>[[</span><span class='fl'>1</span>]]
+
+<span class='fu'><a href='cBioPortal.html'>getGenePanelMolecular</a></span>(
+    <span class='no'>cbio</span>, <span class='kw'>molecularProfileIds</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"acc_tcga_rppa"</span>, <span class='st'>"acc_tcga_linear_CNA"</span>),
+    <span class='no'>samps</span>
+)</div><div class='output co'>#&gt; # A tibble: 92 x 7
+#&gt;    uniqueSampleKey uniquePatientKey molecularProfil… sampleId patientId studyId
+#&gt;    &lt;chr&gt;           &lt;chr&gt;            &lt;chr&gt;            &lt;chr&gt;    &lt;chr&gt;     &lt;chr&gt;  
+#&gt;  1 VENHQS1PUi1BNU… VENHQS1PUi1BNUo… acc_tcga_linear… TCGA-OR… TCGA-OR-… acc_tc…
+#&gt;  2 VENHQS1PUi1BNU… VENHQS1PUi1BNUo… acc_tcga_linear… TCGA-OR… TCGA-OR-… acc_tc…
+#&gt;  3 VENHQS1PUi1BNU… VENHQS1PUi1BNUo… acc_tcga_linear… TCGA-OR… TCGA-OR-… acc_tc…
+#&gt;  4 VENHQS1PUi1BNU… VENHQS1PUi1BNUo… acc_tcga_linear… TCGA-OR… TCGA-OR-… acc_tc…
+#&gt;  5 VENHQS1PUi1BNU… VENHQS1PUi1BNUo… acc_tcga_linear… TCGA-OR… TCGA-OR-… acc_tc…
+#&gt;  6 VENHQS1PUi1BNU… VENHQS1PUi1BNUo… acc_tcga_linear… TCGA-OR… TCGA-OR-… acc_tc…
+#&gt;  7 VENHQS1PUi1BNU… VENHQS1PUi1BNUp… acc_tcga_linear… TCGA-OR… TCGA-OR-… acc_tc…
+#&gt;  8 VENHQS1PUi1BNU… VENHQS1PUi1BNUp… acc_tcga_linear… TCGA-OR… TCGA-OR-… acc_tc…
+#&gt;  9 VENHQS1PUi1BNU… VENHQS1PUi1BNUp… acc_tcga_linear… TCGA-OR… TCGA-OR-… acc_tc…
+#&gt; 10 VENHQS1PUi1BNU… VENHQS1PUi1BNUp… acc_tcga_linear… TCGA-OR… TCGA-OR-… acc_tc…
+#&gt; # … with 82 more rows, and 1 more variable: profiled &lt;lgl&gt;</div><div class='input'>
+<span class='no'>acc_tcga</span> <span class='kw'>&lt;-</span> <span class='fu'>cBioPortalData</span>(
+    <span class='no'>cbio</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='st'>"hugoGeneSymbol"</span>,
+    <span class='kw'>studyId</span> <span class='kw'>=</span> <span class='st'>"acc_tcga"</span>,
+    <span class='kw'>genePanelId</span> <span class='kw'>=</span> <span class='st'>"AmpliSeq"</span>,
+    <span class='kw'>molecularProfileIds</span> <span class='kw'>=</span>
+        <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"acc_tcga_rppa"</span>, <span class='st'>"acc_tcga_linear_CNA"</span>, <span class='st'>"acc_tcga_mutations"</span>)
+)</div><div class='output co'>#&gt; <span class='error'>Error in is(api, "cBioPortal"): object 'cbio' not found</span></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

@@ -74,7 +74,7 @@ BiocFileCache system." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">cBiocPortalData</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.10</span>
       </span>
     </div>
 
@@ -131,7 +131,7 @@ BiocFileCache system.</p>
     <pre class="usage"><span class='fu'>cBioCache</span>(<span class='no'>...</span>)
 
 <span class='fu'>setCache</span>(
-  <span class='kw'>directory</span> <span class='kw'>=</span> <span class='kw pkg'>rappdirs</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/rappdirs/man/user_cache_dir.html'>user_cache_dir</a></span>(<span class='st'>"cBioPortalData"</span>),
+  <span class='kw'>directory</span> <span class='kw'>=</span> <span class='kw pkg'>tools</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/r/tools/userdir.html'>R_user_dir</a></span>(<span class='st'>"cBioPortalData"</span>, <span class='st'>"cache"</span>),
   <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>ask</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span>()
 )
@@ -181,8 +181,9 @@ a cache if not already created. A specific directory can be used via
     
 
 <p>Specify the directory location of the data cache. By default, it will
-got to the user's home/.cache and "appname" directory as specified by
-user_cache_dir. (default appname: cBioPortalData)</p>
+go to the user directory as given by:</p><pre>
+    <span class='kw pkg'>tools</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/r/tools/userdir.html'>R_user_dir</a></span>(<span class='st'>"cBioPortalData"</span>, <span class='st'>"cache"</span>)</pre>
+
     <h2 class="hasAnchor" id="removecache"><a class="anchor" href="#removecache"></a>removeCache</h2>
 
     
@@ -194,7 +195,7 @@ cache. This only works for the <code>cBioDataPack</code> function. To remove the
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-(<span class='no'>cacheloc</span> <span class='kw'>&lt;-</span> <span class='fu'>cBioCache</span>())</div><div class='output co'>#&gt; [1] "/github/home/.cache/cBioPortalData"</div><div class='input'>
+(<span class='no'>cacheloc</span> <span class='kw'>&lt;-</span> <span class='fu'>cBioCache</span>())</div><div class='output co'>#&gt; [1] "/github/home/.cache/R/cBioPortalData"</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Download and cache study dataset — downloadStudy • cBiocPortalData</title>
+<title>Manually download, untar, and load study tarballs — downloadStudy • cBiocPortalData</title>
 
 
 <!-- jquery -->
@@ -39,9 +39,19 @@
 
 
 
-<meta property="og:title" content="Download and cache study dataset — downloadStudy" />
-<meta property="og:description" content="Provide a `cancer_study_id` from the `studiesTable` and retrieve
-the study tarball from cBioPortal" />
+<meta property="og:title" content="Manually download, untar, and load study tarballs — downloadStudy" />
+<meta property="og:description" content="Note that these functions should be used when a particular
+study is not currently available as a MultiAssayExperiment
+representation. Otherwise, use cBioDataPack. Provide a cancer_study_id
+from the studiesTable and retrieve the study tarball from cBioPortal.
+These functions are used by cBioDataPack under the hood to download,
+untar, and load the tarball datasets with caching. As stated in
+?cBioDataPack, not all studies are currently working as
+MultiAssayExperiment objects. As of July 2020, about ~80% of
+datasets can be successfully imported into the MultiAssayExperiment data
+class. Please open an issue if you would like the team to prioritize a
+study. You may also check studiesTable$pack_build for a more current
+status." />
 
 
 
@@ -73,7 +83,7 @@ the study tarball from cBioPortal" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">cBiocPortalData</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.10</span>
       </span>
     </div>
 
@@ -116,43 +126,304 @@ the study tarball from cBioPortal" />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Download and cache study dataset</h1>
-    <small class="dont-index">Source: <a href='https://github.com/waldronlab/cBioPortalData/blob/master/R/downloadStudy.R'><code>R/downloadStudy.R</code></a></small>
+    <h1>Manually download, untar, and load study tarballs</h1>
+    <small class="dont-index">Source: <a href='https://github.com/waldronlab/cBioPortalData/blob/master/R/cBioDataPack.R'><code>R/cBioDataPack.R</code></a></small>
     <div class="hidden name"><code>downloadStudy.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Provide a `cancer_study_id` from the `studiesTable` and retrieve
-the study tarball from cBioPortal</p>
+    <p><strong>Note</strong> that these functions should be used when a particular
+study is <em>not</em> currently available as a <code>MultiAssayExperiment</code>
+representation. Otherwise, use <code>cBioDataPack</code>. Provide a <code>cancer_study_id</code>
+from the <code>studiesTable</code> and retrieve the study tarball from cBioPortal.
+These functions are used by <code>cBioDataPack</code> under the hood to download,
+untar, and load the tarball datasets with caching. As stated in
+<code><a href='cBioDataPack.html'>?cBioDataPack</a></code>, not all studies are currently working as
+<code>MultiAssayExperiment</code> objects. As of July 2020, about ~80% of
+datasets can be successfully imported into the <code>MultiAssayExperiment</code> data
+class. Please open an issue if you would like the team to prioritize a
+study. You may also check <code>studiesTable$pack_build</code> for a more current
+status.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>downloadStudy</span>(<span class='no'>cancer_study_id</span>, <span class='kw'>use_cache</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>force</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>downloadStudy</span>(
+  <span class='no'>cancer_study_id</span>,
+  <span class='kw'>use_cache</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>force</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>url_location</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span>(<span class='st'>"cBio_URL"</span>, <span class='no'>.url_location</span>)
+)
+
+<span class='fu'>untarStudy</span>(<span class='no'>cancer_study_file</span>, <span class='kw'>exdir</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>())
+
+<span class='fu'>loadStudy</span>(<span class='no'>filepath</span>, <span class='kw'>names.field</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Hugo_Symbol"</span>, <span class='st'>"Entrez_Gene_Id"</span>, <span class='st'>"Gene"</span>))</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>cancer_study_id</th>
-      <td><p>The cBioPortal study identifier as in
-<a href='https://cbioportal.org/webAPI'>https://cbioportal.org/webAPI</a></p></td>
+      <td><p>character(1) The study identifier from cBioPortal as
+in <a href='https://cbioportal.org/webAPI'>https://cbioportal.org/webAPI</a></p></td>
     </tr>
     <tr>
       <th>use_cache</th>
-      <td><p>logical (default TRUE) create the default cache location
+      <td><p>logical(1) (default TRUE) create the default cache location
 and use it to track downloaded data. If data found in the cache, data will
 not be re-downloaded. A path can also be provided to data cache location.</p></td>
     </tr>
     <tr>
       <th>force</th>
-      <td><p>logical (default FALSE) whether to force re-download data from
+      <td><p>logical(1) (default FALSE) whether to force re-download data from
 remote location</p></td>
+    </tr>
+    <tr>
+      <th>url_location</th>
+      <td><p>character(1)
+(default "https://cbioportal-datahub.s3.amazonaws.com") the URL location for
+downloading packaged data. Can be set using the 'cBio_URL' option (see
+<code><a href='cBioDataPack.html'>?cBioDataPack</a></code> for more details)</p></td>
+    </tr>
+    <tr>
+      <th>cancer_study_file</th>
+      <td><p>character(1) indicates the on-disk location
+of the downloaded tarball</p></td>
+    </tr>
+    <tr>
+      <th>exdir</th>
+      <td><p>character(1) indicates the folder location to <em>put</em>
+the contents of the tarball (default <code><a href='https://rdrr.io/r/base/tempfile.html'>tempdir()</a></code>; see also <code><a href='https://rdrr.io/r/utils/untar.html'>?untar</a></code>)</p></td>
+    </tr>
+    <tr>
+      <th>filepath</th>
+      <td><p>character(1) indicates the folder location where
+the contents of the tarball are <em>located</em> (usually the same as <code>exdir</code>)</p></td>
+    </tr>
+    <tr>
+      <th>names.field</th>
+      <td><p>A character vector of possible column names for the column
+that is used to label ranges from a mutations or copy number file.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>The file location of the data tarball</p>
+    
+<pre>downloadStudy: The file location of the data tarball
+untarStudy: The directory location of the contents
+loadStudy: A \linkS4class{MultiAssayExperiment} object
+</pre>
 
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><a href='cBioDataPack.html'>cBioDataPack</a></p></div>
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'>
+(<span class='no'>acc_file</span> <span class='kw'>&lt;-</span> <span class='fu'>downloadStudy</span>(<span class='st'>"acc_tcga"</span>))</div><div class='output co'>#&gt; <span class='message'>Study file in cache: acc_tcga</span></div><div class='output co'>#&gt;                                                                BFC6 
+#&gt; "/github/home/.cache/R/cBioPortalData/7784170df381_acc_tcga.tar.gz" </div><div class='input'>
+(<span class='no'>file_dir</span> <span class='kw'>&lt;-</span> <span class='fu'>untarStudy</span>(<span class='no'>acc_file</span>, <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>()))</div><div class='output co'>#&gt; [1] "/tmp/Rtmpphincs/7784170df381_acc_tcga"</div><div class='input'>
+<span class='fu'>loadStudy</span>(<span class='no'>file_dir</span>)</div><div class='output co'>#&gt; <span class='message'>Working on: /tmp/Rtmpphincs/7784170df381_acc_tcga/data_cna_hg19.seg</span></div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
+#&gt; <span class='message'>cols(</span>
+#&gt; <span class='message'>  ID = col_character(),</span>
+#&gt; <span class='message'>  chrom = col_double(),</span>
+#&gt; <span class='message'>  loc.start = col_double(),</span>
+#&gt; <span class='message'>  loc.end = col_double(),</span>
+#&gt; <span class='message'>  num.mark = col_double(),</span>
+#&gt; <span class='message'>  seg.mean = col_double()</span>
+#&gt; <span class='message'>)</span></div><div class='output co'>#&gt; <span class='message'>Working on: /tmp/Rtmpphincs/7784170df381_acc_tcga/data_CNA.txt</span></div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
+#&gt; <span class='message'>cols(</span>
+#&gt; <span class='message'>  .default = col_double(),</span>
+#&gt; <span class='message'>  Hugo_Symbol = col_character()</span>
+#&gt; <span class='message'>)</span></div><div class='output co'>#&gt; <span class='message'>See spec(...) for full column specifications.</span></div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
+#&gt; <span class='message'>cols(</span>
+#&gt; <span class='message'>  Hugo_Symbol = col_character()</span>
+#&gt; <span class='message'>)</span></div><div class='output co'>#&gt; <span class='message'>Working on: /tmp/Rtmpphincs/7784170df381_acc_tcga/data_linear_CNA.txt</span></div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
+#&gt; <span class='message'>cols(</span>
+#&gt; <span class='message'>  .default = col_double(),</span>
+#&gt; <span class='message'>  Hugo_Symbol = col_character()</span>
+#&gt; <span class='message'>)</span></div><div class='output co'>#&gt; <span class='message'>See spec(...) for full column specifications.</span></div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
+#&gt; <span class='message'>cols(</span>
+#&gt; <span class='message'>  Hugo_Symbol = col_character()</span>
+#&gt; <span class='message'>)</span></div><div class='output co'>#&gt; <span class='message'>Working on: /tmp/Rtmpphincs/7784170df381_acc_tcga/data_methylation_hm450.txt</span></div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
+#&gt; <span class='message'>cols(</span>
+#&gt; <span class='message'>  .default = col_double(),</span>
+#&gt; <span class='message'>  Hugo_Symbol = col_character()</span>
+#&gt; <span class='message'>)</span></div><div class='output co'>#&gt; <span class='message'>See spec(...) for full column specifications.</span></div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
+#&gt; <span class='message'>cols(</span>
+#&gt; <span class='message'>  Hugo_Symbol = col_character()</span>
+#&gt; <span class='message'>)</span></div><div class='output co'>#&gt; <span class='message'>Working on: /tmp/Rtmpphincs/7784170df381_acc_tcga/data_mutations_extended.txt</span></div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
+#&gt; <span class='message'>cols(</span>
+#&gt; <span class='message'>  .default = col_character(),</span>
+#&gt; <span class='message'>  Entrez_Gene_Id = col_double(),</span>
+#&gt; <span class='message'>  Start_Position = col_double(),</span>
+#&gt; <span class='message'>  End_Position = col_double(),</span>
+#&gt; <span class='message'>  t_ref_count = col_logical(),</span>
+#&gt; <span class='message'>  t_alt_count = col_logical(),</span>
+#&gt; <span class='message'>  n_ref_count = col_logical(),</span>
+#&gt; <span class='message'>  n_alt_count = col_logical(),</span>
+#&gt; <span class='message'>  Protein_position = col_double(),</span>
+#&gt; <span class='message'>  Hotspot = col_double(),</span>
+#&gt; <span class='message'>  TVarCov = col_double(),</span>
+#&gt; <span class='message'>  Trna_ref = col_double(),</span>
+#&gt; <span class='message'>  NTotCov = col_double(),</span>
+#&gt; <span class='message'>  Trna_var = col_double(),</span>
+#&gt; <span class='message'>  NVarCov = col_double(),</span>
+#&gt; <span class='message'>  Trna_alt1 = col_double(),</span>
+#&gt; <span class='message'>  Trna_alt2 = col_double(),</span>
+#&gt; <span class='message'>  Trna_tot = col_double(),</span>
+#&gt; <span class='message'>  TTotCov = col_double()</span>
+#&gt; <span class='message'>)</span></div><div class='output co'>#&gt; <span class='message'>See spec(...) for full column specifications.</span></div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
+#&gt; <span class='message'>cols(</span>
+#&gt; <span class='message'>  .default = col_character()</span>
+#&gt; <span class='message'>)</span></div><div class='output co'>#&gt; <span class='message'>See spec(...) for full column specifications.</span></div><div class='output co'>#&gt; <span class='message'>Working on: /tmp/Rtmpphincs/7784170df381_acc_tcga/data_mutations_mskcc.txt</span></div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
+#&gt; <span class='message'>cols(</span>
+#&gt; <span class='message'>  .default = col_character(),</span>
+#&gt; <span class='message'>  Entrez_Gene_Id = col_double(),</span>
+#&gt; <span class='message'>  Start_Position = col_double(),</span>
+#&gt; <span class='message'>  End_Position = col_double(),</span>
+#&gt; <span class='message'>  t_ref_count = col_logical(),</span>
+#&gt; <span class='message'>  t_alt_count = col_logical(),</span>
+#&gt; <span class='message'>  n_ref_count = col_logical(),</span>
+#&gt; <span class='message'>  n_alt_count = col_logical(),</span>
+#&gt; <span class='message'>  Protein_position = col_double(),</span>
+#&gt; <span class='message'>  Hotspot = col_double(),</span>
+#&gt; <span class='message'>  TVarCov = col_double(),</span>
+#&gt; <span class='message'>  Trna_ref = col_double(),</span>
+#&gt; <span class='message'>  NTotCov = col_double(),</span>
+#&gt; <span class='message'>  Trna_var = col_double(),</span>
+#&gt; <span class='message'>  NVarCov = col_double(),</span>
+#&gt; <span class='message'>  Trna_alt1 = col_double(),</span>
+#&gt; <span class='message'>  Trna_alt2 = col_double(),</span>
+#&gt; <span class='message'>  Trna_tot = col_double(),</span>
+#&gt; <span class='message'>  TTotCov = col_double()</span>
+#&gt; <span class='message'>)</span></div><div class='output co'>#&gt; <span class='message'>See spec(...) for full column specifications.</span></div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
+#&gt; <span class='message'>cols(</span>
+#&gt; <span class='message'>  .default = col_character()</span>
+#&gt; <span class='message'>)</span></div><div class='output co'>#&gt; <span class='message'>See spec(...) for full column specifications.</span></div><div class='output co'>#&gt; <span class='message'>Working on: /tmp/Rtmpphincs/7784170df381_acc_tcga/data_mutsig.txt</span></div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
+#&gt; <span class='message'>cols(</span>
+#&gt; <span class='message'>  .default = col_double(),</span>
+#&gt; <span class='message'>  gene = col_character(),</span>
+#&gt; <span class='message'>  description = col_character(),</span>
+#&gt; <span class='message'>  p = col_character(),</span>
+#&gt; <span class='message'>  q = col_character()</span>
+#&gt; <span class='message'>)</span></div><div class='output co'>#&gt; <span class='message'>See spec(...) for full column specifications.</span></div><div class='output co'>#&gt; <span class='message'>Working on: /tmp/Rtmpphincs/7784170df381_acc_tcga/data_RNA_Seq_v2_expression_median.txt</span></div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
+#&gt; <span class='message'>cols(</span>
+#&gt; <span class='message'>  .default = col_double(),</span>
+#&gt; <span class='message'>  Hugo_Symbol = col_character()</span>
+#&gt; <span class='message'>)</span></div><div class='output co'>#&gt; <span class='message'>See spec(...) for full column specifications.</span></div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
+#&gt; <span class='message'>cols(</span>
+#&gt; <span class='message'>  Hugo_Symbol = col_character()</span>
+#&gt; <span class='message'>)</span></div><div class='output co'>#&gt; <span class='message'>Working on: /tmp/Rtmpphincs/7784170df381_acc_tcga/data_RNA_Seq_v2_mRNA_median_all_sample_Zscores.txt</span></div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
+#&gt; <span class='message'>cols(</span>
+#&gt; <span class='message'>  .default = col_double(),</span>
+#&gt; <span class='message'>  Hugo_Symbol = col_character()</span>
+#&gt; <span class='message'>)</span></div><div class='output co'>#&gt; <span class='message'>See spec(...) for full column specifications.</span></div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
+#&gt; <span class='message'>cols(</span>
+#&gt; <span class='message'>  Hugo_Symbol = col_character()</span>
+#&gt; <span class='message'>)</span></div><div class='output co'>#&gt; <span class='message'>Working on: /tmp/Rtmpphincs/7784170df381_acc_tcga/data_RNA_Seq_v2_mRNA_median_Zscores.txt</span></div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
+#&gt; <span class='message'>cols(</span>
+#&gt; <span class='message'>  .default = col_double(),</span>
+#&gt; <span class='message'>  Hugo_Symbol = col_character()</span>
+#&gt; <span class='message'>)</span></div><div class='output co'>#&gt; <span class='message'>See spec(...) for full column specifications.</span></div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
+#&gt; <span class='message'>cols(</span>
+#&gt; <span class='message'>  Hugo_Symbol = col_character()</span>
+#&gt; <span class='message'>)</span></div><div class='output co'>#&gt; <span class='message'>Working on: /tmp/Rtmpphincs/7784170df381_acc_tcga/data_rppa_Zscores.txt</span></div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
+#&gt; <span class='message'>cols(</span>
+#&gt; <span class='message'>  .default = col_double(),</span>
+#&gt; <span class='message'>  Composite.Element.REF = col_character()</span>
+#&gt; <span class='message'>)</span></div><div class='output co'>#&gt; <span class='message'>See spec(...) for full column specifications.</span></div><div class='output co'>#&gt; <span class='message'>Working on: /tmp/Rtmpphincs/7784170df381_acc_tcga/data_rppa.txt</span></div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
+#&gt; <span class='message'>cols(</span>
+#&gt; <span class='message'>  .default = col_double(),</span>
+#&gt; <span class='message'>  Composite.Element.REF = col_character()</span>
+#&gt; <span class='message'>)</span></div><div class='output co'>#&gt; <span class='message'>See spec(...) for full column specifications.</span></div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
+#&gt; <span class='message'>cols(</span>
+#&gt; <span class='message'>  .default = col_character(),</span>
+#&gt; <span class='message'>  INITIAL_PATHOLOGIC_DX_YEAR = col_double(),</span>
+#&gt; <span class='message'>  WEISS_SCORE_OVERALL = col_double(),</span>
+#&gt; <span class='message'>  MITOSES_PER_50_HPF = col_double(),</span>
+#&gt; <span class='message'>  AGE = col_double(),</span>
+#&gt; <span class='message'>  DAYS_TO_INITIAL_PATHOLOGIC_DIAGNOSIS = col_double(),</span>
+#&gt; <span class='message'>  OS_MONTHS = col_double(),</span>
+#&gt; <span class='message'>  DFS_MONTHS = col_double()</span>
+#&gt; <span class='message'>)</span></div><div class='output co'>#&gt; <span class='message'>See spec(...) for full column specifications.</span></div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
+#&gt; <span class='message'>cols(</span>
+#&gt; <span class='message'>  .default = col_character(),</span>
+#&gt; <span class='message'>  DAYS_TO_COLLECTION = col_double(),</span>
+#&gt; <span class='message'>  SAMPLE_INITIAL_WEIGHT = col_double(),</span>
+#&gt; <span class='message'>  OCT_EMBEDDED = col_logical(),</span>
+#&gt; <span class='message'>  SAMPLE_TYPE_ID = col_double()</span>
+#&gt; <span class='message'>)</span></div><div class='output co'>#&gt; <span class='message'>See spec(...) for full column specifications.</span></div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
+#&gt; <span class='message'>cols(</span>
+#&gt; <span class='message'>  .default = col_character(),</span>
+#&gt; <span class='message'>  DAYS_TO_COLLECTION = col_double(),</span>
+#&gt; <span class='message'>  SAMPLE_INITIAL_WEIGHT = col_double(),</span>
+#&gt; <span class='message'>  OCT_EMBEDDED = col_logical(),</span>
+#&gt; <span class='message'>  SAMPLE_TYPE_ID = col_double()</span>
+#&gt; <span class='message'>)</span></div><div class='output co'>#&gt; <span class='message'>See spec(...) for full column specifications.</span></div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
+#&gt; <span class='message'>cols(</span>
+#&gt; <span class='message'>  .default = col_character()</span>
+#&gt; <span class='message'>)</span></div><div class='output co'>#&gt; <span class='message'>See spec(...) for full column specifications.</span></div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
+#&gt; <span class='message'>cols(</span>
+#&gt; <span class='message'>  index = col_double(),</span>
+#&gt; <span class='message'>  chromosome = col_character(),</span>
+#&gt; <span class='message'>  region_start = col_double(),</span>
+#&gt; <span class='message'>  region_end = col_double(),</span>
+#&gt; <span class='message'>  peak_start = col_double(),</span>
+#&gt; <span class='message'>  peak_end = col_double(),</span>
+#&gt; <span class='message'>  enlarged_peak_start = col_double(),</span>
+#&gt; <span class='message'>  enlarged_peak_end = col_double(),</span>
+#&gt; <span class='message'>  n_genes_in_region = col_double(),</span>
+#&gt; <span class='message'>  genes_in_region = col_character(),</span>
+#&gt; <span class='message'>  n_genes_in_peak = col_double(),</span>
+#&gt; <span class='message'>  genes_in_peak = col_character(),</span>
+#&gt; <span class='message'>  n_genes_on_chip = col_character(),</span>
+#&gt; <span class='message'>  genes_on_chip = col_character(),</span>
+#&gt; <span class='message'>  `top 3` = col_character(),</span>
+#&gt; <span class='message'>  amp = col_double(),</span>
+#&gt; <span class='message'>  cytoband = col_character(),</span>
+#&gt; <span class='message'>  q_value = col_double()</span>
+#&gt; <span class='message'>)</span></div><div class='output co'>#&gt; <span class='warning'>Warning:  Multiple prefixes found, using keyword 'region' or taking first one</span></div><div class='output co'>#&gt; <span class='message'>Parsed with column specification:</span>
+#&gt; <span class='message'>cols(</span>
+#&gt; <span class='message'>  index = col_double(),</span>
+#&gt; <span class='message'>  chromosome = col_double(),</span>
+#&gt; <span class='message'>  region_start = col_double(),</span>
+#&gt; <span class='message'>  region_end = col_double(),</span>
+#&gt; <span class='message'>  peak_start = col_double(),</span>
+#&gt; <span class='message'>  peak_end = col_double(),</span>
+#&gt; <span class='message'>  enlarged_peak_start = col_double(),</span>
+#&gt; <span class='message'>  enlarged_peak_end = col_double(),</span>
+#&gt; <span class='message'>  n_genes_in_region = col_double(),</span>
+#&gt; <span class='message'>  genes_in_region = col_character(),</span>
+#&gt; <span class='message'>  n_genes_in_peak = col_double(),</span>
+#&gt; <span class='message'>  genes_in_peak = col_character(),</span>
+#&gt; <span class='message'>  n_genes_on_chip = col_character(),</span>
+#&gt; <span class='message'>  genes_on_chip = col_character(),</span>
+#&gt; <span class='message'>  `top 3` = col_character(),</span>
+#&gt; <span class='message'>  amp = col_double(),</span>
+#&gt; <span class='message'>  cytoband = col_character(),</span>
+#&gt; <span class='message'>  q_value = col_double()</span>
+#&gt; <span class='message'>)</span></div><div class='output co'>#&gt; <span class='warning'>Warning:  Multiple prefixes found, using keyword 'region' or taking first one</span></div><div class='output co'>#&gt; A MultiAssayExperiment object of 11 listed
+#&gt;  experiments with user-defined names and respective classes.
+#&gt;  Containing an ExperimentList class object of length 11:
+#&gt;  [1] cna_hg19.seg: RaggedExperiment with 16080 rows and 90 columns
+#&gt;  [2] CNA: SummarizedExperiment with 24776 rows and 90 columns
+#&gt;  [3] linear_CNA: SummarizedExperiment with 24776 rows and 90 columns
+#&gt;  [4] methylation_hm450: SummarizedExperiment with 15473 rows and 80 columns
+#&gt;  [5] mutations_extended: RaggedExperiment with 20166 rows and 90 columns
+#&gt;  [6] mutations_mskcc: RaggedExperiment with 20166 rows and 90 columns
+#&gt;  [7] RNA_Seq_v2_expression_median: SummarizedExperiment with 20531 rows and 79 columns
+#&gt;  [8] RNA_Seq_v2_mRNA_median_all_sample_Zscores: SummarizedExperiment with 20531 rows and 79 columns
+#&gt;  [9] RNA_Seq_v2_mRNA_median_Zscores: SummarizedExperiment with 20440 rows and 79 columns
+#&gt;  [10] rppa_Zscores: SummarizedExperiment with 191 rows and 46 columns
+#&gt;  [11] rppa: SummarizedExperiment with 192 rows and 46 columns
+#&gt; Features:
+#&gt;  experiments() - obtain the ExperimentList instance
+#&gt;  colData() - the primary/phenotype DFrame
+#&gt;  sampleMap() - the sample availability DFrame
+#&gt;  `$`, `[`, `[[` - extract colData columns, subset, or experiment
+#&gt;  *Format() - convert into a long or wide DFrame
+#&gt;  assays() - convert ExperimentList to a SimpleList of matrices</div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

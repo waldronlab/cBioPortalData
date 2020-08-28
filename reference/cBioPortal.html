@@ -79,7 +79,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">cBiocPortalData</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.10</span>
       </span>
     </div>
 
@@ -138,7 +138,11 @@
     `cBioPortalData` main function to obtain data.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>cBioPortal</span>()
+    <pre class="usage"><span class='fu'>cBioPortal</span>(
+  <span class='kw'>hostname</span> <span class='kw'>=</span> <span class='st'>"www.cbioportal.org"</span>,
+  <span class='kw'>protocol</span> <span class='kw'>=</span> <span class='st'>"https"</span>,
+  <span class='kw'>api.</span> <span class='kw'>=</span> <span class='st'>"/api/api-docs"</span>
+)
 
 <span class='fu'>getStudies</span>(<span class='no'>api</span>)
 
@@ -150,19 +154,25 @@
   <span class='kw'>projection</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"SUMMARY"</span>, <span class='st'>"ID"</span>, <span class='st'>"DETAILED"</span>, <span class='st'>"META"</span>)
 )
 
+<span class='fu'>mutationData</span>(
+  <span class='no'>api</span>,
+  <span class='kw'>molecularProfileIds</span> <span class='kw'>=</span> <span class='fl'>NA_character_</span>,
+  <span class='kw'>entrezGeneIds</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>sampleIds</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
+)
+
 <span class='fu'>molecularData</span>(
   <span class='no'>api</span>,
-  <span class='kw'>molecularProfileId</span> <span class='kw'>=</span> <span class='fl'>NA_character_</span>,
+  <span class='kw'>molecularProfileIds</span> <span class='kw'>=</span> <span class='fl'>NA_character_</span>,
   <span class='kw'>entrezGeneIds</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>sampleIds</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>check</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
+  <span class='kw'>sampleIds</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
 )
 
 <span class='fu'>searchOps</span>(<span class='no'>api</span>, <span class='no'>keyword</span>)
 
-<span class='fu'>geneTable</span>(<span class='no'>api</span>, <span class='no'>...</span>)
+<span class='fu'>geneTable</span>(<span class='no'>api</span>, <span class='kw'>pageSize</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='kw'>pageNumber</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='no'>...</span>)
 
-<span class='fu'>samplesInSampleLists</span>(<span class='no'>api</span>, <span class='kw'>sampleListIds</span> <span class='kw'>=</span> <span class='fl'>NA_character_</span>, <span class='kw'>check</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='fu'>samplesInSampleLists</span>(<span class='no'>api</span>, <span class='kw'>sampleListIds</span> <span class='kw'>=</span> <span class='fl'>NA_character_</span>)
 
 <span class='fu'>sampleLists</span>(<span class='no'>api</span>, <span class='kw'>studyId</span> <span class='kw'>=</span> <span class='fl'>NA_character_</span>)
 
@@ -192,14 +202,28 @@
   <span class='no'>api</span>,
   <span class='kw'>studyId</span> <span class='kw'>=</span> <span class='fl'>NA_character_</span>,
   <span class='kw'>genePanelId</span> <span class='kw'>=</span> <span class='fl'>NA_character_</span>,
-  <span class='kw'>molecularProfileId</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>sampleListId</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>check</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
+  <span class='kw'>molecularProfileIds</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>sampleListId</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>hostname</th>
+      <td><p>character(1) The internet location of the service
+(default: 'www.cbioportal.org')</p></td>
+    </tr>
+    <tr>
+      <th>protocol</th>
+      <td><p>character(1) The internet protocol used to access the
+hostname (default: 'https')</p></td>
+    </tr>
+    <tr>
+      <th>api.</th>
+      <td><p>character(1) The directory location of the API protocol within
+the hostname (default: '/api/api-docs')</p></td>
+    </tr>
     <tr>
       <th>api</th>
       <td><p>An API object of class `cBioPortal` from the `cBioPortal`
@@ -216,8 +240,8 @@ function</p></td>
 type for data retrieval for details see API documentation</p></td>
     </tr>
     <tr>
-      <th>molecularProfileId</th>
-      <td><p>character(1) Indicates a molecular profile ID</p></td>
+      <th>molecularProfileIds</th>
+      <td><p>character() A vector of molecular profile IDs</p></td>
     </tr>
     <tr>
       <th>entrezGeneIds</th>
@@ -228,15 +252,17 @@ type for data retrieval for details see API documentation</p></td>
       <td><p>character() Sample identifiers</p></td>
     </tr>
     <tr>
-      <th>check</th>
-      <td><p>logical(1) Whether to check the inputs against values from the
-API (i.e., for 'studyId', 'genePanelId', 'molecularProfileId', and
-'sampleListId')</p></td>
-    </tr>
-    <tr>
       <th>keyword</th>
       <td><p>character(1) Keyword or pattern for searching through
 available operations</p></td>
+    </tr>
+    <tr>
+      <th>pageSize</th>
+      <td><p>numeric(1) The number of rows in the table to return</p></td>
+    </tr>
+    <tr>
+      <th>pageNumber</th>
+      <td><p>numeric(1) The pagination page number</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -253,13 +279,13 @@ available operations</p></td>
 from the `genePanels` function</p></td>
     </tr>
     <tr>
+      <th>molecularProfileId</th>
+      <td><p>character(1) Indicates a molecular profile ID</p></td>
+    </tr>
+    <tr>
       <th>sampleListId</th>
       <td><p>character(1) A sample list identifier as obtained from
 `sampleLists()``</p></td>
-    </tr>
-    <tr>
-      <th>molecularProfileIds</th>
-      <td><p>character() A vector of molecular profile IDs</p></td>
     </tr>
     </table>
 
@@ -298,6 +324,12 @@ from the `genePanels` function</p></td>
 
 <p>* molecularData - Produce a dataset of molecular profile data based on
     `molecularProfileId`, `entrezGeneIds`, and `sampleIds`</p>
+    <h2 class="hasAnchor" id="mutation-data"><a class="anchor" href="#mutation-data"></a>Mutation Data</h2>
+
+    
+
+<p>* mutationData - Produce a dataset of mutation data using
+    `molecularProfileId`, `entrezGeneIds`, and `sampleIds`</p>
     <h2 class="hasAnchor" id="sample-data"><a class="anchor" href="#sample-data"></a>Sample Data</h2>
 
     
@@ -325,7 +357,7 @@ from the `genePanels` function</p></td>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>cbio</span> <span class='kw'>&lt;-</span> <span class='fu'>cBioPortal</span>()
 
-<span class='fu'>getStudies</span>(<span class='kw'>api</span> <span class='kw'>=</span> <span class='no'>cbio</span>)</div><div class='output co'>#&gt; # A tibble: 287 x 13
+<span class='fu'>getStudies</span>(<span class='kw'>api</span> <span class='kw'>=</span> <span class='no'>cbio</span>)</div><div class='output co'>#&gt; # A tibble: 290 x 13
 #&gt;    name  shortName description publicStudy pmid  citation groups status
 #&gt;    &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;       &lt;lgl&gt;       &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;   &lt;int&gt;
 #&gt;  1 Chol… Cholangi… Exome sequ… TRUE        2418… Chan-on… "PUBL…      0
@@ -338,7 +370,7 @@ from the `genePanels` function</p></td>
 #&gt;  8 Thym… TET (NCI) Whole exom… TRUE        2497… Petrini… "PUBL…      0
 #&gt;  9 Neur… NBL (Col… Whole-geno… TRUE        2646… Peifer … ""          0
 #&gt; 10 Myel… MDS (Tok… Whole exom… TRUE        2190… Yoshida… ""          0
-#&gt; # … with 277 more rows, and 5 more variables: importDate &lt;chr&gt;,
+#&gt; # … with 280 more rows, and 5 more variables: importDate &lt;chr&gt;,
 #&gt; #   allSampleCount &lt;int&gt;, studyId &lt;chr&gt;, cancerTypeId &lt;chr&gt;,
 #&gt; #   referenceGenome &lt;chr&gt;</div><div class='input'>
 <span class='fu'>searchOps</span>(<span class='kw'>api</span> <span class='kw'>=</span> <span class='no'>cbio</span>, <span class='kw'>keyword</span> <span class='kw'>=</span> <span class='st'>"molecular"</span>)</div><div class='output co'>#&gt;  [1] "fetchGenePanelDataInMultipleMolecularProfilesUsingPOST"   
@@ -356,52 +388,27 @@ from the `genePanels` function</p></td>
 #&gt; [13] "fetchMutationsInMolecularProfileUsingPOST"                
 #&gt; [14] "fetchMutationsInMultipleMolecularProfilesUsingPOST"       
 #&gt; [15] "getAllMolecularProfilesInStudyUsingGET"                   </div><div class='input'>
-<span class='fu'>clinicalData</span>(<span class='kw'>api</span> <span class='kw'>=</span> <span class='no'>cbio</span>, <span class='kw'>studyId</span> <span class='kw'>=</span> <span class='st'>"acc_tcga"</span>)</div><div class='output co'>#&gt; # A tibble: 92 x 70
-#&gt;    uniquePatientKey patientId studyId AGE   AJCC_PATHOLOGIC… ATYPICAL_MITOTI…
-#&gt;    &lt;chr&gt;            &lt;chr&gt;     &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;            &lt;chr&gt;           
-#&gt;  1 VENHQS1PUi1BNUo… TCGA-OR-… acc_tc… 58    Stage II         Atypical Mitoti…
-#&gt;  2 VENHQS1PUi1BNUo… TCGA-OR-… acc_tc… 44    Stage IV         Atypical Mitoti…
-#&gt;  3 VENHQS1PUi1BNUo… TCGA-OR-… acc_tc… 23    Stage III        Atypical Mitoti…
-#&gt;  4 VENHQS1PUi1BNUo… TCGA-OR-… acc_tc… 23    Stage IV         Atypical Mitoti…
-#&gt;  5 VENHQS1PUi1BNUo… TCGA-OR-… acc_tc… 30    Stage III        Atypical Mitoti…
-#&gt;  6 VENHQS1PUi1BNUo… TCGA-OR-… acc_tc… 29    Stage II         Atypical Mitoti…
-#&gt;  7 VENHQS1PUi1BNUo… TCGA-OR-… acc_tc… 30    Stage III        Atypical Mitoti…
-#&gt;  8 VENHQS1PUi1BNUo… TCGA-OR-… acc_tc… 66    Stage III        Atypical Mitoti…
-#&gt;  9 VENHQS1PUi1BNUo… TCGA-OR-… acc_tc… 22    Stage II         Atypical Mitoti…
-#&gt; 10 VENHQS1PUi1BNUp… TCGA-OR-… acc_tc… 53    Stage IV         Atypical Mitoti…
-#&gt; # … with 82 more rows, and 64 more variables: CAPSULAR_INVASION &lt;chr&gt;,
-#&gt; #   CLIN_M_STAGE &lt;chr&gt;, CT_SCAN_PREOP_RESULTS &lt;chr&gt;,
-#&gt; #   CYTOPLASM_PRESENCE_LESS_THAN_EQUAL_25_PERCENT &lt;chr&gt;,
-#&gt; #   DAYS_TO_INITIAL_PATHOLOGIC_DIAGNOSIS &lt;chr&gt;, DFS_MONTHS &lt;chr&gt;,
-#&gt; #   DFS_STATUS &lt;chr&gt;, DIFFUSE_ARCHITECTURE &lt;chr&gt;, ETHNICITY &lt;chr&gt;,
-#&gt; #   FORM_COMPLETION_DATE &lt;chr&gt;, HISTOLOGICAL_DIAGNOSIS &lt;chr&gt;,
-#&gt; #   HISTORY_ADRENAL_HORMONE_EXCESS &lt;chr&gt;,
-#&gt; #   HISTORY_BASIS_ADRENAL_HORMONE_DX &lt;chr&gt;, HISTORY_NEOADJUVANT_TRTYN &lt;chr&gt;,
-#&gt; #   HISTORY_OTHER_MALIGNANCY &lt;chr&gt;, ICD_10 &lt;chr&gt;, ICD_O_3_HISTOLOGY &lt;chr&gt;,
-#&gt; #   ICD_O_3_SITE &lt;chr&gt;, INFORMED_CONSENT_VERIFIED &lt;chr&gt;,
-#&gt; #   INITIAL_PATHOLOGIC_DX_YEAR &lt;chr&gt;, LATERALITY &lt;chr&gt;,
-#&gt; #   LYMPH_NODES_EXAMINED &lt;chr&gt;, MITOSES_PER_50_HPF &lt;chr&gt;, MITOTIC_RATE &lt;chr&gt;,
-#&gt; #   MOLECULAR_STUDIES_OTHERS_PERFORMED &lt;chr&gt;, NECROSIS &lt;chr&gt;,
-#&gt; #   NEW_TUMOR_EVENT_AFTER_INITIAL_TREATMENT &lt;chr&gt;, NUCLEAR_GRADE_III_IV &lt;chr&gt;,
-#&gt; #   OS_MONTHS &lt;chr&gt;, OS_STATUS &lt;chr&gt;, OTHER_PATIENT_ID &lt;chr&gt;,
-#&gt; #   PATH_N_STAGE &lt;chr&gt;, PATH_T_STAGE &lt;chr&gt;, PHARMACEUTICAL_TX_ADJUVANT &lt;chr&gt;,
-#&gt; #   PHARM_TX_MITOTANE_INDICATOR &lt;chr&gt;, PROSPECTIVE_COLLECTION &lt;chr&gt;,
-#&gt; #   RACE &lt;chr&gt;, RADIATION_TREATMENT_ADJUVANT &lt;chr&gt;, RESIDUAL_TUMOR &lt;chr&gt;,
-#&gt; #   RETROSPECTIVE_COLLECTION &lt;chr&gt;, SAMPLE_COUNT &lt;chr&gt;, SEX &lt;chr&gt;,
-#&gt; #   SINUSOID_INVASION &lt;chr&gt;, SITE_OF_TUMOR_TISSUE &lt;chr&gt;,
-#&gt; #   TISSUE_SOURCE_SITE &lt;chr&gt;, TUMOR_STATUS &lt;chr&gt;, VITAL_STATUS &lt;chr&gt;,
-#&gt; #   WEISS_SCORE_OVERALL &lt;chr&gt;, WEISS_VENOUS_INVASION &lt;chr&gt;,
-#&gt; #   CLINICAL_STATUS_WITHIN_3_MTHS_SURGERY &lt;chr&gt;,
-#&gt; #   LYMPH_NODES_EXAMINED_HE_COUNT &lt;chr&gt;, LYMPH_NODE_EXAMINED_COUNT &lt;chr&gt;,
-#&gt; #   METASTATIC_DX_CONFIRMED_BY &lt;chr&gt;, METASTATIC_SITE_PATIENT &lt;chr&gt;,
-#&gt; #   PHARM_TX_MITOTANE_FOR_MACRO_DISEASE &lt;chr&gt;,
-#&gt; #   TREATMENT_OUTCOME_FIRST_COURSE &lt;chr&gt;, DAYS_LAST_FOLLOWUP &lt;chr&gt;,
-#&gt; #   PHARM_TX_MITOTANE_ADJUVANT &lt;chr&gt;,
-#&gt; #   PHARM_TX_MITOTANE_THERAPUTIC_AT_REC &lt;chr&gt;,
-#&gt; #   PHARM_TX_MITOTANE_THERAPUTIC_LEVELS &lt;chr&gt;,
-#&gt; #   METASTATIC_DX_CONFIRMED_BY_OTHER &lt;chr&gt;,
-#&gt; #   PHARM_TX_MITOTANE_THERAPUTIC_MACRO &lt;chr&gt;,
-#&gt; #   PHARM_TX_MITOTANE_THERAPUTIC_AT_PROG &lt;chr&gt;, RET &lt;chr&gt;</div><div class='input'>
+<span class='co'>## obtain clinical data</span>
+<span class='no'>acc_clin</span> <span class='kw'>&lt;-</span> <span class='fu'>clinicalData</span>(<span class='kw'>api</span> <span class='kw'>=</span> <span class='no'>cbio</span>, <span class='kw'>studyId</span> <span class='kw'>=</span> <span class='st'>"acc_tcga"</span>)
+<span class='no'>acc_clin</span></div><div class='output co'>#&gt; # A tibble: 92 x 20
+#&gt;    uniqueSampleKey uniquePatientKey sampleId patientId studyId CANCER_TYPE
+#&gt;    &lt;chr&gt;           &lt;chr&gt;            &lt;chr&gt;    &lt;chr&gt;     &lt;chr&gt;   &lt;chr&gt;      
+#&gt;  1 VENHQS1PUi1BNU… VENHQS1PUi1BNUo… TCGA-OR… TCGA-OR-… acc_tc… Adrenocort…
+#&gt;  2 VENHQS1PUi1BNU… VENHQS1PUi1BNUo… TCGA-OR… TCGA-OR-… acc_tc… Adrenocort…
+#&gt;  3 VENHQS1PUi1BNU… VENHQS1PUi1BNUo… TCGA-OR… TCGA-OR-… acc_tc… Adrenocort…
+#&gt;  4 VENHQS1PUi1BNU… VENHQS1PUi1BNUo… TCGA-OR… TCGA-OR-… acc_tc… Adrenocort…
+#&gt;  5 VENHQS1PUi1BNU… VENHQS1PUi1BNUo… TCGA-OR… TCGA-OR-… acc_tc… Adrenocort…
+#&gt;  6 VENHQS1PUi1BNU… VENHQS1PUi1BNUo… TCGA-OR… TCGA-OR-… acc_tc… Adrenocort…
+#&gt;  7 VENHQS1PUi1BNU… VENHQS1PUi1BNUo… TCGA-OR… TCGA-OR-… acc_tc… Adrenocort…
+#&gt;  8 VENHQS1PUi1BNU… VENHQS1PUi1BNUo… TCGA-OR… TCGA-OR-… acc_tc… Adrenocort…
+#&gt;  9 VENHQS1PUi1BNU… VENHQS1PUi1BNUo… TCGA-OR… TCGA-OR-… acc_tc… Adrenocort…
+#&gt; 10 VENHQS1PUi1BNU… VENHQS1PUi1BNUp… TCGA-OR… TCGA-OR-… acc_tc… Adrenocort…
+#&gt; # … with 82 more rows, and 14 more variables: CANCER_TYPE_DETAILED &lt;chr&gt;,
+#&gt; #   DAYS_TO_COLLECTION &lt;chr&gt;, FRACTION_GENOME_ALTERED &lt;chr&gt;, IS_FFPE &lt;chr&gt;,
+#&gt; #   MUTATION_COUNT &lt;chr&gt;, OCT_EMBEDDED &lt;chr&gt;, ONCOTREE_CODE &lt;chr&gt;,
+#&gt; #   OTHER_SAMPLE_ID &lt;chr&gt;, PATHOLOGY_REPORT_FILE_NAME &lt;chr&gt;,
+#&gt; #   PATHOLOGY_REPORT_UUID &lt;chr&gt;, SAMPLE_INITIAL_WEIGHT &lt;chr&gt;,
+#&gt; #   SAMPLE_TYPE &lt;chr&gt;, SAMPLE_TYPE_ID &lt;chr&gt;, VIAL_NUMBER &lt;chr&gt;</div><div class='input'>
 <span class='fu'>molecularProfiles</span>(<span class='kw'>api</span> <span class='kw'>=</span> <span class='no'>cbio</span>, <span class='kw'>studyId</span> <span class='kw'>=</span> <span class='st'>"acc_tcga"</span>)</div><div class='output co'>#&gt; # A tibble: 9 x 7
 #&gt;   molecularAltera… datatype name  description showProfileInAn… molecularProfil…
 #&gt;   &lt;chr&gt;            &lt;chr&gt;    &lt;chr&gt; &lt;chr&gt;       &lt;lgl&gt;            &lt;chr&gt;           
@@ -415,19 +422,44 @@ from the `genePanels` function</p></td>
 #&gt; 8 MUTATION_EXTEND… MAF      Muta… Mutation d… TRUE             acc_tcga_mutati…
 #&gt; 9 MRNA_EXPRESSION  Z-SCORE  mRNA… Log-transf… TRUE             acc_tcga_rna_se…
 #&gt; # … with 1 more variable: studyId &lt;chr&gt;</div><div class='input'>
-<span class='fu'>molecularData</span>(
+<span class='fu'>genePanels</span>(<span class='no'>cbio</span>)</div><div class='output co'>#&gt; # A tibble: 47 x 2
+#&gt;    description                                                       genePanelId
+#&gt;    &lt;chr&gt;                                                             &lt;chr&gt;      
+#&gt;  1 Targeted (341 cancer genes) sequencing of various tumor types vi… IMPACT341  
+#&gt;  2 Targeted (410 cancer genes) sequencing of various tumor types vi… IMPACT410  
+#&gt;  3 Targeted (468 cancer genes) sequencing of various tumor types vi… IMPACT468  
+#&gt;  4 Targeted sequencing of urcc tumor via MSK-IMPACT.                 IMPACT     
+#&gt;  5 Targeted (300 cancer genes) sequencing of bladder urothelial car… IMPACT300  
+#&gt;  6 Targeted deep sequencing (TDS) of 1202 genes on Illumina HiSeq20… UCLA_1202  
+#&gt;  7 Targeted sequencing of urcc tumor via MSK-IMPACT.                 IMPACT230  
+#&gt;  8 Targeted (27 cancer genes) sequencing of adenoid cystic carcinom… ACYC_FMI_27
+#&gt;  9 Targeted (173 cancer genes) sequencing of breast cancers on Illu… METABRIC_1…
+#&gt; 10 Targeted sequencing of 504 cancer-associated genes on Illumina H… DFCI_504   
+#&gt; # … with 37 more rows</div><div class='input'>
+(<span class='no'>gp</span> <span class='kw'>&lt;-</span> <span class='fu'>getGenePanel</span>(<span class='no'>cbio</span>, <span class='st'>"AmpliSeq"</span>))</div><div class='output co'>#&gt; # A tibble: 8 x 2
+#&gt;   entrezGeneId hugoGeneSymbol
+#&gt;          &lt;int&gt; &lt;chr&gt;         
+#&gt; 1       171023 ASXL1         
+#&gt; 2         1788 DNMT3A        
+#&gt; 3         3417 IDH1          
+#&gt; 4         3418 IDH2          
+#&gt; 5        23451 SF3B1         
+#&gt; 6         6427 SRSF2         
+#&gt; 7         7157 TP53          
+#&gt; 8         7307 U2AF1         </div><div class='input'>
+<span class='no'>muts</span> <span class='kw'>&lt;-</span> <span class='fu'>mutationData</span>(
     <span class='kw'>api</span> <span class='kw'>=</span> <span class='no'>cbio</span>,
-    <span class='kw'>molecularProfileId</span> <span class='kw'>=</span> <span class='st'>"acc_tcga_rna_seq_v2_mrna"</span>,
-    <span class='kw'>entrezGeneIds</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>2</span>),
+    <span class='kw'>molecularProfileIds</span> <span class='kw'>=</span> <span class='st'>"acc_tcga_mutations"</span>,
+    <span class='kw'>entrezGeneIds</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>1000</span>,
     <span class='kw'>sampleIds</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"TCGA-OR-A5J1-01"</span>, <span class='st'>"TCGA-OR-A5J2-01"</span>)
-)</div><div class='output co'>#&gt; # A tibble: 4 x 8
-#&gt;   uniqueSampleKey uniquePatientKey entrezGeneId molecularProfil… sampleId
-#&gt;   &lt;chr&gt;           &lt;chr&gt;                   &lt;int&gt; &lt;chr&gt;            &lt;chr&gt;   
-#&gt; 1 VENHQS1PUi1BNU… VENHQS1PUi1BNUo…            1 acc_tcga_rna_se… TCGA-OR…
-#&gt; 2 VENHQS1PUi1BNU… VENHQS1PUi1BNUo…            2 acc_tcga_rna_se… TCGA-OR…
-#&gt; 3 VENHQS1PUi1BNU… VENHQS1PUi1BNUo…            1 acc_tcga_rna_se… TCGA-OR…
-#&gt; 4 VENHQS1PUi1BNU… VENHQS1PUi1BNUo…            2 acc_tcga_rna_se… TCGA-OR…
-#&gt; # … with 3 more variables: patientId &lt;chr&gt;, studyId &lt;chr&gt;, value &lt;dbl&gt;</div><div class='input'>
+)
+<span class='no'>exps</span> <span class='kw'>&lt;-</span> <span class='fu'>molecularData</span>(
+    <span class='kw'>api</span> <span class='kw'>=</span> <span class='no'>cbio</span>,
+    <span class='kw'>molecularProfileIds</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"acc_tcga_rna_seq_v2_mrna"</span>, <span class='st'>"acc_tcga_rppa"</span>),
+    <span class='kw'>entrezGeneIds</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>1000</span>,
+    <span class='kw'>sampleIds</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"TCGA-OR-A5J1-01"</span>, <span class='st'>"TCGA-OR-A5J2-01"</span>)
+)
+
 <span class='fu'>sampleLists</span>(<span class='kw'>api</span> <span class='kw'>=</span> <span class='no'>cbio</span>, <span class='kw'>studyId</span> <span class='kw'>=</span> <span class='st'>"acc_tcga"</span>)</div><div class='output co'>#&gt; # A tibble: 9 x 5
 #&gt;   category          name          description            sampleListId    studyId
 #&gt;   &lt;chr&gt;             &lt;chr&gt;         &lt;chr&gt;                  &lt;chr&gt;           &lt;chr&gt;  
@@ -476,7 +508,8 @@ from the `genePanels` function</p></td>
 #&gt; # … with 331 more rows</div><div class='input'>
 
 <span class='fu'>getDataByGenePanel</span>(<span class='no'>cbio</span>, <span class='kw'>studyId</span> <span class='kw'>=</span> <span class='st'>"acc_tcga"</span>, <span class='kw'>genePanelId</span> <span class='kw'>=</span> <span class='st'>"IMPACT341"</span>,
-   <span class='kw'>molecularProfileId</span> <span class='kw'>=</span> <span class='st'>"acc_tcga_rppa"</span>)</div><div class='output co'>#&gt; # A tibble: 2,622 x 9
+   <span class='kw'>molecularProfileId</span> <span class='kw'>=</span> <span class='st'>"acc_tcga_rppa"</span>)</div><div class='output co'>#&gt; $acc_tcga_rppa
+#&gt; # A tibble: 2,622 x 9
 #&gt;    uniqueSampleKey uniquePatientKey entrezGeneId molecularProfil… sampleId
 #&gt;    &lt;chr&gt;           &lt;chr&gt;                   &lt;int&gt; &lt;chr&gt;            &lt;chr&gt;   
 #&gt;  1 VENHQS1PUi1BNU… VENHQS1PUi1BNUo…          207 acc_tcga_rppa    TCGA-OR…
@@ -490,7 +523,25 @@ from the `genePanels` function</p></td>
 #&gt;  9 VENHQS1PUi1BNU… VENHQS1PUi1BNUo…        10018 acc_tcga_rppa    TCGA-OR…
 #&gt; 10 VENHQS1PUi1BNU… VENHQS1PUi1BNUo…          673 acc_tcga_rppa    TCGA-OR…
 #&gt; # … with 2,612 more rows, and 4 more variables: patientId &lt;chr&gt;, studyId &lt;chr&gt;,
-#&gt; #   value &lt;dbl&gt;, hugoGeneSymbol &lt;chr&gt;</div><div class='input'>
+#&gt; #   value &lt;dbl&gt;, hugoGeneSymbol &lt;chr&gt;
+#&gt; 
+#&gt; $acc_tcga_linear_CNA
+#&gt; # A tibble: 30,510 x 9
+#&gt;    uniqueSampleKey uniquePatientKey entrezGeneId molecularProfil… sampleId
+#&gt;    &lt;chr&gt;           &lt;chr&gt;                   &lt;int&gt; &lt;chr&gt;            &lt;chr&gt;   
+#&gt;  1 VENHQS1PUi1BNU… VENHQS1PUi1BNUo…           25 acc_tcga_linear… TCGA-OR…
+#&gt;  2 VENHQS1PUi1BNU… VENHQS1PUi1BNUo…          207 acc_tcga_linear… TCGA-OR…
+#&gt;  3 VENHQS1PUi1BNU… VENHQS1PUi1BNUo…          208 acc_tcga_linear… TCGA-OR…
+#&gt;  4 VENHQS1PUi1BNU… VENHQS1PUi1BNUo…        10000 acc_tcga_linear… TCGA-OR…
+#&gt;  5 VENHQS1PUi1BNU… VENHQS1PUi1BNUo…          238 acc_tcga_linear… TCGA-OR…
+#&gt;  6 VENHQS1PUi1BNU… VENHQS1PUi1BNUo…          242 acc_tcga_linear… TCGA-OR…
+#&gt;  7 VENHQS1PUi1BNU… VENHQS1PUi1BNUo…       139285 acc_tcga_linear… TCGA-OR…
+#&gt;  8 VENHQS1PUi1BNU… VENHQS1PUi1BNUo…          324 acc_tcga_linear… TCGA-OR…
+#&gt;  9 VENHQS1PUi1BNU… VENHQS1PUi1BNUo…          367 acc_tcga_linear… TCGA-OR…
+#&gt; 10 VENHQS1PUi1BNU… VENHQS1PUi1BNUo…          369 acc_tcga_linear… TCGA-OR…
+#&gt; # … with 30,500 more rows, and 4 more variables: patientId &lt;chr&gt;,
+#&gt; #   studyId &lt;chr&gt;, value &lt;dbl&gt;, hugoGeneSymbol &lt;chr&gt;
+#&gt; </div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
