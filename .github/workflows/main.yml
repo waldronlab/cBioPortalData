@@ -24,10 +24,12 @@ jobs:
           key: ${{ runner.os }}-r-1-${{ hashFiles('.github/depends.Rds') }}
           restore-keys: ${{ runner.os }}-r-1-
 
-      - name: Install Package Dependencies
+      - name: Install Dependencies
         run: |
-          Rscript -e "BiocManager::install(c('remotes', 'rcmdcheck', 'covr', 'pkgdown', 'AnVIL'), ask = FALSE, update = TRUE)"
-          Rscript -e "remotes::install_deps(dependencies = TRUE)"
+          options(repos = c(CRAN = "https://cloud.r-project.org"))
+          remotes::install_local(dependencies = TRUE, repos = BiocManager::repositories(), build_vignettes = TRUE, upgrade = TRUE)
+          BiocManager::install("rcmdcheck", update = TRUE, ask = FALSE)
+        shell: Rscript {0}
 
       - name: System dependencies
         run: |
