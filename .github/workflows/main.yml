@@ -18,11 +18,13 @@ jobs:
 
       - name: Cache R packages
         if: runner.os != 'Windows'
-        uses: actions/cache@v1
+        uses: actions/cache@v2
+        env:
+          version-name: RELEASE_3_11
         with:
           path: /usr/local/lib/R/site-library
-          key: ${{ runner.os }}-r-1-${{ hashFiles('.github/depends.Rds') }}
-          restore-keys: ${{ runner.os }}-r-1-
+          key: ${{ runner.os }}-r-${{ env.version-name }}-${{ hashFiles('.github/depends.Rds') }}
+          restore-keys: ${{ runner.os }}-r-${{ env.version-name }}-
 
       - name: Install Dependencies
         run: |
