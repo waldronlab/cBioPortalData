@@ -1,5 +1,5 @@
 #----------------------------
-# Git
+# Git and GitHub
 #----------------------------
 ^\.git$
 ^\.github$
@@ -17,14 +17,17 @@
 ^\.travis\.yml$
 ^appveyor.yml$
 #----------------------------
-# Data and files
+# Data and Doc files
 #----------------------------
 ^data-raw$
-^\.httr-oauth$
-^README\.Rmd
+^docs$
+#----------------------------
+# Misc.
+#----------------------------
 inst/rsconnect
 inst/docker
 .*_cache
 .BBSoptions
-
-^docs$
+longtests
+^\.httr-oauth$
+^README\.Rmd
