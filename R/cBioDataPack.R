@@ -303,7 +303,11 @@ loadStudy <-
 
     if (length(clinicalfiles) > 1) {
         clinwithcols <- which(vapply(clinicalfiles, function(file)
-            .hasMappers(readr::read_tsv(file, comment = "#", n_max = 5)),
+            .hasMappers(
+                readr::read_tsv(
+                    file, comment = "#", n_max = 5, progress = FALSE
+                )
+            ),
             logical(1L)))
         if (length(clinwithcols) > 1) {
             clindatfile <- grep("sample|supp", names(clinwithcols),
@@ -311,7 +315,9 @@ loadStudy <-
             if (length(clindatfile) > 1)
                 clindatfile <- clindatfile[
                     which.max(vapply(clindatfile, function(file)
-                    ncol(readr::read_tsv(file, n_max = 5L, comment = "#")),
+                    ncol(readr::read_tsv(
+                        file, n_max = 5L, comment = "#", progress = FALSE
+                    )),
                     integer(1L)))]
         } else
             clindatfile <- names(clinwithcols)
