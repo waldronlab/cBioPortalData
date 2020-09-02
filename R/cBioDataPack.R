@@ -269,9 +269,9 @@ loadStudy <-
     exptlist <- lapply(expseq, function(i, files, xpnames) {
         fname <- files[[i]]
         message(paste0("Working on: ", fname))
-        dat <- as.data.frame(
-            readr::read_tsv(fname, comment = "#"),
-            check.names = FALSE)
+        dat <- read.delim(
+            fname, sep = "\t", comment.char = "#", stringsAsFactors = FALSE
+        )
         dat <- .cleanHugo(dat)
         dat <- .cleanStrands(dat)
         dat <- .standardizeBuilds(dat)
