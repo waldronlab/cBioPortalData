@@ -168,14 +168,15 @@ cbioportal2clinicaldf <- function(file) {
 #' @param filepath character(1) indicates the folder location where
 #' the contents of the tarball are *located* (usually the same as `exdir`)
 #'
-#' @return
-#'     downloadStudy: The file location of the data tarball
-#'     untarStudy: The directory location of the contents
-#'     loadStudy: A \linkS4class{MultiAssayExperiment} object
+#' @return \itemize{
+#'   \item {downloadStudy - The file location of the data tarball}
+#'   \item {untarStudy - The directory location of the contents}
+#'   \item {loadStudy - A MultiAssayExperiment-class object}
+#' }
 #'
 #' @md
 #'
-#' @seealso \link{cBioDataPack}
+#' @seealso \link{cBioDataPack}, \linkS4class{MultiAssayExperiment}
 #'
 #' @examples
 #'

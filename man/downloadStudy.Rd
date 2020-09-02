@@ -46,9 +46,10 @@ the contents of the tarball are \emph{located} (usually the same as \code{exdir}
 that is used to label ranges from a mutations or copy number file.}
 }
 \value{
-\preformatted{downloadStudy: The file location of the data tarball
-untarStudy: The directory location of the contents
-loadStudy: A \linkS4class{MultiAssayExperiment} object
+\itemize{
+\item {downloadStudy - The file location of the data tarball}
+\item {untarStudy - The directory location of the contents}
+\item {loadStudy - A MultiAssayExperiment-class object}
 }
 }
 \description{
@@ -75,5 +76,5 @@ loadStudy(file_dir)
 
 }
 \seealso{
-\link{cBioDataPack}
+\link{cBioDataPack}, \linkS4class{MultiAssayExperiment}
 }
