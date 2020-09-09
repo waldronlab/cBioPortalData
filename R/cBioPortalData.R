@@ -149,8 +149,10 @@ match.args <- function(fun, call, ...) {
 }
 
 eval.args <- function(args) {
-    toeval <- !names(args) %in% c("api", "idConvert")
+    toeval <- !names(args) %in% c("api", "idConvert", "studyId")
     evalargs <- lapply(args[toeval], eval)
+    stud <- dynGet("studyId")
+    args["studyId"] <- stud
     args[toeval] <- evalargs
     args
 }
