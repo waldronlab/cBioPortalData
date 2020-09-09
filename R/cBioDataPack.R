@@ -168,14 +168,15 @@ cbioportal2clinicaldf <- function(file) {
 #' @param filepath character(1) indicates the folder location where
 #' the contents of the tarball are *located* (usually the same as `exdir`)
 #'
-#' @return
-#'     downloadStudy: The file location of the data tarball
-#'     untarStudy: The directory location of the contents
-#'     loadStudy: A \linkS4class{MultiAssayExperiment} object
+#' @return \itemize{
+#'   \item {downloadStudy - The file location of the data tarball}
+#'   \item {untarStudy - The directory location of the contents}
+#'   \item {loadStudy - A MultiAssayExperiment-class object}
+#' }
 #'
 #' @md
 #'
-#' @seealso \link{cBioDataPack}
+#' @seealso \link{cBioDataPack}, \linkS4class{MultiAssayExperiment}
 #'
 #' @examples
 #'
@@ -268,9 +269,9 @@ loadStudy <-
     exptlist <- lapply(expseq, function(i, files, xpnames) {
         fname <- files[[i]]
         message(paste0("Working on: ", fname))
-        dat <- as.data.frame(
-            readr::read_tsv(fname, comment = "#"),
-            check.names = FALSE)
+        dat <- read.delim(
+            fname, sep = "\t", comment.char = "#", stringsAsFactors = FALSE
+        )
         dat <- .cleanHugo(dat)
         dat <- .cleanStrands(dat)
         dat <- .standardizeBuilds(dat)
@@ -302,7 +303,11 @@ loadStudy <-
 
     if (length(clinicalfiles) > 1) {
         clinwithcols <- which(vapply(clinicalfiles, function(file)
-            .hasMappers(readr::read_tsv(file, comment = "#", n_max = 5)),
+            .hasMappers(
+                readr::read_tsv(
+                    file, comment = "#", n_max = 5, progress = FALSE
+                )
+            ),
             logical(1L)))
         if (length(clinwithcols) > 1) {
             clindatfile <- grep("sample|supp", names(clinwithcols),
@@ -310,7 +315,9 @@ loadStudy <-
             if (length(clindatfile) > 1)
                 clindatfile <- clindatfile[
                     which.max(vapply(clindatfile, function(file)
-                    ncol(readr::read_tsv(file, n_max = 5L, comment = "#")),
+                    ncol(readr::read_tsv(
+                        file, n_max = 5L, comment = "#", progress = FALSE
+                    )),
                     integer(1L)))]
         } else
             clindatfile <- names(clinwithcols)

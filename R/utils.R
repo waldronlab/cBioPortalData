@@ -14,7 +14,9 @@ utils::globalVariables("element")
                 build = build)
         else
             object <- RTCGAToolbox:::.makeRaggedExperimentFromDataFrame(
-                object, build = build, names.field = names.field)
+                object, build = build, names.field = names.field,
+                split.field = split.field
+            )
     } else
         object <- RTCGAToolbox:::.makeSummarizedExperimentFromDataFrame(object,
             names.field = names.field)
