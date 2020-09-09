@@ -103,7 +103,7 @@ utils::globalVariables("element")
         hugos <- x[, hugoname, drop = TRUE]
         hugos <- vapply(strsplit(hugos, "|", TRUE), `[`, character(1L), 1L)
         x[, hugoname] <- hugos
-        x <- readr::type_convert(x)
+        x <- suppressMessages(readr::type_convert(x))
     }
     return(x)
 }
@@ -188,10 +188,16 @@ utils::globalVariables("element")
     })
 }
 
+.whichMappers <- function(coldat) {
+    c(
+        RTCGAToolbox:::.findCol(coldat, "PATIENT_ID"),
+        RTCGAToolbox:::.findCol(coldat, "SAMPLE_ID")
+    )
+}
+
 .hasMappers <- function(coldat) {
-    pt <- RTCGAToolbox:::.findCol(coldat, "PATIENT_ID")
-    samp <- RTCGAToolbox:::.findCol(coldat, "SAMPLE_ID")
-    length(pt) && length(samp)
+    mapps <- .whichMappers(coldat)
+    length(mapps) == 2L
 }
 
 .getAnswer <- function(msg, allowed)
