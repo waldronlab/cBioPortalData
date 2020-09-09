@@ -40,6 +40,8 @@ if (identical(system("hostname"), "supermicro") &&
     for (pack_stud in studies) {
         message("Working on: ", pack_stud)
         ## avoid segfault
+        if (identical(pack_stud, "ccrcc_utokyo_2013"))
+            comp_pack[[pack_stud]] <- FALSE
         else
             comp_pack[[pack_stud]] <- is(
                 tryCatch({
