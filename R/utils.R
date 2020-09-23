@@ -1,6 +1,6 @@
 utils::globalVariables("element")
 
-.biocExtract <- function(object, names.field) {
+.biocExtract <- function(object, names.field, colnames) {
     hasRanged <- RTCGAToolbox:::.hasRangeNames(object)
     build <- RTCGAToolbox:::.getBuild(object)
     if (hasRanged) {
@@ -17,9 +17,10 @@ utils::globalVariables("element")
                 object, build = build, names.field = names.field,
                 split.field = split.field
             )
-    } else
+    } else {
         object <- RTCGAToolbox:::.makeSummarizedExperimentFromDataFrame(object,
-            names.field = names.field)
+            names.field = names.field, colnames = colnames)
+    }
     return(object)
 }
 

@@ -321,11 +321,14 @@ loadStudy <-
     expseq <- seq_along(exptfiles)
     names(expseq) <- expnames
 
+    coldata <- cbioportal2clinicaldf(clinicalfiles)
+
     exptlist <- lapply(expseq, function(i, files, xpnames) {
         fname <- files[[i]]
         message(paste0("Working on: ", fname))
         dat <- read.delim(
-            fname, sep = "\t", comment.char = "#", stringsAsFactors = FALSE
+            fname, sep = "\t", comment.char = "#", stringsAsFactors = FALSE,
+            check.names = FALSE
         )
         dat <- .cleanHugo(dat)
         dat <- .cleanStrands(dat)
@@ -336,13 +339,13 @@ loadStudy <-
         names.field <- .findMinDupField(dat, names.field)
 
         dat <- as(dat, "DataFrame")
-        if (!RTCGAToolbox:::.hasExperimentData(dat))
+        if (!RTCGAToolbox:::.hasExperimentData(dat, coldata[["PATIENT_ID"]]))
             return(dat)
         cexp <- xpnames[[i]]
         if (grepl("meth", cexp)) {
             .getMixedData(dat, names.field)
         } else {
-            .biocExtract(dat, names.field)
+            .biocExtract(dat, names.field, coldata[["PATIENT_ID"]])
         }
     }, files = exptfiles, xpnames = expnames)
 
@@ -355,9 +358,6 @@ loadStudy <-
 
     metadats <- Filter(.checkNonExpData, exptlist)
     exptlist <- Filter(function(expt) {!.checkNonExpData(expt)}, exptlist)
-
-    coldata <- cbioportal2clinicaldf(clinicalfiles)
-
     mdat <- cbioportal2metadata(mdatafile, licensefile)
 
     if (length(fusionExtra))
