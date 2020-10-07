@@ -12,7 +12,7 @@ test_that("cBioPortal API is working with most studies", {
         complete[[api_stud]] <- is(
             tryCatch({
                 cBioPortalData(
-                    cbioportal, studyId = api_stud, genePanelId = "IMPACT341"
+                    cbio, studyId = api_stud, genePanelId = "IMPACT341"
                 )
             }, error = function(e) conditionMessage(e)),
             "MultiAssayExperiment"
