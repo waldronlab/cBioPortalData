@@ -1,6 +1,6 @@
 Package: cBioPortalData
 Title: Exposes and makes available data from the cBioPortal web resources
-Version: 2.1.41
+Version: 2.1.42
 Authors@R: c(person("Levi", "Waldron", email = "lwaldron.research@gmail.com",
     role = "aut"),
     person("Marcel", "Ramos", email = "marcel.ramos@roswellpark.org",
@@ -22,7 +22,7 @@ Imports:
     methods,
     readr,
     RaggedExperiment,
-    RTCGAToolbox (>= 2.19.4),
+    RTCGAToolbox (>= 2.19.7),
     S4Vectors,
     SummarizedExperiment,
     stats,
