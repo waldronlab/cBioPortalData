@@ -160,7 +160,8 @@ update.args <- function(args) {
         ]
     }
 
-    args[["molecularProfileIds"]] <- setNames(nm = molecularProfileIds)
+    args[["molecularProfileIds"]] <-
+        setNames(nm = args[["molecularProfileIds"]])
 
     sampleListId <- args[["sampleListId"]]
     args[["sampleIds"]] <-
