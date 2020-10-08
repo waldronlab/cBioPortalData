@@ -1,23 +1,10 @@
-.portalExperiments <-
-    function(api, by, genePanelId, studyId, molecularProfileIds, sampleListId)
-{
-    if (is.null(molecularProfileIds)) {
-        molProfs <- molecularProfiles(api, studyId)
-        ## data type not working yet
-        ## https://github.com/cBioPortal/cbioportal/issues/7816
-        molecularProfileIds <- molProfs[
-            molProfs[["molecularAlterationType"]] != "STRUCTURAL_VARIANT",
-            "molecularProfileId",
-            drop = TRUE
-        ]
-    }
-
-    molecularProfileIds <- stats::setNames(molecularProfileIds,
-        molecularProfileIds)
-
+.portalExperiments <- function(
+    api, by, genePanelId, studyId, molecularProfileIds, sampleListId, sampleIds
+) {
     expers <- getDataByGenePanel(api,
         genePanelId = genePanelId, studyId = studyId,
-        molecularProfileIds = molecularProfileIds, sampleListId = sampleListId)
+        molecularProfileIds = molecularProfileIds, sampleListId = sampleListId,
+        sampleIds = sampleIds)
 
     sampmap <- lapply(expers, function(x) {
         if (length(x)) {
@@ -31,12 +18,12 @@
     })
     sampleMap <- dplyr::bind_rows(sampmap)
 
-    experlist <- lapply(stats::setNames(names(expers), names(expers)),
+    experlist <- lapply(setNames(nm = names(expers)),
         function(molprof) {
             byGene <- expers[[molprof]]
             isMut <- grepl("mutation", molprof, ignore.case = TRUE)
             if (isMut)
-                colsOI <- c(by,"chr", "startPosition", "endPosition",
+                colsOI <- c(by, "chr", "startPosition", "endPosition",
                     "ncbiBuild", "sampleId", "mutationType")
             else
                 colsOI <- c(by, "sampleId", "value")
@@ -155,6 +142,35 @@ eval.args <- function(args) {
     args
 }
 
+update.args <- function(args) {
+    molecularProfileIds <- args[["molecularProfileIds"]]
+    api <- eval(args[["api"]])
+    args[["api"]] <- api
+    studyId <- args[["studyId"]]
+    if (is.null(molecularProfileIds)) {
+        molProfs <- molecularProfiles(api, studyId)
+        ## data type not working yet
+        ## https://github.com/cBioPortal/cbioportal/issues/7816
+        args[["molecularProfileIds"]] <- molProfs[
+            molProfs[["molecularAlterationType"]] != "STRUCTURAL_VARIANT",
+            "molecularProfileId",
+            drop = TRUE
+        ]
+    }
+
+    args[["molecularProfileIds"]] <- setNames(nm = molecularProfileIds)
+
+    sampleListId <- args[["sampleListId"]]
+    args[["sampleIds"]] <-
+        if (!is.null(sampleListId)) {
+            samplesInSampleLists(api, sampleListId)[[1L]]
+        } else {
+            allSamples(api, studyId)[["sampleId"]]
+        }
+
+    args
+}
+
 #' Download data from the cBioPortal API
 #'
 #' Obtain a `MultiAssayExperiment` object for a particular gene panel,
@@ -226,6 +242,8 @@ cBioPortalData <-
     call <- std.args(match.call(), formals)
     exargs <- match.args(.portalExperiments, call)
     exargs <- eval.args(exargs)
+    exargs <- update.args(exargs)
+
     lists <- do.call(.portalExperiments, exargs)
 
     clinargs <- match.args(clinicalData, call)

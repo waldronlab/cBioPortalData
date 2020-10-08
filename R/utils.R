@@ -3,7 +3,7 @@ utils::globalVariables("element")
 .biocExtract <- function(object, names.field, colnames) {
     hasRanged <- RTCGAToolbox:::.hasRangeNames(object)
     if (hasRanged) {
-        .convertRangeBioc(object, names.field = names.field)
+        RTCGAToolbox:::.convertRangeBioc(object, names.field = names.field)
     } else {
         RTCGAToolbox:::.makeSummarizedExperimentFromDataFrame(
             object, names.field = names.field, colnames = colnames)
@@ -109,6 +109,9 @@ utils::globalVariables("element")
             newStrand[strandvec %in% 1L] <- "+"
             newStrand[strandvec %in% -1L] <- "-"
             x[, strandname] <- newStrand
+        }
+        if ("null" %in% strandvec) {
+            x[strandvec %in% "null", strandname] <- "*"
         }
     }
     return(x)

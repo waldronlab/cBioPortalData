@@ -1,7 +1,7 @@
 .get_cache <- function() {
     cache <- getOption("cBioCache", setCache(verbose = FALSE))
 
-    BiocFileCache::BiocFileCache(cache)
+    BiocFileCache(cache)
 }
 
 .cache_exists <- function(bfc, rname) {
@@ -11,7 +11,8 @@
 .checkSize <- function(cancer_study_id) {
 
     bfc <- .get_cache()
-    study_file <- bfcquery(bfc, cancer_study_id, "rname", exact = TRUE)$rpath
+    study_file <- bfcquery(
+        bfc, cancer_study_id, "rname", exact = TRUE)$rpath
 
     URL <- paste0("http://download.cbioportal.org/", cancer_study_id, ".tar.gz")
 
@@ -45,7 +46,7 @@
 #'     tools::R_user_dir("cBioPortalData", "cache")
 #' }
 #'
-#' @section removeCache:
+#' @section removePackCache:
 #' Some files may become corrupt when downloading, this function allows
 #' the user to delete the tarball associated with a `cancer_study_id` in the
 #' cache. This only works for the `cBioDataPack` function. To remove the entire
@@ -62,13 +63,17 @@
 #' @param cancer_study_id A single string from `studiesTable` associated
 #' with a study tarball
 #'
+#' @param dry.run logical Whether or not to remove cache files (default TRUE).
+#'
 #' @param ... For `cBioCache`, arguments passed to `setCache`
 #'
 #' @md
 #'
 #' @examples
 #'
-#' (cacheloc <- cBioCache())
+#' cBioCache()
+#'
+#' removePackCache("acc_tcga", dry.run = TRUE)
 #'
 #' @return cBioCache: The path to the cache location
 #' @export
@@ -108,21 +113,95 @@ setCache <-
 
 #' @rdname cBioCache
 #' @export
-removeCache <- function(cancer_study_id) {
+removePackCache <- function(cancer_study_id, dry.run = TRUE) {
     bfc <- .get_cache()
     rid <- bfcquery(bfc, cancer_study_id, "rname", exact = TRUE)$rid
-    if (length(rid)) {
+    if (!length(rid)) {
+        message("No record found: ", cancer_study_id, ".tar.gz")
+    } else if (dry.run) {
+            bfcinfo(bfc, rid)
+    } else {
         bfcremove(bfc, rid)
         message("Cache record: ", cancer_study_id, ".tar.gz removed")
-    } else
-        message("No record found: ", cancer_study_id, ".tar.gz")
+    }
 }
 
 .getHashCache <- function(hashtag) {
     bfc <- .get_cache()
     rid <- bfcquery(bfc, hashtag, "rname", exact = TRUE)$rid
     if (!length(rid))
-        BiocFileCache::bfcnew(bfc, hashtag, ext = ".rda")
+        bfcnew(bfc, hashtag, ext = ".rda")
     else
-        BiocFileCache::bfcquery(bfc, hashtag, "rname", exact = TRUE)$rpath
+        bfcquery(bfc, hashtag, "rname", exact = TRUE)$rpath
+}
+
+.molDataCache <-
+    function(api, studyId = NA_character_, genePanelId = NA_character_,
+    molecularProfileIds = NULL, sampleListId = NULL, sampleIds = NULL)
+{
+    panel <- getGenePanel(api, genePanelId = genePanelId)
+    digi <- digest::digest(
+        list("getDataByGenePanel", api, studyId, panel,
+            sampleIds, molecularProfileIds)
+    )
+    .getHashCache(digi)
+}
+
+.clinDataCache <- function(api, studyId = NA_character_) {
+    if (missing(api))
+        stop("Provide a valid 'api' from 'cBioPortal()'")
+
+    studyId <- force(studyId)
+    digi <- digest::digest(list("clinicalData", api, studyId))
+    .getHashCache(digi)
+}
+
+#' @rdname cBioCache
+#'
+#' @inheritParams cBioPortalData
+#'
+#' @inheritParams cBioPortal
+#'
+#' @examples
+#'
+#' cbio <- cBioPortal()
+#'
+#' cBioPortalData(
+#'     cbio, by = "hugoGeneSymbol",
+#'     studyId = "acc_tcga",
+#'     genePanelId = "AmpliSeq",
+#'     molecularProfileIds =
+#'         c("acc_tcga_rppa", "acc_tcga_linear_CNA", "acc_tcga_mutations")
+#' )
+#'
+#' removeDataCache(
+#'     cbio,
+#'     studyId = "acc_tcga",
+#'     genePanelId = "AmpliSeq",
+#'     molecularProfileIds =
+#'         c("acc_tcga_rppa", "acc_tcga_linear_CNA", "acc_tcga_mutations"),
+#'     dry.run = TRUE
+#' )
+#'
+#' @export
+removeDataCache <- function(api, studyId = NA_character_,
+    genePanelId = NA_character_, molecularProfileIds = NULL,
+    sampleListId = NULL, sampleIds = NULL, dry.run = TRUE, ...)
+{
+    if (missing(api))
+        stop("Provide a valid 'api' from 'cBioPortal()'")
+
+    formals <- formals()
+    call <- std.args(match.call(), formals)
+    exargs <- match.args(.portalExperiments, call)
+    exargs <- eval.args(exargs)
+    exargs <- update.args(exargs)
+
+    cachelocs <- c(experiment_cache = do.call(.molDataCache, exargs),
+    clinical_cache = .clinDataCache(exargs[["api"]], exargs[["studyId"]]))
+
+    if (!dry.run)
+        vapply(cachelocs, file.remove, logical(1L))
+
+    cachelocs
 }

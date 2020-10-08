@@ -3,7 +3,8 @@
 \name{cBioCache}
 \alias{cBioCache}
 \alias{setCache}
-\alias{removeCache}
+\alias{removePackCache}
+\alias{removeDataCache}
 \title{Manage cache / download directories for study data}
 \usage{
 cBioCache(...)
@@ -14,7 +15,18 @@ setCache(
   ask = interactive()
 )
 
-removeCache(cancer_study_id)
+removePackCache(cancer_study_id, dry.run = TRUE)
+
+removeDataCache(
+  api,
+  studyId = NA_character_,
+  genePanelId = NA_character_,
+  molecularProfileIds = NULL,
+  sampleListId = NULL,
+  sampleIds = NULL,
+  dry.run = TRUE,
+  ...
+)
 }
 \arguments{
 \item{...}{For \code{cBioCache}, arguments passed to \code{setCache}}
@@ -29,6 +41,24 @@ location of the cache directory}
 
 \item{cancer_study_id}{A single string from \code{studiesTable} associated
 with a study tarball}
+
+\item{dry.run}{logical Whether or not to remove cache files (default TRUE).}
+
+\item{api}{An API object of class `cBioPortal` from the `cBioPortal`
+function}
+
+\item{studyId}{character(1) Indicates the "studyId" as taken from
+`getStudies`}
+
+\item{genePanelId}{character(1) Identifies the gene panel, as obtained
+from the `genePanels` function}
+
+\item{molecularProfileIds}{character() A vector of molecular profile IDs}
+
+\item{sampleListId}{character(1) A sample list identifier as obtained from
+`sampleLists()``}
+
+\item{sampleIds}{character() Sample identifiers}
 }
 \value{
 cBioCache: The path to the cache location
@@ -54,7 +84,7 @@ go to the user directory as given by:
 }
 }
 
-\section{removeCache}{
+\section{removePackCache}{
 
 Some files may become corrupt when downloading, this function allows
 the user to delete the tarball associated with a \code{cancer_study_id} in the
@@ -64,6 +94,28 @@ cache. This only works for the \code{cBioDataPack} function. To remove the entir
 
 \examples{
 
-(cacheloc <- cBioCache())
+cBioCache()
+
+removePackCache("acc_tcga", dry.run = TRUE)
+
+
+cbio <- cBioPortal()
+
+cBioPortalData(
+    cbio, by = "hugoGeneSymbol",
+    studyId = "acc_tcga",
+    genePanelId = "AmpliSeq",
+    molecularProfileIds =
+        c("acc_tcga_rppa", "acc_tcga_linear_CNA", "acc_tcga_mutations")
+)
+
+removeDataCache(
+    cbio,
+    studyId = "acc_tcga",
+    genePanelId = "AmpliSeq",
+    molecularProfileIds =
+        c("acc_tcga_rppa", "acc_tcga_linear_CNA", "acc_tcga_mutations"),
+    dry.run = TRUE
+)
 
 }

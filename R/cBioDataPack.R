@@ -78,7 +78,7 @@ cbioportal2metadata <- function(meta_file, lic_file) {
 
 cbioportal2clinicaldf <- function(files) {
     if (length(files) > 1) {
-        mappers <- lapply(setNames(nm = files), function(file) 
+        mappers <- lapply(setNames(nm = files), function(file)
             .whichMappers(.silentRead(file, mxlines = 5L))
         )
         hasMappers <- lengths(mappers) == 2L
@@ -86,7 +86,7 @@ cbioportal2clinicaldf <- function(files) {
             combdata <- mappers[hasMappers]
             clindata <- .readSeparateMerge(combdata)
         }
-        ## try merge single mapper data to bigger merged 
+        ## try merge single mapper data to bigger merged
         singleCols <- lengths(mappers) == 1L
         if (all(singleCols)) {
             clindata <- .readSeparateMerge(mappers[singleCols])
@@ -102,7 +102,7 @@ cbioportal2clinicaldf <- function(files) {
     clinmeta <- .getClinMeta(files)
     clindata <- as(clindata, "DataFrame")
     metadata(clindata) <- clinmeta
-    
+
     clindata <- .subBCLetters(clindata)
     rownames(clindata) <- clindata[["PATIENT_ID"]]
     clindata
@@ -281,12 +281,12 @@ untarStudy <- function(cancer_study_file, exdir = tempdir()) {
     filekeepind <- grep("^\\._", basename(filelist), invert = TRUE)
     filelist <- filelist[filekeepind]
     datafiles <- getRelevantFilesFromStudy(filelist)
-    
-    folder <- basename(cancer_study_file)  
+
+    folder <- basename(cancer_study_file)
     exdir <- file.path(exdir, gsub(".tar.gz", "", folder))
     if (!dir.exists(exdir))
         dir.create(exdir)
-    
+
     untar(cancer_study_file, files = datafiles, exdir = exdir, extras = exarg)
     exdir
 }
@@ -326,7 +326,7 @@ loadStudy <-
     exptlist <- lapply(expseq, function(i, files, xpnames) {
         fname <- files[[i]]
         message(paste0("Working on: ", fname))
-        dat <- read.delim(
+        dat <- utils::read.delim(
             fname, sep = "\t", comment.char = "#", stringsAsFactors = FALSE,
             check.names = FALSE
         )

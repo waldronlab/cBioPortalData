@@ -17,6 +17,9 @@ test_that("cBioPortal API is working with most studies", {
             }, error = function(e) conditionMessage(e)),
             "MultiAssayExperiment"
         )
+        removeDataCache(
+            cbio, studyId = api_stud, genePanelId = "IMPACT341", dry.run = FALSE
+        )
     }
 
     successrate <- (100 * sum(complete)) / length(complete)
