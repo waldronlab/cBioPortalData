@@ -12,6 +12,7 @@ test_that("cBioDataPack works on at least 70% of studies", {
         complete[[stud]] <- tryCatch({
             cBioDataPack(cancer_study_id = stud)
         }, error = function(e) conditionMessage(e))
+        removePackCache(cancer_study_id = stud, dry.run = FALSE)
     }
 
     isMAE <- vapply(

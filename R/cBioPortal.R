@@ -400,7 +400,7 @@ samplesInSampleLists <-
     if (missing(api))
         stop("Provide a valid 'api' from 'cBioPortal()'")
     sampleListIds <- sort(sampleListIds)
-    sampleListIds <- stats::setNames(sampleListIds, sampleListIds)
+    sampleListIds <- setNames(sampleListIds, sampleListIds)
 
     meta <- structure(vector("list", length(sampleListIds)),
         .Names = sampleListIds)
@@ -571,23 +571,25 @@ getSampleInfo <-
 #' @examples
 #'
 #' getDataByGenePanel(cbio, studyId = "acc_tcga", genePanelId = "IMPACT341",
-#'    molecularProfileId = "acc_tcga_rppa")
+#'    molecularProfileId = "acc_tcga_rppa", sampleListId = "acc_tcga_rppa")
 #'
 #' @export
 getDataByGenePanel <-
     function(api, studyId = NA_character_, genePanelId = NA_character_,
-        molecularProfileIds = NULL, sampleListId = NULL)
+        molecularProfileIds = NULL, sampleListId = NULL, sampleIds = NULL)
 {
     if (missing(api))
         stop("Provide a valid 'api' from 'cBioPortal()'")
     if (!is.null(sampleListId))
-        samples <- samplesInSampleLists(api, sampleListId)[[1L]]
-    else
-        samples <- allSamples(api, studyId)[["sampleId"]]
+        sampleIds <- samplesInSampleLists(api, sampleListId)[[1L]]
+
+    if (is.null(sampleIds))
+        stop("Provide either a 'sampleListId' or 'sampleIds'")
 
     panel <- getGenePanel(api, genePanelId = genePanelId)
     digi <- digest::digest(
-        list("getDataByGenePanel", api, studyId, panel, samples)
+        list("getDataByGenePanel", api, studyId, panel,
+            sampleIds, molecularProfileIds)
     )
     cacheloc <- .getHashCache(digi)
     if (file.exists(cacheloc)) {
@@ -596,7 +598,7 @@ getDataByGenePanel <-
         molData <- molecularData(api = api,
             molecularProfileIds = molecularProfileIds,
             entrezGeneIds = panel[["entrezGeneId"]],
-            sampleIds = samples
+            sampleIds = sampleIds
         )
         molData <- lapply(molData, function(x) suppressMessages({
             dplyr::left_join(x, panel)

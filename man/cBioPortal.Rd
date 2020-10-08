@@ -85,7 +85,8 @@ getDataByGenePanel(
   studyId = NA_character_,
   genePanelId = NA_character_,
   molecularProfileIds = NULL,
-  sampleListId = NULL
+  sampleListId = NULL,
+  sampleIds = NULL
 )
 }
 \arguments{
@@ -261,6 +262,6 @@ getGenePanel(api = cbio, genePanelId = "IMPACT341")
 
 
 getDataByGenePanel(cbio, studyId = "acc_tcga", genePanelId = "IMPACT341",
-   molecularProfileId = "acc_tcga_rppa")
+   molecularProfileId = "acc_tcga_rppa", sampleListId = "acc_tcga_rppa")
 
 }

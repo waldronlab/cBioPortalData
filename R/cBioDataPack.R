@@ -36,21 +36,76 @@ cbioportal2metadata <- function(meta_file, lic_file) {
     df
 }
 
-cbioportal2clinicaldf <- function(file) {
-    clin <- readr::read_tsv(file, comment = "#")
-    clinmeta <- readr::read_tsv(file, col_names = FALSE, n_max = 2)
+.silentRead <- function(file, comm = "#", mxlines = Inf, ...) {
+    suppressMessages({
+        readr::read_tsv(
+            file, comment = comm, n_max = mxlines, progress = FALSE, ...
+        )
+    })
+}
+
+.processMeta <- function(clinmeta) {
+    cnames <- unlist(unname(clinmeta[5L, ]))
+    clinmeta <- clinmeta[-c(3L:5L), ]
     clinmeta <- t(clinmeta)
     clinmeta <- sub("^\\#", "", clinmeta)
     colnames(clinmeta) <- c("column", "definition")
-    clinmeta <- lapply(seq_along(colnames(clin)), function(i) {
+    res <- lapply(setNames(seq_along(cnames), cnames), function(i) {
         clinmeta[i, ]
     })
-    names(clinmeta) <- colnames(clin)
-    clin <- DataFrame(clin)
-    metadata(clin) <- clinmeta
-    clin <- .subBCLetters(clin)
-    rownames(clin) <- clin[["PATIENT_ID"]]
-    clin
+    as(res, "DataFrame")
+}
+
+.getClinMeta <- function(clinfiles) {
+    allmeta <- lapply(setNames(nm = clinfiles), function(x) {
+        .silentRead(x, comm = "", mxlines = 5L, col_names = FALSE)
+    })
+    lapply(allmeta, .processMeta)
+}
+
+.readAll <- function(namedlist) {
+    lapply(setNames(nm = names(namedlist)), function(x)
+        .silentRead(x)
+    )
+}
+
+.readSeparateMerge <- function(datalist) {
+    alldata <- .readAll(datalist)
+    Reduce(function(x, y) {
+        merge(x, y, all = TRUE)
+    }, alldata)
+}
+
+cbioportal2clinicaldf <- function(files) {
+    if (length(files) > 1) {
+        mappers <- lapply(setNames(nm = files), function(file)
+            .whichMappers(.silentRead(file, mxlines = 5L))
+        )
+        hasMappers <- lengths(mappers) == 2L
+        if (any(hasMappers)) {
+            combdata <- mappers[hasMappers]
+            clindata <- .readSeparateMerge(combdata)
+        }
+        ## try merge single mapper data to bigger merged
+        singleCols <- lengths(mappers) == 1L
+        if (all(singleCols)) {
+            clindata <- .readSeparateMerge(mappers[singleCols])
+        } else if (any(singleCols)) {
+            singles <- .readAll(mappers[singleCols])
+            clindata <- Reduce(function(x, y) {
+                merge(x, y, all = TRUE)
+            }, c(list(clindata), singles))
+        }
+    } else {
+        clindata <- .silentRead(file, mxlines = 5L)
+    }
+    clinmeta <- .getClinMeta(files)
+    clindata <- as(clindata, "DataFrame")
+    metadata(clindata) <- clinmeta
+
+    clindata <- .subBCLetters(clindata)
+    rownames(clindata) <- clindata[["PATIENT_ID"]]
+    clindata
 }
 
 .validStudyID <- function(cancer_study_id) {
@@ -226,12 +281,12 @@ untarStudy <- function(cancer_study_file, exdir = tempdir()) {
     filekeepind <- grep("^\\._", basename(filelist), invert = TRUE)
     filelist <- filelist[filekeepind]
     datafiles <- getRelevantFilesFromStudy(filelist)
-    
-    folder <- basename(cancer_study_file)  
+
+    folder <- basename(cancer_study_file)
     exdir <- file.path(exdir, gsub(".tar.gz", "", folder))
     if (!dir.exists(exdir))
         dir.create(exdir)
-    
+
     untar(cancer_study_file, files = datafiles, exdir = exdir, extras = exarg)
     exdir
 }
@@ -266,11 +321,14 @@ loadStudy <-
     expseq <- seq_along(exptfiles)
     names(expseq) <- expnames
 
+    coldata <- cbioportal2clinicaldf(clinicalfiles)
+
     exptlist <- lapply(expseq, function(i, files, xpnames) {
         fname <- files[[i]]
         message(paste0("Working on: ", fname))
-        dat <- read.delim(
-            fname, sep = "\t", comment.char = "#", stringsAsFactors = FALSE
+        dat <- utils::read.delim(
+            fname, sep = "\t", comment.char = "#", stringsAsFactors = FALSE,
+            check.names = FALSE
         )
         dat <- .cleanHugo(dat)
         dat <- .cleanStrands(dat)
@@ -281,13 +339,13 @@ loadStudy <-
         names.field <- .findMinDupField(dat, names.field)
 
         dat <- as(dat, "DataFrame")
-        if (!RTCGAToolbox:::.hasExperimentData(dat))
+        if (!RTCGAToolbox:::.hasExperimentData(dat, coldata[["PATIENT_ID"]]))
             return(dat)
         cexp <- xpnames[[i]]
         if (grepl("meth", cexp)) {
             .getMixedData(dat, names.field)
         } else {
-            .biocExtract(dat, names.field)
+            .biocExtract(dat, names.field, coldata[["PATIENT_ID"]])
         }
     }, files = exptfiles, xpnames = expnames)
 
@@ -300,42 +358,16 @@ loadStudy <-
 
     metadats <- Filter(.checkNonExpData, exptlist)
     exptlist <- Filter(function(expt) {!.checkNonExpData(expt)}, exptlist)
-
-    if (length(clinicalfiles) > 1) {
-        clinwithcols <- which(vapply(clinicalfiles, function(file)
-            .hasMappers(
-                readr::read_tsv(
-                    file, comment = "#", n_max = 5, progress = FALSE
-                )
-            ),
-            logical(1L)))
-        if (length(clinwithcols) > 1) {
-            clindatfile <- grep("sample|supp", names(clinwithcols),
-                invert = TRUE, value = TRUE)
-            if (length(clindatfile) > 1)
-                clindatfile <- clindatfile[
-                    which.max(vapply(clindatfile, function(file)
-                    ncol(readr::read_tsv(
-                        file, n_max = 5L, comment = "#", progress = FALSE
-                    )),
-                    integer(1L)))]
-        } else
-            clindatfile <- names(clinwithcols)
-    } else {
-        clindatfile <- clinicalfiles
-    }
-
-    coldata <- cbioportal2clinicaldf(clindatfile)
     mdat <- cbioportal2metadata(mdatafile, licensefile)
 
     if (length(fusionExtra))
-        fudat <- readr::read_tsv(fusionExtra, comment = "#")
+        fudat <- .silentRead(fusionExtra)
     else
         fudat <- list()
 
     if (length(gisticExtra))
         gist <- lapply(gisticExtra, function(x) {
-            gfile <- readr::read_tsv(x, comment = "#")
+            gfile <- .silentRead(x)
             .getGisticData(gfile)
         })
     else

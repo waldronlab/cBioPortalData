@@ -5,6 +5,9 @@
 * Allow more flexibility in the hostname when accessing the API with
 `cBioPortal` (@inodb, #16)
 * `cBioDataPack` downloads from a more robust repository (AWS S3; @inodb, #22)
+* `removePackCache` and `removeDataCache` now remove data from the user's
+cache based on inputs to respective functions (`cBioDataPack` and
+`cBioPortalData`)
 
 ## Bug fixes and minor improvements
 

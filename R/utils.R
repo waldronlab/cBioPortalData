@@ -1,43 +1,39 @@
 utils::globalVariables("element")
 
-.biocExtract <- function(object, names.field) {
+.biocExtract <- function(object, names.field, colnames) {
     hasRanged <- RTCGAToolbox:::.hasRangeNames(object)
-    build <- RTCGAToolbox:::.getBuild(object)
     if (hasRanged) {
-        if (RTCGAToolbox:::.hasConsistentRanges(object))
-            object <-
-                RTCGAToolbox:::.makeRangedSummarizedExperimentFromDataFrame(
-                    object, build = build, names.field = names.field)
-        split.field <- RTCGAToolbox:::.findSampleCol(object)
-        if (is.na(split.field) || !length(split.field))
-            object <- RTCGAToolbox:::.makeGRangesFromDataFrame(object,
-                build = build)
-        else
-            object <- RTCGAToolbox:::.makeRaggedExperimentFromDataFrame(
-                object, build = build, names.field = names.field,
-                split.field = split.field
-            )
-    } else
-        object <- RTCGAToolbox:::.makeSummarizedExperimentFromDataFrame(object,
-            names.field = names.field)
-    return(object)
+        RTCGAToolbox:::.convertRangeBioc(object, names.field = names.field)
+    } else {
+        RTCGAToolbox:::.makeSummarizedExperimentFromDataFrame(
+            object, names.field = names.field, colnames = colnames)
+    }
+}
+
+.setBuild <- function(x, annotation) {
+    build <- RTCGAToolbox:::.hasInfo(annotation, "ncbibuild")
+    if (build) {
+        buildno <- unique(RTCGAToolbox:::.getBuild(annotation, "ncbibuild"))
+        isbuild <- TCGAutils::correctBuild(buildno, "NCBI")
+        GenomeInfoDb::genome(x) <- isbuild
+    }
+    x
 }
 
 .getMutationData <- function(x, row.field) {
-    build <- RTCGAToolbox:::.hasInfo(x, "ncbibuild")
-    if (build)
-        buildno <- RTCGAToolbox:::.getBuild(x)
-    rownames <- x[[row.field]]
     ridx <- na.omit(TCGAutils::findGRangesCols(names(x)))
     ranged <- x[, ridx]
+    rowranges <- RTCGAToolbox:::.makeGRangesFromDataFrame(ranged)
+    rowranges <- .setBuild(rowranges, x)
+
     others <- match(c("ncbibuild", "entrezgeneid", "hugogenesymbol"),
         tolower(names(x)))
     excl <- na.omit(c(ridx, others))
+
+    rownames <- x[[row.field]]
     x <- as.matrix(x[, -excl])
     rownames(x) <- rownames
-    rowranges <- RTCGAToolbox:::.makeGRangesFromDataFrame(ranged)
-    if (build)
-        genome(rowranges) <- buildno
+
     SummarizedExperiment::SummarizedExperiment(assays = x,
         rowRanges = rowranges)
 }
@@ -65,12 +61,7 @@ utils::globalVariables("element")
     hasRanged <- RTCGAToolbox:::.hasRangeNames(annote)
     if (hasRanged) {
         rowranges <- RTCGAToolbox:::.makeGRangesFromDataFrame(annote)
-        build <- RTCGAToolbox:::.hasInfo(annote, "ncbibuild")
-        if (build) {
-            isbuild <- RTCGAToolbox:::.getBuild(annote, "ncbibuild")
-
-            genome(rowranges) <- isbuild
-        }
+        rowranges <- .setBuild(rowranges, annote)
     }
 
     x <- data.matrix(x[, samplesAsCols])
@@ -103,7 +94,7 @@ utils::globalVariables("element")
         hugos <- x[, hugoname, drop = TRUE]
         hugos <- vapply(strsplit(hugos, "|", TRUE), `[`, character(1L), 1L)
         x[, hugoname] <- hugos
-        x <- readr::type_convert(x)
+        x <- suppressMessages(readr::type_convert(x))
     }
     return(x)
 }
@@ -118,6 +109,9 @@ utils::globalVariables("element")
             newStrand[strandvec %in% 1L] <- "+"
             newStrand[strandvec %in% -1L] <- "-"
             x[, strandname] <- newStrand
+        }
+        if ("null" %in% strandvec) {
+            x[strandvec %in% "null", strandname] <- "*"
         }
     }
     return(x)
@@ -188,10 +182,16 @@ utils::globalVariables("element")
     })
 }
 
+.whichMappers <- function(coldat) {
+    c(
+        RTCGAToolbox:::.findCol(coldat, "PATIENT_ID"),
+        RTCGAToolbox:::.findCol(coldat, "SAMPLE_ID")
+    )
+}
+
 .hasMappers <- function(coldat) {
-    pt <- RTCGAToolbox:::.findCol(coldat, "PATIENT_ID")
-    samp <- RTCGAToolbox:::.findCol(coldat, "SAMPLE_ID")
-    length(pt) && length(samp)
+    mapps <- .whichMappers(coldat)
+    length(mapps) == 2L
 }
 
 .getAnswer <- function(msg, allowed)
