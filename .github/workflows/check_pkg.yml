@@ -8,7 +8,7 @@ jobs:
     container: bioconductor/bioconductor_docker:devel
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
 
       - name: Query dependencies
         run: |
@@ -26,10 +26,14 @@ jobs:
 
       - name: Install Package Dependencies
         run: |
-          Rscript -e "options(repos = c(CRAN = 'https://cran.r-project.org')); BiocManager::install(c('rcmdcheck', 'covr', 'pkgdown', 'AnVIL'), ask = FALSE, update = TRUE)"
-          Rscript -e "remotes::install_local(repos = BiocManager::repositories(), dependencies = TRUE)"
+          options(repos = c(CRAN = 'https://cran.r-project.org'))
+          BiocManager::repositories()
+          remotes::install_deps(dependencies = TRUE, repos = BiocManager::repositories())
+          BiocManager::install("rcmdcheck", ask = FALSE, update = TRUE)
+        shell: Rscript {0}
 
       - name: Check Package
         env:
           _R_CHECK_CRAN_INCOMING_REMOTE_: false
-        run: Rscript -e "rcmdcheck::rcmdcheck(args = c('--no-manual'), error_on = 'error', check_dir = 'check')"
+        run: rcmdcheck::rcmdcheck(args = c("--no-manual"), error_on = "warning", check_dir = "check")
+        shell: Rscript {0}
