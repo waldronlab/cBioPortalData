@@ -2,6 +2,11 @@
 
 ## New features
 
+* `studiesTable` includes additional columns `pack_build` and `api_build` to
+indicate to the user which datasets have been successfully build as
+`MultiAssayExperiment` objects. Users will be notified when a dataset reported
+as not building is input to the `cBioDataPack` function.
+* Add `sampleIds` argument to `getDataByGenePanel` as part of cache re-work
 * Allow more flexibility in the hostname when accessing the API with
 `cBioPortal` (@inodb, #16)
 * `cBioDataPack` downloads from a more robust repository (AWS S3; @inodb, #22)
@@ -11,6 +16,12 @@ cache based on inputs to respective functions (`cBioDataPack` and
 
 ## Bug fixes and minor improvements
 
+* Attempt to merge additional clinical data files from tarballs in
+`cBioDataPack`.
+* Switch to using `read.delim` instead of `read_tsv` internally to avoid
+assigning `NA` to chromosome column
+* Use 'PATIENT_ID' when available to determine if experiment data is provided
+in the tarball files.
 * Add tests using `testthat`
 * Update and include percentages of studies successfully imported using
 `cBioDataPack` and `cBioPortalData` in the documentation
