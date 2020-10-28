@@ -337,6 +337,8 @@ molecularData <- function(api, molecularProfileIds = NA_character_,
 
     byGene <- split(byGene, byGene[["molecularProfileId"]])
     byGeneList[names(byGene)] <- byGene
+    ## remove empty responses (e.g., in ov_tcga_pub_mirna)
+    byGeneList <- Filter(length, byGeneList)
 
     for (gnames in names(byGeneList)) {
         byG <- byGeneList[[gnames]]

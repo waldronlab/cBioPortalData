@@ -33,7 +33,11 @@ for (api_stud in studies) {
     gc()
 }
 
-save(err_api, file = "inst/extdata/err_api.rda")
+err_api <- Filter(nchar, err_api)
+err_api_info <- lapply(setNames(nm = unique(err_api)),
+    function(x) names(err_api)[err_api == x])
+# table(err_api)
+save(err_api_info, file = "inst/extdata/err_api_info.rda")
 
 missingStudy <- studiesTable$cancer_study_id[
     !studiesTable$cancer_study_id %in% names(comp_api)

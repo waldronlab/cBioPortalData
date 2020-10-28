@@ -26,7 +26,7 @@ if (identical(system("hostname"), "supermicro") &&
         workers = 30, stop.on.error = FALSE, progressbar = TRUE
     )
 
-    res_pack <- bplapply(X = head(studies), FUN = function(x) {
+    res_pack <- bplapply(X = studies, FUN = function(x) {
         err <- character(1L)
         if (identical(x, "ccrcc_utokyo_2013")) {
             comp <- FALSE
@@ -66,13 +66,18 @@ if (identical(system("hostname"), "supermicro") &&
     }
 }
 
-save(err_pack, file = "inst/extdata/err_pack.rda")
+err_pack <- Filter(nchar, err_pack)
+err_info <- lapply(setNames(nm = unique(err_pack)),
+    function(x) names(err_pack)[err_pack == x])
+# table(err_pack)
+save(err_info, file = "inst/extdata/err_info.rda")
 
 denv <- new.env(parent = emptyenv())
 data("studiesTable", package = "cBioPortalData", envir = denv)
 previous <- denv[["studiesTable"]]
+prev <- previous[["pack_build"]]
 
-if (!identical(previous[["pack_build"]], comp_pack)) {
+if (!identical(prev, comp_pack)) {
     studiesTable[["pack_build"]] <- comp_pack
     usethis::use_data(studiesTable, overwrite = TRUE)
 }
