@@ -1,11 +1,11 @@
-# cBioPortalData 2.2.0
+# Changes in version 2.2.0
 
 ## New features
 
 * `studiesTable` includes additional columns `pack_build` and `api_build` to
-indicate to the user which datasets have been successfully build as
-`MultiAssayExperiment` objects. Users will be notified when a dataset reported
-as not building is input to the `cBioDataPack` function.
+indicate to the user which datasets have been successfully built as
+`MultiAssayExperiment` objects. Users will be notified when a dataset, reported
+as not building, is requested from the `cBioDataPack` function.
 * Add `sampleIds` argument to `getDataByGenePanel` as part of cache re-work
 * Allow more flexibility in the hostname when accessing the API with
 `cBioPortal` (@inodb, #16)
@@ -28,7 +28,7 @@ in the tarball files.
 * Fix read-in when identifiers are numeric instead of character (@jucor, #27)
 * Include pagination parameters in `geneTable` function (@xinwei-sher, #29)
 
-# cBioPortalData 2.0.0
+# Changes in version 2.0.0
 
 ## New features
 
@@ -43,7 +43,7 @@ profiles (TCGA only)
 
 * API authentication option removed and not needed
 
-# cBioPortalData 1.0.1
+# Changes in version 1.0.1
 
 ## New features
 
@@ -59,7 +59,7 @@ prioritize).
 object. Future revisions will include this data as `rowData`.
 * Change vignette titles for build
 
-# cBioPortalData 0.1.0
+# Changes in version 0.1.0
 
 ## New features
 
