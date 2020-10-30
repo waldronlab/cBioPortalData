@@ -11,4 +11,4 @@ cbiolines <- readLines("R/cBioPortal.R")
 grep("\"[0-9a-f]{32}\"", cbiolines, value = TRUE)
 updatedlines <- gsub("\"[0-9a-f]{32}\"", dQuote(md5), cbiolines)
 
-# writeLines(updatedlines, file = "R/cBioPortal.R")
+# writeLines(updatedlines, con = file("R/cBioPortal.R"))
