@@ -1,0 +1,30 @@
+citHeader("To cite cBioPortalData in publications use:")
+
+citEntry(
+    entry = "Article",
+    title =
+        "Multiomic Integration of Public Oncology Databases in Bioconductor",
+    author = personList(
+        as.person("Marcel Ramos"),
+        as.person("Ludwig Geistlinger"),
+        as.person("Sehyun Oh"),
+        as.person("Lucas Schiffer"),
+        as.person("Rimsha Azhar"),
+        as.person("Hanish Kodali"),
+        as.person("Ino de Bruijn"),
+        as.person("Jianjiong Gao"),
+        as.person("Vincent Carey"),
+        as.person("Martin Morgan"),
+        as.person("Levi Waldron")
+    ),
+    journal = "JCO Clin Cancer Inform",
+    year = "2020",
+    volume = "4:958-971",
+    textVersion = paste(
+        "Ramos M, Geistlinger L, Oh S, et al.",
+        "Multiomic Integration of Public Oncology Databases in Bioconductor.",
+        "JCO Clin Cancer Inform. 2020;4:958-971",
+        "DOI: 10.1200/cci.19.00119"
+    )
+)
+
