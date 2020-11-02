@@ -67,10 +67,10 @@ if (identical(system("hostname"), "supermicro") &&
 }
 
 err_pack <- Filter(nchar, err_pack)
-err_info <- lapply(setNames(nm = unique(err_pack)),
+err_info_pack <- lapply(setNames(nm = unique(err_pack)),
     function(x) names(err_pack)[err_pack == x])
 # table(err_pack)
-save(err_info, file = "inst/extdata/err_info.rda")
+save(err_info_pack, file = "inst/extdata/err_info_pack.rda")
 
 denv <- new.env(parent = emptyenv())
 data("studiesTable", package = "cBioPortalData", envir = denv)
