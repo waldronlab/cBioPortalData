@@ -43,13 +43,6 @@ formats.
 
 <a href="https://github.com/waldronlab/cheatsheets/blob/master/MultiAssayExperiment_QuickRef.pdf"><img src="https://raw.githubusercontent.com/waldronlab/cheatsheets/master/pngs/MultiAssayExperiment_QuickRef.png" width="989" height="1091"/></a>
 
-## Minor note
-
-It is a work in progress, and due to some variation in their formats, does not
-yet work for all 268 (as of Dec 2019) datasets. At the time of writing, it
-successfully imports 93% of 200 randomly sampled datasets. Please feel free to
-file an issue to request prioritization of fixing any of the remaining datasets.
-
 ## Quick Start
 
 ### Installation
@@ -62,6 +55,25 @@ if (!requireNamespace("cBioPortalData", quietly = TRUE))
     BiocManager::install("waldronlab/cBioPortalData")
 
 library(cBioPortalData)
+```
+
+## Note
+
+`cBioPortalData` is a work in progress due to changes in data curation and
+cBioPortal API specification. Users can view the `data(studiesTable)` dataset
+to get an overview of the studies that are available and currently building
+as `MultiAssayExperiment` representations. About 80% of the studies via the
+API (`api_build`) and 83% of the package studies (`pack_build`) are building,
+these include additional datasets that were not previously available. Feel free
+to file an issue to request prioritization of fixing any of the remaining
+datasets.
+
+```{r}
+data(studiesTable)
+
+table(studiesTable$api_build)
+
+table(studiesTable$pack_build)
 ```
 
 ### API Service
