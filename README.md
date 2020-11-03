@@ -3,12 +3,14 @@
 
 <!-- start badges here -->
 
-[![BioC status](http://www.bioconductor.org/shields/build/release/bioc/cBioPortalData.svg)](https://bioconductor.org/checkResults/release/bioc-LATEST/cBioPortalData)
+[![BioC
+status](http://www.bioconductor.org/shields/build/release/bioc/cBioPortalData.svg)](https://bioconductor.org/checkResults/release/bioc-LATEST/cBioPortalData)
 [![Platforms](http://www.bioconductor.org/shields/availability/3.11/cBioPortalData.svg)](https://www.bioconductor.org/packages/release/bioc/html/cBioPortalData.html#archives)
-[![Travis Build Status](https://travis-ci.org/waldronlab/cBioPortalData.svg?branch=master)](https://travis-ci.org/waldronlab/cBioPortalData)
-[![Build status](https://ci.appveyor.com/api/projects/status/42kd6prni3o0q50b?svg=true)](https://ci.appveyor.com/project/waldronlab/cbioportaldata)
+[![Travis Build
+Status](https://travis-ci.org/waldronlab/cBioPortalData.svg?branch=master)](https://travis-ci.org/waldronlab/cBioPortalData)
+[![Build
+status](https://ci.appveyor.com/api/projects/status/42kd6prni3o0q50b?svg=true)](https://ci.appveyor.com/project/waldronlab/cbioportaldata)
 [![Downloads](https://www.bioconductor.org/shields/downloads/release/cBioPortalData.svg)](https://bioconductor.org/packages/stats/bioc/cBioPortalData/)
-
 <!-- end badges here -->
 
 ## cBioPortal data and MultiAssayExperiment
@@ -33,14 +35,6 @@ package:
 
 <a href="https://github.com/waldronlab/cheatsheets/blob/master/MultiAssayExperiment_QuickRef.pdf"><img src="https://raw.githubusercontent.com/waldronlab/cheatsheets/master/pngs/MultiAssayExperiment_QuickRef.png" width="989" height="1091"/></a>
 
-## Minor note
-
-It is a work in progress, and due to some variation in their formats,
-does not yet work for all 268 (as of Dec 2019) datasets. At the time of
-writing, it successfully imports 93% of 200 randomly sampled datasets.
-Please feel free to file an issue to request prioritization of fixing
-any of the remaining datasets.
-
 ## Quick Start
 
 ### Installation
@@ -53,6 +47,32 @@ if (!requireNamespace("cBioPortalData", quietly = TRUE))
     BiocManager::install("waldronlab/cBioPortalData")
 
 library(cBioPortalData)
+```
+
+## Note
+
+`cBioPortalData` is a work in progress due to changes in data curation
+and cBioPortal API specification. Users can view the
+`data(studiesTable)` dataset to get an overview of the studies that are
+available and currently building as `MultiAssayExperiment`
+representations. About 80% of the studies via the API (`api_build`) and
+83% of the package studies (`pack_build`) are building, these include
+additional datasets that were not previously available. Feel free to
+file an issue to request prioritization of fixing any of the remaining
+datasets.
+
+``` r
+data(studiesTable)
+
+table(studiesTable$api_build)
+#> 
+#> FALSE  TRUE 
+#>    78   209
+
+table(studiesTable$pack_build)
+#> 
+#> FALSE  TRUE 
+#>    49   238
 ```
 
 ### API Service
@@ -100,20 +120,21 @@ laml <- cBioDataPack("laml_tcga")
 
 ``` r
 laml
-#> A MultiAssayExperiment object of 11 listed
+#> A MultiAssayExperiment object of 12 listed
 #>  experiments with user-defined names and respective classes.
-#>  Containing an ExperimentList class object of length 11:
-#>  [1] CNA: SummarizedExperiment with 24776 rows and 191 columns
-#>  [2] RNA_Seq_expression_median: SummarizedExperiment with 19720 rows and 179 columns
-#>  [3] RNA_Seq_mRNA_median_Zscores: SummarizedExperiment with 19720 rows and 179 columns
-#>  [4] RNA_Seq_v2_expression_median: SummarizedExperiment with 20531 rows and 173 columns
-#>  [5] RNA_Seq_v2_mRNA_median_Zscores: SummarizedExperiment with 20531 rows and 173 columns
-#>  [6] cna_hg19.seg: RaggedExperiment with 13571 rows and 191 columns
-#>  [7] linear_CNA: SummarizedExperiment with 24776 rows and 191 columns
-#>  [8] methylation_hm27: SummarizedExperiment with 10919 rows and 194 columns
-#>  [9] methylation_hm450: SummarizedExperiment with 10919 rows and 194 columns
-#>  [10] mutations_extended: RaggedExperiment with 2584 rows and 197 columns
-#>  [11] mutations_mskcc: RaggedExperiment with 2584 rows and 197 columns
+#>  Containing an ExperimentList class object of length 12:
+#>  [1] cna_hg19.seg: RaggedExperiment with 13571 rows and 191 columns
+#>  [2] CNA: SummarizedExperiment with 24776 rows and 191 columns
+#>  [3] linear_CNA: SummarizedExperiment with 24776 rows and 191 columns
+#>  [4] methylation_hm27: SummarizedExperiment with 10919 rows and 194 columns
+#>  [5] methylation_hm450: SummarizedExperiment with 10919 rows and 194 columns
+#>  [6] mutations_extended: RaggedExperiment with 2584 rows and 197 columns
+#>  [7] mutations_mskcc: RaggedExperiment with 2584 rows and 197 columns
+#>  [8] RNA_Seq_expression_median: SummarizedExperiment with 19720 rows and 179 columns
+#>  [9] RNA_Seq_mRNA_median_all_sample_Zscores: SummarizedExperiment with 19720 rows and 179 columns
+#>  [10] RNA_Seq_v2_expression_median: SummarizedExperiment with 20531 rows and 173 columns
+#>  [11] RNA_Seq_v2_mRNA_median_all_sample_Zscores: SummarizedExperiment with 20531 rows and 173 columns
+#>  [12] RNA_Seq_v2_mRNA_median_Zscores: SummarizedExperiment with 20440 rows and 173 columns
 #> Functionality:
 #>  experiments() - obtain the ExperimentList instance
 #>  colData() - the primary/phenotype DataFrame
