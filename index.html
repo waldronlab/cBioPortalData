@@ -5,8 +5,8 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Exposes and makes available data from the cBioPortal web resources • cBiocPortalData</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/spacelab/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+<title>Exposes and makes available data from the cBioPortal web resources • cBioPortalData</title>
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="bootstrap-toc.css">
 <script src="bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
@@ -32,34 +32,45 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="index.html">cBiocPortalData</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.10</span>
+        <a class="navbar-link" href="index.html">cBioPortalData</a>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.2.3</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
-  <a href="reference/index.html">Quick Reference</a>
-</li>
-<li>
-  <a href="articles/cBioPortalData.html">User Start Guide</a>
-</li>
-<li>
-  <a href="articles/cBioPortalRClient.html">API Reference Guide</a>
-</li>
-<li>
-  <a href="news/index.html">
-    <span class="fa fa-newspaper-o"></span>
+  <a href="index.html">
+    <span class="fas fa fas fa-home fa-lg"></span>
      
-    NEWS
   </a>
+</li>
+<li>
+  <a href="articles/cBioPortalData.html">Get started</a>
+</li>
+<li>
+  <a href="reference/index.html">Reference</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+<li>
+      <a href="articles/cBioPortalRClient.html">cBioPortalData: API Reference Guide</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="news/index.html">Changelog</a>
 </li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/waldronlab/cBioPortalData">
-    <span class="fa fa-github fa-lg"></span>
+  <a href="https://github.com/waldronlab/cBioPortalData/">
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -80,6 +91,7 @@
 <a href="#cbioportaldata" class="anchor"></a>cBioPortalData</h1></div>
 <!-- start badges here -->
 
+<!-- end badges here -->
 <div id="cbioportal-data-and-multiassayexperiment" class="section level2">
 <h2 class="hasAnchor">
 <a href="#cbioportal-data-and-multiassayexperiment" class="anchor"></a>cBioPortal data and MultiAssayExperiment</h2>
@@ -103,7 +115,7 @@
 <div id="minor-note" class="section level2">
 <h2 class="hasAnchor">
 <a href="#minor-note" class="anchor"></a>Minor note</h2>
-<p>cBioPortalData is a work in progress. Due to variation in data formatting, the package does not import all 268 (as of Dec 2019) datasets. Currently, it successfully imports 93% of 200 randomly sampled datasets. Please file an issue to request prioritization of any of the remaining datasets.</p>
+<p>It is a work in progress, and due to some variation in their formats, does not yet work for all 268 (as of Dec 2019) datasets. At the time of writing, it successfully imports 93% of 200 randomly sampled datasets. Please feel free to file an issue to request prioritization of fixing any of the remaining datasets.</p>
 </div>
 <div id="quick-start" class="section level2">
 <h2 class="hasAnchor">
@@ -111,24 +123,27 @@
 <div id="installation" class="section level3">
 <h3 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h3>
-<div class="sourceCode" id="cb1"><pre class="r"><span class="kw">if</span> (!<span class="fu"><a href="https://rdrr.io/r/base/ns-load.html">requireNamespace</a></span>(<span class="st">"BiocManager"</span>, <span class="kw">quietly</span> <span class="kw">=</span> <span class="fl">TRUE</span>))
-    <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"BiocManager"</span>)
+<div class="sourceCode" id="cb1"><pre class="downlit">
+<span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html">requireNamespace</a></span><span class="op">(</span><span class="st">"BiocManager"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>
+    <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"BiocManager"</span><span class="op">)</span>
 
-<span class="kw">if</span> (!<span class="fu"><a href="https://rdrr.io/r/base/ns-load.html">requireNamespace</a></span>(<span class="st">"cBioPortalData"</span>, <span class="kw">quietly</span> <span class="kw">=</span> <span class="fl">TRUE</span>))
-    <span class="kw pkg">BiocManager</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/install.html">install</a></span>(<span class="st">"cBioPortalData"</span>)
+<span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html">requireNamespace</a></span><span class="op">(</span><span class="st">"cBioPortalData"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>
+    <span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/install.html">install</a></span><span class="op">(</span><span class="st">"waldronlab/cBioPortalData"</span><span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">cBioPortalData</span>)</pre></div>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">cBioPortalData</span><span class="op">)</span></pre></div>
 </div>
 <div id="api-service" class="section level3">
 <h3 class="hasAnchor">
 <a href="#api-service" class="anchor"></a>API Service</h3>
 <p>Flexible and granular access to cBioPortal data from <code>cbioportal.org/api</code>. This option is best used with a particular gene panel of interest. It allows users to download sections of the data with molecular profile and gene panel combinations within a study.</p>
-<div class="sourceCode" id="cb2"><pre class="r"><span class="no">cbio</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/cBioPortal.html">cBioPortal</a></span>()
-<span class="no">gbm</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/cBioPortalData.html">cBioPortalData</a></span>(<span class="kw">api</span> <span class="kw">=</span> <span class="no">cbio</span>, <span class="kw">by</span> <span class="kw">=</span> <span class="st">"hugoGeneSymbol"</span>, <span class="kw">studyId</span> <span class="kw">=</span> <span class="st">"gbm_tcga"</span>,
-    <span class="kw">genePanelId</span> <span class="kw">=</span> <span class="st">"IMPACT341"</span>,
-    <span class="kw">molecularProfileIds</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"gbm_tcga_rppa"</span>, <span class="st">"gbm_tcga_mrna"</span>)
-)</pre></div>
-<div class="sourceCode" id="cb3"><pre class="r"><span class="no">gbm</span>
+<div class="sourceCode" id="cb2"><pre class="downlit">
+<span class="va">cbio</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/cBioPortal.html">cBioPortal</a></span><span class="op">(</span><span class="op">)</span>
+<span class="va">gbm</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/cBioPortalData.html">cBioPortalData</a></span><span class="op">(</span>api <span class="op">=</span> <span class="va">cbio</span>, by <span class="op">=</span> <span class="st">"hugoGeneSymbol"</span>, studyId <span class="op">=</span> <span class="st">"gbm_tcga"</span>,
+    genePanelId <span class="op">=</span> <span class="st">"IMPACT341"</span>,
+    molecularProfileIds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"gbm_tcga_rppa"</span>, <span class="st">"gbm_tcga_mrna"</span><span class="op">)</span>
+<span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb3"><pre class="downlit">
+<span class="va">gbm</span>
 <span class="co">#&gt; A MultiAssayExperiment object of 2 listed</span>
 <span class="co">#&gt;  experiments with user-defined names and respective classes.</span>
 <span class="co">#&gt;  Containing an ExperimentList class object of length 2:</span>
@@ -147,8 +162,10 @@
 <h3 class="hasAnchor">
 <a href="#packaged-data-service" class="anchor"></a>Packaged Data Service</h3>
 <p>This function will download a dataset from the <code>cbioportal.org/datasets</code> website as a packaged tarball and serve it to users as a <code>MultiAssayExperiment</code> object. This option is good for users who are interested in obtaining all the data for a particular study.</p>
-<div class="sourceCode" id="cb4"><pre class="r"><span class="no">laml</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/cBioDataPack.html">cBioDataPack</a></span>(<span class="st">"laml_tcga"</span>)</pre></div>
-<div class="sourceCode" id="cb5"><pre class="r"><span class="no">laml</span>
+<div class="sourceCode" id="cb4"><pre class="downlit">
+<span class="va">laml</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/cBioDataPack.html">cBioDataPack</a></span><span class="op">(</span><span class="st">"laml_tcga"</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb5"><pre class="downlit">
+<span class="va">laml</span>
 <span class="co">#&gt; A MultiAssayExperiment object of 11 listed</span>
 <span class="co">#&gt;  experiments with user-defined names and respective classes.</span>
 <span class="co">#&gt;  Containing an ExperimentList class object of length 11:</span>
@@ -194,6 +211,12 @@
 <li><a href="https://www.r-project.org/Licenses/AGPL-3">AGPL-3</a></li>
 </ul>
 </div>
+<div class="citation">
+<h2>Citation</h2>
+<ul class="list-unstyled">
+<li><a href="authors.html">Citing cBioPortalData</a></li>
+</ul>
+</div>
 <div class="developers">
 <h2>Developers</h2>
 <ul class="list-unstyled">
@@ -205,9 +228,11 @@
   <div class="dev-status">
 <h2>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://bioconductor.org/checkResults/release/bioc-LATEST/cBioPortalData"><img src="http://www.bioconductor.org/shields/build/release/bioc/cBioPortalData.svg%20%22BioC%20Status%22" alt="BioC status"></a></li>
-<li><a href="https://travis-ci.org/waldronlab/cBioPortalData"><img src="https://travis-ci.org/waldronlab/cBioPortalData.svg?branch=RELEASE_3_11%20%22Travis%20CI%20status%22" alt="Travis Build Status"></a></li>
-<li><a href="https://ci.appveyor.com/project/waldronlab/cbioportaldata/branch/RELEASE_3_11"><img src="https://ci.appveyor.com/api/projects/status/42kd6prni3o0q50b/branch/RELEASE_3_11?svg=true%20%22appveyor%20status%22" alt="Appveyor Build status"></a></li>
+<li><a href="https://bioconductor.org/checkResults/release/bioc-LATEST/cBioPortalData"><img src="http://www.bioconductor.org/shields/build/release/bioc/cBioPortalData.svg" alt="BioC status"></a></li>
+<li><a href="https://www.bioconductor.org/packages/release/bioc/html/cBioPortalData.html#archives"><img src="http://www.bioconductor.org/shields/availability/3.11/cBioPortalData.svg" alt="Platforms"></a></li>
+<li><a href="https://travis-ci.org/waldronlab/cBioPortalData"><img src="https://travis-ci.org/waldronlab/cBioPortalData.svg?branch=master" alt="Travis Build Status"></a></li>
+<li><a href="https://ci.appveyor.com/project/waldronlab/cbioportaldata"><img src="https://ci.appveyor.com/api/projects/status/42kd6prni3o0q50b?svg=true" alt="Build status"></a></li>
+<li><a href="https://bioconductor.org/packages/stats/bioc/cBioPortalData/"><img src="https://www.bioconductor.org/shields/downloads/release/cBioPortalData.svg" alt="Downloads"></a></li>
 </ul>
 </div>
 </div>
@@ -219,7 +244,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

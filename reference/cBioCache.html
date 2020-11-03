@@ -6,14 +6,14 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Manage cache / download directories for study data — cBioCache • cBiocPortalData</title>
+<title>Manage cache / download directories for study data — cBioCache • cBioPortalData</title>
 
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/spacelab/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
 
@@ -73,34 +73,45 @@ BiocFileCache system." />
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">cBiocPortalData</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.10</span>
+        <a class="navbar-link" href="../index.html">cBioPortalData</a>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.2.3</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../reference/index.html">Quick Reference</a>
-</li>
-<li>
-  <a href="../articles/cBioPortalData.html">User Start Guide</a>
-</li>
-<li>
-  <a href="../articles/cBioPortalRClient.html">API Reference Guide</a>
-</li>
-<li>
-  <a href="../news/index.html">
-    <span class="fa fa-newspaper-o"></span>
+  <a href="../index.html">
+    <span class="fas fa fas fa-home fa-lg"></span>
      
-    NEWS
   </a>
+</li>
+<li>
+  <a href="../articles/cBioPortalData.html">Get started</a>
+</li>
+<li>
+  <a href="../reference/index.html">Reference</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/cBioPortalRClient.html">cBioPortalData: API Reference Guide</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/waldronlab/cBioPortalData">
-    <span class="fa fa-github fa-lg"></span>
+  <a href="https://github.com/waldronlab/cBioPortalData/">
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -128,15 +139,26 @@ re-downloading data files. This can be done effortlessly via the integrated
 BiocFileCache system.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>cBioCache</span>(<span class='no'>...</span>)
+    <pre class="usage"><span class='fu'>cBioCache</span><span class='op'>(</span><span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>setCache</span>(
-  <span class='kw'>directory</span> <span class='kw'>=</span> <span class='kw pkg'>tools</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/r/tools/userdir.html'>R_user_dir</a></span>(<span class='st'>"cBioPortalData"</span>, <span class='st'>"cache"</span>),
-  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>ask</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span>()
-)
+<span class='fu'>setCache</span><span class='op'>(</span>
+  directory <span class='op'>=</span> <span class='fu'>tools</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/r/tools/userdir.html'>R_user_dir</a></span><span class='op'>(</span><span class='st'>"cBioPortalData"</span>, <span class='st'>"cache"</span><span class='op'>)</span>,
+  verbose <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  ask <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='op'>)</span>
 
-<span class='fu'>removeCache</span>(<span class='no'>cancer_study_id</span>)</pre>
+<span class='fu'>removePackCache</span><span class='op'>(</span><span class='va'>cancer_study_id</span>, dry.run <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+
+<span class='fu'>removeDataCache</span><span class='op'>(</span>
+  <span class='va'>api</span>,
+  studyId <span class='op'>=</span> <span class='cn'>NA_character_</span>,
+  genePanelId <span class='op'>=</span> <span class='cn'>NA_character_</span>,
+  molecularProfileIds <span class='op'>=</span> <span class='cn'>NULL</span>,
+  sampleListId <span class='op'>=</span> <span class='cn'>NULL</span>,
+  sampleIds <span class='op'>=</span> <span class='cn'>NULL</span>,
+  dry.run <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -164,6 +186,38 @@ location of the cache directory</p></td>
       <td><p>A single string from <code>studiesTable</code> associated
 with a study tarball</p></td>
     </tr>
+    <tr>
+      <th>dry.run</th>
+      <td><p>logical Whether or not to remove cache files (default TRUE).</p></td>
+    </tr>
+    <tr>
+      <th>api</th>
+      <td><p>An API object of class `cBioPortal` from the `cBioPortal`
+function</p></td>
+    </tr>
+    <tr>
+      <th>studyId</th>
+      <td><p>character(1) Indicates the "studyId" as taken from
+`getStudies`</p></td>
+    </tr>
+    <tr>
+      <th>genePanelId</th>
+      <td><p>character(1) Identifies the gene panel, as obtained
+from the `genePanels` function</p></td>
+    </tr>
+    <tr>
+      <th>molecularProfileIds</th>
+      <td><p>character() A vector of molecular profile IDs</p></td>
+    </tr>
+    <tr>
+      <th>sampleListId</th>
+      <td><p>character(1) A sample list identifier as obtained from
+`sampleLists()``</p></td>
+    </tr>
+    <tr>
+      <th>sampleIds</th>
+      <td><p>character() Sample identifiers</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -182,9 +236,10 @@ a cache if not already created. A specific directory can be used via
 
 <p>Specify the directory location of the data cache. By default, it will
 go to the user directory as given by:</p><pre>
-    <span class='kw pkg'>tools</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/r/tools/userdir.html'>R_user_dir</a></span>(<span class='st'>"cBioPortalData"</span>, <span class='st'>"cache"</span>)</pre>
+    <span class='fu'>tools</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/r/tools/userdir.html'>R_user_dir</a></span><span class='op'>(</span><span class='st'>"cBioPortalData"</span>, <span class='st'>"cache"</span><span class='op'>)</span>
+</pre>
 
-    <h2 class="hasAnchor" id="removecache"><a class="anchor" href="#removecache"></a>removeCache</h2>
+    <h2 class="hasAnchor" id="removepackcache"><a class="anchor" href="#removepackcache"></a>removePackCache</h2>
 
     
 
@@ -195,8 +250,35 @@ cache. This only works for the <code>cBioDataPack</code> function. To remove the
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-(<span class='no'>cacheloc</span> <span class='kw'>&lt;-</span> <span class='fu'>cBioCache</span>())</div><div class='output co'>#&gt; [1] "/github/home/.cache/R/cBioPortalData"</div><div class='input'>
-</div></pre>
+<span class='fu'>cBioCache</span><span class='op'>(</span><span class='op'>)</span>
+
+<span class='fu'>removePackCache</span><span class='op'>(</span><span class='st'>"acc_tcga"</span>, dry.run <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 1 x 10</span><span>
+#&gt;   rid   rname create_time access_time rpath rtype fpath last_modified_t… etag 
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>            </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> BFC7  acc_… 2020-11-03… 2020-11-03… /git… web   http… 2020-07-08 17:3… 0e9f…
+#&gt; </span><span style='color: #555555;'># … with 1 more variable: expires </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span></div><div class='input'>
+
+<span class='va'>cbio</span> <span class='op'>&lt;-</span> <span class='fu'><a href='cBioPortal.html'>cBioPortal</a></span><span class='op'>(</span><span class='op'>)</span>
+
+<span class='fu'><a href='cBioPortalData.html'>cBioPortalData</a></span><span class='op'>(</span>
+    <span class='va'>cbio</span>, by <span class='op'>=</span> <span class='st'>"hugoGeneSymbol"</span>,
+    studyId <span class='op'>=</span> <span class='st'>"acc_tcga"</span>,
+    genePanelId <span class='op'>=</span> <span class='st'>"AmpliSeq"</span>,
+    molecularProfileIds <span class='op'>=</span>
+        <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"acc_tcga_rppa"</span>, <span class='st'>"acc_tcga_linear_CNA"</span>, <span class='st'>"acc_tcga_mutations"</span><span class='op'>)</span>
+<span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='error'>Error in eval(args[["api"]]): object 'cbio' not found</span></div><div class='input'>
+<span class='fu'>removeDataCache</span><span class='op'>(</span>
+    <span class='va'>cbio</span>,
+    studyId <span class='op'>=</span> <span class='st'>"acc_tcga"</span>,
+    genePanelId <span class='op'>=</span> <span class='st'>"AmpliSeq"</span>,
+    molecularProfileIds <span class='op'>=</span>
+        <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"acc_tcga_rppa"</span>, <span class='st'>"acc_tcga_linear_CNA"</span>, <span class='st'>"acc_tcga_mutations"</span><span class='op'>)</span>,
+    dry.run <span class='op'>=</span> <span class='cn'>TRUE</span>
+<span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='error'>Error in eval(args[["api"]]): object 'cbio' not found</span></div><div class='input'>
+</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -212,7 +294,7 @@ cache. This only works for the <code>cBioDataPack</code> function. To remove the
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
