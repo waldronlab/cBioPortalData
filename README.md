@@ -5,7 +5,7 @@
 
 [![BioC
 status](http://www.bioconductor.org/shields/build/release/bioc/cBioPortalData.svg)](https://bioconductor.org/checkResults/release/bioc-LATEST/cBioPortalData)
-[![Platforms](http://www.bioconductor.org/shields/availability/3.11/cBioPortalData.svg)](https://www.bioconductor.org/packages/release/bioc/html/cBioPortalData.html#archives)
+[![Platforms](http://www.bioconductor.org/shields/availability/3.12/cBioPortalData.svg)](https://www.bioconductor.org/packages/release/bioc/html/cBioPortalData.html#archives)
 [![Travis Build
 Status](https://travis-ci.org/waldronlab/cBioPortalData.svg?branch=master)](https://travis-ci.org/waldronlab/cBioPortalData)
 [![Build
@@ -55,8 +55,8 @@ library(cBioPortalData)
 and cBioPortal API specification. Users can view the
 `data(studiesTable)` dataset to get an overview of the studies that are
 available and currently building as `MultiAssayExperiment`
-representations. About 80% of the studies via the API (`api_build`) and
-83% of the package studies (`pack_build`) are building, these include
+representations. About 73 % of the studies via the API (`api_build`) and
+83 % of the package studies (`pack_build`) are building, these include
 additional datasets that were not previously available. Feel free to
 file an issue to request prioritization of fixing any of the remaining
 datasets.
