@@ -89,7 +89,7 @@
       <h1 data-toc-skip>cBioPortalData: User Start Guide</h1>
                         <h4 class="author">Marcel Ramos</h4>
             
-            <h4 class="date">November 03, 2020</h4>
+            <h4 class="date">November 04, 2020</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/waldronlab/cBioPortalData/blob/master/vignettes/cBioPortalData.Rmd"><code>vignettes/cBioPortalData.Rmd</code></a></small>
       <div class="hidden name"><code>cBioPortalData.Rmd</code></div>
@@ -101,9 +101,9 @@
 <div id="installation" class="section level1">
 <h1 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h1>
-<div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">cBioPortalData</span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">AnVIL</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">cBioPortalData</span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">AnVIL</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="introduction" class="section level1">
 <h1 class="hasAnchor">
@@ -116,9 +116,9 @@
 <h3 class="hasAnchor">
 <a href="#cbiodatapack-obtain-study-data-as-zipped-tarballs" class="anchor"></a>cBioDataPack: Obtain Study Data as Zipped Tarballs</h3>
 <p>This function will access the packaged data from  and return an integrative MultiAssayExperiment representation.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit">
-<span class="co">## Use ask=FALSE for non-interactive use</span>
-<span class="fu"><a href="../reference/cBioDataPack.html">cBioDataPack</a></span><span class="op">(</span><span class="st">"laml_tcga"</span>, ask <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co">## Use ask=FALSE for non-interactive use</span>
+<span class="fu"><a href="../reference/cBioDataPack.html">cBioDataPack</a></span><span class="op">(</span><span class="st">"laml_tcga"</span>, ask <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
 <pre><code>## A MultiAssayExperiment object of 12 listed
 ##  experiments with user-defined names and respective classes.
 ##  Containing an ExperimentList class object of length 12:
@@ -147,16 +147,16 @@
 <h3 class="hasAnchor">
 <a href="#cbioportaldata-obtain-data-from-the-cbioportal-api" class="anchor"></a>cBioPortalData: Obtain data from the cBioPortal API</h3>
 <p>This function provides a more flexible and granular way to request a MultiAssayExperiment object from a study ID, molecular profile, gene panel, sample list.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit">
-<span class="va">cbio</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cBioPortal.html">cBioPortal</a></span><span class="op">(</span><span class="op">)</span>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">cbio</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cBioPortal.html">cBioPortal</a></span><span class="op">(</span><span class="op">)</span>
 <span class="va">acc</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cBioPortalData.html">cBioPortalData</a></span><span class="op">(</span>api <span class="op">=</span> <span class="va">cbio</span>, by <span class="op">=</span> <span class="st">"hugoGeneSymbol"</span>, studyId <span class="op">=</span> <span class="st">"acc_tcga"</span>,
     genePanelId <span class="op">=</span> <span class="st">"IMPACT341"</span>,
     molecularProfileIds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"acc_tcga_rppa"</span>, <span class="st">"acc_tcga_linear_CNA"</span><span class="op">)</span>
-<span class="op">)</span></pre></div>
+<span class="op">)</span></code></pre></div>
 <pre><code>## harmonizing input:
 ##   removing 1 colData rownames not in sampleMap 'primary'</code></pre>
-<div class="sourceCode" id="cb6"><pre class="downlit">
-<span class="va">acc</span></pre></div>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">acc</span></code></pre></div>
 <pre><code>## A MultiAssayExperiment object of 2 listed
 ##  experiments with user-defined names and respective classes.
 ##  Containing an ExperimentList class object of length 2:
@@ -179,23 +179,23 @@
 <h3 class="hasAnchor">
 <a href="#cbiodatapack" class="anchor"></a>cBioDataPack</h3>
 <p>In cases where a download is interrupted, the user may experience a corrupt cache. The user can clear the cache for a particular study by using the <code>removeCache</code> function. Note that this function only works for data downloaded through the <code>cBioDataPack</code> function.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit">
-<span class="fu">removeCache</span><span class="op">(</span><span class="st">"laml_tcga"</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">removeCache</span><span class="op">(</span><span class="st">"laml_tcga"</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="cbioportaldata" class="section level3">
 <h3 class="hasAnchor">
 <a href="#cbioportaldata" class="anchor"></a>cBioPortalData</h3>
 <p>For users who wish to clear the entire <code>cBioPortalData</code> cache, it is recommended that they use:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/unlink.html">unlink</a></span><span class="op">(</span><span class="st">"~/.cache/cBioPortalData/"</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/unlink.html">unlink</a></span><span class="op">(</span><span class="st">"~/.cache/cBioPortalData/"</span><span class="op">)</span></code></pre></div>
 </div>
 </div>
 </div>
 <div id="sessioninfo" class="section level1">
 <h1 class="hasAnchor">
 <a href="#sessioninfo" class="anchor"></a>sessionInfo</h1>
-<div class="sourceCode" id="cb10"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <pre><code>## R version 4.0.3 (2020-10-10)
 ## Platform: x86_64-pc-linux-gnu (64-bit)
 ## Running under: Ubuntu 20.04 LTS

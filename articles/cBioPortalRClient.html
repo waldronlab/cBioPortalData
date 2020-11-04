@@ -89,7 +89,7 @@
       <h1 data-toc-skip>cBioPortalData: API Reference Guide</h1>
                         <h4 class="author">Marcel Ramos &amp; Levi Waldron</h4>
             
-            <h4 class="date">November 03, 2020</h4>
+            <h4 class="date">November 04, 2020</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/waldronlab/cBioPortalData/blob/master/vignettes/cBioPortalRClient.Rmd"><code>vignettes/cBioPortalRClient.Rmd</code></a></small>
       <div class="hidden name"><code>cBioPortalRClient.Rmd</code></div>
@@ -102,9 +102,9 @@
 <h1 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h1>
 <p>Please use the devel version of the <code>AnVIL</code> Bioconductor package.</p>
-<div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">cBioPortalData</span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">AnVIL</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">cBioPortalData</span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">AnVIL</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="introduction" class="section level1">
 <h1 class="hasAnchor">
@@ -115,8 +115,8 @@
 <h1 class="hasAnchor">
 <a href="#api-representation" class="anchor"></a>API representation</h1>
 <p>Obtaining the cBioPortal API representation object</p>
-<div class="sourceCode" id="cb2"><pre class="downlit">
-<span class="op">(</span><span class="va">cbio</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cBioPortal.html">cBioPortal</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="op">(</span><span class="va">cbio</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cBioPortal.html">cBioPortal</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>## service: cBioPortal
 ## tags(); use cbioportal$&lt;tab completion&gt;:
 ## # A tibble: 74 x 3
@@ -148,8 +148,8 @@
 <h2 class="hasAnchor">
 <a href="#operations" class="anchor"></a>Operations</h2>
 <p>Check available tags, operations, and descriptions as a <code>tibble</code>:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/pkg/AnVIL/man/Services.html">tags</a></span><span class="op">(</span><span class="va">cbio</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/AnVIL/man/Services.html">tags</a></span><span class="op">(</span><span class="va">cbio</span><span class="op">)</span></code></pre></div>
 <pre><code>## # A tibble: 74 x 3
 ##    tag          operation               summary                                 
 ##    &lt;chr&gt;        &lt;chr&gt;                   &lt;chr&gt;                                   
@@ -164,8 +164,8 @@
 ##  9 Clinical Da… fetchClinicalDataUsing… Fetch clinical data by patient IDs or s…
 ## 10 Clinical Da… getAllClinicalDataInSt… Get all clinical data in a study        
 ## # … with 64 more rows</code></pre>
-<div class="sourceCode" id="cb6"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/AnVIL/man/Services.html">tags</a></span><span class="op">(</span><span class="va">cbio</span><span class="op">)</span><span class="op">$</span><span class="va">operation</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/AnVIL/man/Services.html">tags</a></span><span class="op">(</span><span class="va">cbio</span><span class="op">)</span><span class="op">$</span><span class="va">operation</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] "getAllCancerTypesUsingGET"              
 ## [2] "getCancerTypeUsingGET"                  
 ## [3] "fetchClinicalAttributesUsingPOST"       
@@ -175,8 +175,8 @@
 <div id="searching-through-the-api" class="section level3">
 <h3 class="hasAnchor">
 <a href="#searching-through-the-api" class="anchor"></a>Searching through the API</h3>
-<div class="sourceCode" id="cb8"><pre class="downlit">
-<span class="fu"><a href="../reference/cBioPortal.html">searchOps</a></span><span class="op">(</span><span class="va">cbio</span>, <span class="st">"clinical"</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/cBioPortal.html">searchOps</a></span><span class="op">(</span><span class="va">cbio</span>, <span class="st">"clinical"</span><span class="op">)</span></code></pre></div>
 <pre><code>##  [1] "getAllClinicalAttributesUsingGET"            
 ##  [2] "getClinicalAttributeCountsUsingPOST"         
 ##  [3] "fetchClinicalAttributesUsingPOST"            
@@ -195,8 +195,8 @@
 <h2 class="hasAnchor">
 <a href="#studies" class="anchor"></a>Studies</h2>
 <p>Get the list of studies available:</p>
-<div class="sourceCode" id="cb10"><pre class="downlit">
-<span class="fu"><a href="../reference/cBioPortal.html">getStudies</a></span><span class="op">(</span><span class="va">cbio</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/cBioPortal.html">getStudies</a></span><span class="op">(</span><span class="va">cbio</span><span class="op">)</span></code></pre></div>
 <pre><code>## # A tibble: 295 x 13
 ##    name  shortName description publicStudy pmid  citation groups status
 ##    &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;       &lt;lgl&gt;       &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;   &lt;int&gt;
@@ -218,8 +218,8 @@
 <h2 class="hasAnchor">
 <a href="#clinical-data" class="anchor"></a>Clinical Data</h2>
 <p>Obtain the clinical data for a particular study:</p>
-<div class="sourceCode" id="cb12"><pre class="downlit">
-<span class="fu"><a href="../reference/cBioPortal.html">clinicalData</a></span><span class="op">(</span><span class="va">cbio</span>, <span class="st">"acc_tcga"</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/cBioPortal.html">clinicalData</a></span><span class="op">(</span><span class="va">cbio</span>, <span class="st">"acc_tcga"</span><span class="op">)</span></code></pre></div>
 <pre><code>## # A tibble: 92 x 20
 ##    uniqueSampleKey uniquePatientKey sampleId patientId studyId CANCER_TYPE
 ##    &lt;chr&gt;           &lt;chr&gt;            &lt;chr&gt;    &lt;chr&gt;     &lt;chr&gt;   &lt;chr&gt;      
@@ -244,9 +244,9 @@
 <h2 class="hasAnchor">
 <a href="#molecular-profiles" class="anchor"></a>Molecular Profiles</h2>
 <p>A table of molecular profiles for a particular study can be obtained by running the following:</p>
-<div class="sourceCode" id="cb14"><pre class="downlit">
-<span class="va">mols</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cBioPortal.html">molecularProfiles</a></span><span class="op">(</span><span class="va">cbio</span>, <span class="st">"acc_tcga"</span><span class="op">)</span>
-<span class="va">mols</span><span class="op">[[</span><span class="st">"molecularProfileId"</span><span class="op">]</span><span class="op">]</span></pre></div>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">mols</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cBioPortal.html">molecularProfiles</a></span><span class="op">(</span><span class="va">cbio</span>, <span class="st">"acc_tcga"</span><span class="op">)</span>
+<span class="va">mols</span><span class="op">[[</span><span class="st">"molecularProfileId"</span><span class="op">]</span><span class="op">]</span></code></pre></div>
 <pre><code>## [1] "acc_tcga_rppa"                                     
 ## [2] "acc_tcga_rppa_Zscores"                             
 ## [3] "acc_tcga_gistic"                                   
@@ -261,11 +261,11 @@
 <h2 class="hasAnchor">
 <a href="#molecular-profile-data" class="anchor"></a>Molecular Profile Data</h2>
 <p>The data for a molecular profile can be obtained with prior knowledge of available <code>entrezGeneIds</code>:</p>
-<div class="sourceCode" id="cb16"><pre class="downlit">
-<span class="fu"><a href="../reference/cBioPortal.html">molecularData</a></span><span class="op">(</span><span class="va">cbio</span>, molecularProfileId <span class="op">=</span> <span class="st">"acc_tcga_rna_seq_v2_mrna"</span>,
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/cBioPortal.html">molecularData</a></span><span class="op">(</span><span class="va">cbio</span>, molecularProfileId <span class="op">=</span> <span class="st">"acc_tcga_rna_seq_v2_mrna"</span>,
     entrezGeneIds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span>,
     sampleIds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"TCGA-OR-A5J1-01"</span>,  <span class="st">"TCGA-OR-A5J2-01"</span><span class="op">)</span>
-<span class="op">)</span></pre></div>
+<span class="op">)</span></code></pre></div>
 <pre><code>## $acc_tcga_rna_seq_v2_mrna
 ## # A tibble: 4 x 8
 ##   uniqueSampleKey uniquePatientKey entrezGeneId molecularProfil… sampleId
@@ -283,8 +283,8 @@
 <h3 class="hasAnchor">
 <a href="#all-available-genes" class="anchor"></a>All available genes</h3>
 <p>A list of all the genes provided by the API service including hugo symbols, and entrez gene IDs can be obtained by using the <code>geneTable</code> function:</p>
-<div class="sourceCode" id="cb18"><pre class="downlit">
-<span class="fu"><a href="../reference/cBioPortal.html">geneTable</a></span><span class="op">(</span><span class="va">cbio</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/cBioPortal.html">geneTable</a></span><span class="op">(</span><span class="va">cbio</span><span class="op">)</span></code></pre></div>
 <pre><code>## # A tibble: 1,000 x 3
 ##    entrezGeneId hugoGeneSymbol type          
 ##           &lt;int&gt; &lt;chr&gt;          &lt;chr&gt;         
@@ -303,8 +303,8 @@
 <div id="gene-panels" class="section level3">
 <h3 class="hasAnchor">
 <a href="#gene-panels" class="anchor"></a>Gene Panels</h3>
-<div class="sourceCode" id="cb20"><pre class="downlit">
-<span class="fu"><a href="../reference/cBioPortal.html">genePanels</a></span><span class="op">(</span><span class="va">cbio</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/cBioPortal.html">genePanels</a></span><span class="op">(</span><span class="va">cbio</span><span class="op">)</span></code></pre></div>
 <pre><code>## # A tibble: 48 x 2
 ##    description                                                     genePanelId  
 ##    &lt;chr&gt;                                                           &lt;chr&gt;        
@@ -319,8 +319,8 @@
 ##  9 Targeted sequencing of 504 cancer-associated genes on Illumina… DFCI_504     
 ## 10 DNA sequencing of 623 genes with known or potential relationsh… WUSTL-DFCI_6…
 ## # … with 38 more rows</code></pre>
-<div class="sourceCode" id="cb22"><pre class="downlit">
-<span class="fu"><a href="../reference/cBioPortal.html">getGenePanel</a></span><span class="op">(</span><span class="va">cbio</span>, <span class="st">"IMPACT341"</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/cBioPortal.html">getGenePanel</a></span><span class="op">(</span><span class="va">cbio</span>, <span class="st">"IMPACT341"</span><span class="op">)</span></code></pre></div>
 <pre><code>## # A tibble: 341 x 2
 ##    entrezGeneId hugoGeneSymbol
 ##           &lt;int&gt; &lt;chr&gt;         
@@ -343,11 +343,11 @@
 <div id="genepanelmolecular" class="section level3">
 <h3 class="hasAnchor">
 <a href="#genepanelmolecular" class="anchor"></a>genePanelMolecular</h3>
-<div class="sourceCode" id="cb24"><pre class="downlit">
-<span class="va">gprppa</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cBioPortal.html">genePanelMolecular</a></span><span class="op">(</span><span class="va">cbio</span>,
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">gprppa</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cBioPortal.html">genePanelMolecular</a></span><span class="op">(</span><span class="va">cbio</span>,
     molecularProfileId <span class="op">=</span> <span class="st">"acc_tcga_rppa"</span>,
     sampleListId <span class="op">=</span> <span class="st">"acc_tcga_all"</span><span class="op">)</span>
-<span class="va">gprppa</span></pre></div>
+<span class="va">gprppa</span></code></pre></div>
 <pre><code>## # A tibble: 92 x 7
 ##    uniqueSampleKey uniquePatientKey molecularProfil… sampleId patientId studyId
 ##    &lt;chr&gt;           &lt;chr&gt;            &lt;chr&gt;            &lt;chr&gt;    &lt;chr&gt;     &lt;chr&gt;  
@@ -366,11 +366,11 @@
 <div id="getgenepanelmolecular" class="section level3">
 <h3 class="hasAnchor">
 <a href="#getgenepanelmolecular" class="anchor"></a>getGenePanelMolecular</h3>
-<div class="sourceCode" id="cb26"><pre class="downlit">
-<span class="fu"><a href="../reference/cBioPortal.html">getGenePanelMolecular</a></span><span class="op">(</span><span class="va">cbio</span>,
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/cBioPortal.html">getGenePanelMolecular</a></span><span class="op">(</span><span class="va">cbio</span>,
     molecularProfileIds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"acc_tcga_rppa"</span>, <span class="st">"acc_tcga_gistic"</span><span class="op">)</span>,
     sampleIds <span class="op">=</span> <span class="fu"><a href="../reference/cBioPortal.html">allSamples</a></span><span class="op">(</span><span class="va">cbio</span>, <span class="st">"acc_tcga"</span><span class="op">)</span><span class="op">$</span><span class="va">sampleId</span>
-<span class="op">)</span></pre></div>
+<span class="op">)</span></code></pre></div>
 <pre><code>## # A tibble: 184 x 7
 ##    uniqueSampleKey uniquePatientKey molecularProfil… sampleId patientId studyId
 ##    &lt;chr&gt;           &lt;chr&gt;            &lt;chr&gt;            &lt;chr&gt;    &lt;chr&gt;     &lt;chr&gt;  
@@ -389,9 +389,9 @@
 <div id="getdatabygenepanel" class="section level3">
 <h3 class="hasAnchor">
 <a href="#getdatabygenepanel" class="anchor"></a>getDataByGenePanel</h3>
-<div class="sourceCode" id="cb28"><pre class="downlit">
-<span class="fu"><a href="../reference/cBioPortal.html">getDataByGenePanel</a></span><span class="op">(</span><span class="va">cbio</span>, <span class="st">"acc_tcga"</span>, genePanelId <span class="op">=</span> <span class="st">"IMPACT341"</span>,
-    molecularProfileId <span class="op">=</span> <span class="st">"acc_tcga_rppa"</span>, sampleListId <span class="op">=</span> <span class="st">"acc_tcga_rppa"</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/cBioPortal.html">getDataByGenePanel</a></span><span class="op">(</span><span class="va">cbio</span>, <span class="st">"acc_tcga"</span>, genePanelId <span class="op">=</span> <span class="st">"IMPACT341"</span>,
+    molecularProfileId <span class="op">=</span> <span class="st">"acc_tcga_rppa"</span>, sampleListId <span class="op">=</span> <span class="st">"acc_tcga_rppa"</span><span class="op">)</span></code></pre></div>
 <pre><code>## $acc_tcga_rppa
 ## # A tibble: 2,622 x 9
 ##    uniqueSampleKey uniquePatientKey entrezGeneId molecularProfil… sampleId
@@ -418,8 +418,8 @@
 <h3 class="hasAnchor">
 <a href="#sample-list-identifiers" class="anchor"></a>Sample List Identifiers</h3>
 <p>To display all available sample list identifiers for a particular study ID, one can use the <code>sampleLists</code> function:</p>
-<div class="sourceCode" id="cb30"><pre class="downlit">
-<span class="fu"><a href="../reference/cBioPortal.html">sampleLists</a></span><span class="op">(</span><span class="va">cbio</span>, <span class="st">"acc_tcga"</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/cBioPortal.html">sampleLists</a></span><span class="op">(</span><span class="va">cbio</span>, <span class="st">"acc_tcga"</span><span class="op">)</span></code></pre></div>
 <pre><code>## # A tibble: 9 x 5
 ##   category          name          description            sampleListId    studyId
 ##   &lt;chr&gt;             &lt;chr&gt;         &lt;chr&gt;                  &lt;chr&gt;           &lt;chr&gt;  
@@ -437,13 +437,13 @@
 <h3 class="hasAnchor">
 <a href="#sample-identifiers" class="anchor"></a>Sample Identifiers</h3>
 <p>One can obtain the barcodes / identifiers for each sample using a specific sample list identifier, in this case we want all the copy number alteration samples:</p>
-<div class="sourceCode" id="cb32"><pre class="downlit">
-<span class="fu"><a href="../reference/cBioPortal.html">samplesInSampleLists</a></span><span class="op">(</span><span class="va">cbio</span>, <span class="st">"acc_tcga_cna"</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/cBioPortal.html">samplesInSampleLists</a></span><span class="op">(</span><span class="va">cbio</span>, <span class="st">"acc_tcga_cna"</span><span class="op">)</span></code></pre></div>
 <pre><code>## CharacterList of length 1
 ## [["acc_tcga_cna"]] TCGA-OR-A5J1-01 TCGA-OR-A5J2-01 ... TCGA-PK-A5HC-01</code></pre>
 <p>This returns a <code>CharacterList</code> of all identifiers for each sample list identifier input:</p>
-<div class="sourceCode" id="cb34"><pre class="downlit">
-<span class="fu"><a href="../reference/cBioPortal.html">samplesInSampleLists</a></span><span class="op">(</span><span class="va">cbio</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"acc_tcga_cna"</span>, <span class="st">"acc_tcga_cnaseq"</span><span class="op">)</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/cBioPortal.html">samplesInSampleLists</a></span><span class="op">(</span><span class="va">cbio</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"acc_tcga_cna"</span>, <span class="st">"acc_tcga_cnaseq"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>## CharacterList of length 2
 ## [["acc_tcga_cna"]] TCGA-OR-A5J1-01 TCGA-OR-A5J2-01 ... TCGA-PK-A5HC-01
 ## [["acc_tcga_cnaseq"]] TCGA-OR-A5J1-01 TCGA-OR-A5J2-01 ... TCGA-PK-A5HC-01</code></pre>
@@ -451,8 +451,8 @@
 <div id="all-samples-within-a-study-id" class="section level3">
 <h3 class="hasAnchor">
 <a href="#all-samples-within-a-study-id" class="anchor"></a>All samples within a study ID</h3>
-<div class="sourceCode" id="cb36"><pre class="downlit">
-<span class="fu"><a href="../reference/cBioPortal.html">allSamples</a></span><span class="op">(</span><span class="va">cbio</span>, <span class="st">"acc_tcga"</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/cBioPortal.html">allSamples</a></span><span class="op">(</span><span class="va">cbio</span>, <span class="st">"acc_tcga"</span><span class="op">)</span></code></pre></div>
 <pre><code>## # A tibble: 92 x 6
 ##    uniqueSampleKey    uniquePatientKey   sampleType  sampleId  patientId studyId
 ##    &lt;chr&gt;              &lt;chr&gt;              &lt;chr&gt;       &lt;chr&gt;     &lt;chr&gt;     &lt;chr&gt;  
@@ -471,9 +471,9 @@
 <div id="info-on-samples" class="section level3">
 <h3 class="hasAnchor">
 <a href="#info-on-samples" class="anchor"></a>Info on Samples</h3>
-<div class="sourceCode" id="cb38"><pre class="downlit">
-<span class="fu"><a href="../reference/cBioPortal.html">getSampleInfo</a></span><span class="op">(</span><span class="va">cbio</span>, studyId <span class="op">=</span> <span class="st">"acc_tcga"</span>,
-    sampleListIds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"acc_tcga_rppa"</span>, <span class="st">"acc_tcga_gistic"</span><span class="op">)</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/cBioPortal.html">getSampleInfo</a></span><span class="op">(</span><span class="va">cbio</span>, studyId <span class="op">=</span> <span class="st">"acc_tcga"</span>,
+    sampleListIds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"acc_tcga_rppa"</span>, <span class="st">"acc_tcga_gistic"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>## # A tibble: 46 x 6
 ##    uniqueSampleKey    uniquePatientKey   sampleType  sampleId  patientId studyId
 ##    &lt;chr&gt;              &lt;chr&gt;              &lt;chr&gt;       &lt;chr&gt;     &lt;chr&gt;     &lt;chr&gt;  
@@ -496,8 +496,8 @@
 <a href="#advanced-usage" class="anchor"></a>Advanced Usage</h1>
 <p>The <code>cBioPortal</code> API representation is not limited to the functions provided in the package. Users who wish to make use of any of the endpoints provided by the API specification should use the dollar sign <code><a href="https://rdrr.io/r/base/Extract.html">$</a></code> function to access the endpoints.</p>
 <p>First the user should see the input for a particular endpoint as detailed in the API:</p>
-<div class="sourceCode" id="cb40"><pre class="downlit">
-<span class="va">cbio</span><span class="op">$</span><span class="va">getGeneUsingGET</span></pre></div>
+<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">cbio</span><span class="op">$</span><span class="va">getGeneUsingGET</span></code></pre></div>
 <pre><code>## getGeneUsingGET 
 ## Get a gene 
 ## 
@@ -505,16 +505,16 @@
 ##   geneId (string)
 ##     Entrez Gene ID or Hugo Gene Symbol e.g. 1 or A1BG</code></pre>
 <p>Then the user can provide such input:</p>
-<div class="sourceCode" id="cb42"><pre class="downlit">
-<span class="op">(</span><span class="va">resp</span> <span class="op">&lt;-</span> <span class="va">cbio</span><span class="op">$</span><span class="fu">getGeneUsingGET</span><span class="op">(</span><span class="st">"BRCA1"</span><span class="op">)</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="op">(</span><span class="va">resp</span> <span class="op">&lt;-</span> <span class="va">cbio</span><span class="op">$</span><span class="fu">getGeneUsingGET</span><span class="op">(</span><span class="st">"BRCA1"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>## Response [https://www.cbioportal.org/api/genes/BRCA1]
-##   Date: 2020-11-03 21:28
+##   Date: 2020-11-04 16:13
 ##   Status: 200
 ##   Content-Type: application/json
 ##   Size: 69 B</code></pre>
 <p>which will require the user to ‘translate’ the response using <code><a href="https://httr.r-lib.org/reference/content.html">httr::content</a></code>:</p>
-<div class="sourceCode" id="cb44"><pre class="downlit">
-<span class="fu">httr</span><span class="fu">::</span><span class="fu"><a href="https://httr.r-lib.org/reference/content.html">content</a></span><span class="op">(</span><span class="va">resp</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">httr</span><span class="fu">::</span><span class="fu"><a href="https://httr.r-lib.org/reference/content.html">content</a></span><span class="op">(</span><span class="va">resp</span><span class="op">)</span></code></pre></div>
 <pre><code>## $entrezGeneId
 ## [1] 672
 ## 
@@ -527,15 +527,15 @@
 <h2 class="hasAnchor">
 <a href="#clearing-the-cache" class="anchor"></a>Clearing the cache</h2>
 <p>For users who wish to clear the entire <code>cBioPortalData</code> cache, it is recommended that they use:</p>
-<div class="sourceCode" id="cb46"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/unlink.html">unlink</a></span><span class="op">(</span><span class="st">"~/.cache/cBioPortalData/"</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/unlink.html">unlink</a></span><span class="op">(</span><span class="st">"~/.cache/cBioPortalData/"</span><span class="op">)</span></code></pre></div>
 </div>
 </div>
 <div id="sessioninfo" class="section level1">
 <h1 class="hasAnchor">
 <a href="#sessioninfo" class="anchor"></a>sessionInfo</h1>
-<div class="sourceCode" id="cb47"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <pre><code>## R version 4.0.3 (2020-10-10)
 ## Platform: x86_64-pc-linux-gnu (64-bit)
 ## Running under: Ubuntu 20.04 LTS

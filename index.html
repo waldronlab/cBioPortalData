@@ -117,22 +117,22 @@
 <div id="installation" class="section level3">
 <h3 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h3>
-<div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html">requireNamespace</a></span><span class="op">(</span><span class="st">"BiocManager"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html">requireNamespace</a></span><span class="op">(</span><span class="st">"BiocManager"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>
     <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"BiocManager"</span><span class="op">)</span>
 
 <span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html">requireNamespace</a></span><span class="op">(</span><span class="st">"cBioPortalData"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>
     <span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/install.html">install</a></span><span class="op">(</span><span class="st">"waldronlab/cBioPortalData"</span><span class="op">)</span>
 
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">cBioPortalData</span><span class="op">)</span></pre></div>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">cBioPortalData</span><span class="op">)</span></code></pre></div>
 </div>
 </div>
 <div id="note" class="section level2">
 <h2 class="hasAnchor">
 <a href="#note" class="anchor"></a>Note</h2>
-<p><code>cBioPortalData</code> is a work in progress due to changes in data curation and cBioPortal API specification. Users can view the <code><a href="https://rdrr.io/r/utils/data.html">data(studiesTable)</a></code> dataset to get an overview of the studies that are available and currently building as <code>MultiAssayExperiment</code> representations. About 80% of the studies via the API (<code>api_build</code>) and 83% of the package studies (<code>pack_build</code>) are building, these include additional datasets that were not previously available. Feel free to file an issue to request prioritization of fixing any of the remaining datasets.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">studiesTable</span><span class="op">)</span>
+<p><code>cBioPortalData</code> is a work in progress due to changes in data curation and cBioPortal API specification. Users can view the <code><a href="https://rdrr.io/r/utils/data.html">data(studiesTable)</a></code> dataset to get an overview of the studies that are available and currently building as <code>MultiAssayExperiment</code> representations. About 73 % of the studies via the API (<code>api_build</code>) and 83 % of the package studies (<code>pack_build</code>) are building, these include additional datasets that were not previously available. Feel free to file an issue to request prioritization of fixing any of the remaining datasets.</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">studiesTable</span><span class="op">)</span>
 
 <span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">studiesTable</span><span class="op">$</span><span class="va">api_build</span><span class="op">)</span>
 <span class="co">#&gt; </span>
@@ -142,19 +142,19 @@
 <span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">studiesTable</span><span class="op">$</span><span class="va">pack_build</span><span class="op">)</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; FALSE  TRUE </span>
-<span class="co">#&gt;    49   238</span></pre></div>
+<span class="co">#&gt;    49   238</span></code></pre></div>
 <div id="api-service" class="section level3">
 <h3 class="hasAnchor">
 <a href="#api-service" class="anchor"></a>API Service</h3>
 <p>Flexible and granular access to cBioPortal data from <code>cbioportal.org/api</code>. This option is best used with a particular gene panel of interest. It allows users to download sections of the data with molecular profile and gene panel combinations within a study.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit">
-<span class="va">cbio</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/cBioPortal.html">cBioPortal</a></span><span class="op">(</span><span class="op">)</span>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">cbio</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/cBioPortal.html">cBioPortal</a></span><span class="op">(</span><span class="op">)</span>
 <span class="va">gbm</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/cBioPortalData.html">cBioPortalData</a></span><span class="op">(</span>api <span class="op">=</span> <span class="va">cbio</span>, by <span class="op">=</span> <span class="st">"hugoGeneSymbol"</span>, studyId <span class="op">=</span> <span class="st">"gbm_tcga"</span>,
     genePanelId <span class="op">=</span> <span class="st">"IMPACT341"</span>,
     molecularProfileIds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"gbm_tcga_rppa"</span>, <span class="st">"gbm_tcga_mrna"</span><span class="op">)</span>
-<span class="op">)</span></pre></div>
-<div class="sourceCode" id="cb4"><pre class="downlit">
-<span class="va">gbm</span>
+<span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">gbm</span>
 <span class="co">#&gt; A MultiAssayExperiment object of 2 listed</span>
 <span class="co">#&gt;  experiments with user-defined names and respective classes.</span>
 <span class="co">#&gt;  Containing an ExperimentList class object of length 2:</span>
@@ -167,16 +167,16 @@
 <span class="co">#&gt;  `$`, `[`, `[[` - extract colData columns, subset, or experiment</span>
 <span class="co">#&gt;  *Format() - convert into a long or wide DataFrame</span>
 <span class="co">#&gt;  assays() - convert ExperimentList to a SimpleList of matrices</span>
-<span class="co">#&gt;  exportClass() - save all data to files</span></pre></div>
+<span class="co">#&gt;  exportClass() - save all data to files</span></code></pre></div>
 </div>
 <div id="packaged-data-service" class="section level3">
 <h3 class="hasAnchor">
 <a href="#packaged-data-service" class="anchor"></a>Packaged Data Service</h3>
 <p>This function will download a dataset from the <code>cbioportal.org/datasets</code> website as a packaged tarball and serve it to users as a <code>MultiAssayExperiment</code> object. This option is good for users who are interested in obtaining all the data for a particular study.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit">
-<span class="va">laml</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/cBioDataPack.html">cBioDataPack</a></span><span class="op">(</span><span class="st">"laml_tcga"</span><span class="op">)</span></pre></div>
-<div class="sourceCode" id="cb6"><pre class="downlit">
-<span class="va">laml</span>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">laml</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/cBioDataPack.html">cBioDataPack</a></span><span class="op">(</span><span class="st">"laml_tcga"</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">laml</span>
 <span class="co">#&gt; A MultiAssayExperiment object of 12 listed</span>
 <span class="co">#&gt;  experiments with user-defined names and respective classes.</span>
 <span class="co">#&gt;  Containing an ExperimentList class object of length 12:</span>
@@ -199,7 +199,7 @@
 <span class="co">#&gt;  `$`, `[`, `[[` - extract colData columns, subset, or experiment</span>
 <span class="co">#&gt;  *Format() - convert into a long or wide DataFrame</span>
 <span class="co">#&gt;  assays() - convert ExperimentList to a SimpleList of matrices</span>
-<span class="co">#&gt;  exportClass() - save all data to files</span></pre></div>
+<span class="co">#&gt;  exportClass() - save all data to files</span></code></pre></div>
 </div>
 </div>
 </div>
@@ -241,7 +241,7 @@
 <h2>Dev status</h2>
 <ul class="list-unstyled">
 <li><a href="https://bioconductor.org/checkResults/release/bioc-LATEST/cBioPortalData"><img src="http://www.bioconductor.org/shields/build/release/bioc/cBioPortalData.svg" alt="BioC status"></a></li>
-<li><a href="https://www.bioconductor.org/packages/release/bioc/html/cBioPortalData.html#archives"><img src="http://www.bioconductor.org/shields/availability/3.11/cBioPortalData.svg" alt="Platforms"></a></li>
+<li><a href="https://www.bioconductor.org/packages/release/bioc/html/cBioPortalData.html#archives"><img src="http://www.bioconductor.org/shields/availability/3.12/cBioPortalData.svg" alt="Platforms"></a></li>
 <li><a href="https://travis-ci.org/waldronlab/cBioPortalData"><img src="https://travis-ci.org/waldronlab/cBioPortalData.svg?branch=master" alt="Travis Build Status"></a></li>
 <li><a href="https://ci.appveyor.com/project/waldronlab/cbioportaldata"><img src="https://ci.appveyor.com/api/projects/status/42kd6prni3o0q50b?svg=true" alt="Build status"></a></li>
 <li><a href="https://bioconductor.org/packages/stats/bioc/cBioPortalData/"><img src="https://www.bioconductor.org/shields/downloads/release/cBioPortalData.svg" alt="Downloads"></a></li>
