@@ -16,7 +16,7 @@ options(tibble.print_min = 5, tibble.print_max = 5)
 
 <!-- start badges here -->
 [![BioC status](http://www.bioconductor.org/shields/build/release/bioc/cBioPortalData.svg)](https://bioconductor.org/checkResults/release/bioc-LATEST/cBioPortalData)
-[![Platforms](http://www.bioconductor.org/shields/availability/3.11/cBioPortalData.svg)](https://www.bioconductor.org/packages/release/bioc/html/cBioPortalData.html#archives)
+[![Platforms](http://www.bioconductor.org/shields/availability/3.12/cBioPortalData.svg)](https://www.bioconductor.org/packages/release/bioc/html/cBioPortalData.html#archives)
 [![Travis Build Status](https://travis-ci.org/waldronlab/cBioPortalData.svg?branch=master)](https://travis-ci.org/waldronlab/cBioPortalData)
 [![Build status](https://ci.appveyor.com/api/projects/status/42kd6prni3o0q50b?svg=true)](https://ci.appveyor.com/project/waldronlab/cbioportaldata)
 [![Downloads](https://www.bioconductor.org/shields/downloads/release/cBioPortalData.svg)](https://bioconductor.org/packages/stats/bioc/cBioPortalData/)
@@ -57,16 +57,23 @@ if (!requireNamespace("cBioPortalData", quietly = TRUE))
 library(cBioPortalData)
 ```
 
+```{r,results="hide",include=FALSE}
+data(studiesTable)
+st <- studiesTable
+packpct <- round(prop.table(table(st$pack_build))[[2]], 2) * 100
+apipct <- round(prop.table(table(st$api_build))[[2]], 2) * 100
+```
+
 ## Note
 
 `cBioPortalData` is a work in progress due to changes in data curation and
 cBioPortal API specification. Users can view the `data(studiesTable)` dataset
 to get an overview of the studies that are available and currently building
-as `MultiAssayExperiment` representations. About 80% of the studies via the
-API (`api_build`) and 83% of the package studies (`pack_build`) are building,
-these include additional datasets that were not previously available. Feel free
-to file an issue to request prioritization of fixing any of the remaining
-datasets.
+as `MultiAssayExperiment` representations. About `r apipct` % of the studies via
+the API (`api_build`) and `r packpct` % of the package studies (`pack_build`)
+are building, these include additional datasets that were not previously
+available. Feel free to file an issue to request prioritization of fixing any
+of the remaining datasets.
 
 ```{r}
 data(studiesTable)
