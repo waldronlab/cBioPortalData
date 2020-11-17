@@ -55,8 +55,9 @@ environment:
     USE_RTOOLS: true 
 
   matrix:
-    - R_VERSION: release
+    - R_VERSION: devel
       R_ARCH: x64
+      PKGTYPE: both
       GCC_PATH: mingw_64
 
 artifacts:
