@@ -18,6 +18,7 @@
 \alias{getGenePanelMolecular}
 \alias{getSampleInfo}
 \alias{getDataByGenePanel}
+\alias{getDataByGenes}
 \title{The R interface to the cBioPortal API Data Service}
 \usage{
 cBioPortal(
@@ -88,6 +89,18 @@ getDataByGenePanel(
   sampleListId = NULL,
   sampleIds = NULL
 )
+
+getDataByGenes(
+  api,
+  studyId = NA_character_,
+  genes = NA_character_,
+  genePanelId = NA_character_,
+  by = c("entrezGeneId", "hugoGeneSymbol"),
+  molecularProfileIds = NULL,
+  sampleListId = NULL,
+  sampleIds = NULL,
+  ...
+)
 }
 \arguments{
 \item{hostname}{character(1) The internet location of the service
@@ -133,6 +146,14 @@ from the `genePanels` function}
 
 \item{sampleListId}{character(1) A sample list identifier as obtained from
 `sampleLists()``}
+
+\item{genes}{character() Either Entrez gene identifiers or Hugo gene
+symbols. When included, the 'by' argument indicates the type of
+identifier provided and 'genePanelId' is ignored. Preference is
+given to Entrez IDs due to faster query responses.}
+
+\item{by}{character(1) Either 'entrezGeneId' or 'hugoGeneSymbol' for row
+metadata (default: 'entrezGeneId')}
 }
 \value{
 cBioPortal: An API object of class 'cBioPortal'
@@ -219,6 +240,13 @@ This section of the documentation lists the functions that
     provided.
 }
 
+\section{Genes}{
+
+    * getDataByGenes - Download data for a number of genes within
+    `molecularProfileId` indicators, optionally a `sampleListId` can be
+    provided.
+}
+
 \examples{
 cbio <- cBioPortal()
 
@@ -263,5 +291,13 @@ getGenePanel(api = cbio, genePanelId = "IMPACT341")
 
 getDataByGenePanel(cbio, studyId = "acc_tcga", genePanelId = "IMPACT341",
    molecularProfileId = "acc_tcga_rppa", sampleListId = "acc_tcga_rppa")
+
+
+getDataByGenes(
+    cbio, studyId = "acc_tcga", genes = 1:3,
+    by = c("entrezGeneId", "hugoGeneSymbol"),
+    molecularProfileId = "acc_tcga_rppa",
+    sampleListId = "acc_tcga_rppa"
+)
 
 }

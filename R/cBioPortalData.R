@@ -1,10 +1,10 @@
 .portalExperiments <- function(
-    api, by, genePanelId, studyId, molecularProfileIds, sampleListId, sampleIds
+    api, by, genePanelId, genes, studyId, molecularProfileIds,
+    sampleListId, sampleIds
 ) {
-    expers <- getDataByGenePanel(api,
-        genePanelId = genePanelId, studyId = studyId,
-        molecularProfileIds = molecularProfileIds, sampleListId = sampleListId,
-        sampleIds = sampleIds)
+    expers <- getDataByGenes(api, genes = genes, genePanelId = genePanelId,
+        studyId = studyId, molecularProfileIds = molecularProfileIds,
+        sampleListId = sampleListId, sampleIds = sampleIds)
 
     sampmap <- lapply(expers, function(x) {
         if (length(x)) {
@@ -198,9 +198,6 @@ update.args <- function(args) {
 #'
 #' @inheritParams cBioPortal
 #'
-#' @param by character(1) Either 'entrezGeneId' or 'hugoGeneSymbol' for row
-#'     metadata
-#'
 #' @md
 #'
 #' @examples
@@ -230,6 +227,7 @@ update.args <- function(args) {
 cBioPortalData <-
     function(api, studyId = NA_character_,
         genePanelId = NA_character_,
+        genes = NA_character_,
         molecularProfileIds = NULL,
         sampleListId = NULL,
         by = c("entrezGeneId", "hugoGeneSymbol")

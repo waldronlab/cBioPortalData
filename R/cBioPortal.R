@@ -68,8 +68,16 @@ utils::globalVariables(c("clinicalAttributeId", "value", "sampleId"))
 #'
 #' @param sampleIds character() Sample identifiers
 #'
+#' @param genes character() Either Entrez gene identifiers or Hugo gene
+#'     symbols. When included, the 'by' argument indicates the type of
+#'     identifier provided and 'genePanelId' is ignored. Preference is
+#'     given to Entrez IDs due to faster query responses.
+#'
 #' @param genePanelId character(1) Identifies the gene panel, as obtained
 #'     from the `genePanels` function
+#'
+#' @param by character(1) Either 'entrezGeneId' or 'hugoGeneSymbol' for row
+#'     metadata (default: 'entrezGeneId')
 #'
 #' @return
 #'
@@ -580,6 +588,36 @@ getDataByGenePanel <-
     function(api, studyId = NA_character_, genePanelId = NA_character_,
         molecularProfileIds = NULL, sampleListId = NULL, sampleIds = NULL)
 {
+    .Deprecated("getDataByGenes")
+    getDataByGenes(
+        api = api, studyId = studyId, genePanelId = genePanelId,
+        molecularProfileIds = molecularProfileIds,
+        sampleListId = sampleListId, sampleIds = sampleIds
+    )
+}
+
+#' @name cBioPortal
+#'
+#' @section Genes:
+#'     * getDataByGenes - Download data for a number of genes within
+#'     `molecularProfileId` indicators, optionally a `sampleListId` can be
+#'     provided.
+#'
+#' @examples
+#'
+#' getDataByGenes(
+#'     cbio, studyId = "acc_tcga", genes = 1:3,
+#'     by = c("entrezGeneId", "hugoGeneSymbol"),
+#'     molecularProfileId = "acc_tcga_rppa",
+#'     sampleListId = "acc_tcga_rppa"
+#' )
+#'
+#' @export
+getDataByGenes <-
+    function(api, studyId = NA_character_, genes = NA_character_,
+        genePanelId = NA_character_, by = c("entrezGeneId", "hugoGeneSymbol"),
+        molecularProfileIds = NULL, sampleListId = NULL, sampleIds = NULL, ...)
+{
     if (missing(api))
         stop("Provide a valid 'api' from 'cBioPortal()'")
     if (!is.null(sampleListId))
@@ -588,10 +626,27 @@ getDataByGenePanel <-
     if (is.null(sampleIds))
         stop("Provide either a 'sampleListId' or 'sampleIds'")
 
-    panel <- getGenePanel(api, genePanelId = genePanelId)
+    isSingleNA <- function(x) { length(x) == 1L && is.na(x) }
+
+    if (isSingleNA(genes) && isSingleNA(genePanelId))
+        stop("Provide either 'genes' or 'genePanelId'")
+
+    by <- match.arg(by)
+    geneIdType <- switch(
+        by, entrezGeneId = "ENTREZ_GENE_ID", 'HUGO_GENE_SYMBOL'
+    )
+
+    feats <- genes
+    if (identical(by, "hugoGeneSymbol") && !is.na(genes))
+        feats <- .invoke_bind(api, "fetchGenesUsingPOST", TRUE,
+            geneIdType = geneIdType, geneIds = as.character(genes), ...)
+
+    if (isSingleNA(genes))
+        feats <- getGenePanel(api, genePanelId = genePanelId)
+
     digi <- digest::digest(
-        list("getDataByGenePanel", api, studyId, panel,
-            sampleIds, molecularProfileIds)
+        list("getDataByGenes", api, studyId, feats, sampleIds,
+            molecularProfileIds)
     )
     cacheloc <- .getHashCache(digi)
     if (file.exists(cacheloc)) {
@@ -599,11 +654,11 @@ getDataByGenePanel <-
     } else {
         molData <- molecularData(api = api,
             molecularProfileIds = molecularProfileIds,
-            entrezGeneIds = panel[["entrezGeneId"]],
+            entrezGeneIds = feats[["entrezGeneId"]],
             sampleIds = sampleIds
         )
         molData <- lapply(molData, function(x) suppressMessages({
-            dplyr::left_join(x, panel)
+            dplyr::left_join(x, feats)
             })
         )
         save(molData, file = cacheloc)
