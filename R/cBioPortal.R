@@ -640,6 +640,8 @@ getDataByGenes <-
     if (identical(by, "hugoGeneSymbol") && !is.na(genes))
         feats <- .invoke_bind(api, "fetchGenesUsingPOST", TRUE,
             geneIdType = geneIdType, geneIds = as.character(genes), ...)
+    else
+        feats <- tibble::tibble(entrezGeneId = genes)
 
     if (isSingleNA(genes))
         feats <- getGenePanel(api, genePanelId = genePanelId)
