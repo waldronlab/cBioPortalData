@@ -1,3 +1,12 @@
+# Changes in version 2.4.0
+
+## New features
+
+* `cBioPortalData` now allows for gene inputs as either Entrez IDs or Hugo
+symbols (#24, @jucor)
+* When `gene` inputs are provided, the `by` argument has to agree with the type
+of genes provided (either be `entrezGeneId` or `hugoGeneSymbol`).
+
 # Changes in version 2.2.0
 
 ## New features
