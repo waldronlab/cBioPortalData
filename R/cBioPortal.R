@@ -626,7 +626,9 @@ getDataByGenes <-
     if (is.null(sampleIds))
         stop("Provide either a 'sampleListId' or 'sampleIds'")
 
-    if (is.na(genes) && is.na(genePanelId))
+    isSingleNA <- function(x) { length(x) == 1L && is.na(x) }
+
+    if (isSingleNA(genes) && isSingleNA(genePanelId))
         stop("Provide either 'genes' or 'genePanelId'")
 
     by <- match.arg(by)
@@ -639,7 +641,7 @@ getDataByGenes <-
         feats <- .invoke_bind(api, "fetchGenesUsingPOST", TRUE,
             geneIdType = geneIdType, geneIds = as.character(genes), ...)
 
-    if (is.na(genes))
+    if (isSingleNA(genes))
         feats <- getGenePanel(api, genePanelId = genePanelId)
 
     digi <- digest::digest(
