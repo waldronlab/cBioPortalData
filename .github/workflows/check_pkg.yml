@@ -1,4 +1,4 @@
-name: cBioPortalData Release check
+name: Release R CMD check
 
 on: push
 
