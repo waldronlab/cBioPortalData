@@ -17,23 +17,28 @@ status](https://ci.appveyor.com/api/projects/status/42kd6prni3o0q50b?svg=true)](
 
 ### Overview
 
-This project aims to import all cBioPortal datasets as
+The `cBioPortalData` R package aims to import cBioPortal datasets as
 [MultiAssayExperiment](http://bioconductor.org/packages/MultiAssayExperiment/)
-objects in Bioconductor. It offers some advantages over the CDGS-R
-package:
+objects into Bioconductor. Some of the features of the package include:
 
-1.  The MultiAssayExperiment class explicitly links all assays to the
-    patient clinical/pathological data
-2.  The MultiAssayExperiment class provides a [flexible
-    API](https://github.com/waldronlab/MultiAssayExperiment/wiki/MultiAssayExperiment-API)
-    including harmonized subsetting and reshaping to convenient wide and
-    long formats.
-3.  It provides complete datasets, not just for subsets of genes
-4.  It provides automatic local caching, thanks to BiocFileCache.
+1.  The use of the `MultiAssayExperiment` integrative container for
+    coordinating and representing the data.
+2.  The data container explicitly links all assays to the patient
+    clinical/pathological data.
+3.  With a [flexible
+    API](https://github.com/waldronlab/MultiAssayExperiment/wiki/MultiAssayExperiment-API),
+    `MultiAssayExperiment` provides harmonized subsetting and reshaping
+    into convenient wide and long formats.
+4.  The package provides datasets from both the API and the saved
+    packaged data.
+5.  It also provides automatic local caching, thanks to
+    [BiocFileCache](https://bioconductor.org/packages/BiocFileCache/).
 
 ## MultiAssayExperiment Cheatsheet
 
-<a href="https://github.com/waldronlab/cheatsheets/blob/master/MultiAssayExperiment_QuickRef.pdf"><img src="https://raw.githubusercontent.com/waldronlab/cheatsheets/master/pngs/MultiAssayExperiment_QuickRef.png" width="989" height="1091"/></a>
+<a href="https://github.com/waldronlab/cheatsheets/blob/master/MultiAssayExperiment_QuickRef.pdf">
+<img src="https://raw.githubusercontent.com/waldronlab/cheatsheets/master/pngs/MultiAssayExperiment_QuickRef.png" width="989" height="1091"/>
+</a>
 
 ## Quick Start
 
