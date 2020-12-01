@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">cBioPortalData</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.2.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.2.5</span>
       </span>
     </div>
 
@@ -97,19 +97,20 @@
 <div id="overview" class="section level3">
 <h3 class="hasAnchor">
 <a href="#overview" class="anchor"></a>Overview</h3>
-<p>This project aims to import all cBioPortal datasets as <a href="http://bioconductor.org/packages/MultiAssayExperiment/">MultiAssayExperiment</a> objects in Bioconductor. It offers some advantages over the CDGS-R package:</p>
+<p>The <code>cBioPortalData</code> R package aims to import cBioPortal datasets as <a href="http://bioconductor.org/packages/MultiAssayExperiment/">MultiAssayExperiment</a> objects into Bioconductor. Some of the features of the package include:</p>
 <ol>
-<li>The MultiAssayExperiment class explicitly links all assays to the patient clinical/pathological data</li>
-<li>The MultiAssayExperiment class provides a <a href="https://github.com/waldronlab/MultiAssayExperiment/wiki/MultiAssayExperiment-API">flexible API</a> including harmonized subsetting and reshaping to convenient wide and long formats.</li>
-<li>It provides complete datasets, not just for subsets of genes</li>
-<li>It provides automatic local caching, thanks to BiocFileCache.</li>
+<li>The use of the <code>MultiAssayExperiment</code> integrative container for coordinating and representing the data.</li>
+<li>The data container explicitly links all assays to the patient clinical/pathological data.</li>
+<li>With a <a href="https://github.com/waldronlab/MultiAssayExperiment/wiki/MultiAssayExperiment-API">flexible API</a>, <code>MultiAssayExperiment</code> provides harmonized subsetting and reshaping into convenient wide and long formats.</li>
+<li>The package provides datasets from both the API and the saved packaged data.</li>
+<li>It also provides automatic local caching, thanks to <a href="https://bioconductor.org/packages/BiocFileCache/">BiocFileCache</a>.</li>
 </ol>
 </div>
 </div>
 <div id="multiassayexperiment-cheatsheet" class="section level2">
 <h2 class="hasAnchor">
 <a href="#multiassayexperiment-cheatsheet" class="anchor"></a>MultiAssayExperiment Cheatsheet</h2>
-<p><a href="https://github.com/waldronlab/cheatsheets/blob/master/MultiAssayExperiment_QuickRef.pdf"><img src="https://raw.githubusercontent.com/waldronlab/cheatsheets/master/pngs/MultiAssayExperiment_QuickRef.png" width="989" height="1091"></a></p>
+<p><a href="https://github.com/waldronlab/cheatsheets/blob/master/MultiAssayExperiment_QuickRef.pdf"> <img src="https://raw.githubusercontent.com/waldronlab/cheatsheets/master/pngs/MultiAssayExperiment_QuickRef.png" width="989" height="1091"></a></p>
 </div>
 <div id="quick-start" class="section level2">
 <h2 class="hasAnchor">
