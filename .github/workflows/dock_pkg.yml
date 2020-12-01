@@ -1,4 +1,4 @@
-name: cBioPortalDocker
+name: cBioPortalData devel Docker
 
 on:
   push:
@@ -38,10 +38,11 @@ jobs:
       - name: Check Package
         env:
           _R_CHECK_CRAN_INCOMING_REMOTE_: false
-        run: rcmdcheck::rcmdcheck(args = c("--no-manual"), error_on = "warning", check_dir = "check")
+        run: rcmdcheck::rcmdcheck(args = c("--no-manual"), error_on = "error", check_dir = "check")
         shell: Rscript {0}
         
       - name: Build and Push Docker container
+        if: ${{ success() }}
         uses: docker/build-push-action@v1
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
