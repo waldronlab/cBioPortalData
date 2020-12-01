@@ -1,4 +1,4 @@
-name: cBioPortalData devel Docker
+name: Build devel Docker
 
 on:
   push:

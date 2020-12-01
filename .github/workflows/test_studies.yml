@@ -1,4 +1,4 @@
-name: Test Build cBioPortal Studies
+name: Update data(studiesTable)
 
 on: workflow_dispatch
 

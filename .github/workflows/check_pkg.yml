@@ -1,4 +1,4 @@
-name: cBioPortalData R CMD check
+name: Devel R CMD check
 
 on:
   push:
