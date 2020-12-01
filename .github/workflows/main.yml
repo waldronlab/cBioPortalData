@@ -1,4 +1,4 @@
-name: cBioRel
+name: cBioPortalData Release check
 
 on: push
 
