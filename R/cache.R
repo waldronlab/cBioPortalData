@@ -137,12 +137,21 @@ removePackCache <- function(cancer_study_id, dry.run = TRUE) {
 
 .molDataCache <-
     function(api, studyId = NA_character_, genePanelId = NA_character_,
-    molecularProfileIds = NULL, sampleListId = NULL, sampleIds = NULL)
+    genes = NA_character_, molecularProfileIds = NULL,
+    by = c("entrezGeneId", "hugoGeneSymbol"),
+    sampleListId = NULL, sampleIds = NULL)
 {
-    panel <- getGenePanel(api, genePanelId = genePanelId)
+    if (!is.null(sampleListId))
+        sampleIds <- samplesInSampleLists(api, sampleListId)[[1L]]
+
+    if (is.null(sampleIds))
+        stop("Provide either a 'sampleListId' or 'sampleIds'")
+
+    feats <- .resolveFeatures(
+        api = api, by = by, genes = genes, genePanelId = genePanelId
+    )
     digi <- digest::digest(
-        list("getDataByGenePanel", api, studyId, panel,
-            sampleIds, molecularProfileIds)
+        list("getDataByGenes", api, studyId, feats[["entrezGeneId"]], sampleIds)
     )
     .getHashCache(digi)
 }
@@ -175,7 +184,7 @@ removePackCache <- function(cancer_study_id, dry.run = TRUE) {
 #' )
 #'
 #' removeDataCache(
-#'     cbio,
+#'     cbio, by = "hugoGeneSymbol",
 #'     studyId = "acc_tcga",
 #'     genePanelId = "AmpliSeq",
 #'     molecularProfileIds =
@@ -186,20 +195,26 @@ removePackCache <- function(cancer_study_id, dry.run = TRUE) {
 #' @export
 removeDataCache <- function(api, studyId = NA_character_,
     genePanelId = NA_character_, genes = NA_character_,
-    molecularProfileIds = NULL, sampleListId = NULL, sampleIds = NULL,
+    molecularProfileIds = NULL, sampleListId = NULL,
+    by = c("entrezGeneId", "hugoGeneSymbol"),
     dry.run = TRUE, ...)
 {
     if (missing(api))
         stop("Provide a valid 'api' from 'cBioPortal()'")
 
+    by <- match.arg(by)
+
     formals <- formals()
+    formals[["by"]] <- by
     call <- std.args(match.call(), formals)
     exargs <- match.args(.portalExperiments, call)
     exargs <- eval.args(exargs)
     exargs <- update.args(exargs)
 
-    cachelocs <- c(experiment_cache = do.call(.molDataCache, exargs),
-    clinical_cache = .clinDataCache(exargs[["api"]], exargs[["studyId"]]))
+    cachelocs <- c(
+        experiment_cache = do.call(.molDataCache, exargs),
+        clinical_cache = .clinDataCache(exargs[["api"]], exargs[["studyId"]])
+    )
 
     if (!dry.run)
         vapply(cachelocs, file.remove, logical(1L))
