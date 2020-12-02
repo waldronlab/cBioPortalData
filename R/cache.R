@@ -185,8 +185,9 @@ removePackCache <- function(cancer_study_id, dry.run = TRUE) {
 #'
 #' @export
 removeDataCache <- function(api, studyId = NA_character_,
-    genePanelId = NA_character_, molecularProfileIds = NULL,
-    sampleListId = NULL, sampleIds = NULL, dry.run = TRUE, ...)
+    genePanelId = NA_character_, genes = NA_character_,
+    molecularProfileIds = NULL, sampleListId = NULL, sampleIds = NULL,
+    dry.run = TRUE, ...)
 {
     if (missing(api))
         stop("Provide a valid 'api' from 'cBioPortal()'")
