@@ -17,14 +17,6 @@ jobs:
           saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
         shell: Rscript {0}
 
-      - name: Cache R packages
-        if: runner.os != 'Windows'
-        uses: actions/cache@v1
-        with:
-          path: /usr/local/lib/R/site-library
-          key: ${{ runner.os }}-r-1-${{ hashFiles('.github/depends.Rds') }}
-          restore-keys: ${{ runner.os }}-r-1-
-
       - name: Install Dependencies
         run: |
           options(repos = c(CRAN = 'https://cran.r-project.org')); BiocManager::install(c('remotes', 'AnVIL'), ask = FALSE, update = TRUE)

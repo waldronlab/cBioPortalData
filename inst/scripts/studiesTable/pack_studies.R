@@ -63,6 +63,8 @@ if (identical(system("hostname"), "supermicro") &&
         }
         ## try to free up memory
         gc()
+        ## clean up data
+        removePackCache(cancer_study_id = pack_stud, dry.run = FALSE)
     }
 }
 
