@@ -1,7 +1,7 @@
 library(cBioPortalData)
 
 denv <- new.env(parent = emptyenv())
-setwd("~/gh/cBioPortalData")
+# setwd("~/gh/cBioPortalData")
 load("./data/studiesTable.rda", envir = denv)
 studiesTable <- denv[["studiesTable"]]
 
@@ -67,10 +67,10 @@ if (identical(system("hostname"), "supermicro") &&
 }
 
 err_pack <- Filter(nchar, err_pack)
-err_info <- lapply(setNames(nm = unique(err_pack)),
+err_pack_info <- lapply(setNames(nm = unique(err_pack)),
     function(x) names(err_pack)[err_pack == x])
 # table(err_pack)
-save(err_info, file = "inst/extdata/err_info.rda")
+save(err_pack_info, file = "inst/extdata/err_pack_info.rda")
 
 denv <- new.env(parent = emptyenv())
 data("studiesTable", package = "cBioPortalData", envir = denv)

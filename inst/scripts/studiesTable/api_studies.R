@@ -1,7 +1,7 @@
 library(cBioPortalData)
 
 denv <- new.env(parent = emptyenv())
-setwd("~/gh/cBioPortalData")
+# setwd("~/gh/cBioPortalData")
 load("./data/studiesTable.rda", envir = denv)
 studiesTable <- denv[["studiesTable"]]
 

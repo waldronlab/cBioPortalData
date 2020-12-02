@@ -27,7 +27,7 @@ jobs:
 
       - name: Install Dependencies
         run: |
-          options(repos = c(CRAN = 'https://cran.r-project.org')); BiocManager::install(c('remotes', 'rcmdcheck', 'covr', 'pkgdown', 'AnVIL'), ask = FALSE, update = TRUE)
+          options(repos = c(CRAN = 'https://cran.r-project.org')); BiocManager::install(c('remotes', 'AnVIL'), ask = FALSE, update = TRUE)
           remotes::install_local(repos = BiocManager::repositories(), dependencies = TRUE)
           BiocManager::install(c("cgdsr", "stringr", "stringi", "tibble", "dplyr", "Rcurl", "usethis"))
         shell: Rscript {0}
@@ -40,6 +40,12 @@ jobs:
 
       - name: Add api_build to studiesTable
         run: Rscript -e "source('./inst/scripts/studiesTable/api_studies.R')"
+
+      - name: Upload error messages
+        uses: actions/upload-artifact@v2
+        with:
+          name: study-build-errors
+          path: inst/extdata/err*.rda
 
       - name: Check for changes in studiesTable
         run: Rscript -e "source('./inst/scripts/studiesTable/compareTable.R')"
