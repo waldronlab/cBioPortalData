@@ -15,7 +15,11 @@ downloadStudy(
 
 untarStudy(cancer_study_file, exdir = tempdir())
 
-loadStudy(filepath, names.field = c("Hugo_Symbol", "Entrez_Gene_Id", "Gene"))
+loadStudy(
+  filepath,
+  names.field = c("Hugo_Symbol", "Entrez_Gene_Id", "Gene"),
+  cleanup = TRUE
+)
 }
 \arguments{
 \item{cancer_study_id}{character(1) The study identifier from cBioPortal as
@@ -25,8 +29,8 @@ in \url{https://cbioportal.org/webAPI}}
 and use it to track downloaded data. If data found in the cache, data will
 not be re-downloaded. A path can also be provided to data cache location.}
 
-\item{force}{logical(1) (default FALSE) whether to force re-download data from
-remote location}
+\item{force}{logical(1) (default FALSE) whether to force re-download data
+from remote location}
 
 \item{url_location}{character(1)
 (default "https://cbioportal-datahub.s3.amazonaws.com") the URL location for
@@ -42,8 +46,11 @@ the contents of the tarball (default \code{tempdir()}; see also \code{?untar})}
 \item{filepath}{character(1) indicates the folder location where
 the contents of the tarball are \emph{located} (usually the same as \code{exdir})}
 
-\item{names.field}{A character vector of possible column names for the column
-that is used to label ranges from a mutations or copy number file.}
+\item{names.field}{A character vector of possible column names for the
+column that is used to label ranges from a mutations or copy number file.}
+
+\item{cleanup}{logical(1) whether to delete the \code{untar}-red contents from
+the \code{exdir} folder (default TRUE)}
 }
 \value{
 \itemize{
@@ -56,15 +63,23 @@ that is used to label ranges from a mutations or copy number file.}
 \strong{Note} that these functions should be used when a particular
 study is \emph{not} currently available as a \code{MultiAssayExperiment}
 representation. Otherwise, use \code{cBioDataPack}. Provide a \code{cancer_study_id}
-from the \code{studiesTable} and retrieve the study tarball from cBioPortal.
-These functions are used by \code{cBioDataPack} under the hood to download,
-untar, and load the tarball datasets with caching. As stated in
+from the \code{studiesTable} and retrieve the study tarball from the cBio
+Genomics Portal.  These functions are used by \code{cBioDataPack} under the hood
+to download,untar, and load the tarball datasets with caching. As stated in
 \code{?cBioDataPack}, not all studies are currently working as
 \code{MultiAssayExperiment} objects. As of July 2020, about ~80\% of
 datasets can be successfully imported into the \code{MultiAssayExperiment} data
 class. Please open an issue if you would like the team to prioritize a
 study. You may also check \code{studiesTable$pack_build} for a more current
 status.
+}
+\details{
+When attempting to load a dataset using \code{loadStudy}, note that
+the \code{cleanup} argument is set to \code{TRUE} by default. Change the argument
+to \code{FALSE} if you would like to keep the untarred data in the \code{exdir}
+location. \code{downloadStudy} and \code{untarStudy} are not affected by this change.
+The tarball of the downloaded data is cached via \code{BiocFileCache} when
+\code{use_cache} is \code{TRUE}.
 }
 \examples{
 
