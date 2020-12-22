@@ -188,22 +188,23 @@ clinicalData <- function(api, studyId = NA_character_) {
     if (file.exists(cacheloc)) {
         load(cacheloc)
     } else {
-        pttable <- .invoke_bind(
-            api = api, name = "getAllPatientsInStudyUsingGET",
-            use_cache = FALSE, studyId = studyId
+        atts <- .invoke_bind(
+            api = api, name = "fetchAllClinicalDataInStudyUsingPOST",
+            use_cache = FALSE, clinicalDataType = "PATIENT", studyId = studyId
         )
+        att_tab <- tidyr::pivot_wider(data = atts, id_cols = "patientId",
+            names_from = "clinicalAttributeId", values_from = "value")
         clin <- .invoke_bind(
             api = api, name = "getAllClinicalDataInStudyUsingGET",
             use_cache = FALSE, studyId = studyId
         )
-        full <- tidyr::pivot_wider(
-            data = clin,
-            names_from = "clinicalAttributeId",
-            values_from = "value"
-        )
-        save(full, file = cacheloc)
+        clin_tab <- tidyr::pivot_wider(data = clin,
+            id_cols = c("patientId", "sampleId"),
+            names_from = "clinicalAttributeId", values_from = "value")
+        clinfull <-    full_join(att_tab, clin_tab, by = "patientId")
+        save(clinfull, file = cacheloc)
     }
-    full
+    clinfull
 }
 
 #' @name cBioPortal
