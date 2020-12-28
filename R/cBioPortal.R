@@ -201,10 +201,10 @@ clinicalData <- function(api, studyId = NA_character_) {
         clin_tab <- tidyr::pivot_wider(data = clin,
             id_cols = c("patientId", "sampleId"),
             names_from = "clinicalAttributeId", values_from = "value")
-        clinfull <-    full_join(att_tab, clin_tab, by = "patientId")
-        save(clinfull, file = cacheloc)
+        full <-    full_join(att_tab, clin_tab, by = "patientId")
+        save(full, file = cacheloc)
     }
-    clinfull
+    full
 }
 
 #' @name cBioPortal
