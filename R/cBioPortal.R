@@ -201,7 +201,7 @@ clinicalData <- function(api, studyId = NA_character_) {
         clin_tab <- tidyr::pivot_wider(data = clin,
             id_cols = c("patientId", "sampleId"),
             names_from = "clinicalAttributeId", values_from = "value")
-        full <-    full_join(att_tab, clin_tab, by = "patientId")
+        full <-    dplyr::full_join(att_tab, clin_tab, by = "patientId")
         save(full, file = cacheloc)
     }
     full
