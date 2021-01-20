@@ -6,6 +6,7 @@
 symbols (#24, @jucor)
 * When `gene` inputs are provided, the `by` argument has to agree with the type
 of genes provided (either be `entrezGeneId` or `hugoGeneSymbol`).
+* Added `CITATION` file! See it at `citation(package = "cBioPortalData")`.
 
 # Changes in version 2.2.0
 
