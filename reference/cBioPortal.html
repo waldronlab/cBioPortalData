@@ -79,7 +79,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">cBioPortalData</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.2.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.2.6</span>
       </span>
     </div>
 
@@ -87,7 +87,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -116,7 +116,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/waldronlab/cBioPortalData/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -370,20 +370,20 @@ from the `genePanels` function</p></td>
     <pre class="examples"><div class='input'><span class='va'>cbio</span> <span class='op'>&lt;-</span> <span class='fu'>cBioPortal</span><span class='op'>(</span><span class='op'>)</span>
 
 <span class='fu'>getStudies</span><span class='op'>(</span>api <span class='op'>=</span> <span class='va'>cbio</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 296 x 13</span><span>
+</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 300 x 13</span><span>
 #&gt;    name  shortName description publicStudy pmid  citation groups status
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;lgl&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span> Chol… Cholangi… Exome sequ… TRUE        2418… Chan-on… </span><span style='color: #555555;'>"</span><span>PUBL…      0
-#&gt; </span><span style='color: #555555;'> 2</span><span> Oral… Head &amp; n… Comprehens… TRUE        2361… Pickeri… </span><span style='color: #555555;'>""</span><span>          0
-#&gt; </span><span style='color: #555555;'> 3</span><span> Hepa… HCC (Ins… Whole-exom… TRUE        2582… Schulze… </span><span style='color: #555555;'>"</span><span>PUBL…      0
-#&gt; </span><span style='color: #555555;'> 4</span><span> Uvea… UM (QIMR) Whole-geno… TRUE        2668… Johanss… </span><span style='color: #555555;'>"</span><span>PUBL…      0
-#&gt; </span><span style='color: #555555;'> 5</span><span> Neur… NBL (AMC) Whole geno… TRUE        2236… Molenaa… </span><span style='color: #555555;'>"</span><span>PUBL…      0
-#&gt; </span><span style='color: #555555;'> 6</span><span> Naso… NPC (Sin… Whole exom… TRUE        2495… Lin et … </span><span style='color: #555555;'>"</span><span>PUBL…      0
-#&gt; </span><span style='color: #555555;'> 7</span><span> Thym… TET (NCI) Whole exom… TRUE        2497… Petrini… </span><span style='color: #555555;'>"</span><span>PUBL…      0
-#&gt; </span><span style='color: #555555;'> 8</span><span> Neur… NBL (Col… Whole-geno… TRUE        2646… Peifer … </span><span style='color: #555555;'>""</span><span>          0
-#&gt; </span><span style='color: #555555;'> 9</span><span> Myel… MDS (Tok… Whole exom… TRUE        2190… Yoshida… </span><span style='color: #555555;'>""</span><span>          0
-#&gt; </span><span style='color: #555555;'>10</span><span> Insu… Panet (S… Whole exom… TRUE        2432… Cao et … </span><span style='color: #555555;'>""</span><span>          0
-#&gt; </span><span style='color: #555555;'># … with 286 more rows, and 5 more variables: importDate </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span> Oral… Head &amp; n… Comprehens… TRUE        2361… Pickeri… </span><span style='color: #555555;'>""</span><span>          0
+#&gt; </span><span style='color: #555555;'> 2</span><span> Hepa… HCC (Ins… Whole-exom… TRUE        2582… Schulze… </span><span style='color: #555555;'>"</span><span>PUBL…      0
+#&gt; </span><span style='color: #555555;'> 3</span><span> Uvea… UM (QIMR) Whole-geno… TRUE        2668… Johanss… </span><span style='color: #555555;'>"</span><span>PUBL…      0
+#&gt; </span><span style='color: #555555;'> 4</span><span> Neur… NBL (AMC) Whole geno… TRUE        2236… Molenaa… </span><span style='color: #555555;'>"</span><span>PUBL…      0
+#&gt; </span><span style='color: #555555;'> 5</span><span> Naso… NPC (Sin… Whole exom… TRUE        2495… Lin et … </span><span style='color: #555555;'>"</span><span>PUBL…      0
+#&gt; </span><span style='color: #555555;'> 6</span><span> Neur… NBL (Col… Whole-geno… TRUE        2646… Peifer … </span><span style='color: #555555;'>""</span><span>          0
+#&gt; </span><span style='color: #555555;'> 7</span><span> Myel… MDS (Tok… Whole exom… TRUE        2190… Yoshida… </span><span style='color: #555555;'>""</span><span>          0
+#&gt; </span><span style='color: #555555;'> 8</span><span> Insu… Panet (S… Whole exom… TRUE        2432… Cao et … </span><span style='color: #555555;'>""</span><span>          0
+#&gt; </span><span style='color: #555555;'> 9</span><span> Pleu… PLMESO (… Whole-exom… TRUE        2548… Guo et … </span><span style='color: #555555;'>""</span><span>          0
+#&gt; </span><span style='color: #555555;'>10</span><span> Pilo… PAST (Na… Whole-geno… TRUE        2381… Jones e… </span><span style='color: #555555;'>"</span><span>PUBL…      0
+#&gt; </span><span style='color: #555555;'># … with 290 more rows, and 5 more variables: importDate </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>,</span><span>
 #&gt; </span><span style='color: #555555;'>#   allSampleCount </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span style='color: #555555;'>, studyId </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, cancerTypeId </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>,</span><span>
 #&gt; </span><span style='color: #555555;'>#   referenceGenome </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span></div><div class='input'>
 <span class='fu'>searchOps</span><span class='op'>(</span>api <span class='op'>=</span> <span class='va'>cbio</span>, keyword <span class='op'>=</span> <span class='st'>"molecular"</span><span class='op'>)</span>
@@ -405,7 +405,7 @@ from the `genePanels` function</p></td>
 <span class='co'>## obtain clinical data</span>
 <span class='va'>acc_clin</span> <span class='op'>&lt;-</span> <span class='fu'>clinicalData</span><span class='op'>(</span>api <span class='op'>=</span> <span class='va'>cbio</span>, studyId <span class='op'>=</span> <span class='st'>"acc_tcga"</span><span class='op'>)</span>
 <span class='va'>acc_clin</span>
-</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 92 x 20</span><span>
+</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 92 x 21</span><span>
 #&gt;    uniqueSampleKey uniquePatientKey sampleId patientId studyId CANCER_TYPE
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>           </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>            </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      
 #&gt; </span><span style='color: #555555;'> 1</span><span> VENHQS1PUi1BNU… VENHQS1PUi1BNUo… TCGA-OR… TCGA-OR-… acc_tc… Adrenocort…
@@ -418,12 +418,13 @@ from the `genePanels` function</p></td>
 #&gt; </span><span style='color: #555555;'> 8</span><span> VENHQS1PUi1BNU… VENHQS1PUi1BNUo… TCGA-OR… TCGA-OR-… acc_tc… Adrenocort…
 #&gt; </span><span style='color: #555555;'> 9</span><span> VENHQS1PUi1BNU… VENHQS1PUi1BNUo… TCGA-OR… TCGA-OR-… acc_tc… Adrenocort…
 #&gt; </span><span style='color: #555555;'>10</span><span> VENHQS1PUi1BNU… VENHQS1PUi1BNUp… TCGA-OR… TCGA-OR-… acc_tc… Adrenocort…
-#&gt; </span><span style='color: #555555;'># … with 82 more rows, and 14 more variables: CANCER_TYPE_DETAILED </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'># … with 82 more rows, and 15 more variables: CANCER_TYPE_DETAILED </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>,</span><span>
 #&gt; </span><span style='color: #555555;'>#   DAYS_TO_COLLECTION </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, FRACTION_GENOME_ALTERED </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, IS_FFPE </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>,</span><span>
 #&gt; </span><span style='color: #555555;'>#   MUTATION_COUNT </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, OCT_EMBEDDED </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, ONCOTREE_CODE </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>,</span><span>
 #&gt; </span><span style='color: #555555;'>#   OTHER_SAMPLE_ID </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, PATHOLOGY_REPORT_FILE_NAME </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>,</span><span>
 #&gt; </span><span style='color: #555555;'>#   PATHOLOGY_REPORT_UUID </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, SAMPLE_INITIAL_WEIGHT </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>,</span><span>
-#&gt; </span><span style='color: #555555;'>#   SAMPLE_TYPE </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, SAMPLE_TYPE_ID </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, VIAL_NUMBER </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span></div><div class='input'>
+#&gt; </span><span style='color: #555555;'>#   SAMPLE_TYPE </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, SAMPLE_TYPE_ID </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, SOMATIC_STATUS </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'>#   VIAL_NUMBER </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span></div><div class='input'>
 <span class='fu'>molecularProfiles</span><span class='op'>(</span>api <span class='op'>=</span> <span class='va'>cbio</span>, studyId <span class='op'>=</span> <span class='st'>"acc_tcga"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 9 x 7</span><span>
 #&gt;   molecularAltera… datatype name  description showProfileInAn… molecularProfil…
