@@ -8,6 +8,11 @@ symbols (#24, @jucor)
 of genes provided (either be `entrezGeneId` or `hugoGeneSymbol`).
 * Added `CITATION` file! See it at `citation(package = "cBioPortalData")`.
 
+## Bug fixes and minor improvements
+
+* Fixed an issue where the labels in the `metadata` from  `cBioDataPack` were
+missing ('LICENSE' and 'Fusion'; #37)
+
 # Changes in version 2.2.0
 
 ## New features
