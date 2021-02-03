@@ -74,7 +74,7 @@ BiocFileCache system." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">cBioPortalData</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.2.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.2.7</span>
       </span>
     </div>
 
@@ -253,11 +253,7 @@ cache. This only works for the <code>cBioDataPack</code> function. To remove the
 <span class='fu'>cBioCache</span><span class='op'>(</span><span class='op'>)</span>
 
 <span class='fu'>removePackCache</span><span class='op'>(</span><span class='st'>"acc_tcga"</span>, dry.run <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 1 x 10</span><span>
-#&gt;   rid   rname create_time access_time rpath rtype fpath last_modified_t… etag 
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>            </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> BFC7  acc_… 2021-01-20… 2021-01-20… /git… web   http… 2020-12-02 21:4… 3cbf…
-#&gt; </span><span style='color: #555555;'># … with 1 more variable: expires </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span></div><div class='input'>
+</div><div class='output co'>#&gt; <span class='error'>Error in gsub(finish, start, ..., fixed = TRUE): zero-length pattern</span></div><div class='input'>
 
 <span class='va'>cbio</span> <span class='op'>&lt;-</span> <span class='fu'><a href='cBioPortal.html'>cBioPortal</a></span><span class='op'>(</span><span class='op'>)</span>
 
@@ -278,7 +274,7 @@ cache. This only works for the <code>cBioDataPack</code> function. To remove the
     dry.run <span class='op'>=</span> <span class='cn'>TRUE</span>
 <span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='error'>Error in eval(args[["api"]]): object 'cbio' not found</span></div><div class='input'>
-</div></span></pre>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

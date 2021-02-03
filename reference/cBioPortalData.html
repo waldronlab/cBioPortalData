@@ -78,7 +78,7 @@ by the https://cbioportal.org/datasets, refer to cBioDataPack." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">cBioPortalData</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.2.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.2.7</span>
       </span>
     </div>
 
@@ -218,20 +218,7 @@ a fully reproducible example.</p>
     <span class='va'>cbio</span>, molecularProfileIds <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"acc_tcga_rppa"</span>, <span class='st'>"acc_tcga_linear_CNA"</span><span class='op'>)</span>,
     <span class='va'>samps</span>
 <span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 92 x 7</span><span>
-#&gt;    uniqueSampleKey uniquePatientKey molecularProfil… sampleId patientId studyId
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>           </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>            </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>            </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  
-#&gt; </span><span style='color: #555555;'> 1</span><span> VENHQS1PUi1BNU… VENHQS1PUi1BNUo… acc_tcga_linear… TCGA-OR… TCGA-OR-… acc_tc…
-#&gt; </span><span style='color: #555555;'> 2</span><span> VENHQS1PUi1BNU… VENHQS1PUi1BNUo… acc_tcga_linear… TCGA-OR… TCGA-OR-… acc_tc…
-#&gt; </span><span style='color: #555555;'> 3</span><span> VENHQS1PUi1BNU… VENHQS1PUi1BNUo… acc_tcga_linear… TCGA-OR… TCGA-OR-… acc_tc…
-#&gt; </span><span style='color: #555555;'> 4</span><span> VENHQS1PUi1BNU… VENHQS1PUi1BNUo… acc_tcga_linear… TCGA-OR… TCGA-OR-… acc_tc…
-#&gt; </span><span style='color: #555555;'> 5</span><span> VENHQS1PUi1BNU… VENHQS1PUi1BNUo… acc_tcga_linear… TCGA-OR… TCGA-OR-… acc_tc…
-#&gt; </span><span style='color: #555555;'> 6</span><span> VENHQS1PUi1BNU… VENHQS1PUi1BNUo… acc_tcga_linear… TCGA-OR… TCGA-OR-… acc_tc…
-#&gt; </span><span style='color: #555555;'> 7</span><span> VENHQS1PUi1BNU… VENHQS1PUi1BNUp… acc_tcga_linear… TCGA-OR… TCGA-OR-… acc_tc…
-#&gt; </span><span style='color: #555555;'> 8</span><span> VENHQS1PUi1BNU… VENHQS1PUi1BNUp… acc_tcga_linear… TCGA-OR… TCGA-OR-… acc_tc…
-#&gt; </span><span style='color: #555555;'> 9</span><span> VENHQS1PUi1BNU… VENHQS1PUi1BNUp… acc_tcga_linear… TCGA-OR… TCGA-OR-… acc_tc…
-#&gt; </span><span style='color: #555555;'>10</span><span> VENHQS1PUi1BNU… VENHQS1PUi1BNUp… acc_tcga_linear… TCGA-OR… TCGA-OR-… acc_tc…
-#&gt; </span><span style='color: #555555;'># … with 82 more rows, and 1 more variable: profiled </span><span style='color: #555555;font-style: italic;'>&lt;lgl&gt;</span><span></div><div class='input'>
+</div><div class='output co'>#&gt; <span class='error'>Error in gsub(finish, start, ..., fixed = TRUE): zero-length pattern</span></div><div class='input'>
 <span class='va'>acc_tcga</span> <span class='op'>&lt;-</span> <span class='fu'>cBioPortalData</span><span class='op'>(</span>
     <span class='va'>cbio</span>, by <span class='op'>=</span> <span class='st'>"hugoGeneSymbol"</span>,
     studyId <span class='op'>=</span> <span class='st'>"acc_tcga"</span>,
@@ -240,7 +227,7 @@ a fully reproducible example.</p>
         <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"acc_tcga_rppa"</span>, <span class='st'>"acc_tcga_linear_CNA"</span>, <span class='st'>"acc_tcga_mutations"</span><span class='op'>)</span>
 <span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='error'>Error in eval(args[["api"]]): object 'cbio' not found</span></div><div class='input'>
-</div></span></pre>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
