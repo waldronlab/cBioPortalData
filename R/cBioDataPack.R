@@ -21,8 +21,9 @@ cbioportal2metadata <- function(meta_file, lic_file) {
     if (length(lic_file)) {
         lic <- readLines(lic_file, warn = FALSE)
         lic <- paste0(lic[lic != ""], collapse = "\n")
+        lic <- list(LICENSE = lic)
     }
-    c(mdl, if (exists("lic")) LICENSE = lic)
+    c(mdl, if (exists("lic")) lic)
 }
 
 .subBCLetters <- function(df, ptID = "PATIENT_ID") {
@@ -361,7 +362,7 @@ loadStudy <-
     mdat <- cbioportal2metadata(mdatafile, licensefile)
 
     if (length(fusionExtra))
-        fudat <- .silentRead(fusionExtra)
+        fudat <- list(Fusion = .silentRead(fusionExtra))
     else
         fudat <- list()
 
