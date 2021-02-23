@@ -1,4 +1,4 @@
-name: Devel R CMD check
+name: BiocDev R CMD check
 
 on:
   push:
@@ -11,7 +11,7 @@ on:
 
 jobs:
   checkDevel:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     container: bioconductor/bioconductor_docker:devel
     steps:
       - name: Checkout Repository
