@@ -16,6 +16,7 @@ jobs:
       - name: Query dependencies
         run: |
           install.packages('remotes')
+          devtools::install_github("Bioconductor/AnVIL")
           saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
         shell: Rscript {0}
         
@@ -29,10 +30,8 @@ jobs:
 
       - name: Install Dependencies
         run: |
-          options(repos = c(CRAN = "https://cran.r-project.org"))
-          BiocManager::repositories()
-          remotes::install_deps(dependencies = TRUE, repos = BiocManager::repositories())
-          BiocManager::install("rcmdcheck", update = TRUE, ask = FALSE)
+          remotes::install_deps(dependencies = TRUE, repos = AnVIL::repositories())
+          BiocManager::install("rcmdcheck", ask = FALSE, update = TRUE)
         shell: Rscript {0}
 
       - name: Check Package
