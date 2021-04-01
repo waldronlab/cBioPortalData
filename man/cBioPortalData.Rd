@@ -11,6 +11,7 @@ cBioPortalData(
   genes = NA_character_,
   molecularProfileIds = NULL,
   sampleListId = NULL,
+  sampleIds = NULL,
   by = c("entrezGeneId", "hugoGeneSymbol")
 )
 }
@@ -33,6 +34,8 @@ given to Entrez IDs due to faster query responses.}
 
 \item{sampleListId}{character(1) A sample list identifier as obtained from
 `sampleLists()``}
+
+\item{sampleIds}{character() Sample identifiers}
 
 \item{by}{character(1) Either 'entrezGeneId' or 'hugoGeneSymbol' for row
 metadata (default: 'entrezGeneId')}

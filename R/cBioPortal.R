@@ -646,9 +646,8 @@ getDataByGenes <-
         stop("Provide a valid 'api' from 'cBioPortal()'")
     if (!is.null(sampleListId))
         sampleIds <- samplesInSampleLists(api, sampleListId)[[1L]]
-
-    if (is.null(sampleIds))
-        stop("Provide either a 'sampleListId' or 'sampleIds'")
+    else if (is.null(sampleIds))
+        sampleIds <- allSamples(api, studyId)[["sampleId"]]
 
     by <- match.arg(by)
 

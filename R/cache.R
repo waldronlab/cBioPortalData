@@ -143,9 +143,8 @@ removePackCache <- function(cancer_study_id, dry.run = TRUE) {
 {
     if (!is.null(sampleListId))
         sampleIds <- samplesInSampleLists(api, sampleListId)[[1L]]
-
-    if (is.null(sampleIds))
-        stop("Provide either a 'sampleListId' or 'sampleIds'")
+    else if (is.null(sampleIds))
+        sampleIds <- allSamples(api, studyId)[["sampleId"]]
 
     feats <- .resolveFeatures(
         api = api, by = by, genes = genes, genePanelId = genePanelId
@@ -196,6 +195,7 @@ removePackCache <- function(cancer_study_id, dry.run = TRUE) {
 removeDataCache <- function(api, studyId = NA_character_,
     genePanelId = NA_character_, genes = NA_character_,
     molecularProfileIds = NULL, sampleListId = NULL,
+    sampleIds = NULL,
     by = c("entrezGeneId", "hugoGeneSymbol"),
     dry.run = TRUE, ...)
 {
@@ -210,7 +210,6 @@ removeDataCache <- function(api, studyId = NA_character_,
     exargs <- match.args(.portalExperiments, call)
     exargs <- eval.args(exargs)
     exargs <- update.args(exargs)
-
     cachelocs <- c(
         experiment_cache = do.call(.molDataCache, exargs),
         clinical_cache = .clinDataCache(exargs[["api"]], exargs[["studyId"]])
