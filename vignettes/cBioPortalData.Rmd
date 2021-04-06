@@ -1,6 +1,6 @@
 ---
 title: "cBioPortalData: User Start Guide"
-author: "Marcel Ramos"
+author: "Marcel Ramos & Levi Waldron"
 date: "`r format(Sys.time(), '%B %d, %Y')`"
 vignette: >
   %\VignetteEngine{knitr::rmarkdown}
@@ -11,6 +11,7 @@ output:
     number_sections: no
     toc: yes
     toc_depth: 4
+bibliograph: ../inst/REFERENCES.bib
 ---
 
 ```{r, setup, include=FALSE}
@@ -26,12 +27,32 @@ library(AnVIL)
 
 # Introduction
 
+The cBioPortal for Cancer Genomics website is a great resource for interactive
+exploration of study datasets. However, it does not easily allow the analyst
+to obtain and further analyze the data.
+
+We've developed the cBioPortalData package to fill this need to
+programmatically access the data resources available on the cBioPortal.
+
+The `cBioPortalData` package provides an R interface for accessing the
+cBioPortal study data within the Bioconductor ecosystem.
+
+It makes use of the cBioPortal API (https://cbioportal.org/api) to download,
+cache, and represent genomic data.
+
+We use the `MultiAssayExperiment` (@Ramos2017-er) package to integrate,
+represent, and coordinate multiple experiments for the studies availble in the
+cBioPortal.
+
+## Overview
+
 This vignette lays out the two main user-facing functions for downloading
-and representing data from the cBioPortal API. `cBioDataPack`
-makes use of the legacy distribution data method in `cBioPortal` (via
-tarballs). `cBioPortalData` allows for a more flexibile approach to obtaining
-data based on several available parameters including available molecular
-profiles.
+and representing data from the cBioPortal API.
+
+`cBioDataPack` makes use of the tarball distribution of study data.
+
+`cBioPortalData` allows a more flexibile approach to obtaining study data based
+on the available parameters such as molecular profile identifiers.
 
 ## Two main interfaces
 
@@ -88,3 +109,4 @@ unlink("~/.cache/cBioPortalData/")
 sessionInfo()
 ```
 
+# References

@@ -1,5 +1,5 @@
 ---
-title: "cBioPortalData: API Reference Guide"
+title: "cBioPortalData: API Reference Guide for Devs"
 author: "Marcel Ramos & Levi Waldron"
 date: "`r format(Sys.time(), '%B %d, %Y')`"
 vignette: >
