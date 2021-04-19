@@ -28,11 +28,43 @@ library(AnVIL)
 
 # Introduction
 
+The cBioPortal for Cancer Genomics [website](https://cbioportal.org) is a great
+resource for interactive exploration of study datasets. However, it does not
+easily allow the analyst to obtain and further analyze the data.
+
+We've developed the `cBioPortalData` package to fill this need to
+programmatically access the data resources available on the cBioPortal.
+
+The `cBioPortalData` package provides an R interface for accessing the
+cBioPortal study data within the Bioconductor ecosystem.
+
+It downloads study data from the cBioPortal API (https://cbioportal.org/api)
+and uses Bioconductor infrastructure to cache and represent the data.
+
+We use the [`MultiAssayExperiment`][1] (@Ramos2017-er) package to integrate,
+represent, and coordinate multiple experiments for the studies availble in the
+cBioPortal. This package in conjunction with `curatedTCGAData` give access to
+a large trove of publicly available bioinformatic data. Please see our
+publication [here][2] (@Ramos2020-ya).
+
+[1]: https://dx.doi.org/10.1158/0008-5472.CAN-17-0344
+[2]: https://dx.doi.org/10.1200/CCI.19.00119
+
+We demonstrate common use cases of `cBioPortalData` and `curatedTCGAData`
+during Bioconductor conference
+[workshops](https://waldronlab.io/MultiAssayWorkshop/).
+
+# Overview
+
 This vignette is for users / developers who would like to learn more about
-the available in `cBioPortalData` and possibly hit other endpoints
+the available data in `cBioPortalData` and to learn how to hit other endpoints
 in the cBioPortal API implementation. The functionality demonstrated
 here is used internally by the package to create integrative representations
 of study datasets.
+
+Note. To make it as efficient as possible, the API was designed to only query a
+part of the study data. Therefore, the user is required to enter either a set
+of genes of interest or a gene panel identifier.
 
 # API representation
 
