@@ -11,7 +11,7 @@ output:
     number_sections: no
     toc: yes
     toc_depth: 4
-bibliograph: ../inst/REFERENCES.bib
+bibliograph: REFERENCES.bib
 ---
 
 ```{r, setup, include=FALSE}
