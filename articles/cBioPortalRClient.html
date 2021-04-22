@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">cBioPortalData</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.2.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.2.11</span>
       </span>
     </div>
 
@@ -82,13 +82,13 @@
 
       
 
-      </header><script src="cBioPortalRClient_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><script src="cBioPortalRClient_files/header-attrs-2.7/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>cBioPortalData: API Reference Guide</h1>
                         <h4 class="author">Marcel Ramos &amp; Levi Waldron</h4>
             
-            <h4 class="date">February 04, 2021</h4>
+            <h4 class="date">April 22, 2021</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/waldronlab/cBioPortalData/blob/master/vignettes/cBioPortalRClient.Rmd"><code>vignettes/cBioPortalRClient.Rmd</code></a></small>
       <div class="hidden name"><code>cBioPortalRClient.Rmd</code></div>
@@ -118,51 +118,50 @@
 <code class="sourceCode R"><span class="op">(</span><span class="va">cbio</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cBioPortal.html">cBioPortal</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>## service: cBioPortal
 ## tags(); use cbioportal$&lt;tab completion&gt;:
-## # A tibble: 74 x 3
-##    tag          operation               summary                                 
-##    &lt;chr&gt;        &lt;chr&gt;                   &lt;chr&gt;                                   
-##  1 Cancer Types getAllCancerTypesUsing… Get all cancer types                    
-##  2 Cancer Types getCancerTypeUsingGET   Get a cancer type                       
-##  3 Clinical At… fetchClinicalAttribute… Fetch clinical attributes               
-##  4 Clinical At… getAllClinicalAttribut… Get all clinical attributes in the spec…
-##  5 Clinical At… getAllClinicalAttribut… Get all clinical attributes             
-##  6 Clinical At… getClinicalAttributeCo… Get counts for clinical attributes acco…
-##  7 Clinical At… getClinicalAttributeIn… Get specified clinical attribute        
-##  8 Clinical Da… fetchAllClinicalDataIn… Fetch clinical data by patient IDs or s…
-##  9 Clinical Da… fetchClinicalDataUsing… Fetch clinical data by patient IDs or s…
-## 10 Clinical Da… getAllClinicalDataInSt… Get all clinical data in a study        
-## # … with 64 more rows
+## # A tibble: 61 x 3
+##    tag           operation                  summary                             
+##    &lt;chr&gt;         &lt;chr&gt;                      &lt;chr&gt;                               
+##  1 Cancer Types  getAllCancerTypesUsingGET  Get all cancer types                
+##  2 Cancer Types  getCancerTypeUsingGET      Get a cancer type                   
+##  3 Clinical Att… fetchClinicalAttributesUs… Fetch clinical attributes           
+##  4 Clinical Att… getAllClinicalAttributesI… Get all clinical attributes in the …
+##  5 Clinical Att… getAllClinicalAttributesU… Get all clinical attributes         
+##  6 Clinical Att… getClinicalAttributeInStu… Get specified clinical attribute    
+##  7 Clinical Data fetchAllClinicalDataInStu… Fetch clinical data by patient IDs …
+##  8 Clinical Data fetchClinicalDataUsingPOST Fetch clinical data by patient IDs …
+##  9 Clinical Data getAllClinicalDataInStudy… Get all clinical data in a study    
+## 10 Clinical Data getAllClinicalDataOfPatie… Get all clinical data of a patient …
+## # … with 51 more rows
 ## tag values:
-##   Cancer Types, Clinical Attributes, Clinical Data, Clinical Events,
-##   Copy Number Segments, Discrete Copy Number Alterations, Gene Panels,
-##   Generic Assays, Genes, Molecular Data, Molecular Profiles, Mutations,
-##   Patients, Reference Genome Genes, Resource Data, Resource
-##   Definitions, Sample Lists, Samples, Structural Variants, Studies,
+##   Cancer Types, Clinical Attributes, Clinical Data, Copy Number
+##   Segments, Discrete Copy Number Alterations, Gene Panels, Generic
+##   Assays, Genes, Molecular Data, Molecular Profiles, Mutations,
+##   Patients, Sample Lists, Samples, Structural Variants, Studies,
 ##   Treatments
 ## schemas():
 ##   AlleleSpecificCopyNumber, AndedPatientTreatmentFilters,
 ##   AndedSampleTreatmentFilters, CancerStudy, CancerStudyTags
-##   # ... with 66 more elements</code></pre>
+##   # ... with 55 more elements</code></pre>
 <div id="operations" class="section level2">
 <h2 class="hasAnchor">
 <a href="#operations" class="anchor"></a>Operations</h2>
 <p>Check available tags, operations, and descriptions as a <code>tibble</code>:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/AnVIL/man/Services.html">tags</a></span><span class="op">(</span><span class="va">cbio</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 74 x 3
-##    tag          operation               summary                                 
-##    &lt;chr&gt;        &lt;chr&gt;                   &lt;chr&gt;                                   
-##  1 Cancer Types getAllCancerTypesUsing… Get all cancer types                    
-##  2 Cancer Types getCancerTypeUsingGET   Get a cancer type                       
-##  3 Clinical At… fetchClinicalAttribute… Fetch clinical attributes               
-##  4 Clinical At… getAllClinicalAttribut… Get all clinical attributes in the spec…
-##  5 Clinical At… getAllClinicalAttribut… Get all clinical attributes             
-##  6 Clinical At… getClinicalAttributeCo… Get counts for clinical attributes acco…
-##  7 Clinical At… getClinicalAttributeIn… Get specified clinical attribute        
-##  8 Clinical Da… fetchAllClinicalDataIn… Fetch clinical data by patient IDs or s…
-##  9 Clinical Da… fetchClinicalDataUsing… Fetch clinical data by patient IDs or s…
-## 10 Clinical Da… getAllClinicalDataInSt… Get all clinical data in a study        
-## # … with 64 more rows</code></pre>
+<pre><code>## # A tibble: 61 x 3
+##    tag           operation                  summary                             
+##    &lt;chr&gt;         &lt;chr&gt;                      &lt;chr&gt;                               
+##  1 Cancer Types  getAllCancerTypesUsingGET  Get all cancer types                
+##  2 Cancer Types  getCancerTypeUsingGET      Get a cancer type                   
+##  3 Clinical Att… fetchClinicalAttributesUs… Fetch clinical attributes           
+##  4 Clinical Att… getAllClinicalAttributesI… Get all clinical attributes in the …
+##  5 Clinical Att… getAllClinicalAttributesU… Get all clinical attributes         
+##  6 Clinical Att… getClinicalAttributeInStu… Get specified clinical attribute    
+##  7 Clinical Data fetchAllClinicalDataInStu… Fetch clinical data by patient IDs …
+##  8 Clinical Data fetchClinicalDataUsingPOST Fetch clinical data by patient IDs …
+##  9 Clinical Data getAllClinicalDataInStudy… Get all clinical data in a study    
+## 10 Clinical Data getAllClinicalDataOfPatie… Get all clinical data of a patient …
+## # … with 51 more rows</code></pre>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/AnVIL/man/Services.html">tags</a></span><span class="op">(</span><span class="va">cbio</span><span class="op">)</span><span class="op">$</span><span class="va">operation</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] "getAllCancerTypesUsingGET"              
@@ -170,24 +169,21 @@
 ## [3] "fetchClinicalAttributesUsingPOST"       
 ## [4] "getAllClinicalAttributesInStudyUsingGET"
 ## [5] "getAllClinicalAttributesUsingGET"       
-## [6] "getClinicalAttributeCountsUsingPOST"</code></pre>
+## [6] "getClinicalAttributeInStudyUsingGET"</code></pre>
 <div id="searching-through-the-api" class="section level3">
 <h3 class="hasAnchor">
 <a href="#searching-through-the-api" class="anchor"></a>Searching through the API</h3>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/cBioPortal.html">searchOps</a></span><span class="op">(</span><span class="va">cbio</span>, <span class="st">"clinical"</span><span class="op">)</span></code></pre></div>
-<pre><code>##  [1] "getAllClinicalAttributesUsingGET"            
-##  [2] "getClinicalAttributeCountsUsingPOST"         
-##  [3] "fetchClinicalAttributesUsingPOST"            
-##  [4] "fetchClinicalDataUsingPOST"                  
-##  [5] "getAllClinicalAttributesInStudyUsingGET"     
-##  [6] "getClinicalAttributeInStudyUsingGET"         
-##  [7] "getAllClinicalDataInStudyUsingGET"           
-##  [8] "fetchAllClinicalDataInStudyUsingPOST"        
-##  [9] "getAllClinicalEventsInStudyUsingGET"         
-## [10] "getAllClinicalDataOfPatientInStudyUsingGET"  
-## [11] "getAllClinicalEventsOfPatientInStudyUsingGET"
-## [12] "getAllClinicalDataOfSampleInStudyUsingGET"</code></pre>
+<pre><code>## [1] "getAllClinicalAttributesUsingGET"          
+## [2] "fetchClinicalAttributesUsingPOST"          
+## [3] "fetchClinicalDataUsingPOST"                
+## [4] "getAllClinicalAttributesInStudyUsingGET"   
+## [5] "getClinicalAttributeInStudyUsingGET"       
+## [6] "getAllClinicalDataInStudyUsingGET"         
+## [7] "fetchAllClinicalDataInStudyUsingPOST"      
+## [8] "getAllClinicalDataOfPatientInStudyUsingGET"
+## [9] "getAllClinicalDataOfSampleInStudyUsingGET"</code></pre>
 </div>
 </div>
 <div id="studies" class="section level2">
@@ -196,20 +192,20 @@
 <p>Get the list of studies available:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/cBioPortal.html">getStudies</a></span><span class="op">(</span><span class="va">cbio</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 301 x 13
-##    name  shortName description publicStudy pmid  citation groups status
-##    &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;       &lt;lgl&gt;       &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;   &lt;int&gt;
-##  1 Oral… Head &amp; n… Comprehens… TRUE        2361… Pickeri… ""          0
-##  2 Hepa… HCC (Ins… Whole-exom… TRUE        2582… Schulze… "PUBL…      0
-##  3 Uvea… UM (QIMR) Whole-geno… TRUE        2668… Johanss… "PUBL…      0
-##  4 Neur… NBL (AMC) Whole geno… TRUE        2236… Molenaa… "PUBL…      0
-##  5 Naso… NPC (Sin… Whole exom… TRUE        2495… Lin et … "PUBL…      0
-##  6 Neur… NBL (Col… Whole-geno… TRUE        2646… Peifer … ""          0
-##  7 Myel… MDS (Tok… Whole exom… TRUE        2190… Yoshida… ""          0
-##  8 Insu… Panet (S… Whole exom… TRUE        2432… Cao et … ""          0
-##  9 Pleu… PLMESO (… Whole-exom… TRUE        2548… Guo et … ""          0
-## 10 Pilo… PAST (Na… Whole-geno… TRUE        2381… Jones e… "PUBL…      0
-## # … with 291 more rows, and 5 more variables: importDate &lt;chr&gt;,
+<pre><code>## # A tibble: 309 x 13
+##    name     shortName  description     publicStudy pmid  citation  groups status
+##    &lt;chr&gt;    &lt;chr&gt;      &lt;chr&gt;           &lt;lgl&gt;       &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;   &lt;int&gt;
+##  1 Oral Sq… Head &amp; ne… Comprehensive … TRUE        2361… Pickerin… ""          0
+##  2 Hepatoc… HCC (Inse… Whole-exome se… TRUE        2582… Schulze … "PUBL…      0
+##  3 Uveal M… UM (QIMR)  Whole-genome o… TRUE        2668… Johansso… "PUBL…      0
+##  4 Neurobl… NBL (AMC)  Whole genome s… TRUE        2236… Molenaar… "PUBL…      0
+##  5 Nasopha… NPC (Sing… Whole exome se… TRUE        2495… Lin et a… "PUBL…      0
+##  6 Neurobl… NBL (Colo… Whole-genome s… TRUE        2646… Peifer e… ""          0
+##  7 Myelody… MDS (Toky… Whole exome se… TRUE        2190… Yoshida … ""          0
+##  8 Insulin… Panet (Sh… Whole exome se… TRUE        2432… Cao et a… ""          0
+##  9 Pleural… PLMESO (N… Whole-exome se… TRUE        2548… Guo et a… ""          0
+## 10 Pilocyt… PAST (Nat… Whole-genome s… TRUE        2381… Jones et… "PUBL…      0
+## # … with 299 more rows, and 5 more variables: importDate &lt;chr&gt;,
 ## #   allSampleCount &lt;int&gt;, studyId &lt;chr&gt;, cancerTypeId &lt;chr&gt;,
 ## #   referenceGenome &lt;chr&gt;</code></pre>
 </div>
@@ -220,18 +216,18 @@
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/cBioPortal.html">clinicalData</a></span><span class="op">(</span><span class="va">cbio</span>, <span class="st">"acc_tcga"</span><span class="op">)</span></code></pre></div>
 <pre><code>## # A tibble: 92 x 21
-##    uniqueSampleKey uniquePatientKey sampleId patientId studyId CANCER_TYPE
-##    &lt;chr&gt;           &lt;chr&gt;            &lt;chr&gt;    &lt;chr&gt;     &lt;chr&gt;   &lt;chr&gt;      
-##  1 VENHQS1PUi1BNU… VENHQS1PUi1BNUo… TCGA-OR… TCGA-OR-… acc_tc… Adrenocort…
-##  2 VENHQS1PUi1BNU… VENHQS1PUi1BNUo… TCGA-OR… TCGA-OR-… acc_tc… Adrenocort…
-##  3 VENHQS1PUi1BNU… VENHQS1PUi1BNUo… TCGA-OR… TCGA-OR-… acc_tc… Adrenocort…
-##  4 VENHQS1PUi1BNU… VENHQS1PUi1BNUo… TCGA-OR… TCGA-OR-… acc_tc… Adrenocort…
-##  5 VENHQS1PUi1BNU… VENHQS1PUi1BNUo… TCGA-OR… TCGA-OR-… acc_tc… Adrenocort…
-##  6 VENHQS1PUi1BNU… VENHQS1PUi1BNUo… TCGA-OR… TCGA-OR-… acc_tc… Adrenocort…
-##  7 VENHQS1PUi1BNU… VENHQS1PUi1BNUo… TCGA-OR… TCGA-OR-… acc_tc… Adrenocort…
-##  8 VENHQS1PUi1BNU… VENHQS1PUi1BNUo… TCGA-OR… TCGA-OR-… acc_tc… Adrenocort…
-##  9 VENHQS1PUi1BNU… VENHQS1PUi1BNUo… TCGA-OR… TCGA-OR-… acc_tc… Adrenocort…
-## 10 VENHQS1PUi1BNU… VENHQS1PUi1BNUp… TCGA-OR… TCGA-OR-… acc_tc… Adrenocort…
+##    uniqueSampleKey   uniquePatientKey   sampleId  patientId studyId CANCER_TYPE 
+##    &lt;chr&gt;             &lt;chr&gt;              &lt;chr&gt;     &lt;chr&gt;     &lt;chr&gt;   &lt;chr&gt;       
+##  1 VENHQS1PUi1BNUox… VENHQS1PUi1BNUoxO… TCGA-OR-… TCGA-OR-… acc_tc… Adrenocorti…
+##  2 VENHQS1PUi1BNUoy… VENHQS1PUi1BNUoyO… TCGA-OR-… TCGA-OR-… acc_tc… Adrenocorti…
+##  3 VENHQS1PUi1BNUoz… VENHQS1PUi1BNUozO… TCGA-OR-… TCGA-OR-… acc_tc… Adrenocorti…
+##  4 VENHQS1PUi1BNUo0… VENHQS1PUi1BNUo0O… TCGA-OR-… TCGA-OR-… acc_tc… Adrenocorti…
+##  5 VENHQS1PUi1BNUo1… VENHQS1PUi1BNUo1O… TCGA-OR-… TCGA-OR-… acc_tc… Adrenocorti…
+##  6 VENHQS1PUi1BNUo2… VENHQS1PUi1BNUo2O… TCGA-OR-… TCGA-OR-… acc_tc… Adrenocorti…
+##  7 VENHQS1PUi1BNUo3… VENHQS1PUi1BNUo3O… TCGA-OR-… TCGA-OR-… acc_tc… Adrenocorti…
+##  8 VENHQS1PUi1BNUo4… VENHQS1PUi1BNUo4O… TCGA-OR-… TCGA-OR-… acc_tc… Adrenocorti…
+##  9 VENHQS1PUi1BNUo5… VENHQS1PUi1BNUo5O… TCGA-OR-… TCGA-OR-… acc_tc… Adrenocorti…
+## 10 VENHQS1PUi1BNUpB… VENHQS1PUi1BNUpBO… TCGA-OR-… TCGA-OR-… acc_tc… Adrenocorti…
 ## # … with 82 more rows, and 15 more variables: CANCER_TYPE_DETAILED &lt;chr&gt;,
 ## #   DAYS_TO_COLLECTION &lt;chr&gt;, FRACTION_GENOME_ALTERED &lt;chr&gt;, IS_FFPE &lt;chr&gt;,
 ## #   MUTATION_COUNT &lt;chr&gt;, OCT_EMBEDDED &lt;chr&gt;, ONCOTREE_CODE &lt;chr&gt;,
@@ -268,12 +264,12 @@
 <span class="op">)</span></code></pre></div>
 <pre><code>## $acc_tcga_rna_seq_v2_mrna
 ## # A tibble: 4 x 8
-##   uniqueSampleKey uniquePatientKey entrezGeneId molecularProfil… sampleId
-##   &lt;chr&gt;           &lt;chr&gt;                   &lt;int&gt; &lt;chr&gt;            &lt;chr&gt;   
-## 1 VENHQS1PUi1BNU… VENHQS1PUi1BNUo…            1 acc_tcga_rna_se… TCGA-OR…
-## 2 VENHQS1PUi1BNU… VENHQS1PUi1BNUo…            2 acc_tcga_rna_se… TCGA-OR…
-## 3 VENHQS1PUi1BNU… VENHQS1PUi1BNUo…            1 acc_tcga_rna_se… TCGA-OR…
-## 4 VENHQS1PUi1BNU… VENHQS1PUi1BNUo…            2 acc_tcga_rna_se… TCGA-OR…
+##   uniqueSampleKey    uniquePatientKey   entrezGeneId molecularProfile… sampleId 
+##   &lt;chr&gt;              &lt;chr&gt;                     &lt;int&gt; &lt;chr&gt;             &lt;chr&gt;    
+## 1 VENHQS1PUi1BNUoxL… VENHQS1PUi1BNUoxO…            1 acc_tcga_rna_seq… TCGA-OR-…
+## 2 VENHQS1PUi1BNUoxL… VENHQS1PUi1BNUoxO…            2 acc_tcga_rna_seq… TCGA-OR-…
+## 3 VENHQS1PUi1BNUoyL… VENHQS1PUi1BNUoyO…            1 acc_tcga_rna_seq… TCGA-OR-…
+## 4 VENHQS1PUi1BNUoyL… VENHQS1PUi1BNUoyO…            2 acc_tcga_rna_seq… TCGA-OR-…
 ## # … with 3 more variables: patientId &lt;chr&gt;, studyId &lt;chr&gt;, value &lt;dbl&gt;</code></pre>
 </div>
 <div id="genes" class="section level2">
@@ -305,7 +301,7 @@
 <a href="#gene-panels" class="anchor"></a>Gene Panels</h3>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/cBioPortal.html">genePanels</a></span><span class="op">(</span><span class="va">cbio</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 48 x 2
+<pre><code>## # A tibble: 50 x 2
 ##    description                                                     genePanelId  
 ##    &lt;chr&gt;                                                           &lt;chr&gt;        
 ##  1 Targeted (341 cancer genes) sequencing of various tumor types … IMPACT341    
@@ -318,7 +314,7 @@
 ##  8 Targeted (173 cancer genes) sequencing of breast cancers on Il… METABRIC_173 
 ##  9 Targeted sequencing of 504 cancer-associated genes on Illumina… DFCI_504     
 ## 10 DNA sequencing of 623 genes with known or potential relationsh… WUSTL-DFCI_6…
-## # … with 38 more rows</code></pre>
+## # … with 40 more rows</code></pre>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/cBioPortal.html">getGenePanel</a></span><span class="op">(</span><span class="va">cbio</span>, <span class="st">"IMPACT341"</span><span class="op">)</span></code></pre></div>
 <pre><code>## # A tibble: 341 x 2
@@ -349,18 +345,18 @@
     sampleListId <span class="op">=</span> <span class="st">"acc_tcga_all"</span><span class="op">)</span>
 <span class="va">gprppa</span></code></pre></div>
 <pre><code>## # A tibble: 92 x 7
-##    uniqueSampleKey uniquePatientKey molecularProfil… sampleId patientId studyId
-##    &lt;chr&gt;           &lt;chr&gt;            &lt;chr&gt;            &lt;chr&gt;    &lt;chr&gt;     &lt;chr&gt;  
-##  1 VENHQS1PUi1BNU… VENHQS1PUi1BNUo… acc_tcga_rppa    TCGA-OR… TCGA-OR-… acc_tc…
-##  2 VENHQS1PUi1BNU… VENHQS1PUi1BNUo… acc_tcga_rppa    TCGA-OR… TCGA-OR-… acc_tc…
-##  3 VENHQS1PUi1BNU… VENHQS1PUi1BNUo… acc_tcga_rppa    TCGA-OR… TCGA-OR-… acc_tc…
-##  4 VENHQS1PUi1BNU… VENHQS1PUi1BNUo… acc_tcga_rppa    TCGA-OR… TCGA-OR-… acc_tc…
-##  5 VENHQS1PUi1BNU… VENHQS1PUi1BNUo… acc_tcga_rppa    TCGA-OR… TCGA-OR-… acc_tc…
-##  6 VENHQS1PUi1BNU… VENHQS1PUi1BNUo… acc_tcga_rppa    TCGA-OR… TCGA-OR-… acc_tc…
-##  7 VENHQS1PUi1BNU… VENHQS1PUi1BNUo… acc_tcga_rppa    TCGA-OR… TCGA-OR-… acc_tc…
-##  8 VENHQS1PUi1BNU… VENHQS1PUi1BNUo… acc_tcga_rppa    TCGA-OR… TCGA-OR-… acc_tc…
-##  9 VENHQS1PUi1BNU… VENHQS1PUi1BNUo… acc_tcga_rppa    TCGA-OR… TCGA-OR-… acc_tc…
-## 10 VENHQS1PUi1BNU… VENHQS1PUi1BNUp… acc_tcga_rppa    TCGA-OR… TCGA-OR-… acc_tc…
+##    uniqueSampleKey  uniquePatientKey molecularProfil… sampleId patientId studyId
+##    &lt;chr&gt;            &lt;chr&gt;            &lt;chr&gt;            &lt;chr&gt;    &lt;chr&gt;     &lt;chr&gt;  
+##  1 VENHQS1PUi1BNUo… VENHQS1PUi1BNUo… acc_tcga_rppa    TCGA-OR… TCGA-OR-… acc_tc…
+##  2 VENHQS1PUi1BNUo… VENHQS1PUi1BNUo… acc_tcga_rppa    TCGA-OR… TCGA-OR-… acc_tc…
+##  3 VENHQS1PUi1BNUo… VENHQS1PUi1BNUo… acc_tcga_rppa    TCGA-OR… TCGA-OR-… acc_tc…
+##  4 VENHQS1PUi1BNUo… VENHQS1PUi1BNUo… acc_tcga_rppa    TCGA-OR… TCGA-OR-… acc_tc…
+##  5 VENHQS1PUi1BNUo… VENHQS1PUi1BNUo… acc_tcga_rppa    TCGA-OR… TCGA-OR-… acc_tc…
+##  6 VENHQS1PUi1BNUo… VENHQS1PUi1BNUo… acc_tcga_rppa    TCGA-OR… TCGA-OR-… acc_tc…
+##  7 VENHQS1PUi1BNUo… VENHQS1PUi1BNUo… acc_tcga_rppa    TCGA-OR… TCGA-OR-… acc_tc…
+##  8 VENHQS1PUi1BNUo… VENHQS1PUi1BNUo… acc_tcga_rppa    TCGA-OR… TCGA-OR-… acc_tc…
+##  9 VENHQS1PUi1BNUo… VENHQS1PUi1BNUo… acc_tcga_rppa    TCGA-OR… TCGA-OR-… acc_tc…
+## 10 VENHQS1PUi1BNUp… VENHQS1PUi1BNUp… acc_tcga_rppa    TCGA-OR… TCGA-OR-… acc_tc…
 ## # … with 82 more rows, and 1 more variable: profiled &lt;lgl&gt;</code></pre>
 </div>
 <div id="getgenepanelmolecular" class="section level3">
@@ -372,18 +368,18 @@
     sampleIds <span class="op">=</span> <span class="fu"><a href="../reference/cBioPortal.html">allSamples</a></span><span class="op">(</span><span class="va">cbio</span>, <span class="st">"acc_tcga"</span><span class="op">)</span><span class="op">$</span><span class="va">sampleId</span>
 <span class="op">)</span></code></pre></div>
 <pre><code>## # A tibble: 184 x 7
-##    uniqueSampleKey uniquePatientKey molecularProfil… sampleId patientId studyId
-##    &lt;chr&gt;           &lt;chr&gt;            &lt;chr&gt;            &lt;chr&gt;    &lt;chr&gt;     &lt;chr&gt;  
-##  1 VENHQS1PUi1BNU… VENHQS1PUi1BNUo… acc_tcga_gistic  TCGA-OR… TCGA-OR-… acc_tc…
-##  2 VENHQS1PUi1BNU… VENHQS1PUi1BNUo… acc_tcga_gistic  TCGA-OR… TCGA-OR-… acc_tc…
-##  3 VENHQS1PUi1BNU… VENHQS1PUi1BNUo… acc_tcga_gistic  TCGA-OR… TCGA-OR-… acc_tc…
-##  4 VENHQS1PUi1BNU… VENHQS1PUi1BNUo… acc_tcga_gistic  TCGA-OR… TCGA-OR-… acc_tc…
-##  5 VENHQS1PUi1BNU… VENHQS1PUi1BNUo… acc_tcga_gistic  TCGA-OR… TCGA-OR-… acc_tc…
-##  6 VENHQS1PUi1BNU… VENHQS1PUi1BNUo… acc_tcga_gistic  TCGA-OR… TCGA-OR-… acc_tc…
-##  7 VENHQS1PUi1BNU… VENHQS1PUi1BNUo… acc_tcga_gistic  TCGA-OR… TCGA-OR-… acc_tc…
-##  8 VENHQS1PUi1BNU… VENHQS1PUi1BNUo… acc_tcga_gistic  TCGA-OR… TCGA-OR-… acc_tc…
-##  9 VENHQS1PUi1BNU… VENHQS1PUi1BNUo… acc_tcga_gistic  TCGA-OR… TCGA-OR-… acc_tc…
-## 10 VENHQS1PUi1BNU… VENHQS1PUi1BNUp… acc_tcga_gistic  TCGA-OR… TCGA-OR-… acc_tc…
+##    uniqueSampleKey  uniquePatientKey molecularProfil… sampleId patientId studyId
+##    &lt;chr&gt;            &lt;chr&gt;            &lt;chr&gt;            &lt;chr&gt;    &lt;chr&gt;     &lt;chr&gt;  
+##  1 VENHQS1PUi1BNUo… VENHQS1PUi1BNUo… acc_tcga_gistic  TCGA-OR… TCGA-OR-… acc_tc…
+##  2 VENHQS1PUi1BNUo… VENHQS1PUi1BNUo… acc_tcga_gistic  TCGA-OR… TCGA-OR-… acc_tc…
+##  3 VENHQS1PUi1BNUo… VENHQS1PUi1BNUo… acc_tcga_gistic  TCGA-OR… TCGA-OR-… acc_tc…
+##  4 VENHQS1PUi1BNUo… VENHQS1PUi1BNUo… acc_tcga_gistic  TCGA-OR… TCGA-OR-… acc_tc…
+##  5 VENHQS1PUi1BNUo… VENHQS1PUi1BNUo… acc_tcga_gistic  TCGA-OR… TCGA-OR-… acc_tc…
+##  6 VENHQS1PUi1BNUo… VENHQS1PUi1BNUo… acc_tcga_gistic  TCGA-OR… TCGA-OR-… acc_tc…
+##  7 VENHQS1PUi1BNUo… VENHQS1PUi1BNUo… acc_tcga_gistic  TCGA-OR… TCGA-OR-… acc_tc…
+##  8 VENHQS1PUi1BNUo… VENHQS1PUi1BNUo… acc_tcga_gistic  TCGA-OR… TCGA-OR-… acc_tc…
+##  9 VENHQS1PUi1BNUo… VENHQS1PUi1BNUo… acc_tcga_gistic  TCGA-OR… TCGA-OR-… acc_tc…
+## 10 VENHQS1PUi1BNUp… VENHQS1PUi1BNUp… acc_tcga_gistic  TCGA-OR… TCGA-OR-… acc_tc…
 ## # … with 174 more rows, and 1 more variable: profiled &lt;lgl&gt;</code></pre>
 </div>
 <div id="getdatabygenepanel" class="section level3">
@@ -394,18 +390,18 @@
     molecularProfileId <span class="op">=</span> <span class="st">"acc_tcga_rppa"</span>, sampleListId <span class="op">=</span> <span class="st">"acc_tcga_rppa"</span><span class="op">)</span></code></pre></div>
 <pre><code>## $acc_tcga_rppa
 ## # A tibble: 2,622 x 9
-##    uniqueSampleKey uniquePatientKey entrezGeneId molecularProfil… sampleId
-##    &lt;chr&gt;           &lt;chr&gt;                   &lt;int&gt; &lt;chr&gt;            &lt;chr&gt;   
-##  1 VENHQS1PUi1BNU… VENHQS1PUi1BNUo…          207 acc_tcga_rppa    TCGA-OR…
-##  2 VENHQS1PUi1BNU… VENHQS1PUi1BNUo…          208 acc_tcga_rppa    TCGA-OR…
-##  3 VENHQS1PUi1BNU… VENHQS1PUi1BNUo…        10000 acc_tcga_rppa    TCGA-OR…
-##  4 VENHQS1PUi1BNU… VENHQS1PUi1BNUo…          367 acc_tcga_rppa    TCGA-OR…
-##  5 VENHQS1PUi1BNU… VENHQS1PUi1BNUo…          472 acc_tcga_rppa    TCGA-OR…
-##  6 VENHQS1PUi1BNU… VENHQS1PUi1BNUo…         8314 acc_tcga_rppa    TCGA-OR…
-##  7 VENHQS1PUi1BNU… VENHQS1PUi1BNUo…          596 acc_tcga_rppa    TCGA-OR…
-##  8 VENHQS1PUi1BNU… VENHQS1PUi1BNUo…          598 acc_tcga_rppa    TCGA-OR…
-##  9 VENHQS1PUi1BNU… VENHQS1PUi1BNUo…        10018 acc_tcga_rppa    TCGA-OR…
-## 10 VENHQS1PUi1BNU… VENHQS1PUi1BNUo…          673 acc_tcga_rppa    TCGA-OR…
+##    uniqueSampleKey    uniquePatientKey   entrezGeneId molecularProfil… sampleId 
+##    &lt;chr&gt;              &lt;chr&gt;                     &lt;int&gt; &lt;chr&gt;            &lt;chr&gt;    
+##  1 VENHQS1PUi1BNUoyL… VENHQS1PUi1BNUoyO…          207 acc_tcga_rppa    TCGA-OR-…
+##  2 VENHQS1PUi1BNUoyL… VENHQS1PUi1BNUoyO…          208 acc_tcga_rppa    TCGA-OR-…
+##  3 VENHQS1PUi1BNUoyL… VENHQS1PUi1BNUoyO…        10000 acc_tcga_rppa    TCGA-OR-…
+##  4 VENHQS1PUi1BNUoyL… VENHQS1PUi1BNUoyO…          367 acc_tcga_rppa    TCGA-OR-…
+##  5 VENHQS1PUi1BNUoyL… VENHQS1PUi1BNUoyO…          472 acc_tcga_rppa    TCGA-OR-…
+##  6 VENHQS1PUi1BNUoyL… VENHQS1PUi1BNUoyO…         8314 acc_tcga_rppa    TCGA-OR-…
+##  7 VENHQS1PUi1BNUoyL… VENHQS1PUi1BNUoyO…          596 acc_tcga_rppa    TCGA-OR-…
+##  8 VENHQS1PUi1BNUoyL… VENHQS1PUi1BNUoyO…          598 acc_tcga_rppa    TCGA-OR-…
+##  9 VENHQS1PUi1BNUoyL… VENHQS1PUi1BNUoyO…        10018 acc_tcga_rppa    TCGA-OR-…
+## 10 VENHQS1PUi1BNUoyL… VENHQS1PUi1BNUoyO…          673 acc_tcga_rppa    TCGA-OR-…
 ## # … with 2,612 more rows, and 4 more variables: patientId &lt;chr&gt;, studyId &lt;chr&gt;,
 ## #   value &lt;dbl&gt;, hugoGeneSymbol &lt;chr&gt;</code></pre>
 <p>It uses the <code>getAllGenesUsingGET</code> function from the API.</p>
@@ -508,7 +504,7 @@
 <div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="op">(</span><span class="va">resp</span> <span class="op">&lt;-</span> <span class="va">cbio</span><span class="op">$</span><span class="fu">getGeneUsingGET</span><span class="op">(</span><span class="st">"BRCA1"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>## Response [https://www.cbioportal.org/api/genes/BRCA1]
-##   Date: 2021-02-04 18:08
+##   Date: 2021-04-22 04:15
 ##   Status: 200
 ##   Content-Type: application/json
 ##   Size: 69 B</code></pre>
@@ -538,7 +534,7 @@
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <pre><code>## R version 4.0.3 (2020-10-10)
 ## Platform: x86_64-pc-linux-gnu (64-bit)
-## Running under: Ubuntu 20.04.1 LTS
+## Running under: Ubuntu 20.04 LTS
 ## 
 ## Matrix products: default
 ## BLAS/LAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblasp-r0.3.8.so
@@ -556,63 +552,64 @@
 ## [8] methods   base     
 ## 
 ## other attached packages:
-##  [1] cBioPortalData_2.2.8        MultiAssayExperiment_1.16.0
+##  [1] cBioPortalData_2.2.11       MultiAssayExperiment_1.16.0
 ##  [3] SummarizedExperiment_1.20.0 Biobase_2.50.0             
-##  [5] GenomicRanges_1.42.0        GenomeInfoDb_1.26.2        
+##  [5] GenomicRanges_1.42.0        GenomeInfoDb_1.26.7        
 ##  [7] IRanges_2.24.1              S4Vectors_0.28.1           
-##  [9] BiocGenerics_0.36.0         MatrixGenerics_1.2.1       
+##  [9] BiocGenerics_0.36.1         MatrixGenerics_1.2.1       
 ## [11] matrixStats_0.58.0          AnVIL_1.2.0                
-## [13] dplyr_1.0.4                 BiocStyle_2.18.1           
+## [13] dplyr_1.0.5                 BiocStyle_2.18.1           
 ## 
 ## loaded via a namespace (and not attached):
 ##  [1] bitops_1.0-6              fs_1.5.0                 
 ##  [3] bit64_4.0.5               progress_1.2.2           
 ##  [5] httr_1.4.2                rprojroot_2.0.2          
 ##  [7] GenomicDataCommons_1.14.0 tools_4.0.3              
-##  [9] utf8_1.1.4                R6_2.5.0                 
-## [11] DBI_1.1.1                 withr_2.4.1              
+##  [9] utf8_1.2.1                R6_2.5.0                 
+## [11] DBI_1.1.1                 withr_2.4.2              
 ## [13] prettyunits_1.1.1         tidyselect_1.1.0         
-## [15] TCGAutils_1.10.0          bit_4.0.4                
+## [15] TCGAutils_1.10.1          bit_4.0.4                
 ## [17] curl_4.3                  compiler_4.0.3           
-## [19] cli_2.3.0                 rvest_0.3.6              
-## [21] textshaping_0.2.1         formatR_1.7              
-## [23] xml2_1.3.2                desc_1.2.0               
-## [25] DelayedArray_0.16.1       rtracklayer_1.50.0       
+## [19] cli_2.4.0                 rvest_1.0.0              
+## [21] textshaping_0.3.3         formatR_1.9              
+## [23] xml2_1.3.2                desc_1.3.0               
+## [25] DelayedArray_0.16.3       rtracklayer_1.50.0       
 ## [27] bookdown_0.21             readr_1.4.0              
 ## [29] askpass_1.1               rappdirs_0.3.3           
 ## [31] pkgdown_1.6.1             rapiclient_0.1.3         
 ## [33] RCircos_1.2.1             Rsamtools_2.6.0          
-## [35] systemfonts_1.0.0         stringr_1.4.0            
-## [37] digest_0.6.27             rmarkdown_2.6            
+## [35] systemfonts_1.0.1         stringr_1.4.0            
+## [37] digest_0.6.27             rmarkdown_2.7            
 ## [39] XVector_0.30.0            pkgconfig_2.0.3          
-## [41] htmltools_0.5.1.1         dbplyr_2.1.0             
+## [41] htmltools_0.5.1.1         dbplyr_2.1.1             
 ## [43] fastmap_1.1.0             limma_3.46.0             
-## [45] rlang_0.4.10              RSQLite_2.2.3            
-## [47] generics_0.1.0            jsonlite_1.7.2           
-## [49] BiocParallel_1.24.1       RCurl_1.98-1.2           
-## [51] magrittr_2.0.1            GenomeInfoDbData_1.2.4   
-## [53] futile.logger_1.4.3       Matrix_1.3-2             
-## [55] fansi_0.4.2               Rcpp_1.0.6               
-## [57] lifecycle_0.2.0           stringi_1.5.3            
-## [59] yaml_2.2.1                RaggedExperiment_1.14.1  
-## [61] RJSONIO_1.3-1.4           zlibbioc_1.36.0          
-## [63] BiocFileCache_1.14.0      grid_4.0.3               
-## [65] blob_1.2.1                crayon_1.4.0             
-## [67] lattice_0.20-41           Biostrings_2.58.0        
-## [69] splines_4.0.3             GenomicFeatures_1.42.1   
-## [71] hms_1.0.0                 knitr_1.31               
-## [73] pillar_1.4.7              codetools_0.2-18         
-## [75] biomaRt_2.46.2            futile.options_1.0.1     
-## [77] XML_3.99-0.5              glue_1.4.2               
-## [79] evaluate_0.14             lambda.r_1.2.4           
-## [81] data.table_1.13.6         BiocManager_1.30.10      
-## [83] vctrs_0.3.6               openssl_1.4.3            
-## [85] purrr_0.3.4               assertthat_0.2.1         
-## [87] cachem_1.0.2              xfun_0.20                
-## [89] ragg_0.4.1                survival_3.2-7           
-## [91] tibble_3.0.6              RTCGAToolbox_2.20.0      
-## [93] GenomicAlignments_1.26.0  AnnotationDbi_1.52.0     
-## [95] memoise_2.0.0             ellipsis_0.3.1</code></pre>
+## [45] rlang_0.4.10              rstudioapi_0.13          
+## [47] RSQLite_2.2.6             generics_0.1.0           
+## [49] jsonlite_1.7.2            BiocParallel_1.24.1      
+## [51] RCurl_1.98-1.3            magrittr_2.0.1           
+## [53] GenomeInfoDbData_1.2.4    futile.logger_1.4.3      
+## [55] Matrix_1.3-2              Rcpp_1.0.6               
+## [57] fansi_0.4.2               lifecycle_1.0.0          
+## [59] stringi_1.5.3             yaml_2.2.1               
+## [61] RaggedExperiment_1.14.2   RJSONIO_1.3-1.4          
+## [63] zlibbioc_1.36.0           BiocFileCache_1.14.0     
+## [65] grid_4.0.3                blob_1.2.1               
+## [67] crayon_1.4.1              lattice_0.20-41          
+## [69] Biostrings_2.58.0         splines_4.0.3            
+## [71] GenomicFeatures_1.42.3    hms_1.0.0                
+## [73] ps_1.6.0                  knitr_1.32               
+## [75] pillar_1.6.0              codetools_0.2-18         
+## [77] biomaRt_2.46.3            futile.options_1.0.1     
+## [79] XML_3.99-0.6              glue_1.4.2               
+## [81] evaluate_0.14             lambda.r_1.2.4           
+## [83] data.table_1.14.0         BiocManager_1.30.12      
+## [85] vctrs_0.3.7               openssl_1.4.3            
+## [87] purrr_0.3.4               assertthat_0.2.1         
+## [89] cachem_1.0.4              xfun_0.22                
+## [91] ragg_1.1.2                survival_3.2-10          
+## [93] tibble_3.1.1              RTCGAToolbox_2.20.0      
+## [95] GenomicAlignments_1.26.0  AnnotationDbi_1.52.0     
+## [97] memoise_2.0.0             ellipsis_0.3.1</code></pre>
 </div>
   </div>
 
