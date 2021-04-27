@@ -33,6 +33,8 @@ Imports:
 Suggests:
     BiocStyle,
     knitr,
+    survival,
+    survminer,
     testthat
 License: AGPL-3
 Encoding: UTF-8

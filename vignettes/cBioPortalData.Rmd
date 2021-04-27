@@ -110,7 +110,8 @@ and return an integrative MultiAssayExperiment representation.
 
 ```{r,message=FALSE,warning=FALSE}
 ## Use ask=FALSE for non-interactive use
-cBioDataPack("laml_tcga", ask = FALSE)
+laml <- cBioDataPack("laml_tcga", ask = FALSE)
+laml
 ```
 
 ### cBioPortalData: Obtain data from the cBioPortal API
@@ -152,6 +153,45 @@ recommended that they use:
 
 ```{r,eval=FALSE}
 unlink("~/.cache/cBioPortalData/")
+```
+
+## Example Analysis: Kaplan-Meier Plot
+
+We can use information in the `colData` to draw a K-M plot with a few
+variables from the `colData` slot of the `MultiAssayExperiment`. First, we load
+the necessary packages:
+
+```{r,message=FALSE,warning=FALSE}
+library(survival)
+library(survminer)
+```
+
+We can check the data to lookout for any issues.
+
+```{r}
+table(colData(laml)$OS_STATUS)
+class(colData(laml)$OS_MONTHS)
+```
+
+Now, we clean the data a bit to ensure that our variables are of the right type
+for the subsequent survival model fit.
+
+```{r}
+collaml <- colData(laml)
+collaml[collaml$OS_MONTHS == "[Not Available]", "OS_MONTHS"] <- NA
+collaml$OS_MONTHS <- as.numeric(collaml$OS_MONTHS)
+colData(laml) <- collaml
+```
+
+We specify a simple survival model using `SEX` as a covariate and we draw
+the K-M plot.
+
+```{r}
+fit <- survfit(
+    Surv(OS_MONTHS, as.numeric(substr(OS_STATUS, 1, 1))) ~ SEX,
+    data = colData(laml)
+)
+ggsurvplot(fit, data = colData(laml), risk.table = TRUE)
 ```
 
 ### Data update requests
