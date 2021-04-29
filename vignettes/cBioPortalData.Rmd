@@ -1,6 +1,6 @@
 ---
 title: "cBioPortalData: User Start Guide"
-author: "Marcel Ramos"
+author: "Marcel Ramos & Levi Waldron"
 date: "`r format(Sys.time(), '%B %d, %Y')`"
 vignette: >
   %\VignetteEngine{knitr::rmarkdown}
@@ -11,6 +11,7 @@ output:
     number_sections: no
     toc: yes
     toc_depth: 4
+bibliograph: REFERENCES.bib
 ---
 
 ```{r, setup, include=FALSE}
@@ -26,14 +27,81 @@ library(AnVIL)
 
 # Introduction
 
-This vignette lays out the two main user-facing functions for downloading
-and representing data from the cBioPortal API. `cBioDataPack`
-makes use of the legacy distribution data method in `cBioPortal` (via
-tarballs). `cBioPortalData` allows for a more flexibile approach to obtaining
-data based on several available parameters including available molecular
-profiles.
+The cBioPortal for Cancer Genomics [website](https://cbioportal.org) is a great
+resource for interactive exploration of study datasets. However, it does not
+easily allow the analyst to obtain and further analyze the data.
 
-## Two main interfaces
+We've developed the `cBioPortalData` package to fill this need to
+programmatically access the data resources available on the cBioPortal.
+
+The `cBioPortalData` package provides an R interface for accessing the
+cBioPortal study data within the Bioconductor ecosystem.
+
+It downloads study data from the cBioPortal API (the full API specification can
+be found here https://cbioportal.org/api) and uses Bioconductor infrastructure
+to cache and represent the data.
+
+We use the [`MultiAssayExperiment`][1] (@Ramos2017-er) package to integrate,
+represent, and coordinate multiple experiments for the studies availble in the
+cBioPortal. This package in conjunction with `curatedTCGAData` give access to
+a large trove of publicly available bioinformatic data. Please see our
+publication [here][2] (@Ramos2020-ya).
+
+[1]: https://dx.doi.org/10.1158/0008-5472.CAN-17-0344
+[2]: https://dx.doi.org/10.1200/CCI.19.00119
+
+We demonstrate common use cases of `cBioPortalData` and `curatedTCGAData`
+during Bioconductor conference
+[workshops](https://waldronlab.io/MultiAssayWorkshop/).
+
+## Overview
+
+### Data Structures
+
+Data are provided as a single `MultiAssayExperiment` per study. The
+`MultiAssayExperiment` representation usually contains `SummarizedExperiment`
+objects for expression data and `RaggedExperiment` objects for mutation and
+CNV-type data.  `RaggedExperiment` is a data class for representing 'ragged'
+genomic location data, meaning that the measurements per sample vary.
+
+For more information, please see the `RaggedExperiment` and
+`SummarizedExperiment` vignettes.
+
+
+### Identifying available studies
+
+As we work through the data, there are some datasest that cannot be represented
+as `MultiAssayExperiment` objects. This can be due to a number of reasons such
+as the way the data is handled, presence of mis-matched identifiers, invalid
+data types, etc. To see what datasets are currently not building, we can
+look at the `studiesTable` dataset that comes with the package. We can invoke
+it using:
+
+```{r}
+data("studiesTable", package = "cBioPortalData")
+head(studiesTable)
+```
+
+The last two columns will show the availability of each `cancer_study_id` for
+either download method (`pack_build` for `cBioDataPack` and `api_build` for
+`cBioPortalData`).
+
+### Choosing download method
+
+There are two main user-facing functions for downloading data from the
+cBioPortal API.
+
+* `cBioDataPack` makes use of the tarball distribution of study data. This is
+useful when the user wants to download and analyze the entirety of the data as
+available from the cBioPortal.org website.
+
+* `cBioPortalData` allows a more flexibile approach to obtaining study data
+based on the available parameters such as molecular profile identifiers. This
+option is useful for users who have a set of gene symbols or identifiers and
+would like to get a smaller subset of the data that correspond to a particular
+molecular profile.
+
+## Two main functions
 
 ### cBioDataPack: Obtain Study Data as Zipped Tarballs
 
@@ -42,7 +110,8 @@ and return an integrative MultiAssayExperiment representation.
 
 ```{r,message=FALSE,warning=FALSE}
 ## Use ask=FALSE for non-interactive use
-cBioDataPack("laml_tcga", ask = FALSE)
+laml <- cBioDataPack("laml_tcga", ask = FALSE)
+laml
 ```
 
 ### cBioPortalData: Obtain data from the cBioPortal API
@@ -59,6 +128,10 @@ acc <- cBioPortalData(api = cbio, by = "hugoGeneSymbol", studyId = "acc_tcga",
 )
 acc
 ```
+
+Note. To avoid overloading the API service, the API was designed to only query
+a part of the study data. Therefore, the user is required to enter either a set
+of genes of interest or a gene panel identifier.
 
 ## Clearing the cache
 
@@ -82,9 +155,58 @@ recommended that they use:
 unlink("~/.cache/cBioPortalData/")
 ```
 
+## Example Analysis: Kaplan-Meier Plot
+
+We can use information in the `colData` to draw a K-M plot with a few
+variables from the `colData` slot of the `MultiAssayExperiment`. First, we load
+the necessary packages:
+
+```{r,message=FALSE,warning=FALSE}
+library(survival)
+library(survminer)
+```
+
+We can check the data to lookout for any issues.
+
+```{r}
+table(colData(laml)$OS_STATUS)
+class(colData(laml)$OS_MONTHS)
+```
+
+Now, we clean the data a bit to ensure that our variables are of the right type
+for the subsequent survival model fit.
+
+```{r}
+collaml <- colData(laml)
+collaml[collaml$OS_MONTHS == "[Not Available]", "OS_MONTHS"] <- NA
+collaml$OS_MONTHS <- as.numeric(collaml$OS_MONTHS)
+colData(laml) <- collaml
+```
+
+We specify a simple survival model using `SEX` as a covariate and we draw
+the K-M plot.
+
+```{r}
+fit <- survfit(
+    Surv(OS_MONTHS, as.numeric(substr(OS_STATUS, 1, 1))) ~ SEX,
+    data = colData(laml)
+)
+ggsurvplot(fit, data = colData(laml), risk.table = TRUE)
+```
+
+### Data update requests
+
+If you are interested in a particular study dataset that is not currently
+building, please open an issue at our GitHub repository
+[location](https://github.com/waldronlab/cBioPortalData/issues) and we will
+do our best to resolve the issues with either the data or the code.
+
+We appreciate your feedback!
+
 # sessionInfo
 
 ```{r}
 sessionInfo()
 ```
 
+# References

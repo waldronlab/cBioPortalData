@@ -33,6 +33,8 @@ Imports:
 Suggests:
     BiocStyle,
     knitr,
+    survival,
+    survminer,
     rmarkdown,
     testthat
 License: AGPL-3
