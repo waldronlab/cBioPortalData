@@ -129,8 +129,8 @@ acc <- cBioPortalData(api = cbio, by = "hugoGeneSymbol", studyId = "acc_tcga",
 acc
 ```
 
-Note. To make it as efficient as possible, the API was designed to only query a
-part of the study data. Therefore, the user is required to enter either a set
+Note. To avoid overloading the API service, the API was designed to only query
+a part of the study data. Therefore, the user is required to enter either a set
 of genes of interest or a gene panel identifier.
 
 ## Clearing the cache

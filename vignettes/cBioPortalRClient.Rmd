@@ -62,8 +62,8 @@ in the cBioPortal API implementation. The functionality demonstrated
 here is used internally by the package to create integrative representations
 of study datasets.
 
-Note. To make it as efficient as possible, the API was designed to only query a
-part of the study data. Therefore, the user is required to enter either a set
+Note. To avoid overloading the API service, the API was designed to only query
+a part of the study data. Therefore, the user is required to enter either a set
 of genes of interest or a gene panel identifier.
 
 # API representation
