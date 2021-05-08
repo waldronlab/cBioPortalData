@@ -1,7 +1,7 @@
 library(cBioPortalData)
 
 denv <- new.env(parent = emptyenv())
-setwd("~/gh/cBioPortalData")
+# setwd("~/gh/cBioPortalData")
 load("./data/studiesTable.rda", envir = denv)
 studiesTable <- denv[["studiesTable"]]
 
@@ -31,6 +31,11 @@ for (api_stud in studies) {
         err_api[[api_stud]] <- dats
     ## try to free up memory
     gc()
+    ## clean up data
+    removeDataCache(
+        cbioportal, studyId = api_stud, genePanelId = "IMPACT341",
+        dry.run = FALSE
+    )
 }
 
 err_api <- Filter(nchar, err_api)

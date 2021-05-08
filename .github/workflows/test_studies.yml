@@ -1,4 +1,4 @@
-name: Test Build cBioPortal Studies
+name: Update data(studiesTable)
 
 on: workflow_dispatch
 
@@ -17,17 +17,9 @@ jobs:
           saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
         shell: Rscript {0}
 
-      - name: Cache R packages
-        if: runner.os != 'Windows'
-        uses: actions/cache@v1
-        with:
-          path: /usr/local/lib/R/site-library
-          key: ${{ runner.os }}-r-1-${{ hashFiles('.github/depends.Rds') }}
-          restore-keys: ${{ runner.os }}-r-1-
-
       - name: Install Dependencies
         run: |
-          options(repos = c(CRAN = 'https://cran.r-project.org')); BiocManager::install(c('remotes', 'rcmdcheck', 'covr', 'pkgdown', 'AnVIL'), ask = FALSE, update = TRUE)
+          options(repos = c(CRAN = 'https://cran.r-project.org')); BiocManager::install(c('remotes', 'AnVIL'), ask = FALSE, update = TRUE)
           remotes::install_local(repos = BiocManager::repositories(), dependencies = TRUE)
           BiocManager::install(c("cgdsr", "stringr", "stringi", "tibble", "dplyr", "Rcurl", "usethis"))
         shell: Rscript {0}
@@ -40,6 +32,12 @@ jobs:
 
       - name: Add api_build to studiesTable
         run: Rscript -e "source('./inst/scripts/studiesTable/api_studies.R')"
+
+      - name: Upload error messages
+        uses: actions/upload-artifact@v2
+        with:
+          name: study-build-errors
+          path: inst/extdata/err*.rda
 
       - name: Check for changes in studiesTable
         run: Rscript -e "source('./inst/scripts/studiesTable/compareTable.R')"

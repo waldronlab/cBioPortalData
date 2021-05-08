@@ -21,9 +21,11 @@ removeDataCache(
   api,
   studyId = NA_character_,
   genePanelId = NA_character_,
+  genes = NA_character_,
   molecularProfileIds = NULL,
   sampleListId = NULL,
   sampleIds = NULL,
+  by = c("entrezGeneId", "hugoGeneSymbol"),
   dry.run = TRUE,
   ...
 )
@@ -53,12 +55,20 @@ function}
 \item{genePanelId}{character(1) Identifies the gene panel, as obtained
 from the `genePanels` function}
 
+\item{genes}{character() Either Entrez gene identifiers or Hugo gene
+symbols. When included, the 'by' argument indicates the type of
+identifier provided and 'genePanelId' is ignored. Preference is
+given to Entrez IDs due to faster query responses.}
+
 \item{molecularProfileIds}{character() A vector of molecular profile IDs}
 
 \item{sampleListId}{character(1) A sample list identifier as obtained from
 `sampleLists()``}
 
 \item{sampleIds}{character() Sample identifiers}
+
+\item{by}{character(1) Either 'entrezGeneId' or 'hugoGeneSymbol' for row
+metadata (default: 'entrezGeneId')}
 }
 \value{
 cBioCache: The path to the cache location
@@ -110,7 +120,7 @@ cBioPortalData(
 )
 
 removeDataCache(
-    cbio,
+    cbio, by = "hugoGeneSymbol",
     studyId = "acc_tcga",
     genePanelId = "AmpliSeq",
     molecularProfileIds =

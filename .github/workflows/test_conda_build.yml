@@ -1,4 +1,4 @@
-name: Test Build of Docker image
+name: Build Conda Docker
 on: [push, pull_request]
 jobs:
   test:

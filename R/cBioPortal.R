@@ -142,7 +142,7 @@ cBioPortal <- function(
             ),
             authenticate = FALSE,
             api_reference_url = apiUrl,
-            api_reference_md5sum = "b8275009abbd3e725d421abd4d91e6bf",
+            api_reference_md5sum = "71508a93fc7c1dc63265a098260b62a7",
             package = "cBioPortalData",
             schemes = protocol
         )
@@ -188,19 +188,20 @@ clinicalData <- function(api, studyId = NA_character_) {
     if (file.exists(cacheloc)) {
         load(cacheloc)
     } else {
-        pttable <- .invoke_bind(
-            api = api, name = "getAllPatientsInStudyUsingGET",
-            use_cache = FALSE, studyId = studyId
+        atts <- .invoke_bind(
+            api = api, name = "fetchAllClinicalDataInStudyUsingPOST",
+            use_cache = FALSE, clinicalDataType = "PATIENT", studyId = studyId
         )
+        att_tab <- tidyr::pivot_wider(data = atts, id_cols = "patientId",
+            names_from = "clinicalAttributeId", values_from = "value")
         clin <- .invoke_bind(
             api = api, name = "getAllClinicalDataInStudyUsingGET",
             use_cache = FALSE, studyId = studyId
         )
-        full <- tidyr::pivot_wider(
-            data = clin,
-            names_from = "clinicalAttributeId",
-            values_from = "value"
-        )
+        clin_tab <- tidyr::pivot_wider(data = clin,
+            id_cols = c("patientId", "sampleId"),
+            names_from = "clinicalAttributeId", values_from = "value")
+        full <-    dplyr::full_join(att_tab, clin_tab, by = "patientId")
         save(full, file = cacheloc)
     }
     full
@@ -596,6 +597,29 @@ getDataByGenePanel <-
     )
 }
 
+.resolveFeatures <- function(api, by, genes, genePanelId) {
+    isSingleNA <- function(x) { length(x) == 1L && is.na(x) }
+
+    if (isSingleNA(genes) && isSingleNA(genePanelId))
+        stop("Provide either 'genes' or 'genePanelId'")
+
+    geneIdType <- switch(
+        by, entrezGeneId = "ENTREZ_GENE_ID", 'HUGO_GENE_SYMBOL'
+    )
+
+    feats <- genes
+    if (identical(by, "hugoGeneSymbol") && !is.na(genes))
+        feats <- .invoke_bind(api, "fetchGenesUsingPOST", TRUE,
+            geneIdType = geneIdType, geneIds = as.character(genes))
+    else
+        feats <- tibble::tibble(entrezGeneId = genes)
+
+    if (isSingleNA(genes))
+        feats <- getGenePanel(api, genePanelId = genePanelId)
+
+    feats
+}
+
 #' @name cBioPortal
 #'
 #' @section Genes:
@@ -622,29 +646,12 @@ getDataByGenes <-
         stop("Provide a valid 'api' from 'cBioPortal()'")
     if (!is.null(sampleListId))
         sampleIds <- samplesInSampleLists(api, sampleListId)[[1L]]
-
-    if (is.null(sampleIds))
-        stop("Provide either a 'sampleListId' or 'sampleIds'")
-
-    isSingleNA <- function(x) { length(x) == 1L && is.na(x) }
-
-    if (isSingleNA(genes) && isSingleNA(genePanelId))
-        stop("Provide either 'genes' or 'genePanelId'")
+    else if (is.null(sampleIds))
+        sampleIds <- allSamples(api, studyId)[["sampleId"]]
 
     by <- match.arg(by)
-    geneIdType <- switch(
-        by, entrezGeneId = "ENTREZ_GENE_ID", 'HUGO_GENE_SYMBOL'
-    )
 
-    feats <- genes
-    if (identical(by, "hugoGeneSymbol") && !is.na(genes))
-        feats <- .invoke_bind(api, "fetchGenesUsingPOST", TRUE,
-            geneIdType = geneIdType, geneIds = as.character(genes), ...)
-    else
-        feats <- tibble::tibble(entrezGeneId = genes)
-
-    if (isSingleNA(genes))
-        feats <- getGenePanel(api, genePanelId = genePanelId)
+    feats <- .resolveFeatures(api, by, genes, genePanelId)
 
     digi <- digest::digest(
         list("getDataByGenes", api, studyId, feats, sampleIds,

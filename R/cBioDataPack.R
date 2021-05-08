@@ -21,8 +21,9 @@ cbioportal2metadata <- function(meta_file, lic_file) {
     if (length(lic_file)) {
         lic <- readLines(lic_file, warn = FALSE)
         lic <- paste0(lic[lic != ""], collapse = "\n")
+        lic <- list(LICENSE = lic)
     }
-    c(mdl, if (exists("lic")) LICENSE = lic)
+    c(mdl, if (exists("lic")) lic)
 }
 
 .subBCLetters <- function(df, ptID = "PATIENT_ID") {
@@ -186,15 +187,22 @@ cbioportal2clinicaldf <- function(files) {
 #' @description **Note** that these functions should be used when a particular
 #' study is _not_ currently available as a `MultiAssayExperiment`
 #' representation. Otherwise, use `cBioDataPack`. Provide a `cancer_study_id`
-#' from the `studiesTable` and retrieve the study tarball from cBioPortal.
-#' These functions are used by `cBioDataPack` under the hood to download,
-#' untar, and load the tarball datasets with caching. As stated in
+#' from the `studiesTable` and retrieve the study tarball from the cBio
+#' Genomics Portal.  These functions are used by `cBioDataPack` under the hood
+#' to download,untar, and load the tarball datasets with caching. As stated in
 #' `?cBioDataPack`, not all studies are currently working as
 #' `MultiAssayExperiment` objects. As of July 2020, about ~80% of
 #' datasets can be successfully imported into the `MultiAssayExperiment` data
 #' class. Please open an issue if you would like the team to prioritize a
 #' study. You may also check `studiesTable$pack_build` for a more current
 #' status.
+#'
+#' @details When attempting to load a dataset using `loadStudy`, note that
+#' the `cleanup` argument is set to `TRUE` by default. Change the argument
+#' to `FALSE` if you would like to keep the untarred data in the `exdir`
+#' location. `downloadStudy` and `untarStudy` are not affected by this change.
+#' The tarball of the downloaded data is cached via `BiocFileCache` when
+#' `use_cache` is `TRUE`.
 #'
 #' @param cancer_study_id character(1) The study identifier from cBioPortal as
 #' in \url{https://cbioportal.org/webAPI}
@@ -203,16 +211,16 @@ cbioportal2clinicaldf <- function(files) {
 #' and use it to track downloaded data. If data found in the cache, data will
 #' not be re-downloaded. A path can also be provided to data cache location.
 #'
-#' @param force logical(1) (default FALSE) whether to force re-download data from
-#' remote location
+#' @param force logical(1) (default FALSE) whether to force re-download data
+#' from remote location
 #'
 #' @param url_location character(1)
 #' (default "https://cbioportal-datahub.s3.amazonaws.com") the URL location for
 #' downloading packaged data. Can be set using the 'cBio_URL' option (see
 #' `?cBioDataPack` for more details)
 #'
-#' @param names.field A character vector of possible column names for the column
-#' that is used to label ranges from a mutations or copy number file.
+#' @param names.field A character vector of possible column names for the
+#' column that is used to label ranges from a mutations or copy number file.
 #'
 #' @param cancer_study_file character(1) indicates the on-disk location
 #' of the downloaded tarball
@@ -222,6 +230,9 @@ cbioportal2clinicaldf <- function(files) {
 #'
 #' @param filepath character(1) indicates the folder location where
 #' the contents of the tarball are *located* (usually the same as `exdir`)
+#'
+#' @param cleanup logical(1) whether to delete the `untar`-red contents from
+#' the `exdir` folder (default TRUE)
 #'
 #' @return \itemize{
 #'   \item {downloadStudy - The file location of the data tarball}
@@ -294,11 +305,14 @@ untarStudy <- function(cancer_study_file, exdir = tempdir()) {
 #' @rdname downloadStudy
 #'
 #' @export
-loadStudy <-
-    function(
-        filepath, names.field = c("Hugo_Symbol", "Entrez_Gene_Id", "Gene")
-    )
-{
+loadStudy <- function(
+    filepath,
+    names.field = c("Hugo_Symbol", "Entrez_Gene_Id", "Gene"),
+    cleanup = TRUE
+) {
+    if (cleanup)
+        on.exit(unlink(filepath, recursive = TRUE))
+
     datafiles <- getRelevantFilesFromStudy(
         list.files(filepath, recursive = TRUE)
     )
@@ -361,7 +375,7 @@ loadStudy <-
     mdat <- cbioportal2metadata(mdatafile, licensefile)
 
     if (length(fusionExtra))
-        fudat <- .silentRead(fusionExtra)
+        fudat <- list(Fusion = .silentRead(fusionExtra))
     else
         fudat <- list()
 
@@ -454,8 +468,9 @@ loadStudy <-
 #'
 #' @export
 cBioDataPack <- function(cancer_study_id, use_cache = TRUE,
-    names.field = c("Hugo_Symbol", "Entrez_Gene_Id", "Gene"), ask = TRUE) {
-
+    names.field = c("Hugo_Symbol", "Entrez_Gene_Id", "Gene"),
+    cleanup = TRUE, ask = TRUE)
+{
     denv <- new.env(parent = emptyenv())
     data("studiesTable", package = "cBioPortalData", envir = denv)
     studiesTable <- denv[["studiesTable"]]
@@ -481,6 +496,6 @@ cBioDataPack <- function(cancer_study_id, use_cache = TRUE,
 
     cancer_study_file <- downloadStudy(cancer_study_id, use_cache)
     exdir <- untarStudy(cancer_study_file)
-    loadStudy(exdir, names.field)
+    loadStudy(exdir, names.field, cleanup)
 }
 

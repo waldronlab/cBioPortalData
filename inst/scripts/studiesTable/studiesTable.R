@@ -21,10 +21,12 @@ names(studiesTable) <-
 
 parseURL <- gsub("<\\/{0,1}[Aaibr]{1,2}>", "", studiesTable[["description"]])
 URL <- str_extract_all(parseURL, "<.*?>")
-cleanURL <- lapply(URL, function(x) { gsub("<[aA]\\s[Hh][Rr][Ee][Ff]=|\"|>", "", x) })
+cleanURL <- lapply(URL,
+    function(x) { gsub("<[aA]\\s[Hh][Rr][Ee][Ff]=|\"|>", "", x) })
 cleanURL <- vapply(cleanURL, paste, character(1L), collapse = ", ")
 
-studiesTable[["description"]] <- gsub("<.*?>", "", studiesTable[["description"]])
+studiesTable[["description"]] <-
+    gsub("<.*?>", "", studiesTable[["description"]])
 studiesTable <- as(studiesTable, "DataFrame")
 studiesTable[["URL"]] <- cleanURL
 
@@ -49,6 +51,11 @@ denv <- new.env(parent = emptyenv())
 data("studiesTable", package = "cBioPortalData", envir = denv)
 previous <- denv[["studiesTable"]]
 
-if (!identical(studiesTable$cancer_study_id, previous$cancer_study_id)) {
+if (
+    !identical(
+        sort(studiesTable$cancer_study_id),
+        sort(previous$cancer_study_id)
+    )
+) {
     usethis::use_data(studiesTable, overwrite = TRUE)
 }

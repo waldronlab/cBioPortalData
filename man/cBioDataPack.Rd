@@ -9,6 +9,7 @@ cBioDataPack(
   cancer_study_id,
   use_cache = TRUE,
   names.field = c("Hugo_Symbol", "Entrez_Gene_Id", "Gene"),
+  cleanup = TRUE,
   ask = TRUE
 )
 }
@@ -22,6 +23,9 @@ not be re-downloaded. A path can also be provided to data cache location.}
 
 \item{names.field}{A character vector of possible column names for the column
 that is used to label ranges from a mutations or copy number file.}
+
+\item{cleanup}{logical(1) whether to delete the \code{untar}-red contents from
+the \code{exdir} folder (default TRUE)}
 
 \item{ask}{A logical vector of length one indicating whether to prompt the
 the user before downloading and loading study \code{MultiAssayExperiment}. If

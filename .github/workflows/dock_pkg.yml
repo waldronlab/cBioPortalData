@@ -1,4 +1,4 @@
-name: cBioPortalDocker
+name: BiocDev R CMD check and Docker
 
 on:
   push:
@@ -7,8 +7,9 @@ on:
 
 jobs:
   checkDeploy:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     container: bioconductor/bioconductor_docker:devel
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
@@ -16,6 +17,7 @@ jobs:
       - name: Query dependencies
         run: |
           install.packages('remotes')
+          devtools::install_github("Bioconductor/AnVIL")
           saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
         shell: Rscript {0}
         
@@ -29,19 +31,19 @@ jobs:
 
       - name: Install Dependencies
         run: |
-          options(repos = c(CRAN = "https://cran.r-project.org"))
-          BiocManager::repositories()
-          remotes::install_deps(dependencies = TRUE, repos = BiocManager::repositories())
-          BiocManager::install("rcmdcheck", update = TRUE, ask = FALSE)
+          options(repos = c(CRAN = "https://packagemanager.rstudio.com/cran/__linux__/focal/latest"))
+          remotes::install_deps(dependencies = TRUE, repos = AnVIL::repositories())
+          BiocManager::install("rcmdcheck", ask = FALSE, update = TRUE)
         shell: Rscript {0}
 
       - name: Check Package
         env:
           _R_CHECK_CRAN_INCOMING_REMOTE_: false
-        run: rcmdcheck::rcmdcheck(args = c("--no-manual"), error_on = "warning", check_dir = "check")
+        run: rcmdcheck::rcmdcheck(args = c("--no-manual"), error_on = "error", check_dir = "check")
         shell: Rscript {0}
         
       - name: Build and Push Docker container
+        if: ${{ success() }}
         uses: docker/build-push-action@v1
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
