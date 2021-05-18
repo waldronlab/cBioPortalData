@@ -2,16 +2,20 @@
 
 ## New features
 
+* Vignettes now include additional information (#38, @lwaldron)
+* `getDataByGenePanel` deprecated for `getDataByGenes` which handles input
+of both gene panels and genes
 * `cBioPortalData` now allows for gene inputs as either Entrez IDs or Hugo
-symbols (#24, @jucor)
+symbols (#24, @jucor) and `sampleIds` input
 * When `gene` inputs are provided, the `by` argument has to agree with the type
 of genes provided (either be `entrezGeneId` or `hugoGeneSymbol`).
-* Added `CITATION` file! See it at `citation(package = "cBioPortalData")`.
 
 ## Bug fixes and minor improvements
 
 * Fixed an issue where the labels in the `metadata` from  `cBioDataPack` were
 missing ('LICENSE' and 'Fusion'; #37)
+* `loadStudy` allows `cleanup=TRUE` for removing files after `untar`-ing
+* Published article now available with `citation("cBioPortalData")`
 
 # Changes in version 2.2.0
 
