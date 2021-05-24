@@ -1,6 +1,6 @@
-# Changes in version 2.4.0
+## Changes in version 2.4.0
 
-## New features
+### New features
 
 * Vignettes now include additional information (#38, @lwaldron)
 * `getDataByGenePanel` deprecated for `getDataByGenes` which handles input
@@ -10,16 +10,16 @@ symbols (#24, @jucor) and `sampleIds` input
 * When `gene` inputs are provided, the `by` argument has to agree with the type
 of genes provided (either be `entrezGeneId` or `hugoGeneSymbol`).
 
-## Bug fixes and minor improvements
+### Bug fixes and minor improvements
 
 * Fixed an issue where the labels in the `metadata` from  `cBioDataPack` were
 missing ('LICENSE' and 'Fusion'; #37)
 * `loadStudy` allows `cleanup=TRUE` for removing files after `untar`-ing
 * Published article now available with `citation("cBioPortalData")`
 
-# Changes in version 2.2.0
+## Changes in version 2.2.0
 
-## New features
+### New features
 
 * `studiesTable` includes additional columns `pack_build` and `api_build` to
 indicate to the user which datasets have been successfully built as
@@ -33,7 +33,7 @@ as not building, is requested from the `cBioDataPack` function.
 cache based on inputs to respective functions (`cBioDataPack` and
 `cBioPortalData`)
 
-## Bug fixes and minor improvements
+### Bug fixes and minor improvements
 
 * Attempt to merge additional clinical data files from tarballs in
 `cBioDataPack`.
@@ -47,9 +47,9 @@ in the tarball files.
 * Fix read-in when identifiers are numeric instead of character (@jucor, #27)
 * Include pagination parameters in `geneTable` function (@xinwei-sher, #29)
 
-# Changes in version 2.0.0
+## Changes in version 2.0.0
 
-## New features
+### New features
 
 * Bioconductor release!
 * Updated the `README.md` file from R Markdown file.
@@ -58,19 +58,19 @@ in the tarball files.
 * Include protein metadata as a `RaggedExperiment` from mutation molecular
 profiles (TCGA only)
 
-## Bug fixes and minor improvements
+### Bug fixes and minor improvements
 
 * API authentication option removed and not needed
 
-# Changes in version 1.0.1
+## Changes in version 1.0.1
 
-## New features
+### New features
 
 * Package supports nearly all study identifiers based on recent tests
 * Only a handful of study identifiers are unsuccessful (create an issue to
 prioritize).
 
-## Bug fixes and minor improvements
+### Bug fixes and minor improvements
 
 * Make better use of the API return values to craft the sample map for
 `MultiAssayExperiment` creation
@@ -78,9 +78,9 @@ prioritize).
 object. Future revisions will include this data as `rowData`.
 * Change vignette titles for build
 
-# Changes in version 0.1.0
+## Changes in version 0.1.0
 
-## New features
+### New features
 
 * `cBioDataPack` allows users to download packaged data objects from
 download.cbioportal.org/
@@ -96,7 +96,7 @@ can arise with mismatched or munged identifiers
 * The cBioPortal API representation is handled by the `AnVIL` package
 which makes use of `rapiclient` to provide an automatic R interface to the API
 
-## Bug fixes and minor improvements
+### Bug fixes and minor improvements
 
 * Data pack downloads use an alternative method for download when a download
 fails
