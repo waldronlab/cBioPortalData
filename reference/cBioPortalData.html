@@ -78,7 +78,7 @@ by the https://cbioportal.org/datasets, refer to cBioDataPack." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">cBioPortalData</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.2.11</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.4.0</span>
       </span>
     </div>
 
@@ -104,7 +104,7 @@ by the https://cbioportal.org/datasets, refer to cBioDataPack." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/cBioPortalRClient.html">cBioPortalData: API Reference Guide</a>
+      <a href="../articles/cBioPortalRClient.html">cBioPortalData: API Reference Guide for Devs</a>
     </li>
   </ul>
 </li>
@@ -151,8 +151,10 @@ by the <a href='https://cbioportal.org/datasets'>https://cbioportal.org/datasets
   <span class='va'>api</span>,
   studyId <span class='op'>=</span> <span class='cn'>NA_character_</span>,
   genePanelId <span class='op'>=</span> <span class='cn'>NA_character_</span>,
+  genes <span class='op'>=</span> <span class='cn'>NA_character_</span>,
   molecularProfileIds <span class='op'>=</span> <span class='cn'>NULL</span>,
   sampleListId <span class='op'>=</span> <span class='cn'>NULL</span>,
+  sampleIds <span class='op'>=</span> <span class='cn'>NULL</span>,
   by <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"entrezGeneId"</span>, <span class='st'>"hugoGeneSymbol"</span><span class='op'>)</span>
 <span class='op'>)</span></pre>
 
@@ -175,6 +177,13 @@ function</p></td>
 from the `genePanels` function</p></td>
     </tr>
     <tr>
+      <th>genes</th>
+      <td><p>character() Either Entrez gene identifiers or Hugo gene
+symbols. When included, the 'by' argument indicates the type of
+identifier provided and 'genePanelId' is ignored. Preference is
+given to Entrez IDs due to faster query responses.</p></td>
+    </tr>
+    <tr>
       <th>molecularProfileIds</th>
       <td><p>character() A vector of molecular profile IDs</p></td>
     </tr>
@@ -184,9 +193,13 @@ from the `genePanels` function</p></td>
 `sampleLists()``</p></td>
     </tr>
     <tr>
+      <th>sampleIds</th>
+      <td><p>character() Sample identifiers</p></td>
+    </tr>
+    <tr>
       <th>by</th>
       <td><p>character(1) Either 'entrezGeneId' or 'hugoGeneSymbol' for row
-metadata</p></td>
+metadata (default: 'entrezGeneId')</p></td>
     </tr>
     </table>
 
@@ -218,20 +231,20 @@ a fully reproducible example.</p>
     <span class='va'>cbio</span>, molecularProfileIds <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"acc_tcga_rppa"</span>, <span class='st'>"acc_tcga_linear_CNA"</span><span class='op'>)</span>,
     <span class='va'>samps</span>
 <span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 92 x 7</span><span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 92 x 7</span>
 #&gt;    uniqueSampleKey  uniquePatientKey molecularProfil… sampleId patientId studyId
-#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>            </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>            </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>            </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>  
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> VENHQS1PUi1BNUo… VENHQS1PUi1BNUo… acc_tcga_linear… TCGA-OR… TCGA-OR-… acc_tc…
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> VENHQS1PUi1BNUo… VENHQS1PUi1BNUo… acc_tcga_linear… TCGA-OR… TCGA-OR-… acc_tc…
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> VENHQS1PUi1BNUo… VENHQS1PUi1BNUo… acc_tcga_linear… TCGA-OR… TCGA-OR-… acc_tc…
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> VENHQS1PUi1BNUo… VENHQS1PUi1BNUo… acc_tcga_linear… TCGA-OR… TCGA-OR-… acc_tc…
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> VENHQS1PUi1BNUo… VENHQS1PUi1BNUo… acc_tcga_linear… TCGA-OR… TCGA-OR-… acc_tc…
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> VENHQS1PUi1BNUo… VENHQS1PUi1BNUo… acc_tcga_linear… TCGA-OR… TCGA-OR-… acc_tc…
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> VENHQS1PUi1BNUp… VENHQS1PUi1BNUp… acc_tcga_linear… TCGA-OR… TCGA-OR-… acc_tc…
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> VENHQS1PUi1BNUp… VENHQS1PUi1BNUp… acc_tcga_linear… TCGA-OR… TCGA-OR-… acc_tc…
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> VENHQS1PUi1BNUp… VENHQS1PUi1BNUp… acc_tcga_linear… TCGA-OR… TCGA-OR-… acc_tc…
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span> VENHQS1PUi1BNUp… VENHQS1PUi1BNUp… acc_tcga_linear… TCGA-OR… TCGA-OR-… acc_tc…
-#&gt; </span><span style='color: #949494;'># … with 82 more rows, and 1 more variable: profiled &lt;lgl&gt;</span><span></div><div class='input'>
+#&gt;    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>            <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>            <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>            <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  
+#&gt; <span style='color: #BCBCBC;'> 1</span> VENHQS1PUi1BNUo… VENHQS1PUi1BNUo… acc_tcga_linear… TCGA-OR… TCGA-OR-… acc_tc…
+#&gt; <span style='color: #BCBCBC;'> 2</span> VENHQS1PUi1BNUo… VENHQS1PUi1BNUo… acc_tcga_linear… TCGA-OR… TCGA-OR-… acc_tc…
+#&gt; <span style='color: #BCBCBC;'> 3</span> VENHQS1PUi1BNUo… VENHQS1PUi1BNUo… acc_tcga_linear… TCGA-OR… TCGA-OR-… acc_tc…
+#&gt; <span style='color: #BCBCBC;'> 4</span> VENHQS1PUi1BNUo… VENHQS1PUi1BNUo… acc_tcga_linear… TCGA-OR… TCGA-OR-… acc_tc…
+#&gt; <span style='color: #BCBCBC;'> 5</span> VENHQS1PUi1BNUo… VENHQS1PUi1BNUo… acc_tcga_linear… TCGA-OR… TCGA-OR-… acc_tc…
+#&gt; <span style='color: #BCBCBC;'> 6</span> VENHQS1PUi1BNUo… VENHQS1PUi1BNUo… acc_tcga_linear… TCGA-OR… TCGA-OR-… acc_tc…
+#&gt; <span style='color: #BCBCBC;'> 7</span> VENHQS1PUi1BNUp… VENHQS1PUi1BNUp… acc_tcga_linear… TCGA-OR… TCGA-OR-… acc_tc…
+#&gt; <span style='color: #BCBCBC;'> 8</span> VENHQS1PUi1BNUp… VENHQS1PUi1BNUp… acc_tcga_linear… TCGA-OR… TCGA-OR-… acc_tc…
+#&gt; <span style='color: #BCBCBC;'> 9</span> VENHQS1PUi1BNUp… VENHQS1PUi1BNUp… acc_tcga_linear… TCGA-OR… TCGA-OR-… acc_tc…
+#&gt; <span style='color: #BCBCBC;'>10</span> VENHQS1PUi1BNUp… VENHQS1PUi1BNUp… acc_tcga_linear… TCGA-OR… TCGA-OR-… acc_tc…
+#&gt; <span style='color: #949494;'># … with 82 more rows, and 1 more variable: profiled &lt;lgl&gt;</span></div><div class='input'>
 <span class='va'>acc_tcga</span> <span class='op'>&lt;-</span> <span class='fu'>cBioPortalData</span><span class='op'>(</span>
     <span class='va'>cbio</span>, by <span class='op'>=</span> <span class='st'>"hugoGeneSymbol"</span>,
     studyId <span class='op'>=</span> <span class='st'>"acc_tcga"</span>,
@@ -240,7 +253,7 @@ a fully reproducible example.</p>
         <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"acc_tcga_rppa"</span>, <span class='st'>"acc_tcga_linear_CNA"</span>, <span class='st'>"acc_tcga_mutations"</span><span class='op'>)</span>
 <span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='error'>Error in eval(args[["api"]]): object 'cbio' not found</span></div><div class='input'>
-</div></span></pre>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

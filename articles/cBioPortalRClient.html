@@ -5,13 +5,13 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>cBioPortalData: API Reference Guide • cBioPortalData</title>
+<title>cBioPortalData: API Reference Guide for Devs • cBioPortalData</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
 <script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../pkgdown.js"></script><meta property="og:title" content="cBioPortalData: API Reference Guide">
+<script src="../pkgdown.js"></script><meta property="og:title" content="cBioPortalData: API Reference Guide for Devs">
 <meta property="og:description" content="cBioPortalData">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">cBioPortalData</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.2.11</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.4.0</span>
       </span>
     </div>
 
@@ -57,7 +57,7 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="../articles/cBioPortalRClient.html">cBioPortalData: API Reference Guide</a>
+      <a href="../articles/cBioPortalRClient.html">cBioPortalData: API Reference Guide for Devs</a>
     </li>
   </ul>
 </li>
@@ -82,13 +82,13 @@
 
       
 
-      </header><script src="cBioPortalRClient_files/header-attrs-2.7/header-attrs.js"></script><div class="row">
+      </header><script src="cBioPortalRClient_files/header-attrs-2.8/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1 data-toc-skip>cBioPortalData: API Reference Guide</h1>
+      <h1 data-toc-skip>cBioPortalData: API Reference Guide for Devs</h1>
                         <h4 class="author">Marcel Ramos &amp; Levi Waldron</h4>
             
-            <h4 class="date">April 22, 2021</h4>
+            <h4 class="date">May 30, 2021</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/waldronlab/cBioPortalData/blob/master/vignettes/cBioPortalRClient.Rmd"><code>vignettes/cBioPortalRClient.Rmd</code></a></small>
       <div class="hidden name"><code>cBioPortalRClient.Rmd</code></div>
@@ -108,7 +108,18 @@
 <div id="introduction" class="section level1">
 <h1 class="hasAnchor">
 <a href="#introduction" class="anchor"></a>Introduction</h1>
-<p>This vignette is for users / developers who would like to learn more about the available in <code>cBioPortalData</code> and possibly hit other endpoints in the cBioPortal API implementation. The functionality demonstrated here is used internally by the package to create integrative representations of study datasets.</p>
+<p>The cBioPortal for Cancer Genomics <a href="https://cbioportal.org">website</a> is a great resource for interactive exploration of study datasets. However, it does not easily allow the analyst to obtain and further analyze the data.</p>
+<p>We’ve developed the <code>cBioPortalData</code> package to fill this need to programmatically access the data resources available on the cBioPortal.</p>
+<p>The <code>cBioPortalData</code> package provides an R interface for accessing the cBioPortal study data within the Bioconductor ecosystem.</p>
+<p>It downloads study data from the cBioPortal API (<a href="https://cbioportal.org/api" class="uri">https://cbioportal.org/api</a>) and uses Bioconductor infrastructure to cache and represent the data.</p>
+<p>We use the <a href="https://dx.doi.org/10.1158/0008-5472.CAN-17-0344"><code>MultiAssayExperiment</code></a> (<span class="citation">@Ramos2017-er</span>) package to integrate, represent, and coordinate multiple experiments for the studies availble in the cBioPortal. This package in conjunction with <code>curatedTCGAData</code> give access to a large trove of publicly available bioinformatic data. Please see our publication <a href="https://dx.doi.org/10.1200/CCI.19.00119">here</a> (<span class="citation">@Ramos2020-ya</span>).</p>
+<p>We demonstrate common use cases of <code>cBioPortalData</code> and <code>curatedTCGAData</code> during Bioconductor conference <a href="https://waldronlab.io/MultiAssayWorkshop/">workshops</a>.</p>
+</div>
+<div id="overview" class="section level1">
+<h1 class="hasAnchor">
+<a href="#overview" class="anchor"></a>Overview</h1>
+<p>This vignette is for users / developers who would like to learn more about the available data in <code>cBioPortalData</code> and to learn how to hit other endpoints in the cBioPortal API implementation. The functionality demonstrated here is used internally by the package to create integrative representations of study datasets.</p>
+<p>Note. To avoid overloading the API service, the API was designed to only query a part of the study data. Therefore, the user is required to enter either a set of genes of interest or a gene panel identifier.</p>
 </div>
 <div id="api-representation" class="section level1">
 <h1 class="hasAnchor">
@@ -192,7 +203,7 @@
 <p>Get the list of studies available:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/cBioPortal.html">getStudies</a></span><span class="op">(</span><span class="va">cbio</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 309 x 13
+<pre><code>## # A tibble: 313 x 13
 ##    name     shortName  description     publicStudy pmid  citation  groups status
 ##    &lt;chr&gt;    &lt;chr&gt;      &lt;chr&gt;           &lt;lgl&gt;       &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;   &lt;int&gt;
 ##  1 Oral Sq… Head &amp; ne… Comprehensive … TRUE        2361… Pickerin… ""          0
@@ -205,7 +216,7 @@
 ##  8 Insulin… Panet (Sh… Whole exome se… TRUE        2432… Cao et a… ""          0
 ##  9 Pleural… PLMESO (N… Whole-exome se… TRUE        2548… Guo et a… ""          0
 ## 10 Pilocyt… PAST (Nat… Whole-genome s… TRUE        2381… Jones et… "PUBL…      0
-## # … with 299 more rows, and 5 more variables: importDate &lt;chr&gt;,
+## # … with 303 more rows, and 5 more variables: importDate &lt;chr&gt;,
 ## #   allSampleCount &lt;int&gt;, studyId &lt;chr&gt;, cancerTypeId &lt;chr&gt;,
 ## #   referenceGenome &lt;chr&gt;</code></pre>
 </div>
@@ -215,26 +226,57 @@
 <p>Obtain the clinical data for a particular study:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/cBioPortal.html">clinicalData</a></span><span class="op">(</span><span class="va">cbio</span>, <span class="st">"acc_tcga"</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 92 x 21
-##    uniqueSampleKey   uniquePatientKey   sampleId  patientId studyId CANCER_TYPE 
-##    &lt;chr&gt;             &lt;chr&gt;              &lt;chr&gt;     &lt;chr&gt;     &lt;chr&gt;   &lt;chr&gt;       
-##  1 VENHQS1PUi1BNUox… VENHQS1PUi1BNUoxO… TCGA-OR-… TCGA-OR-… acc_tc… Adrenocorti…
-##  2 VENHQS1PUi1BNUoy… VENHQS1PUi1BNUoyO… TCGA-OR-… TCGA-OR-… acc_tc… Adrenocorti…
-##  3 VENHQS1PUi1BNUoz… VENHQS1PUi1BNUozO… TCGA-OR-… TCGA-OR-… acc_tc… Adrenocorti…
-##  4 VENHQS1PUi1BNUo0… VENHQS1PUi1BNUo0O… TCGA-OR-… TCGA-OR-… acc_tc… Adrenocorti…
-##  5 VENHQS1PUi1BNUo1… VENHQS1PUi1BNUo1O… TCGA-OR-… TCGA-OR-… acc_tc… Adrenocorti…
-##  6 VENHQS1PUi1BNUo2… VENHQS1PUi1BNUo2O… TCGA-OR-… TCGA-OR-… acc_tc… Adrenocorti…
-##  7 VENHQS1PUi1BNUo3… VENHQS1PUi1BNUo3O… TCGA-OR-… TCGA-OR-… acc_tc… Adrenocorti…
-##  8 VENHQS1PUi1BNUo4… VENHQS1PUi1BNUo4O… TCGA-OR-… TCGA-OR-… acc_tc… Adrenocorti…
-##  9 VENHQS1PUi1BNUo5… VENHQS1PUi1BNUo5O… TCGA-OR-… TCGA-OR-… acc_tc… Adrenocorti…
-## 10 VENHQS1PUi1BNUpB… VENHQS1PUi1BNUpBO… TCGA-OR-… TCGA-OR-… acc_tc… Adrenocorti…
-## # … with 82 more rows, and 15 more variables: CANCER_TYPE_DETAILED &lt;chr&gt;,
-## #   DAYS_TO_COLLECTION &lt;chr&gt;, FRACTION_GENOME_ALTERED &lt;chr&gt;, IS_FFPE &lt;chr&gt;,
-## #   MUTATION_COUNT &lt;chr&gt;, OCT_EMBEDDED &lt;chr&gt;, ONCOTREE_CODE &lt;chr&gt;,
-## #   OTHER_SAMPLE_ID &lt;chr&gt;, PATHOLOGY_REPORT_FILE_NAME &lt;chr&gt;,
-## #   PATHOLOGY_REPORT_UUID &lt;chr&gt;, SAMPLE_INITIAL_WEIGHT &lt;chr&gt;,
-## #   SAMPLE_TYPE &lt;chr&gt;, SAMPLE_TYPE_ID &lt;chr&gt;, SOMATIC_STATUS &lt;chr&gt;,
-## #   VIAL_NUMBER &lt;chr&gt;</code></pre>
+<pre><code>## # A tibble: 92 x 84
+##    patientId  AGE   AJCC_PATHOLOGIC_TU… ATYPICAL_MITOTIC_FI… CAPSULAR_INVASION  
+##    &lt;chr&gt;      &lt;chr&gt; &lt;chr&gt;               &lt;chr&gt;                &lt;chr&gt;              
+##  1 TCGA-OR-A… 58    Stage II            Atypical Mitotic Fi… Invasion of Tumor …
+##  2 TCGA-OR-A… 44    Stage IV            Atypical Mitotic Fi… Invasion of Tumor …
+##  3 TCGA-OR-A… 23    Stage III           Atypical Mitotic Fi… Invasion of Tumor …
+##  4 TCGA-OR-A… 23    Stage IV            Atypical Mitotic Fi… Invasion of Tumor …
+##  5 TCGA-OR-A… 30    Stage III           Atypical Mitotic Fi… Invasion of Tumor …
+##  6 TCGA-OR-A… 29    Stage II            Atypical Mitotic Fi… Invasion of Tumor …
+##  7 TCGA-OR-A… 30    Stage III           Atypical Mitotic Fi… Invasion of Tumor …
+##  8 TCGA-OR-A… 66    Stage III           Atypical Mitotic Fi… Invasion of Tumor …
+##  9 TCGA-OR-A… 22    Stage II            Atypical Mitotic Fi… Invasion of Tumor …
+## 10 TCGA-OR-A… 53    Stage IV            Atypical Mitotic Fi… Invasion of Tumor …
+## # … with 82 more rows, and 79 more variables: CLIN_M_STAGE &lt;chr&gt;,
+## #   CT_SCAN_PREOP_RESULTS &lt;chr&gt;,
+## #   CYTOPLASM_PRESENCE_LESS_THAN_EQUAL_25_PERCENT &lt;chr&gt;,
+## #   DAYS_TO_INITIAL_PATHOLOGIC_DIAGNOSIS &lt;chr&gt;, DFS_MONTHS &lt;chr&gt;,
+## #   DFS_STATUS &lt;chr&gt;, DIFFUSE_ARCHITECTURE &lt;chr&gt;, ETHNICITY &lt;chr&gt;,
+## #   FORM_COMPLETION_DATE &lt;chr&gt;, HISTOLOGICAL_DIAGNOSIS &lt;chr&gt;,
+## #   HISTORY_ADRENAL_HORMONE_EXCESS &lt;chr&gt;,
+## #   HISTORY_BASIS_ADRENAL_HORMONE_DX &lt;chr&gt;, HISTORY_NEOADJUVANT_TRTYN &lt;chr&gt;,
+## #   HISTORY_OTHER_MALIGNANCY &lt;chr&gt;, ICD_10 &lt;chr&gt;, ICD_O_3_HISTOLOGY &lt;chr&gt;,
+## #   ICD_O_3_SITE &lt;chr&gt;, INFORMED_CONSENT_VERIFIED &lt;chr&gt;,
+## #   INITIAL_PATHOLOGIC_DX_YEAR &lt;chr&gt;, LATERALITY &lt;chr&gt;,
+## #   LYMPH_NODES_EXAMINED &lt;chr&gt;, MITOSES_PER_50_HPF &lt;chr&gt;, MITOTIC_RATE &lt;chr&gt;,
+## #   MOLECULAR_STUDIES_OTHERS_PERFORMED &lt;chr&gt;, NECROSIS &lt;chr&gt;,
+## #   NEW_TUMOR_EVENT_AFTER_INITIAL_TREATMENT &lt;chr&gt;, NUCLEAR_GRADE_III_IV &lt;chr&gt;,
+## #   OS_MONTHS &lt;chr&gt;, OS_STATUS &lt;chr&gt;, OTHER_PATIENT_ID &lt;chr&gt;,
+## #   PATH_N_STAGE &lt;chr&gt;, PATH_T_STAGE &lt;chr&gt;, PHARMACEUTICAL_TX_ADJUVANT &lt;chr&gt;,
+## #   PHARM_TX_MITOTANE_INDICATOR &lt;chr&gt;, PROSPECTIVE_COLLECTION &lt;chr&gt;,
+## #   RACE &lt;chr&gt;, RADIATION_TREATMENT_ADJUVANT &lt;chr&gt;, RESIDUAL_TUMOR &lt;chr&gt;,
+## #   RETROSPECTIVE_COLLECTION &lt;chr&gt;, SAMPLE_COUNT &lt;chr&gt;, SEX &lt;chr&gt;,
+## #   SINUSOID_INVASION &lt;chr&gt;, SITE_OF_TUMOR_TISSUE &lt;chr&gt;,
+## #   TISSUE_SOURCE_SITE &lt;chr&gt;, TUMOR_STATUS &lt;chr&gt;, WEISS_SCORE_OVERALL &lt;chr&gt;,
+## #   WEISS_VENOUS_INVASION &lt;chr&gt;, CLINICAL_STATUS_WITHIN_3_MTHS_SURGERY &lt;chr&gt;,
+## #   LYMPH_NODES_EXAMINED_HE_COUNT &lt;chr&gt;, LYMPH_NODE_EXAMINED_COUNT &lt;chr&gt;,
+## #   METASTATIC_DX_CONFIRMED_BY &lt;chr&gt;, METASTATIC_SITE_PATIENT &lt;chr&gt;,
+## #   PHARM_TX_MITOTANE_FOR_MACRO_DISEASE &lt;chr&gt;,
+## #   TREATMENT_OUTCOME_FIRST_COURSE &lt;chr&gt;, DAYS_LAST_FOLLOWUP &lt;chr&gt;,
+## #   PHARM_TX_MITOTANE_ADJUVANT &lt;chr&gt;,
+## #   PHARM_TX_MITOTANE_THERAPUTIC_AT_REC &lt;chr&gt;,
+## #   PHARM_TX_MITOTANE_THERAPUTIC_LEVELS &lt;chr&gt;,
+## #   METASTATIC_DX_CONFIRMED_BY_OTHER &lt;chr&gt;,
+## #   PHARM_TX_MITOTANE_THERAPUTIC_MACRO &lt;chr&gt;,
+## #   PHARM_TX_MITOTANE_THERAPUTIC_AT_PROG &lt;chr&gt;, RET &lt;chr&gt;, sampleId &lt;chr&gt;,
+## #   CANCER_TYPE &lt;chr&gt;, CANCER_TYPE_DETAILED &lt;chr&gt;, DAYS_TO_COLLECTION &lt;chr&gt;,
+## #   FRACTION_GENOME_ALTERED &lt;chr&gt;, IS_FFPE &lt;chr&gt;, MUTATION_COUNT &lt;chr&gt;,
+## #   OCT_EMBEDDED &lt;chr&gt;, ONCOTREE_CODE &lt;chr&gt;, OTHER_SAMPLE_ID &lt;chr&gt;,
+## #   PATHOLOGY_REPORT_FILE_NAME &lt;chr&gt;, PATHOLOGY_REPORT_UUID &lt;chr&gt;,
+## #   SAMPLE_INITIAL_WEIGHT &lt;chr&gt;, SAMPLE_TYPE &lt;chr&gt;, SAMPLE_TYPE_ID &lt;chr&gt;,
+## #   SOMATIC_STATUS &lt;chr&gt;, VIAL_NUMBER &lt;chr&gt;</code></pre>
 </div>
 <div id="molecular-profiles" class="section level2">
 <h2 class="hasAnchor">
@@ -388,6 +430,9 @@
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/cBioPortal.html">getDataByGenePanel</a></span><span class="op">(</span><span class="va">cbio</span>, <span class="st">"acc_tcga"</span>, genePanelId <span class="op">=</span> <span class="st">"IMPACT341"</span>,
     molecularProfileId <span class="op">=</span> <span class="st">"acc_tcga_rppa"</span>, sampleListId <span class="op">=</span> <span class="st">"acc_tcga_rppa"</span><span class="op">)</span></code></pre></div>
+<pre><code>## Warning: 'getDataByGenePanel' is deprecated.
+## Use 'getDataByGenes' instead.
+## See help("Deprecated")</code></pre>
 <pre><code>## $acc_tcga_rppa
 ## # A tibble: 2,622 x 9
 ##    uniqueSampleKey    uniquePatientKey   entrezGeneId molecularProfil… sampleId 
@@ -414,7 +459,7 @@
 <h3 class="hasAnchor">
 <a href="#sample-list-identifiers" class="anchor"></a>Sample List Identifiers</h3>
 <p>To display all available sample list identifiers for a particular study ID, one can use the <code>sampleLists</code> function:</p>
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/cBioPortal.html">sampleLists</a></span><span class="op">(</span><span class="va">cbio</span>, <span class="st">"acc_tcga"</span><span class="op">)</span></code></pre></div>
 <pre><code>## # A tibble: 9 x 5
 ##   category          name          description            sampleListId    studyId
@@ -433,12 +478,12 @@
 <h3 class="hasAnchor">
 <a href="#sample-identifiers" class="anchor"></a>Sample Identifiers</h3>
 <p>One can obtain the barcodes / identifiers for each sample using a specific sample list identifier, in this case we want all the copy number alteration samples:</p>
-<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/cBioPortal.html">samplesInSampleLists</a></span><span class="op">(</span><span class="va">cbio</span>, <span class="st">"acc_tcga_cna"</span><span class="op">)</span></code></pre></div>
 <pre><code>## CharacterList of length 1
 ## [["acc_tcga_cna"]] TCGA-OR-A5J1-01 TCGA-OR-A5J2-01 ... TCGA-PK-A5HC-01</code></pre>
 <p>This returns a <code>CharacterList</code> of all identifiers for each sample list identifier input:</p>
-<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/cBioPortal.html">samplesInSampleLists</a></span><span class="op">(</span><span class="va">cbio</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"acc_tcga_cna"</span>, <span class="st">"acc_tcga_cnaseq"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>## CharacterList of length 2
 ## [["acc_tcga_cna"]] TCGA-OR-A5J1-01 TCGA-OR-A5J2-01 ... TCGA-PK-A5HC-01
@@ -447,7 +492,7 @@
 <div id="all-samples-within-a-study-id" class="section level3">
 <h3 class="hasAnchor">
 <a href="#all-samples-within-a-study-id" class="anchor"></a>All samples within a study ID</h3>
-<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/cBioPortal.html">allSamples</a></span><span class="op">(</span><span class="va">cbio</span>, <span class="st">"acc_tcga"</span><span class="op">)</span></code></pre></div>
 <pre><code>## # A tibble: 92 x 6
 ##    uniqueSampleKey    uniquePatientKey   sampleType  sampleId  patientId studyId
@@ -467,7 +512,7 @@
 <div id="info-on-samples" class="section level3">
 <h3 class="hasAnchor">
 <a href="#info-on-samples" class="anchor"></a>Info on Samples</h3>
-<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/cBioPortal.html">getSampleInfo</a></span><span class="op">(</span><span class="va">cbio</span>, studyId <span class="op">=</span> <span class="st">"acc_tcga"</span>,
     sampleListIds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"acc_tcga_rppa"</span>, <span class="st">"acc_tcga_gistic"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>## # A tibble: 46 x 6
@@ -492,7 +537,7 @@
 <a href="#advanced-usage" class="anchor"></a>Advanced Usage</h1>
 <p>The <code>cBioPortal</code> API representation is not limited to the functions provided in the package. Users who wish to make use of any of the endpoints provided by the API specification should use the dollar sign <code><a href="https://rdrr.io/r/base/Extract.html">$</a></code> function to access the endpoints.</p>
 <p>First the user should see the input for a particular endpoint as detailed in the API:</p>
-<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">cbio</span><span class="op">$</span><span class="va">getGeneUsingGET</span></code></pre></div>
 <pre><code>## getGeneUsingGET 
 ## Get a gene 
@@ -501,15 +546,15 @@
 ##   geneId (string)
 ##     Entrez Gene ID or Hugo Gene Symbol e.g. 1 or A1BG</code></pre>
 <p>Then the user can provide such input:</p>
-<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="op">(</span><span class="va">resp</span> <span class="op">&lt;-</span> <span class="va">cbio</span><span class="op">$</span><span class="fu">getGeneUsingGET</span><span class="op">(</span><span class="st">"BRCA1"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>## Response [https://www.cbioportal.org/api/genes/BRCA1]
-##   Date: 2021-04-22 04:15
+##   Date: 2021-05-30 20:28
 ##   Status: 200
 ##   Content-Type: application/json
 ##   Size: 69 B</code></pre>
 <p>which will require the user to ‘translate’ the response using <code><a href="https://httr.r-lib.org/reference/content.html">httr::content</a></code>:</p>
-<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">httr</span><span class="fu">::</span><span class="fu"><a href="https://httr.r-lib.org/reference/content.html">content</a></span><span class="op">(</span><span class="va">resp</span><span class="op">)</span></code></pre></div>
 <pre><code>## $entrezGeneId
 ## [1] 672
@@ -523,18 +568,18 @@
 <h2 class="hasAnchor">
 <a href="#clearing-the-cache" class="anchor"></a>Clearing the cache</h2>
 <p>For users who wish to clear the entire <code>cBioPortalData</code> cache, it is recommended that they use:</p>
-<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/unlink.html">unlink</a></span><span class="op">(</span><span class="st">"~/.cache/cBioPortalData/"</span><span class="op">)</span></code></pre></div>
 </div>
 </div>
 <div id="sessioninfo" class="section level1">
 <h1 class="hasAnchor">
 <a href="#sessioninfo" class="anchor"></a>sessionInfo</h1>
-<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<pre><code>## R version 4.0.3 (2020-10-10)
+<pre><code>## R version 4.1.0 (2021-05-18)
 ## Platform: x86_64-pc-linux-gnu (64-bit)
-## Running under: Ubuntu 20.04 LTS
+## Running under: Ubuntu 20.04.2 LTS
 ## 
 ## Matrix products: default
 ## BLAS/LAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblasp-r0.3.8.so
@@ -552,64 +597,67 @@
 ## [8] methods   base     
 ## 
 ## other attached packages:
-##  [1] cBioPortalData_2.2.11       MultiAssayExperiment_1.16.0
-##  [3] SummarizedExperiment_1.20.0 Biobase_2.50.0             
-##  [5] GenomicRanges_1.42.0        GenomeInfoDb_1.26.7        
-##  [7] IRanges_2.24.1              S4Vectors_0.28.1           
-##  [9] BiocGenerics_0.36.1         MatrixGenerics_1.2.1       
-## [11] matrixStats_0.58.0          AnVIL_1.2.0                
-## [13] dplyr_1.0.5                 BiocStyle_2.18.1           
+##  [1] cBioPortalData_2.4.0        MultiAssayExperiment_1.18.0
+##  [3] SummarizedExperiment_1.22.0 Biobase_2.52.0             
+##  [5] GenomicRanges_1.44.0        GenomeInfoDb_1.28.0        
+##  [7] IRanges_2.26.0              S4Vectors_0.30.0           
+##  [9] BiocGenerics_0.38.0         MatrixGenerics_1.4.0       
+## [11] matrixStats_0.58.0          AnVIL_1.4.0                
+## [13] dplyr_1.0.6                 BiocStyle_2.20.0           
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] bitops_1.0-6              fs_1.5.0                 
-##  [3] bit64_4.0.5               progress_1.2.2           
-##  [5] httr_1.4.2                rprojroot_2.0.2          
-##  [7] GenomicDataCommons_1.14.0 tools_4.0.3              
-##  [9] utf8_1.2.1                R6_2.5.0                 
-## [11] DBI_1.1.1                 withr_2.4.2              
-## [13] prettyunits_1.1.1         tidyselect_1.1.0         
-## [15] TCGAutils_1.10.1          bit_4.0.4                
-## [17] curl_4.3                  compiler_4.0.3           
-## [19] cli_2.4.0                 rvest_1.0.0              
-## [21] textshaping_0.3.3         formatR_1.9              
-## [23] xml2_1.3.2                desc_1.3.0               
-## [25] DelayedArray_0.16.3       rtracklayer_1.50.0       
-## [27] bookdown_0.21             readr_1.4.0              
-## [29] askpass_1.1               rappdirs_0.3.3           
-## [31] pkgdown_1.6.1             rapiclient_0.1.3         
-## [33] RCircos_1.2.1             Rsamtools_2.6.0          
-## [35] systemfonts_1.0.1         stringr_1.4.0            
-## [37] digest_0.6.27             rmarkdown_2.7            
-## [39] XVector_0.30.0            pkgconfig_2.0.3          
-## [41] htmltools_0.5.1.1         dbplyr_2.1.1             
-## [43] fastmap_1.1.0             limma_3.46.0             
-## [45] rlang_0.4.10              rstudioapi_0.13          
-## [47] RSQLite_2.2.6             generics_0.1.0           
-## [49] jsonlite_1.7.2            BiocParallel_1.24.1      
-## [51] RCurl_1.98-1.3            magrittr_2.0.1           
-## [53] GenomeInfoDbData_1.2.4    futile.logger_1.4.3      
-## [55] Matrix_1.3-2              Rcpp_1.0.6               
-## [57] fansi_0.4.2               lifecycle_1.0.0          
-## [59] stringi_1.5.3             yaml_2.2.1               
-## [61] RaggedExperiment_1.14.2   RJSONIO_1.3-1.4          
-## [63] zlibbioc_1.36.0           BiocFileCache_1.14.0     
-## [65] grid_4.0.3                blob_1.2.1               
-## [67] crayon_1.4.1              lattice_0.20-41          
-## [69] Biostrings_2.58.0         splines_4.0.3            
-## [71] GenomicFeatures_1.42.3    hms_1.0.0                
-## [73] ps_1.6.0                  knitr_1.32               
-## [75] pillar_1.6.0              codetools_0.2-18         
-## [77] biomaRt_2.46.3            futile.options_1.0.1     
-## [79] XML_3.99-0.6              glue_1.4.2               
-## [81] evaluate_0.14             lambda.r_1.2.4           
-## [83] data.table_1.14.0         BiocManager_1.30.12      
-## [85] vctrs_0.3.7               openssl_1.4.3            
-## [87] purrr_0.3.4               assertthat_0.2.1         
-## [89] cachem_1.0.4              xfun_0.22                
-## [91] ragg_1.1.2                survival_3.2-10          
-## [93] tibble_3.1.1              RTCGAToolbox_2.20.0      
-## [95] GenomicAlignments_1.26.0  AnnotationDbi_1.52.0     
-## [97] memoise_2.0.0             ellipsis_0.3.1</code></pre>
+##   [1] rjson_0.2.20              ellipsis_0.3.2           
+##   [3] rprojroot_2.0.2           futile.logger_1.4.3      
+##   [5] XVector_0.32.0            fs_1.5.0                 
+##   [7] rstudioapi_0.13           bit64_4.0.5              
+##   [9] AnnotationDbi_1.54.0      fansi_0.5.0              
+##  [11] xml2_1.3.2                codetools_0.2-18         
+##  [13] splines_4.1.0             cachem_1.0.5             
+##  [15] knitr_1.33                jsonlite_1.7.2           
+##  [17] Rsamtools_2.8.0           dbplyr_2.1.1             
+##  [19] png_0.1-7                 BiocManager_1.30.15      
+##  [21] readr_1.4.0               compiler_4.1.0           
+##  [23] httr_1.4.2                assertthat_0.2.1         
+##  [25] Matrix_1.3-3              fastmap_1.1.0            
+##  [27] limma_3.48.0              cli_2.5.0                
+##  [29] formatR_1.10              htmltools_0.5.1.1        
+##  [31] prettyunits_1.1.1         tools_4.1.0              
+##  [33] glue_1.4.2                GenomeInfoDbData_1.2.6   
+##  [35] rappdirs_0.3.3            Rcpp_1.0.6               
+##  [37] rapiclient_0.1.3          pkgdown_1.6.1            
+##  [39] vctrs_0.3.8               Biostrings_2.60.0        
+##  [41] RJSONIO_1.3-1.4           RaggedExperiment_1.16.0  
+##  [43] rtracklayer_1.52.0        xfun_0.23                
+##  [45] stringr_1.4.0             ps_1.6.0                 
+##  [47] RTCGAToolbox_2.22.0       rvest_1.0.0              
+##  [49] lifecycle_1.0.0           restfulr_0.0.13          
+##  [51] XML_3.99-0.6              zlibbioc_1.38.0          
+##  [53] RCircos_1.2.1             ragg_1.1.2               
+##  [55] hms_1.1.0                 lambda.r_1.2.4           
+##  [57] yaml_2.2.1                curl_4.3.1               
+##  [59] memoise_2.0.0             biomaRt_2.48.0           
+##  [61] stringi_1.6.2             RSQLite_2.2.7            
+##  [63] BiocIO_1.2.0              desc_1.3.0               
+##  [65] GenomicDataCommons_1.16.0 GenomicFeatures_1.44.0   
+##  [67] filelock_1.0.2            BiocParallel_1.26.0      
+##  [69] rlang_0.4.11              pkgconfig_2.0.3          
+##  [71] systemfonts_1.0.2         bitops_1.0-7             
+##  [73] evaluate_0.14             lattice_0.20-44          
+##  [75] purrr_0.3.4               GenomicAlignments_1.28.0 
+##  [77] bit_4.0.4                 tidyselect_1.1.1         
+##  [79] magrittr_2.0.1            bookdown_0.22            
+##  [81] R6_2.5.0                  generics_0.1.0           
+##  [83] DelayedArray_0.18.0       DBI_1.1.1                
+##  [85] pillar_1.6.1              withr_2.4.2              
+##  [87] survival_3.2-11           KEGGREST_1.32.0          
+##  [89] RCurl_1.98-1.3            tibble_3.1.2             
+##  [91] crayon_1.4.1              futile.options_1.0.1     
+##  [93] utf8_1.2.1                BiocFileCache_2.0.0      
+##  [95] rmarkdown_2.8             progress_1.2.2           
+##  [97] grid_4.1.0                data.table_1.14.0        
+##  [99] blob_1.2.1                digest_0.6.27            
+## [101] tidyr_1.1.3               textshaping_0.3.4        
+## [103] TCGAutils_1.12.0</code></pre>
 </div>
   </div>
 
