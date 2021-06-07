@@ -404,6 +404,40 @@ loadStudy <- function(
         colData = coldata, sampleMap = gmap, metadata = mdat)
 }
 
+.check_study_id_building <-
+    function(
+        cancer_study_id, build_type = c("pack_build", "api_build"),
+        ask = interactive()
+    )
+{
+    match.arg(build_type)
+    denv <- new.env(parent = emptyenv())
+    data("studiesTable", package = "cBioPortalData", envir = denv)
+    studiesTable <- denv[["studiesTable"]]
+
+    intable <- studiesTable[["cancer_study_id"]] %in% cancer_study_id
+    if (!any(intable))
+        stop("'cancer_study_id', ", cancer_study_id, ", not found.",
+            " See 'data(\"studiesTable\")'.")
+
+    builds <- studiesTable[[build_type]]
+    hasbuilt <- unlist(builds[intable])
+
+    if (!hasbuilt && any(builds)) {
+        qtxt <- sprintf(
+            paste0(
+                "'data(studiesTable)' shows '%s' is not currently building.\n",
+                "  Use 'downloadStudy()' to obtain the study data.\n",
+                "  Proceed anyway? [y/n]: "
+            ),
+            cancer_study_id
+        )
+        if (ask && .getAnswer(qtxt, allowed = c("y", "Y", "n", "N")) == "n")
+            stop("'", cancer_study_id, "' is not yet supported.")
+    }
+
+}
+
 #' @name cBioDataPack
 #'
 #' @title Obtain pre-packaged data from cBioPortal and represent as
@@ -471,28 +505,7 @@ cBioDataPack <- function(cancer_study_id, use_cache = TRUE,
     names.field = c("Hugo_Symbol", "Entrez_Gene_Id", "Gene"),
     cleanup = TRUE, ask = TRUE)
 {
-    denv <- new.env(parent = emptyenv())
-    data("studiesTable", package = "cBioPortalData", envir = denv)
-    studiesTable <- denv[["studiesTable"]]
-
-    intable <- studiesTable[["cancer_study_id"]] %in% cancer_study_id
-    if (!any(intable))
-        stop("'cancer_study_id', ", cancer_study_id, ", not found.",
-            " See 'data(\"studiesTable\")'.")
-
-    builds <- studiesTable[["pack_build"]]
-    hasbuilt <- unlist(builds[intable])
-
-    if (!hasbuilt && any(builds)) {
-        qtxt <- sprintf(
-            paste0("Based on our tests, '%s' is not currently building.",
-                "\n Proceed anyway? [y/n]: "),
-            cancer_study_id
-        )
-        if (ask && .getAnswer(qtxt, allowed = c("y", "Y", "n", "N")) == "n")
-            stop("'", cancer_study_id, "' is not yet supported.",
-                " \n Use 'downloadStudy()' to obtain the study files.")
-    }
+    .check_study_id_building(cancer_study_id, "pack_build")
 
     cancer_study_file <- downloadStudy(cancer_study_id, use_cache)
     exdir <- untarStudy(cancer_study_file)

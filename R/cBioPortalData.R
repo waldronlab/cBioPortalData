@@ -238,6 +238,8 @@ cBioPortalData <-
     exargs <- eval.args(exargs)
     exargs <- update.args(exargs)
 
+    .check_study_id_building(exargs[["studyId"]], "api_build")
+
     lists <- do.call(.portalExperiments, exargs)
 
     clinargs <- match.args(clinicalData, call)
