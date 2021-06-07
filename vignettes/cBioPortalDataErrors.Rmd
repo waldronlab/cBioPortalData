@@ -1,0 +1,114 @@
+---
+title: "cBioPortalData: Data Build Errors"
+author: "Marcel Ramos & Levi Waldron"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+vignette: >
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteIndexEntry{cBioPortal Data Build Errors}
+  %\VignetteEncoding{UTF-8}
+output:
+  BiocStyle::html_document:
+    number_sections: no
+    toc_depth: 4
+---
+
+```{r, setup, include=FALSE}
+knitr::opts_chunk$set(cache = TRUE)
+```
+
+# Loading
+
+```{r,include=TRUE,results="hide",message=FALSE,warning=FALSE}
+library(cBioPortalData)
+library(AnVIL)
+```
+
+# Overview
+
+This document serves as a reporting tool for errors that occur
+when running our utility functions on the cBioPortal datasets.
+
+## Data from the cBioPortal API (`cBioPortalData()`)
+
+Typically, the number of errors encountered via the API are low.
+There are only a handful of packages that error when we apply the
+utility functions to provide a MultiAssayExperiment data representation.
+
+First, we load the error `Rda` dataset.
+
+```{r}
+api_errs <- system.file(
+    "extdata", "err_api_info.rda", package = "cBioPortalData", mustWork = TRUE
+)
+load(api_errs)
+err_api_info
+```
+
+We can now inspect the contents of the data:
+
+```{r}
+class(err_api_info)
+length(err_api_info)
+lengths(err_api_info)
+```
+
+There were about `r length(err_api_info)` unique errors during the last
+build run.
+
+```{r}
+names(err_api_info)
+```
+
+The most common error was `Inconsistent build numbers found`. This is
+due to annotations from different build numbers that were not able to
+be resolved.
+
+To see what datasets (`cancer_study_id` s) have that error we can use:
+
+```{r}
+err_api_info[['Inconsistent build numbers found']]
+```
+
+We can also have a look at the entirety of the dataset.
+
+```{r}
+err_api_info
+```
+
+## Packaged data from `cBioDataPack()`
+
+Now let's look at the errors in the packaged datasets that are used for
+`cBioDataPack`:
+
+```{r}
+pack_errs <- system.file(
+    "extdata", "err_pack_info.rda", package = "cBioPortalData", mustWork = TRUE
+)
+load(pack_errs)
+err_pack_info
+```
+
+We can do the same for this data:
+
+```{r}
+length(err_pack_info)
+lengths(err_pack_info)
+```
+
+We can get a list of all the errors present:
+
+```{r}
+names(err_pack_info)
+```
+
+And finally the full list of errors:
+
+```{r}
+err_pack_info
+```
+
+# sessionInfo
+
+```{r}
+sessionInfo()
+```
