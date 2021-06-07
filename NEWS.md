@@ -1,3 +1,10 @@
+## Changes in version 2.6.0
+
+### New features
+
+* `cBioPortalData` now checks the `data(studiesTable)` to verify that study
+datasets are building, otherwise provide a message in interactive sessions.
+
 ## Changes in version 2.4.0
 
 ### New features
