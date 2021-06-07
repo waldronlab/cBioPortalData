@@ -2,6 +2,7 @@
 
 ## New features
 
+* Added vignette to show errors from study datasets.
 * Vignettes now include additional information (#38, @lwaldron)
 * `getDataByGenePanel` deprecated for `getDataByGenes` which handles input
 of both gene panels and genes
