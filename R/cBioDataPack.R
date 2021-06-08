@@ -302,6 +302,40 @@ untarStudy <- function(cancer_study_file, exdir = tempdir()) {
     exdir
 }
 
+.preprocess_data <- function(file, exp_name, names.field, ptIDs) {
+    if (is.null(exp_name))
+        stop("<internal> 'exp_name' is NULL")
+
+    message(paste0("Working on: ", file))
+    dat <- utils::read.delim(
+        file, sep = "\t", comment.char = "#", stringsAsFactors = FALSE,
+        check.names = FALSE
+    )
+    dat <- .cleanHugo(dat)
+    dat <- .cleanStrands(dat)
+    dat <- .standardizeBuilds(dat)
+    dat <- as(dat, "DataFrame")
+
+    names.field <- .findValidNames(dat, names.field)
+    names.field <- .findUniqueField(dat, names.field)
+    names.field <- .findMinDupField(dat, names.field)
+
+    tryCatch({
+        if (!RTCGAToolbox:::.hasExperimentData(dat, ptIDs))
+            dat
+        else if (grepl("meth", exp_name, ignore.case = TRUE))
+            .getMixedData(dat, names.field)
+        else
+            .biocExtract(dat, names.field, ptIDs)
+    }, error = function(e) {
+        err <- conditionMessage(e)
+        warning(
+            "Unable to import: ", exp_name, "\nReason: ", err, call. = FALSE
+        )
+        list()
+    })
+}
+
 #' @rdname downloadStudy
 #'
 #' @export
@@ -337,34 +371,19 @@ loadStudy <- function(
 
     coldata <- cbioportal2clinicaldf(clinicalfiles)
 
-    exptlist <- lapply(expseq, function(i, files, xpnames) {
-        fname <- files[[i]]
-        message(paste0("Working on: ", fname))
-        dat <- utils::read.delim(
-            fname, sep = "\t", comment.char = "#", stringsAsFactors = FALSE,
-            check.names = FALSE
-        )
-        dat <- .cleanHugo(dat)
-        dat <- .cleanStrands(dat)
-        dat <- .standardizeBuilds(dat)
+    names(exptfiles) <- expnames
 
-        names.field <- .findValidNames(dat, names.field)
-        names.field <- .findUniqueField(dat, names.field)
-        names.field <- .findMinDupField(dat, names.field)
+    exptlist <- Map(
+        function(x, y) {
+            .preprocess_data(
+                file = x, exp_name = y, names.field = names.field,
+                ptIDs = coldata[["PATIENT_ID"]]
+            )
+        },
+        y = expnames, x = exptfiles
+    )
 
-        dat <- as(dat, "DataFrame")
-        if (!RTCGAToolbox:::.hasExperimentData(dat, coldata[["PATIENT_ID"]]))
-            return(dat)
-        cexp <- xpnames[[i]]
-        if (grepl("meth", cexp)) {
-            .getMixedData(dat, names.field)
-        } else {
-            .biocExtract(dat, names.field, coldata[["PATIENT_ID"]])
-        }
-    }, files = exptfiles, xpnames = expnames)
-
-    names(exptlist) <-
-        sub(".*data_", "", sub("\\.txt", "", basename(exptfiles)))
+    exptlist <- Filter(length, exptlist)
 
     .checkNonExpData <- function(exp) {
         is(exp, "GRanges") || is(exp, "DataFrame")
