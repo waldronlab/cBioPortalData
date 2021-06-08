@@ -406,8 +406,7 @@ loadStudy <- function(
 
 .check_study_id_building <-
     function(
-        cancer_study_id, build_type = c("pack_build", "api_build"),
-        ask = interactive()
+        cancer_study_id, build_type = c("pack_build", "api_build"), ask
     )
 {
     match.arg(build_type)
@@ -505,7 +504,7 @@ cBioDataPack <- function(cancer_study_id, use_cache = TRUE,
     names.field = c("Hugo_Symbol", "Entrez_Gene_Id", "Gene"),
     cleanup = TRUE, ask = TRUE)
 {
-    .check_study_id_building(cancer_study_id, "pack_build")
+    .check_study_id_building(cancer_study_id, "pack_build", ask = ask)
 
     cancer_study_file <- downloadStudy(cancer_study_id, use_cache)
     exdir <- untarStudy(cancer_study_file)
