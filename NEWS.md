@@ -2,6 +2,8 @@
 
 ### New features
 
+* Partial loading of data files now supported. A warning is emitted when a
+data file is not able to be loaded in `cBioDataPack`.
 * `cBioPortalData` now checks the `data(studiesTable)` to verify that study
 datasets are building, otherwise provide a message in interactive sessions.
 
