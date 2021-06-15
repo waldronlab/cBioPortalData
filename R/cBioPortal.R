@@ -452,7 +452,8 @@ sampleLists <- function(api, studyId = NA_character_) {
 allSamples <- function(api, studyId = NA_character_) {
     if (missing(api))
         stop("Provide a valid 'api' from 'cBioPortal()'")
-    .invoke_bind(api, "getAllSamplesInStudyUsingGET", FALSE, studyId = studyId)
+    .invoke_bind(api, "getAllSamplesInStudyUsingGET", FALSE,
+        studyId = list(studyId = studyId))
 }
 
 #' @name cBioPortal
@@ -541,7 +542,8 @@ getGenePanelMolecular <-
         api = api,
         name = "fetchGenePanelDataInMultipleMolecularProfilesUsingPOST",
         use_cache = FALSE,
-        sampleMolecularIdentifiers = SampMolIds
+        sampleMolecularIdentifiers =
+            list(sampleMolecularIdentifiers = SampMolIds)
     )
 }
 
