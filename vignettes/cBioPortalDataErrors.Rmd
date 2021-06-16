@@ -41,7 +41,6 @@ api_errs <- system.file(
     "extdata", "err_api_info.rda", package = "cBioPortalData", mustWork = TRUE
 )
 load(api_errs)
-err_api_info
 ```
 
 We can now inspect the contents of the data:
@@ -85,7 +84,6 @@ pack_errs <- system.file(
     "extdata", "err_pack_info.rda", package = "cBioPortalData", mustWork = TRUE
 )
 load(pack_errs)
-err_pack_info
 ```
 
 We can do the same for this data:
