@@ -12,4 +12,4 @@ grep("\"[0-9a-f]{32}\"", cbiolines, value = TRUE)
 md5
 updatedlines <- gsub("\"[0-9a-f]{32}\"", dQuote(md5), cbiolines)
 
-# writeLines(updatedlines, con = file("R/cBioPortal.R"))
+writeLines(updatedlines, con = file("R/cBioPortal.R"))
