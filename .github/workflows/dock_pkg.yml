@@ -31,7 +31,7 @@ jobs:
 
       - name: Install Dependencies
         run: |
-          options(repos = c(CRAN = "https://cloud.r-project.org"))
+          options(repos = c(CRAN = "https://packagemanager.rstudio.com/cran/__linux__/focal/latest"))
           remotes::install_local(dependencies = TRUE, repos = BiocManager::repositories(), build_vignettes = TRUE, upgrade = TRUE)
           BiocManager::install(c("rcmdcheck", "pkgdown"), update = TRUE, ask = FALSE)
         shell: Rscript {0}
