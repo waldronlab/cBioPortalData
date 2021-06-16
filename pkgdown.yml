@@ -3,6 +3,7 @@ pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
   cBioPortalData: cBioPortalData.html
+  cBioPortalDataErrors: cBioPortalDataErrors.html
   cBioPortalRClient: cBioPortalRClient.html
-last_built: 2021-05-30T20:26Z
+last_built: 2021-06-16T15:50Z
 
