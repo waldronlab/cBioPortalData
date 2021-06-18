@@ -3,7 +3,7 @@ name: Release R CMD check
 on: push
 
 jobs:
-  checkRelease:
+  checkPublish:
     runs-on: ubuntu-20.04
     container: bioconductor/bioconductor_docker:RELEASE_3_13
     steps:
@@ -19,7 +19,6 @@ jobs:
       - name: Set env vars
         run: |
             echo "version-name=RELEASE_3_13" >> $GITHUB_ENV
-            echo "_R_CHECK_CRAN_INCOMING_REMOTE_=false" >> $GITHUB_ENV
 
       - name: Cache R packages
         if: runner.os != 'Windows'
@@ -32,7 +31,7 @@ jobs:
       - name: Install Dependencies
         run: |
           options(repos = c(CRAN = "https://packagemanager.rstudio.com/cran/__linux__/focal/latest"))
-          remotes::install_local(dependencies = TRUE, repos = BiocManager::repositories(), build_vignettes = TRUE, upgrade = TRUE)
+          remotes::install_local(dependencies = TRUE, repos = AnVIL::repositories(), build_vignettes = TRUE, upgrade = TRUE)
           BiocManager::install(c("rcmdcheck", "pkgdown"), update = TRUE, ask = FALSE)
         shell: Rscript {0}
 
@@ -41,7 +40,10 @@ jobs:
           pip install ghp-import
 
       - name: Check Package
-        run: Rscript -e "rcmdcheck::rcmdcheck(args = c('--no-manual'), error_on = 'error', check_dir = 'check')"
+        env:
+          _R_CHECK_CRAN_INCOMING_REMOTE_: false
+        run: rcmdcheck::rcmdcheck(args = c('--no-manual'), error_on = 'error', check_dir = 'check')
+        shell: Rscript {0}
 
       - name: Build pkgdown
         run: |
