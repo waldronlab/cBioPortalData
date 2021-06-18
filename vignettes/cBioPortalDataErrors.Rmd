@@ -38,7 +38,8 @@ First, we load the error `Rda` dataset.
 
 ```{r}
 api_errs <- system.file(
-    "extdata", "err_api_info.rda", package = "cBioPortalData", mustWork = TRUE
+    "extdata", "api", "err_api_info.rda",
+    package = "cBioPortalData", mustWork = TRUE
 )
 load(api_errs)
 ```
@@ -81,7 +82,8 @@ Now let's look at the errors in the packaged datasets that are used for
 
 ```{r}
 pack_errs <- system.file(
-    "extdata", "err_pack_info.rda", package = "cBioPortalData", mustWork = TRUE
+    "extdata", "pack", "err_pack_info.rda",
+    package = "cBioPortalData", mustWork = TRUE
 )
 load(pack_errs)
 ```
