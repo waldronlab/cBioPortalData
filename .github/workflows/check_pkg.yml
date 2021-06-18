@@ -1,4 +1,4 @@
-name: BiocDev R CMD check
+name: Devel PR CMD check
 
 on:
   push:
@@ -10,7 +10,7 @@ on:
       - master
 
 jobs:
-  checkDevel:
+  checkPR:
     runs-on: ubuntu-20.04
     container: bioconductor/bioconductor_docker:devel
 
