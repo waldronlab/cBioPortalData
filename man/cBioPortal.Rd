@@ -27,7 +27,7 @@ cBioPortal(
   api. = "/api/api-docs"
 )
 
-getStudies(api)
+getStudies(api, buildReport = FALSE)
 
 clinicalData(api, studyId = NA_character_)
 
@@ -115,6 +115,9 @@ the hostname (default: '/api/api-docs')}
 \item{api}{An API object of class `cBioPortal` from the `cBioPortal`
 function}
 
+\item{buildReport}{logical(1) Indicates whether to append the build
+information to the `getStudies()` table (default FALSE)}
+
 \item{studyId}{character(1) Indicates the "studyId" as taken from
 `getStudies`}
 
@@ -172,7 +175,14 @@ This section of the documentation lists the functions that
 }
 \section{API Metadata}{
 
-    * getStudies - Obtain a table of studies and associated metadata
+    * getStudies - Obtain a table of studies and associated metadata and
+    optionally include a `buildReport` status (default FALSE) for each
+    study. When enabled, the 'api_build' and 'pack_build' columns will
+    be added to the table and will show if `MultiAssayExperiment` objects
+    can be generated for that particular study identifier (`studyId`). The
+    'api_build' column corresponds to datasets obtained with
+    `cBioPortalData` and the 'pack_build' column corresponds to datsets
+    loaded via `cBioDataPack`.
 
 
     * searchOps - Search through API operations with a keyword

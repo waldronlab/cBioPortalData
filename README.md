@@ -60,24 +60,27 @@ library(cBioPortalData)
 and cBioPortal API specification. Users can view the
 `data(studiesTable)` dataset to get an overview of the studies that are
 available and currently building as `MultiAssayExperiment`
-representations. About 73 % of the studies via the API (`api_build`) and
-83 % of the package studies (`pack_build`) are building, these include
+representations. About 98 % of the studies via the API (`api_build`) and
+73 % of the package studies (`pack_build`) are building, these include
 additional datasets that were not previously available. Feel free to
 file an issue to request prioritization of fixing any of the remaining
 datasets.
 
 ``` r
-data(studiesTable)
+cbio <- cBioPortal()
+studies <- getStudies(cbio, buildReport = TRUE)
+```
 
-table(studiesTable$api_build)
-#> 
-#> FALSE  TRUE 
-#>    78   209
+``` r
+table(studies$api_build)
+#>
+#> FALSE  TRUE
+#>     5   308
 
-table(studiesTable$pack_build)
-#> 
-#> FALSE  TRUE 
-#>    49   238
+table(studies$pack_build)
+#>
+#> FALSE  TRUE
+#>    86   227
 ```
 
 ### API Service
@@ -88,7 +91,6 @@ panel of interest. It allows users to download sections of the data with
 molecular profile and gene panel combinations within a study.
 
 ``` r
-cbio <- cBioPortal()
 gbm <- cBioPortalData(api = cbio, by = "hugoGeneSymbol", studyId = "gbm_tcga",
     genePanelId = "IMPACT341",
     molecularProfileIds = c("gbm_tcga_rppa", "gbm_tcga_mrna")
@@ -101,7 +103,7 @@ gbm
 #>  experiments with user-defined names and respective classes.
 #>  Containing an ExperimentList class object of length 2:
 #>  [1] gbm_tcga_rppa: SummarizedExperiment with 67 rows and 244 columns
-#>  [2] gbm_tcga_mrna: SummarizedExperiment with 334 rows and 401 columns
+#>  [2] gbm_tcga_mrna: SummarizedExperiment with 336 rows and 401 columns
 #> Functionality:
 #>  experiments() - obtain the ExperimentList instance
 #>  colData() - the primary/phenotype DataFrame
@@ -125,21 +127,22 @@ laml <- cBioDataPack("laml_tcga")
 
 ``` r
 laml
-#> A MultiAssayExperiment object of 12 listed
+#> A MultiAssayExperiment object of 13 listed
 #>  experiments with user-defined names and respective classes.
-#>  Containing an ExperimentList class object of length 12:
+#>  Containing an ExperimentList class object of length 13:
 #>  [1] cna_hg19.seg: RaggedExperiment with 13571 rows and 191 columns
 #>  [2] CNA: SummarizedExperiment with 24776 rows and 191 columns
 #>  [3] linear_CNA: SummarizedExperiment with 24776 rows and 191 columns
-#>  [4] methylation_hm27: SummarizedExperiment with 10919 rows and 194 columns
-#>  [5] methylation_hm450: SummarizedExperiment with 10919 rows and 194 columns
+#>  [4] methylation_hm27: SummarizedExperiment with 10968 rows and 194 columns
+#>  [5] methylation_hm450: SummarizedExperiment with 10968 rows and 194 columns
 #>  [6] mutations_extended: RaggedExperiment with 2584 rows and 197 columns
 #>  [7] mutations_mskcc: RaggedExperiment with 2584 rows and 197 columns
 #>  [8] RNA_Seq_expression_median: SummarizedExperiment with 19720 rows and 179 columns
 #>  [9] RNA_Seq_mRNA_median_all_sample_Zscores: SummarizedExperiment with 19720 rows and 179 columns
-#>  [10] RNA_Seq_v2_expression_median: SummarizedExperiment with 20531 rows and 173 columns
-#>  [11] RNA_Seq_v2_mRNA_median_all_sample_Zscores: SummarizedExperiment with 20531 rows and 173 columns
-#>  [12] RNA_Seq_v2_mRNA_median_Zscores: SummarizedExperiment with 20440 rows and 173 columns
+#>  [10] RNA_Seq_mRNA_median_Zscores: SummarizedExperiment with 19719 rows and 179 columns
+#>  [11] RNA_Seq_v2_expression_median: SummarizedExperiment with 20531 rows and 173 columns
+#>  [12] RNA_Seq_v2_mRNA_median_all_sample_Zscores: SummarizedExperiment with 20531 rows and 173 columns
+#>  [13] RNA_Seq_v2_mRNA_median_Zscores: SummarizedExperiment with 20440 rows and 173 columns
 #> Functionality:
 #>  experiments() - obtain the ExperimentList instance
 #>  colData() - the primary/phenotype DataFrame

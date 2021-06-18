@@ -60,8 +60,7 @@
 #' @param ask logical (default TRUE when interactive session) Confirm the file
 #' location of the cache directory
 #'
-#' @param cancer_study_id A single string from `studiesTable` associated
-#' with a study tarball
+#' @param cancer_study_id character(1) The `studyId` from `getStudies`
 #'
 #' @param dry.run logical Whether or not to remove cache files (default TRUE).
 #'

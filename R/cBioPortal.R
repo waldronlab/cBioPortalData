@@ -57,6 +57,9 @@ utils::globalVariables(c("clinicalAttributeId", "value", "sampleId"))
 #' @param studyId character(1) Indicates the "studyId" as taken from
 #'     `getStudies`
 #'
+#' @param buildReport logical(1) Indicates whether to append the build
+#'     information to the `getStudies()` table (default FALSE)
+#'
 #' @param keyword character(1) Keyword or pattern for searching through
 #'     available operations
 #'
@@ -149,13 +152,36 @@ cBioPortal <- function(
     )
 }
 
+.loadReportData <- function() {
+    denv <- new.env(parent = emptyenv())
+    api_file <- system.file(
+        "extdata", "api", "api_build.rda",
+        package = "cBioPortalData", mustWork = TRUE
+    )
+    pack_file <- system.file(
+        "extdata", "pack", "pack_build.rda",
+        package = "cBioPortalData", mustWork = TRUE
+    )
+    load(api_file, envir = denv)
+    load(pack_file, envir = denv)
+
+    denv
+}
+
 #' @name cBioPortal
 #'
 #' @section API Metadata:
-#'     * getStudies - Obtain a table of studies and associated metadata
+#'     * getStudies - Obtain a table of studies and associated metadata and
+#'     optionally include a `buildReport` status (default FALSE) for each
+#'     study. When enabled, the 'api_build' and 'pack_build' columns will
+#'     be added to the table and will show if `MultiAssayExperiment` objects
+#'     can be generated for that particular study identifier (`studyId`). The
+#'     'api_build' column corresponds to datasets obtained with
+#'     `cBioPortalData` and the 'pack_build' column corresponds to datsets
+#'     loaded via `cBioDataPack`.
 #'
 #' @export
-getStudies <- function(api) {
+getStudies <- function(api, buildReport = FALSE) {
     if (missing(api))
         stop("Provide a valid 'api' from 'cBioPortal()'")
 
@@ -168,7 +194,17 @@ getStudies <- function(api) {
             x[["citation"]] <- NA_character_
         x
     })
-    dplyr::bind_rows(studies)
+    studytable <- dplyr::bind_rows(studies)
+
+    if (buildReport) {
+        denv <- .loadReportData()
+        suppressMessages({
+            studytable <- dplyr::left_join(studytable, denv[["api_build"]])
+            studytable <- dplyr::left_join(studytable, denv[["pack_build"]])
+        })
+    }
+
+    studytable
 }
 
 #' @name cBioPortal

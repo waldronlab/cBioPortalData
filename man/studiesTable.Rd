@@ -3,7 +3,7 @@
 \docType{data}
 \name{studiesTable}
 \alias{studiesTable}
-\title{A list of available studies from the cBioPortal data repository}
+\title{[Deprecated] Available studies from cBioPortal}
 \format{
 A data frame with 220 rows and 4 variables:
 \describe{
@@ -25,7 +25,8 @@ A data frame with 220 rows and 4 variables:
 studiesTable
 }
 \description{
-A list of available studies from the cBioPortal data repository
+Note. This dataset has been replaced by `getStudies()` from the
+cBioPortal API.
 }
 \references{
 \url{http://www.cbioportal.org/datasets},

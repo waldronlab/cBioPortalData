@@ -1,10 +1,5 @@
 library(cBioPortalData)
 
-denv <- new.env(parent = emptyenv())
-# setwd("~/gh/cBioPortalData")
-load("./data/studiesTable.rda", envir = denv)
-studiesTable <- denv[["studiesTable"]]
-
 ## API BUILD
 message("API BUILD")
 
@@ -42,24 +37,19 @@ err_api <- Filter(nchar, err_api)
 err_api_info <- lapply(setNames(nm = unique(err_api)),
     function(x) names(err_api)[err_api == x])
 # table(err_api)
-save(err_api_info, file = "inst/extdata/err_api_info.rda")
+save(err_api_info, file = "inst/extdata/api/err_api_info.rda")
 
-missingStudy <- studiesTable$cancer_study_id[
-    !studiesTable$cancer_study_id %in% names(comp_api)
-]
-
-if (length(missingStudy))
-    message("These datasets are not in the new API: ",
-        paste0(missingStudy, collapse = ", "))
-
-api_comps <- comp_api[studiesTable$cancer_study_id]
+api_build <- rev(stack(comp_api))
+names(api_build) <- c("studyId", "api_build")
 
 denv <- new.env(parent = emptyenv())
-data("studiesTable", package = "cBioPortalData", envir = denv)
-previous <- denv[["studiesTable"]]
-prev <- previous[["api_build"]]
+api_file <- system.file(
+    "extdata", "api", "api_build.rda",
+    package = "cBioPortalData", mustWork = TRUE
+)
+load(api_file, envir = denv)
+prev <- denv[["api_build"]]
 
-if (!identical(prev, api_comps)) {
-    studiesTable[["api_build"]] <- api_comps
-    usethis::use_data(studiesTable, overwrite = TRUE)
+if (!identical(prev, api_build)) {
+    save(api_build, file = "inst/extdata/api/api_build.rda")
 }

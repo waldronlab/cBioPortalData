@@ -63,15 +63,15 @@ the \code{exdir} folder (default TRUE)}
 \strong{Note} that these functions should be used when a particular
 study is \emph{not} currently available as a \code{MultiAssayExperiment}
 representation. Otherwise, use \code{cBioDataPack}. Provide a \code{cancer_study_id}
-from the \code{studiesTable} and retrieve the study tarball from the cBio
+from \code{getStudies} and retrieve the study tarball from the cBio
 Genomics Portal.  These functions are used by \code{cBioDataPack} under the hood
 to download,untar, and load the tarball datasets with caching. As stated in
 \code{?cBioDataPack}, not all studies are currently working as
 \code{MultiAssayExperiment} objects. As of July 2020, about ~80\% of
 datasets can be successfully imported into the \code{MultiAssayExperiment} data
 class. Please open an issue if you would like the team to prioritize a
-study. You may also check \code{studiesTable$pack_build} for a more current
-status.
+study. You may also check \code{getStudies(buildReport = TRUE)$pack_build}
+for the current status.
 }
 \details{
 When attempting to load a dataset using \code{loadStudy}, note that

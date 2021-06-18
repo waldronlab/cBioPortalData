@@ -112,19 +112,18 @@ cbioportal2clinicaldf <- function(files) {
 .validStudyID <- function(cancer_study_id) {
 
     if (missing(cancer_study_id))
-        stop("Provide a valid 'cancer_study_id' from 'studiesTable'")
+        stop("Provide a valid 'studyId' from 'getStudies'")
 
     stopifnot(is.character(cancer_study_id),
         !is.na(cancer_study_id), length(cancer_study_id) == 1L)
 
     cancer_study_id <- tolower(cancer_study_id)
-    ## Load dataset to envir
-    loc_data <- new.env(parent = emptyenv())
-    data("studiesTable", envir = loc_data, package = "cBioPortalData")
-    studiesTable <- loc_data[["studiesTable"]]
+
+    denv <- .loadReportData()
+    validStudies <- denv[["pack_build"]][["studyId"]]
 
     ## Ensure study ID is valid
-    inTable <- cancer_study_id %in% studiesTable[["cancer_study_id"]]
+    inTable <- cancer_study_id %in% validStudies
 
     if (!inTable)
         stop("Study identifier not found in look up table")
@@ -187,15 +186,15 @@ cbioportal2clinicaldf <- function(files) {
 #' @description **Note** that these functions should be used when a particular
 #' study is _not_ currently available as a `MultiAssayExperiment`
 #' representation. Otherwise, use `cBioDataPack`. Provide a `cancer_study_id`
-#' from the `studiesTable` and retrieve the study tarball from the cBio
+#' from `getStudies` and retrieve the study tarball from the cBio
 #' Genomics Portal.  These functions are used by `cBioDataPack` under the hood
 #' to download,untar, and load the tarball datasets with caching. As stated in
 #' `?cBioDataPack`, not all studies are currently working as
 #' `MultiAssayExperiment` objects. As of July 2020, about ~80% of
 #' datasets can be successfully imported into the `MultiAssayExperiment` data
 #' class. Please open an issue if you would like the team to prioritize a
-#' study. You may also check `studiesTable$pack_build` for a more current
-#' status.
+#' study. You may also check `getStudies(buildReport = TRUE)$pack_build`
+#' for the current status.
 #'
 #' @details When attempting to load a dataset using `loadStudy`, note that
 #' the `cleanup` argument is set to `TRUE` by default. Change the argument
@@ -428,23 +427,21 @@ loadStudy <- function(
         cancer_study_id, build_type = c("pack_build", "api_build"), ask
     )
 {
-    match.arg(build_type)
-    denv <- new.env(parent = emptyenv())
-    data("studiesTable", package = "cBioPortalData", envir = denv)
-    studiesTable <- denv[["studiesTable"]]
+    build_type <- match.arg(build_type)
+    denv <- .loadReportData()
+    results <- denv[[build_type]]
+    builds <- results[
+        match(cancer_study_id, results[["studyId"]]), build_type
+    ]
 
-    intable <- studiesTable[["cancer_study_id"]] %in% cancer_study_id
-    if (!any(intable))
-        stop("'cancer_study_id', ", cancer_study_id, ", not found.",
-            " See 'data(\"studiesTable\")'.")
+    if (is.na(builds))
+        stop("'studyId', ", cancer_study_id, ", not found.",
+            " See 'getStudies()'.")
 
-    builds <- studiesTable[[build_type]]
-    hasbuilt <- unlist(builds[intable])
-
-    if (!hasbuilt && any(builds)) {
+    if (!builds) {
         qtxt <- sprintf(
             paste0(
-                "'data(studiesTable)' shows '%s' is not currently building.\n",
+                "'getStudies' reports that '%s' is not currently building.\n",
                 "  Use 'downloadStudy()' to obtain the study data.\n",
                 "  Proceed anyway? [y/n]: "
             ),
@@ -466,17 +463,14 @@ loadStudy <- function(
 #' Output datasets use the \linkS4class{MultiAssayExperiment} data
 #' representation to faciliate analysis and data management operations.
 #'
-#' @details The list of datasets can be found in the `studiesTable` dataset
-#' by doing `data("studiesTable")`. Some datasets may not be available
-#' for download and are not guaranteed to be represented as MultiAssayExperiment
-#' data objects. After taking a random sample of 100
-#' (using \code{set.seed(1234)}), we were able to succesfully represent about
-#' 76 percent of the study identifiers as MultiAssayExperiment objects. Please
-#' refer to the #' \href{http://cbioportal.org/data_sets.jsp}{website} for the
-#' full list of available datasets. Users who would like to prioritize
-#' particular datasets should open GitHub issues at the URL in the `DESCRIPTION`
-#' file. For a more fine-grained approach to downloading data from the
-#' cBioPortal API, refer to the `cBioPortalData` function.
+#' @details The full list of study identifiers (`studyId`s) can obtained from
+#' `getStudies()`. Currently, only ~ 72% of datasets can be represented as
+#' `MultiAssayExperiment` data objects from the data tarballs. Refer to
+#' `getStudies(..., buildReport = TRUE)` and its `"pack_build"` column to see
+#' which study identifiers are not building. Users who would like to prioritize
+#' particular datasets should open GitHub issues at the URL in the
+#' `DESCRIPTION` file. For a more fine-grained approach to downloading data
+#' from the cBioPortal API, refer to the `cBioPortalData` function.
 #'
 #' @section cBio_URL:
 #' The `cBioDataPack` function accesses data from the `cBio_URL` option.
@@ -511,9 +505,9 @@ loadStudy <- function(
 #'
 #' @examples
 #'
-#' data(studiesTable)
+#' cbio <- cBioPortal()
 #'
-#' head(studiesTable[["cancer_study_id"]])
+#' head(getStudies(cbio)[["studyId"]])
 #'
 #' # ask=FALSE for non-interactive use
 #' mae <- cBioDataPack("acc_tcga", ask = FALSE)

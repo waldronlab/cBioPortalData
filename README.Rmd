@@ -64,8 +64,9 @@ library(cBioPortalData)
 ```
 
 ```{r,results="hide",include=FALSE}
-data(studiesTable)
-st <- studiesTable
+cbio <- cBioPortal()
+studies <- getStudies(cbio, buildReport = TRUE)
+st <- studies
 packpct <- round(prop.table(table(st$pack_build))[[2]], 2) * 100
 apipct <- round(prop.table(table(st$api_build))[[2]], 2) * 100
 ```
@@ -81,12 +82,15 @@ are building, these include additional datasets that were not previously
 available. Feel free to file an issue to request prioritization of fixing any
 of the remaining datasets.
 
+```{r,eval=FALSE}
+cbio <- cBioPortal()
+studies <- getStudies(cbio, buildReport = TRUE)
+```
+
 ```{r}
-data(studiesTable)
+table(studies$api_build)
 
-table(studiesTable$api_build)
-
-table(studiesTable$pack_build)
+table(studies$pack_build)
 ```
 
 ### API Service
@@ -97,7 +101,6 @@ users to download sections of the data with molecular profile and gene panel
 combinations within a study.
 
 ```{r,warning=FALSE,message=FALSE,include=TRUE,results="hide"}
-cbio <- cBioPortal()
 gbm <- cBioPortalData(api = cbio, by = "hugoGeneSymbol", studyId = "gbm_tcga",
     genePanelId = "IMPACT341",
     molecularProfileIds = c("gbm_tcga_rppa", "gbm_tcga_mrna")

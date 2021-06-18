@@ -41,8 +41,7 @@ future downloads will go to this folder.}
 \item{ask}{logical (default TRUE when interactive session) Confirm the file
 location of the cache directory}
 
-\item{cancer_study_id}{A single string from \code{studiesTable} associated
-with a study tarball}
+\item{cancer_study_id}{character(1) The \code{studyId} from \code{getStudies}}
 
 \item{dry.run}{logical Whether or not to remove cache files (default TRUE).}
 

@@ -1,4 +1,7 @@
-#' A list of available studies from the cBioPortal data repository
+#' [Deprecated] Available studies from cBioPortal
+#'
+#' Note. This dataset has been replaced by `getStudies()` from the
+#' cBioPortal API.
 #'
 #' @format A data frame with 220 rows and 4 variables:
 #' \describe{

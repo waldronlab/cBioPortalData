@@ -44,17 +44,14 @@ Output datasets use the \linkS4class{MultiAssayExperiment} data
 representation to faciliate analysis and data management operations.
 }
 \details{
-The list of datasets can be found in the \code{studiesTable} dataset
-by doing \code{data("studiesTable")}. Some datasets may not be available
-for download and are not guaranteed to be represented as MultiAssayExperiment
-data objects. After taking a random sample of 100
-(using \code{set.seed(1234)}), we were able to succesfully represent about
-76 percent of the study identifiers as MultiAssayExperiment objects. Please
-refer to the #' \href{http://cbioportal.org/data_sets.jsp}{website} for the
-full list of available datasets. Users who would like to prioritize
-particular datasets should open GitHub issues at the URL in the \code{DESCRIPTION}
-file. For a more fine-grained approach to downloading data from the
-cBioPortal API, refer to the \code{cBioPortalData} function.
+The full list of study identifiers (\code{studyId}s) can obtained from
+\code{getStudies()}. Currently, only ~ 72\% of datasets can be represented as
+\code{MultiAssayExperiment} data objects from the data tarballs. Refer to
+\code{getStudies(..., buildReport = TRUE)} and its \code{"pack_build"} column to see
+which study identifiers are not building. Users who would like to prioritize
+particular datasets should open GitHub issues at the URL in the
+\code{DESCRIPTION} file. For a more fine-grained approach to downloading data
+from the cBioPortal API, refer to the \code{cBioPortalData} function.
 }
 \section{cBio_URL}{
 
@@ -70,9 +67,9 @@ function.
 
 \examples{
 
-data(studiesTable)
+cbio <- cBioPortal()
 
-head(studiesTable[["cancer_study_id"]])
+head(getStudies(cbio)[["studyId"]])
 
 # ask=FALSE for non-interactive use
 mae <- cBioDataPack("acc_tcga", ask = FALSE)

@@ -74,15 +74,15 @@ As we work through the data, there are some datasest that cannot be represented
 as `MultiAssayExperiment` objects. This can be due to a number of reasons such
 as the way the data is handled, presence of mis-matched identifiers, invalid
 data types, etc. To see what datasets are currently not building, we can
-look at the `studiesTable` dataset that comes with the package. We can invoke
-it using:
+look refer to `getStudies()` with the `buildReport = TRUE` argument.
 
 ```{r}
-data("studiesTable", package = "cBioPortalData")
-head(studiesTable)
+cbio <- cBioPortal()
+studies <- getStudies(cbio, buildReport = TRUE)
+head(studies)
 ```
 
-The last two columns will show the availability of each `cancer_study_id` for
+The last two columns will show the availability of each `studyId` for
 either download method (`pack_build` for `cBioDataPack` and `api_build` for
 `cBioPortalData`).
 
@@ -121,7 +121,6 @@ MultiAssayExperiment object from a study ID, molecular profile, gene panel,
 sample list.
 
 ```{r,warning=FALSE}
-cbio <- cBioPortal()
 acc <- cBioPortalData(api = cbio, by = "hugoGeneSymbol", studyId = "acc_tcga",
     genePanelId = "IMPACT341",
     molecularProfileIds = c("acc_tcga_rppa", "acc_tcga_linear_CNA")
