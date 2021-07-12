@@ -8,8 +8,9 @@ download.file(
 
 md5 <- digest::digest(file_loc, file = TRUE)
 cbiolines <- readLines("R/cBioPortal.R")
-grep("\"[0-9a-f]{32}\"", cbiolines, value = TRUE)
-md5
+mdline <- grep("\"[0-9a-f]{32}\"", cbiolines, value = TRUE)
+oldmd5 <- unlist(strsplit(mdline, "\""))[[2]]
 updatedlines <- gsub("\"[0-9a-f]{32}\"", dQuote(md5), cbiolines)
 
-writeLines(updatedlines, con = file("R/cBioPortal.R"))
+if (!identical(oldmd5, md5))
+    writeLines(updatedlines, con = file("R/cBioPortal.R"))
