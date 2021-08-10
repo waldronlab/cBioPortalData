@@ -13,7 +13,6 @@ COPY DESCRIPTION /app
 COPY NAMESPACE /app
 COPY R /app/R
 COPY data /app/data
-COPY data-raw /app/data-raw
 COPY inst/docker/scripts /app/scripts
 COPY man /app/man
 COPY tests /app/tests
