@@ -6,6 +6,11 @@ jobs:
   checkPublish:
     runs-on: ubuntu-20.04
     container: bioconductor/bioconductor_docker:RELEASE_3_13
+
+    env:
+      R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v1
@@ -57,7 +62,6 @@ jobs:
       - name: Deploy to GH Pages 🚀
         uses: JamesIves/github-pages-deploy-action@4.1.4
         with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH: gh-pages # The branch the action should deploy to.
           FOLDER: docs # The folder the action should deploy.
 
