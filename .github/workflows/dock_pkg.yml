@@ -10,6 +10,10 @@ jobs:
     runs-on: ubuntu-20.04
     container: bioconductor/bioconductor_docker:devel
 
+    env:
+      R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
