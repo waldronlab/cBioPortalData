@@ -79,7 +79,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">cBioPortalData</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.4.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.4.8</span>
       </span>
     </div>
 
@@ -404,7 +404,7 @@ metadata (default: 'entrezGeneId')</p></td>
     <pre class="examples"><div class='input'><span class='va'>cbio</span> <span class='op'>&lt;-</span> <span class='fu'>cBioPortal</span><span class='op'>(</span><span class='op'>)</span>
 
 <span class='fu'>getStudies</span><span class='op'>(</span>api <span class='op'>=</span> <span class='va'>cbio</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 316 × 12</span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 318 × 12</span>
 #&gt;    name    description    publicStudy pmid     citation groups status importDate
 #&gt;    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>          <span style='color: #949494; font-style: italic;'>&lt;lgl&gt;</span>       <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>     
 #&gt; <span style='color: #BCBCBC;'> 1</span> Pan-Lu… <span style='color: #949494;'>"</span>Whole-exome … TRUE        27158780 TCGA, N… <span style='color: #949494;'>""</span>          0 2021-04-0…
@@ -417,7 +417,7 @@ metadata (default: 'entrezGeneId')</p></td>
 #&gt; <span style='color: #BCBCBC;'> 8</span> Lung A… <span style='color: #949494;'>"</span>Lung Adenoca… TRUE        2962504… TCGA, C… <span style='color: #949494;'>"</span>PUBL…      0 2021-04-2…
 #&gt; <span style='color: #BCBCBC;'> 9</span> Lung S… <span style='color: #949494;'>"</span>Lung Squamou… TRUE        2962504… TCGA, C… <span style='color: #949494;'>"</span>PUBL…      0 2021-04-2…
 #&gt; <span style='color: #BCBCBC;'>10</span> Stomac… <span style='color: #949494;'>"</span>Stomach Aden… TRUE        2962504… TCGA, C… <span style='color: #949494;'>"</span>PUBL…      0 2021-04-2…
-#&gt; <span style='color: #949494;'># … with 306 more rows, and 4 more variables: allSampleCount &lt;int&gt;,</span>
+#&gt; <span style='color: #949494;'># … with 308 more rows, and 4 more variables: allSampleCount &lt;int&gt;,</span>
 #&gt; <span style='color: #949494;'>#   studyId &lt;chr&gt;, cancerTypeId &lt;chr&gt;, referenceGenome &lt;chr&gt;</span></div><div class='input'>
 <span class='fu'>searchOps</span><span class='op'>(</span>api <span class='op'>=</span> <span class='va'>cbio</span>, keyword <span class='op'>=</span> <span class='st'>"molecular"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;  [1] "fetchGenePanelDataInMultipleMolecularProfilesUsingPOST"   

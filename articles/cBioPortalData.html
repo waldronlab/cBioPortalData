@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">cBioPortalData</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.4.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.4.8</span>
       </span>
     </div>
 
@@ -91,7 +91,7 @@
       <h1 data-toc-skip>cBioPortalData: User Start Guide</h1>
                         <h4 class="author">Marcel Ramos &amp; Levi Waldron</h4>
             
-            <h4 class="date">August 12, 2021</h4>
+            <h4 class="date">August 23, 2021</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/waldronlab/cBioPortalData/blob/master/vignettes/cBioPortalData.Rmd"><code>vignettes/cBioPortalData.Rmd</code></a></small>
       <div class="hidden name"><code>cBioPortalData.Rmd</code></div>
@@ -309,8 +309,8 @@
 ## 
 ## other attached packages:
 ##  [1] survminer_0.4.9             ggpubr_0.4.0               
-##  [3] ggplot2_3.3.5               survival_3.2-11            
-##  [5] cBioPortalData_2.4.7        MultiAssayExperiment_1.18.0
+##  [3] ggplot2_3.3.5               survival_3.2-12            
+##  [5] cBioPortalData_2.4.8        MultiAssayExperiment_1.18.0
 ##  [7] SummarizedExperiment_1.22.0 Biobase_2.52.0             
 ##  [9] GenomicRanges_1.44.0        GenomeInfoDb_1.28.1        
 ## [11] IRanges_2.26.0              S4Vectors_0.30.0           
@@ -327,13 +327,13 @@
 ##  [11] fansi_0.5.0               magrittr_2.0.1           
 ##  [13] memoise_2.0.0             tzdb_0.1.2               
 ##  [15] openxlsx_4.2.4            limma_3.48.3             
-##  [17] Biostrings_2.60.2         readr_2.0.0              
+##  [17] Biostrings_2.60.2         readr_2.0.1              
 ##  [19] vroom_1.5.4               pkgdown_1.6.1            
 ##  [21] prettyunits_1.1.1         colorspace_2.0-2         
 ##  [23] blob_1.2.2                rvest_1.0.1              
 ##  [25] rappdirs_0.3.3            textshaping_0.3.5        
 ##  [27] haven_2.4.3               xfun_0.25                
-##  [29] crayon_1.4.1              RCurl_1.98-1.3           
+##  [29] crayon_1.4.1              RCurl_1.98-1.4           
 ##  [31] jsonlite_1.7.2            RaggedExperiment_1.16.0  
 ##  [33] zoo_1.8-9                 glue_1.4.2               
 ##  [35] GenomicDataCommons_1.16.0 gtable_0.3.0             
@@ -347,14 +347,14 @@
 ##  [51] bit_4.0.4                 km.ci_0.5-2              
 ##  [53] httr_1.4.2                ellipsis_0.3.2           
 ##  [55] farver_2.1.0              pkgconfig_2.0.3          
-##  [57] XML_3.99-0.6              rapiclient_0.1.3         
+##  [57] XML_3.99-0.7              rapiclient_0.1.3         
 ##  [59] dbplyr_2.1.1              utf8_1.2.2               
-##  [61] RJSONIO_1.3-1.4           labeling_0.4.2           
+##  [61] RJSONIO_1.3-1.5           labeling_0.4.2           
 ##  [63] tidyselect_1.1.1          rlang_0.4.11             
 ##  [65] AnnotationDbi_1.54.1      munsell_0.5.0            
 ##  [67] cellranger_1.1.0          tools_4.1.0              
-##  [69] cachem_1.0.5              cli_3.0.1                
-##  [71] generics_0.1.0            RSQLite_2.2.7            
+##  [69] cachem_1.0.6              cli_3.0.1                
+##  [71] generics_0.1.0            RSQLite_2.2.8            
 ##  [73] broom_0.7.9               evaluate_0.14            
 ##  [75] stringr_1.4.0             fastmap_1.1.0            
 ##  [77] yaml_2.2.1                ragg_1.1.3               
@@ -362,21 +362,21 @@
 ##  [81] fs_1.5.0                  zip_2.2.0                
 ##  [83] survMisc_0.5.5            purrr_0.3.4              
 ##  [85] KEGGREST_1.32.0           formatR_1.11             
-##  [87] xml2_1.3.2                biomaRt_2.48.2           
+##  [87] xml2_1.3.2                biomaRt_2.48.3           
 ##  [89] compiler_4.1.0            filelock_1.0.2           
 ##  [91] curl_4.3.2                png_0.1-7                
 ##  [93] ggsignif_0.6.2            tibble_3.1.3             
 ##  [95] stringi_1.7.3             highr_0.9                
-##  [97] futile.logger_1.4.3       GenomicFeatures_1.44.0   
+##  [97] futile.logger_1.4.3       GenomicFeatures_1.44.1   
 ##  [99] desc_1.3.0                forcats_0.5.1            
 ## [101] lattice_0.20-44           Matrix_1.3-4             
 ## [103] markdown_1.1              KMsurv_0.1-5             
 ## [105] RTCGAToolbox_2.22.1       vctrs_0.3.8              
 ## [107] pillar_1.6.2              lifecycle_1.0.0          
 ## [109] BiocManager_1.30.16       data.table_1.14.0        
-## [111] bitops_1.0-7              rtracklayer_1.52.0       
-## [113] R6_2.5.0                  BiocIO_1.2.0             
-## [115] bookdown_0.22             gridExtra_2.3            
+## [111] bitops_1.0-7              rtracklayer_1.52.1       
+## [113] R6_2.5.1                  BiocIO_1.2.0             
+## [115] bookdown_0.23             gridExtra_2.3            
 ## [117] rio_0.5.27                codetools_0.2-18         
 ## [119] lambda.r_1.2.4            assertthat_0.2.1         
 ## [121] rprojroot_2.0.2           rjson_0.2.20             
