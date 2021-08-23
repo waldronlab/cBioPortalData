@@ -1,0 +1,46 @@
+name: Update to cBio Portal API
+
+on: workflow_dispatch
+
+jobs:
+  apiUpdate:
+    runs-on: ubuntu-20.04
+    container: bioconductor/bioconductor_docker:devel
+
+    env:
+      R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v1
+
+      - name: Query dependencies
+        run: |
+          install.packages('remotes')
+          devtools::install_github("Bioconductor/AnVIL")
+          saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
+        shell: Rscript {0}
+
+      - name: Install Dependencies
+        run: |
+          options(repos = c(CRAN = "https://packagemanager.rstudio.com/cran/__linux__/focal/latest"))
+          remotes::install_local(dependencies = TRUE, repos = AnVIL::repositories(), upgrade = TRUE)
+          BiocManager::install(update = TRUE, ask = FALSE)
+        shell: Rscript {0}
+
+      - name: Download API and write MD5
+        run: Rscript -e "source('./inst/scripts/update_api-docs.R')"
+
+      - name: Commit changes
+        if: ${{ success() }}
+        run: |
+          git config --local user.email ${{ secrets.EMAIL }}
+          git config --local user.name "LiNk-NY"
+          git commit -am "Update to API"
+
+      - name: Push action
+        uses: ad-m/github-push-action@master
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+

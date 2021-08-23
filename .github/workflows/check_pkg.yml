@@ -4,7 +4,7 @@ on:
   push:
     branches-ignore:
       - master
-      - RELEASE_3_12
+      - RELEASE_3_*
   pull_request:
     branches:
       - master

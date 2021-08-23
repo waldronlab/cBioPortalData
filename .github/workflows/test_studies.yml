@@ -4,8 +4,12 @@ on: workflow_dispatch
 
 jobs:
   makeTable:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     container: bioconductor/bioconductor_docker:devel
+
+    env:
+      R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
       - name: Checkout Repository
@@ -14,6 +18,7 @@ jobs:
       - name: Query dependencies
         run: |
           install.packages('remotes')
+          devtools::install_github("Bioconductor/AnVIL")
           saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
         shell: Rscript {0}
 
@@ -47,7 +52,7 @@ jobs:
         run: |
           git config --local user.email ${{ secrets.EMAIL }}
           git config --local user.name "LiNk-NY"
-          git commit -am "Update studiesTable dataset"
+          git commit -am "Update to API"
 
       - name: Push action
         uses: ad-m/github-push-action@master
