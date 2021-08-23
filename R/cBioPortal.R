@@ -142,7 +142,7 @@ cBioPortal <- function(
             ),
             authenticate = FALSE,
             api_reference_url = apiUrl,
-            api_reference_md5sum = "4069c359b846f719e2cb790facb0a4f0",
+            api_reference_md5sum = "1511aedeaadb38a3bcff1036fbb24ffd",
             package = "cBioPortalData",
             schemes = protocol
         )
