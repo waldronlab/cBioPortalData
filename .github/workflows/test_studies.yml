@@ -26,11 +26,8 @@ jobs:
         run: |
           options(repos = c(CRAN = 'https://cran.r-project.org')); BiocManager::install(c('remotes', 'AnVIL'), ask = FALSE, update = TRUE)
           remotes::install_local(repos = BiocManager::repositories(), dependencies = TRUE)
-          BiocManager::install(c("cgdsr", "stringr", "stringi", "tibble", "dplyr", "Rcurl", "usethis"))
+          BiocManager::install("lubridate")
         shell: Rscript {0}
-
-      - name: Generate the studiesTable
-        run: Rscript -e "source('./inst/scripts/studiesTable/studiesTable.R')"
 
       - name: Add pack_build to studiesTable
         run: Rscript -e "source('./inst/scripts/studiesTable/pack_studies.R')"
@@ -45,7 +42,7 @@ jobs:
           path: inst/extdata/err*.rda
 
       - name: Check for changes in studiesTable
-        run: Rscript -e "source('./inst/scripts/studiesTable/compareTable.R')"
+        run: Rscript -e "source('./inst/scripts/studiesTable/checkBuildFiles.R')"
 
       - name: Commit changes
         if: ${{ success() }}
