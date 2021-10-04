@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">cBioPortalData</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.4.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.4.10</span>
       </span>
     </div>
 
@@ -85,13 +85,13 @@
 
       
 
-      </header><script src="cBioPortalRClient_files/header-attrs-2.10/header-attrs.js"></script><div class="row">
+      </header><script src="cBioPortalRClient_files/header-attrs-2.11/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>cBioPortalData: API Reference Guide for Devs</h1>
                         <h4 class="author">Marcel Ramos &amp; Levi Waldron</h4>
             
-            <h4 class="date">August 23, 2021</h4>
+            <h4 class="date">October 04, 2021</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/waldronlab/cBioPortalData/blob/master/vignettes/cBioPortalRClient.Rmd"><code>vignettes/cBioPortalRClient.Rmd</code></a></small>
       <div class="hidden name"><code>cBioPortalRClient.Rmd</code></div>
@@ -207,21 +207,22 @@
 <p>Get the list of studies available:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/cBioPortal.html">getStudies</a></span><span class="op">(</span><span class="va">cbio</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 318 × 12
-##    name    description    publicStudy pmid     citation groups status importDate
-##    &lt;chr&gt;   &lt;chr&gt;          &lt;lgl&gt;       &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;   &lt;int&gt; &lt;chr&gt;     
-##  1 Pan-Lu… "Whole-exome … TRUE        27158780 TCGA, N… ""          0 2021-04-0…
-##  2 Head a… "TCGA Head an… TRUE        &lt;NA&gt;     &lt;NA&gt;     "PUBL…      0 2021-04-2…
-##  3 Breast… "Whole-exome … TRUE        26451490 TCGA, C… "PUBL…      0 2021-04-2…
-##  4 Ovaria… "Whole exome … TRUE        21720365 TCGA, N… "PUBL…      0 2021-04-2…
-##  5 Uterin… "Whole exome … TRUE        23636398 TCGA, N… "PUBL…      0 2021-04-2…
-##  6 Bladde… "Whole-exome … TRUE        28988769 Roberts… "PUBL…      0 2021-04-2…
-##  7 Head a… "Head and Nec… TRUE        2962504… TCGA, C… "PUBL…      0 2021-04-2…
-##  8 Lung A… "Lung Adenoca… TRUE        2962504… TCGA, C… "PUBL…      0 2021-04-2…
-##  9 Lung S… "Lung Squamou… TRUE        2962504… TCGA, C… "PUBL…      0 2021-04-2…
-## 10 Stomac… "Stomach Aden… TRUE        2962504… TCGA, C… "PUBL…      0 2021-04-2…
-## # … with 308 more rows, and 4 more variables: allSampleCount &lt;int&gt;,
-## #   studyId &lt;chr&gt;, cancerTypeId &lt;chr&gt;, referenceGenome &lt;chr&gt;</code></pre>
+<pre><code>## # A tibble: 321 × 13
+##    name      description     publicStudy pmid  citation groups status importDate
+##    &lt;chr&gt;     &lt;chr&gt;           &lt;lgl&gt;       &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;   &lt;int&gt; &lt;chr&gt;     
+##  1 Pan-Lung… "Whole-exome s… TRUE        2715… TCGA, N… ""          0 2021-04-0…
+##  2 Head and… "TCGA Head and… TRUE        &lt;NA&gt;  &lt;NA&gt;     "PUBL…      0 2021-04-2…
+##  3 Breast I… "Whole-exome s… TRUE        2645… TCGA, C… "PUBL…      0 2021-04-2…
+##  4 Ovarian … "Whole exome s… TRUE        2172… TCGA, N… "PUBL…      0 2021-04-2…
+##  5 Uterine … "Whole exome s… TRUE        2363… TCGA, N… "PUBL…      0 2021-04-2…
+##  6 Bladder … "Whole-exome s… TRUE        2898… Roberts… "PUBL…      0 2021-04-2…
+##  7 Cervical… "TCGA Cervical… TRUE        &lt;NA&gt;  &lt;NA&gt;     "PUBL…      0 2021-04-2…
+##  8 Cholangi… "TCGA Cholangi… TRUE        &lt;NA&gt;  &lt;NA&gt;     "PUBL…      0 2021-04-2…
+##  9 Kidney C… "TCGA Kidney C… TRUE        &lt;NA&gt;  &lt;NA&gt;     "PUBL…      0 2021-04-2…
+## 10 Colorect… "TCGA Colorect… TRUE        &lt;NA&gt;  &lt;NA&gt;     "PUBL…      0 2021-04-2…
+## # … with 311 more rows, and 5 more variables: allSampleCount &lt;int&gt;,
+## #   readPermission &lt;lgl&gt;, studyId &lt;chr&gt;, cancerTypeId &lt;chr&gt;,
+## #   referenceGenome &lt;chr&gt;</code></pre>
 </div>
 <div id="clinical-data" class="section level2">
 <h2 class="hasAnchor">
@@ -521,7 +522,7 @@
 <div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="op">(</span><span class="va">resp</span> <span class="op">&lt;-</span> <span class="va">cbio</span><span class="op">$</span><span class="fu">getGeneUsingGET</span><span class="op">(</span><span class="st">"BRCA1"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>## Response [https://www.cbioportal.org/api/genes/BRCA1]
-##   Date: 2021-08-23 19:52
+##   Date: 2021-10-04 17:19
 ##   Status: 200
 ##   Content-Type: application/json
 ##   Size: 69 B</code></pre>
@@ -549,9 +550,9 @@
 <a href="#sessioninfo" class="anchor"></a>sessionInfo</h1>
 <div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<pre><code>## R version 4.1.0 (2021-05-18)
+<pre><code>## R version 4.1.1 (2021-08-10)
 ## Platform: x86_64-pc-linux-gnu (64-bit)
-## Running under: Ubuntu 20.04.2 LTS
+## Running under: Ubuntu 20.04.3 LTS
 ## 
 ## Matrix products: default
 ## BLAS/LAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblasp-r0.3.8.so
@@ -569,12 +570,12 @@
 ## [8] methods   base     
 ## 
 ## other attached packages:
-##  [1] cBioPortalData_2.4.8        MultiAssayExperiment_1.18.0
+##  [1] cBioPortalData_2.4.10       MultiAssayExperiment_1.18.0
 ##  [3] SummarizedExperiment_1.22.0 Biobase_2.52.0             
-##  [5] GenomicRanges_1.44.0        GenomeInfoDb_1.28.1        
-##  [7] IRanges_2.26.0              S4Vectors_0.30.0           
-##  [9] BiocGenerics_0.38.0         MatrixGenerics_1.4.2       
-## [11] matrixStats_0.60.0          AnVIL_1.4.1                
+##  [5] GenomicRanges_1.44.0        GenomeInfoDb_1.28.4        
+##  [7] IRanges_2.26.0              S4Vectors_0.30.1           
+##  [9] BiocGenerics_0.38.0         MatrixGenerics_1.4.3       
+## [11] matrixStats_0.61.0          AnVIL_1.4.1                
 ## [13] dplyr_1.0.7                 BiocStyle_2.20.2           
 ## 
 ## loaded via a namespace (and not attached):
@@ -582,53 +583,54 @@
 ##   [3] bit64_4.0.5               progress_1.2.2           
 ##   [5] filelock_1.0.2            httr_1.4.2               
 ##   [7] rprojroot_2.0.2           GenomicDataCommons_1.16.0
-##   [9] tools_4.1.0               utf8_1.2.2               
+##   [9] tools_4.1.1               utf8_1.2.2               
 ##  [11] R6_2.5.1                  DBI_1.1.1                
 ##  [13] withr_2.4.2               prettyunits_1.1.1        
 ##  [15] tidyselect_1.1.1          TCGAutils_1.12.0         
 ##  [17] bit_4.0.4                 curl_4.3.2               
-##  [19] compiler_4.1.0            cli_3.0.1                
+##  [19] compiler_4.1.1            cli_3.0.1                
 ##  [21] rvest_1.0.1               textshaping_0.3.5        
 ##  [23] formatR_1.11              xml2_1.3.2               
-##  [25] desc_1.3.0                DelayedArray_0.18.0      
-##  [27] rtracklayer_1.52.1        bookdown_0.23            
-##  [29] readr_2.0.1               rappdirs_0.3.3           
+##  [25] desc_1.4.0                DelayedArray_0.18.0      
+##  [27] rtracklayer_1.52.1        bookdown_0.24            
+##  [29] readr_2.0.2               rappdirs_0.3.3           
 ##  [31] pkgdown_1.6.1             rapiclient_0.1.3         
 ##  [33] RCircos_1.2.1             Rsamtools_2.8.0          
 ##  [35] systemfonts_1.0.2         stringr_1.4.0            
-##  [37] digest_0.6.27             rmarkdown_2.10           
+##  [37] digest_0.6.28             rmarkdown_2.11           
 ##  [39] XVector_0.32.0            pkgconfig_2.0.3          
-##  [41] htmltools_0.5.1.1         dbplyr_2.1.1             
+##  [41] htmltools_0.5.2           dbplyr_2.1.1             
 ##  [43] fastmap_1.1.0             limma_3.48.3             
 ##  [45] rlang_0.4.11              RSQLite_2.2.8            
-##  [47] BiocIO_1.2.0              generics_0.1.0           
-##  [49] jsonlite_1.7.2            BiocParallel_1.26.1      
-##  [51] RCurl_1.98-1.4            magrittr_2.0.1           
-##  [53] GenomeInfoDbData_1.2.6    futile.logger_1.4.3      
-##  [55] Matrix_1.3-4              Rcpp_1.0.7               
-##  [57] fansi_0.5.0               lifecycle_1.0.0          
-##  [59] stringi_1.7.3             yaml_2.2.1               
-##  [61] RaggedExperiment_1.16.0   RJSONIO_1.3-1.5          
-##  [63] zlibbioc_1.38.0           BiocFileCache_2.0.0      
-##  [65] grid_4.1.0                blob_1.2.2               
-##  [67] crayon_1.4.1              lattice_0.20-44          
-##  [69] Biostrings_2.60.2         splines_4.1.0            
-##  [71] GenomicFeatures_1.44.1    KEGGREST_1.32.0          
-##  [73] hms_1.1.0                 knitr_1.33               
-##  [75] pillar_1.6.2              rjson_0.2.20             
-##  [77] codetools_0.2-18          biomaRt_2.48.3           
-##  [79] futile.options_1.0.1      XML_3.99-0.7             
-##  [81] glue_1.4.2                evaluate_0.14            
-##  [83] lambda.r_1.2.4            data.table_1.14.0        
-##  [85] BiocManager_1.30.16       png_0.1-7                
-##  [87] vctrs_0.3.8               tzdb_0.1.2               
-##  [89] purrr_0.3.4               tidyr_1.1.3              
-##  [91] assertthat_0.2.1          cachem_1.0.6             
-##  [93] xfun_0.25                 restfulr_0.0.13          
-##  [95] ragg_1.1.3                survival_3.2-12          
-##  [97] tibble_3.1.3              RTCGAToolbox_2.22.1      
-##  [99] GenomicAlignments_1.28.0  AnnotationDbi_1.54.1     
-## [101] memoise_2.0.0             ellipsis_0.3.2</code></pre>
+##  [47] BiocIO_1.2.0              jquerylib_0.1.4          
+##  [49] generics_0.1.0            jsonlite_1.7.2           
+##  [51] BiocParallel_1.26.2       RCurl_1.98-1.5           
+##  [53] magrittr_2.0.1            GenomeInfoDbData_1.2.6   
+##  [55] futile.logger_1.4.3       Matrix_1.3-4             
+##  [57] Rcpp_1.0.7                fansi_0.5.0              
+##  [59] lifecycle_1.0.1           stringi_1.7.4            
+##  [61] yaml_2.2.1                RaggedExperiment_1.16.0  
+##  [63] RJSONIO_1.3-1.6           zlibbioc_1.38.0          
+##  [65] BiocFileCache_2.0.0       grid_4.1.1               
+##  [67] blob_1.2.2                crayon_1.4.1             
+##  [69] lattice_0.20-45           Biostrings_2.60.2        
+##  [71] splines_4.1.1             GenomicFeatures_1.44.2   
+##  [73] KEGGREST_1.32.0           hms_1.1.1                
+##  [75] knitr_1.36                pillar_1.6.3             
+##  [77] rjson_0.2.20              codetools_0.2-18         
+##  [79] biomaRt_2.48.3            futile.options_1.0.1     
+##  [81] XML_3.99-0.8              glue_1.4.2               
+##  [83] evaluate_0.14             lambda.r_1.2.4           
+##  [85] data.table_1.14.2         BiocManager_1.30.16      
+##  [87] png_0.1-7                 tzdb_0.1.2               
+##  [89] vctrs_0.3.8               purrr_0.3.4              
+##  [91] tidyr_1.1.4               assertthat_0.2.1         
+##  [93] cachem_1.0.6              xfun_0.26                
+##  [95] restfulr_0.0.13           ragg_1.1.3               
+##  [97] survival_3.2-13           tibble_3.1.5             
+##  [99] RTCGAToolbox_2.22.1       GenomicAlignments_1.28.0 
+## [101] AnnotationDbi_1.54.1      memoise_2.0.0            
+## [103] ellipsis_0.3.2</code></pre>
 </div>
   </div>
 

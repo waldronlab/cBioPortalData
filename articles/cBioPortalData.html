@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">cBioPortalData</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.4.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.4.10</span>
       </span>
     </div>
 
@@ -85,13 +85,13 @@
 
       
 
-      </header><script src="cBioPortalData_files/header-attrs-2.10/header-attrs.js"></script><div class="row">
+      </header><script src="cBioPortalData_files/header-attrs-2.11/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>cBioPortalData: User Start Guide</h1>
                         <h4 class="author">Marcel Ramos &amp; Levi Waldron</h4>
             
-            <h4 class="date">August 23, 2021</h4>
+            <h4 class="date">October 04, 2021</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/waldronlab/cBioPortalData/blob/master/vignettes/cBioPortalData.Rmd"><code>vignettes/cBioPortalData.Rmd</code></a></small>
       <div class="hidden name"><code>cBioPortalData.Rmd</code></div>
@@ -288,9 +288,9 @@
 <a href="#sessioninfo" class="anchor"></a>sessionInfo</h1>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<pre><code>## R version 4.1.0 (2021-05-18)
+<pre><code>## R version 4.1.1 (2021-08-10)
 ## Platform: x86_64-pc-linux-gnu (64-bit)
-## Running under: Ubuntu 20.04.2 LTS
+## Running under: Ubuntu 20.04.3 LTS
 ## 
 ## Matrix products: default
 ## BLAS/LAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblasp-r0.3.8.so
@@ -309,31 +309,31 @@
 ## 
 ## other attached packages:
 ##  [1] survminer_0.4.9             ggpubr_0.4.0               
-##  [3] ggplot2_3.3.5               survival_3.2-12            
-##  [5] cBioPortalData_2.4.8        MultiAssayExperiment_1.18.0
+##  [3] ggplot2_3.3.5               survival_3.2-13            
+##  [5] cBioPortalData_2.4.10       MultiAssayExperiment_1.18.0
 ##  [7] SummarizedExperiment_1.22.0 Biobase_2.52.0             
-##  [9] GenomicRanges_1.44.0        GenomeInfoDb_1.28.1        
-## [11] IRanges_2.26.0              S4Vectors_0.30.0           
-## [13] BiocGenerics_0.38.0         MatrixGenerics_1.4.2       
-## [15] matrixStats_0.60.0          AnVIL_1.4.1                
+##  [9] GenomicRanges_1.44.0        GenomeInfoDb_1.28.4        
+## [11] IRanges_2.26.0              S4Vectors_0.30.1           
+## [13] BiocGenerics_0.38.0         MatrixGenerics_1.4.3       
+## [15] matrixStats_0.61.0          AnVIL_1.4.1                
 ## [17] dplyr_1.0.7                 BiocStyle_2.20.2           
 ## 
 ## loaded via a namespace (and not attached):
 ##   [1] readxl_1.3.1              backports_1.2.1          
 ##   [3] BiocFileCache_2.0.0       systemfonts_1.0.2        
-##   [5] RCircos_1.2.1             splines_4.1.0            
-##   [7] BiocParallel_1.26.1       TCGAutils_1.12.0         
-##   [9] digest_0.6.27             htmltools_0.5.1.1        
+##   [5] RCircos_1.2.1             splines_4.1.1            
+##   [7] BiocParallel_1.26.2       TCGAutils_1.12.0         
+##   [9] digest_0.6.28             htmltools_0.5.2          
 ##  [11] fansi_0.5.0               magrittr_2.0.1           
 ##  [13] memoise_2.0.0             tzdb_0.1.2               
 ##  [15] openxlsx_4.2.4            limma_3.48.3             
-##  [17] Biostrings_2.60.2         readr_2.0.1              
-##  [19] vroom_1.5.4               pkgdown_1.6.1            
+##  [17] Biostrings_2.60.2         readr_2.0.2              
+##  [19] vroom_1.5.5               pkgdown_1.6.1            
 ##  [21] prettyunits_1.1.1         colorspace_2.0-2         
 ##  [23] blob_1.2.2                rvest_1.0.1              
 ##  [25] rappdirs_0.3.3            textshaping_0.3.5        
-##  [27] haven_2.4.3               xfun_0.25                
-##  [29] crayon_1.4.1              RCurl_1.98-1.4           
+##  [27] haven_2.4.3               xfun_0.26                
+##  [29] crayon_1.4.1              RCurl_1.98-1.5           
 ##  [31] jsonlite_1.7.2            RaggedExperiment_1.16.0  
 ##  [33] zoo_1.8-9                 glue_1.4.2               
 ##  [35] GenomicDataCommons_1.16.0 gtable_0.3.0             
@@ -347,45 +347,45 @@
 ##  [51] bit_4.0.4                 km.ci_0.5-2              
 ##  [53] httr_1.4.2                ellipsis_0.3.2           
 ##  [55] farver_2.1.0              pkgconfig_2.0.3          
-##  [57] XML_3.99-0.7              rapiclient_0.1.3         
+##  [57] XML_3.99-0.8              rapiclient_0.1.3         
 ##  [59] dbplyr_2.1.1              utf8_1.2.2               
-##  [61] RJSONIO_1.3-1.5           labeling_0.4.2           
+##  [61] RJSONIO_1.3-1.6           labeling_0.4.2           
 ##  [63] tidyselect_1.1.1          rlang_0.4.11             
 ##  [65] AnnotationDbi_1.54.1      munsell_0.5.0            
-##  [67] cellranger_1.1.0          tools_4.1.0              
+##  [67] cellranger_1.1.0          tools_4.1.1              
 ##  [69] cachem_1.0.6              cli_3.0.1                
 ##  [71] generics_0.1.0            RSQLite_2.2.8            
 ##  [73] broom_0.7.9               evaluate_0.14            
 ##  [75] stringr_1.4.0             fastmap_1.1.0            
 ##  [77] yaml_2.2.1                ragg_1.1.3               
-##  [79] knitr_1.33                bit64_4.0.5              
+##  [79] knitr_1.36                bit64_4.0.5              
 ##  [81] fs_1.5.0                  zip_2.2.0                
 ##  [83] survMisc_0.5.5            purrr_0.3.4              
 ##  [85] KEGGREST_1.32.0           formatR_1.11             
 ##  [87] xml2_1.3.2                biomaRt_2.48.3           
-##  [89] compiler_4.1.0            filelock_1.0.2           
+##  [89] compiler_4.1.1            filelock_1.0.2           
 ##  [91] curl_4.3.2                png_0.1-7                
-##  [93] ggsignif_0.6.2            tibble_3.1.3             
-##  [95] stringi_1.7.3             highr_0.9                
-##  [97] futile.logger_1.4.3       GenomicFeatures_1.44.1   
-##  [99] desc_1.3.0                forcats_0.5.1            
-## [101] lattice_0.20-44           Matrix_1.3-4             
+##  [93] ggsignif_0.6.3            tibble_3.1.5             
+##  [95] stringi_1.7.4             highr_0.9                
+##  [97] futile.logger_1.4.3       GenomicFeatures_1.44.2   
+##  [99] desc_1.4.0                forcats_0.5.1            
+## [101] lattice_0.20-45           Matrix_1.3-4             
 ## [103] markdown_1.1              KMsurv_0.1-5             
 ## [105] RTCGAToolbox_2.22.1       vctrs_0.3.8              
-## [107] pillar_1.6.2              lifecycle_1.0.0          
-## [109] BiocManager_1.30.16       data.table_1.14.0        
-## [111] bitops_1.0-7              rtracklayer_1.52.1       
-## [113] R6_2.5.1                  BiocIO_1.2.0             
-## [115] bookdown_0.23             gridExtra_2.3            
-## [117] rio_0.5.27                codetools_0.2-18         
-## [119] lambda.r_1.2.4            assertthat_0.2.1         
-## [121] rprojroot_2.0.2           rjson_0.2.20             
-## [123] withr_2.4.2               GenomicAlignments_1.28.0 
-## [125] Rsamtools_2.8.0           GenomeInfoDbData_1.2.6   
-## [127] ggtext_0.1.1              hms_1.1.0                
-## [129] grid_4.1.0                tidyr_1.1.3              
-## [131] rmarkdown_2.10            carData_3.0-4            
-## [133] restfulr_0.0.13</code></pre>
+## [107] pillar_1.6.3              lifecycle_1.0.1          
+## [109] BiocManager_1.30.16       jquerylib_0.1.4          
+## [111] data.table_1.14.2         bitops_1.0-7             
+## [113] rtracklayer_1.52.1        R6_2.5.1                 
+## [115] BiocIO_1.2.0              bookdown_0.24            
+## [117] gridExtra_2.3             rio_0.5.27               
+## [119] codetools_0.2-18          lambda.r_1.2.4           
+## [121] assertthat_0.2.1          rprojroot_2.0.2          
+## [123] rjson_0.2.20              withr_2.4.2              
+## [125] GenomicAlignments_1.28.0  Rsamtools_2.8.0          
+## [127] GenomeInfoDbData_1.2.6    ggtext_0.1.1             
+## [129] hms_1.1.1                 grid_4.1.1               
+## [131] tidyr_1.1.4               rmarkdown_2.11           
+## [133] carData_3.0-4             restfulr_0.0.13</code></pre>
 </div>
 <div id="references" class="section level1">
 <h1 class="hasAnchor">
