@@ -10,7 +10,7 @@ md5 <- digest::digest(file_loc, file = TRUE)
 cbiolines <- readLines("R/cBioPortal.R")
 mdline <- grep("\"[0-9a-f]{32}\"", cbiolines, value = TRUE)
 oldmd5 <- unlist(strsplit(mdline, "\""))[[2]]
-updatedlines <- gsub("\"[0-9a-f]{32}\"", dQuote(md5), cbiolines)
+updatedlines <- gsub("\"[0-9a-f]{32}\"", dQuote(md5, FALSE), cbiolines)
 
 ## success -- updated API files and MD5
 if (!identical(oldmd5, md5)) {
