@@ -2,16 +2,18 @@
 
 ### New features
 
-* Partial loading of data files now supported. A warning is emitted when a
+* A study's build status can be obtained from `getStudies()`, which has
+replaced `data('studiesTable')`.
+* Partial loading of data files supported. A warning is emitted when a
 data file is not able to be loaded in `cBioDataPack`.
-* `cBioPortalData` now checks the `data(studiesTable)` to verify that study
+* `cBioPortalData` checks the `data(studiesTable)` to verify that study
 datasets are building, otherwise provide a message in interactive sessions.
 
 ## Changes in version 2.4.0
 
 ### New features
 
-* Vignettes now include additional information (#38, @lwaldron)
+* Vignettes include additional information (#38, @lwaldron)
 * `getDataByGenePanel` deprecated for `getDataByGenes` which handles input
 of both gene panels and genes
 * `cBioPortalData` now allows for gene inputs as either Entrez IDs or Hugo
