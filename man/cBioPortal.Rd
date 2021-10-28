@@ -245,7 +245,7 @@ This section of the documentation lists the functions that
     `molecularProfileId` and `sampleListId` vectors
 
 
-    * getDataByGenePanel - Download data for a gene panel and
+    * getDataByGenePanel - [Defunct] Download data for a gene panel and
     `molecularProfileId` combination, optionally a `sampleListId` can be
     provided.
 }
@@ -297,10 +297,6 @@ samplesInSampleLists(
 genePanels(api = cbio)
 
 getGenePanel(api = cbio, genePanelId = "IMPACT341")
-
-
-getDataByGenePanel(cbio, studyId = "acc_tcga", genePanelId = "IMPACT341",
-   molecularProfileId = "acc_tcga_rppa", sampleListId = "acc_tcga_rppa")
 
 
 getDataByGenes(

@@ -3,7 +3,7 @@
 \docType{data}
 \name{studiesTable}
 \alias{studiesTable}
-\title{[Deprecated] Available studies from cBioPortal}
+\title{[Defunct] Available studies from cBioPortal}
 \format{
 A data frame with 220 rows and 4 variables:
 \describe{
@@ -20,9 +20,6 @@ A data frame with 220 rows and 4 variables:
         Associated study URLs
     }
 }
-}
-\usage{
-studiesTable
 }
 \description{
 Note. This dataset has been replaced by `getStudies()` from the

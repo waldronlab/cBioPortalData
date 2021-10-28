@@ -613,25 +613,18 @@ getSampleInfo <-
 #' @name cBioPortal
 #'
 #' @section Gene Panels:
-#'     * getDataByGenePanel - Download data for a gene panel and
+#'     * getDataByGenePanel - [Defunct] Download data for a gene panel and
 #'     `molecularProfileId` combination, optionally a `sampleListId` can be
 #'     provided.
-#'
-#' @examples
-#'
-#' getDataByGenePanel(cbio, studyId = "acc_tcga", genePanelId = "IMPACT341",
-#'    molecularProfileId = "acc_tcga_rppa", sampleListId = "acc_tcga_rppa")
 #'
 #' @export
 getDataByGenePanel <-
     function(api, studyId = NA_character_, genePanelId = NA_character_,
         molecularProfileIds = NULL, sampleListId = NULL, sampleIds = NULL)
 {
-    .Deprecated("getDataByGenes")
-    getDataByGenes(
-        api = api, studyId = studyId, genePanelId = genePanelId,
-        molecularProfileIds = molecularProfileIds,
-        sampleListId = sampleListId, sampleIds = sampleIds
+    .Defunct(
+        new = "getDataByGenes",
+        msg = "'getDataByGenePanel' is defunct. Use 'getDataByGenes' instead."
     )
 }
 

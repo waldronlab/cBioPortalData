@@ -43,7 +43,7 @@ LazyData: true
 VignetteBuilder: knitr
 BugReports: https://github.com/waldronlab/cBioPortalData/issues
 biocViews: Software, Infrastructure, ThirdPartyClient
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 Collate: 
     'utils.R'
     'cBioDataPack.R'

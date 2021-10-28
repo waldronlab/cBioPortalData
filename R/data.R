@@ -1,4 +1,4 @@
-#' [Deprecated] Available studies from cBioPortal
+#' [Defunct] Available studies from cBioPortal
 #'
 #' Note. This dataset has been replaced by `getStudies()` from the
 #' cBioPortal API.
@@ -19,10 +19,11 @@
 #'     }
 #' }
 #' @docType data
+#' @name studiesTable
 #'
 #' @author Marcel Ramos \email{marcel.ramos@@roswellpark.org}
 #'
 #' @references \url{http://www.cbioportal.org/datasets},
 #'   \url{https://github.com/cBioPortal/cgdsr}
 #' @keywords data
-"studiesTable"
+NULL
