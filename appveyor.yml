@@ -85,8 +85,3 @@ artifacts:
 cache:
   - C:\RLibrary -> appveyor.yml
 
-notifications:
-- provider: Slack
-  incoming_webhook:
-    secure: 5CUebSKaHY7HA1RR+HIF9n2+yYF3A/3pykI5rxp4J6Z8SEpqZJRnCDLRAkdhY69i1FEM6XRyCD2GVA6ObxTpMV3XHc6X7FpnULvfxYE8Zj0=
-
