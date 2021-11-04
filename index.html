@@ -140,13 +140,13 @@
 <span class="va">studies</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/cBioPortal.html">getStudies</a></span><span class="op">(</span><span class="va">cbio</span>, buildReport <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">studies</span><span class="op">$</span><span class="va">api_build</span><span class="op">)</span>
-<span class="co">#&gt;</span>
-<span class="co">#&gt; FALSE  TRUE</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; FALSE  TRUE </span>
 <span class="co">#&gt;     5   308</span>
 
 <span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">studies</span><span class="op">$</span><span class="va">pack_build</span><span class="op">)</span>
-<span class="co">#&gt;</span>
-<span class="co">#&gt; FALSE  TRUE</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; FALSE  TRUE </span>
 <span class="co">#&gt;    86   227</span></code></pre></div>
 <div id="api-service" class="section level3">
 <h3 class="hasAnchor">
@@ -171,32 +171,30 @@
 <span class="co">#&gt;  `$`, `[`, `[[` - extract colData columns, subset, or experiment</span>
 <span class="co">#&gt;  *Format() - convert into a long or wide DataFrame</span>
 <span class="co">#&gt;  assays() - convert ExperimentList to a SimpleList of matrices</span>
-<span class="co">#&gt;  exportClass() - save all data to files</span></code></pre></div>
+<span class="co">#&gt;  exportClass() - save data to flat files</span></code></pre></div>
 </div>
 <div id="packaged-data-service" class="section level3">
 <h3 class="hasAnchor">
 <a href="#packaged-data-service" class="anchor"></a>Packaged Data Service</h3>
 <p>This function will download a dataset from the <code>cbioportal.org/datasets</code> website as a packaged tarball and serve it to users as a <code>MultiAssayExperiment</code> object. This option is good for users who are interested in obtaining all the data for a particular study.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">laml</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/cBioDataPack.html">cBioDataPack</a></span><span class="op">(</span><span class="st">"laml_tcga"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="va">acc</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/cBioDataPack.html">cBioDataPack</a></span><span class="op">(</span><span class="st">"acc_tcga"</span><span class="op">)</span></code></pre></div>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">laml</span>
-<span class="co">#&gt; A MultiAssayExperiment object of 13 listed</span>
+<code class="sourceCode R"><span class="va">acc</span>
+<span class="co">#&gt; A MultiAssayExperiment object of 11 listed</span>
 <span class="co">#&gt;  experiments with user-defined names and respective classes.</span>
-<span class="co">#&gt;  Containing an ExperimentList class object of length 13:</span>
-<span class="co">#&gt;  [1] cna_hg19.seg: RaggedExperiment with 13571 rows and 191 columns</span>
-<span class="co">#&gt;  [2] CNA: SummarizedExperiment with 24776 rows and 191 columns</span>
-<span class="co">#&gt;  [3] linear_CNA: SummarizedExperiment with 24776 rows and 191 columns</span>
-<span class="co">#&gt;  [4] methylation_hm27: SummarizedExperiment with 10968 rows and 194 columns</span>
-<span class="co">#&gt;  [5] methylation_hm450: SummarizedExperiment with 10968 rows and 194 columns</span>
-<span class="co">#&gt;  [6] mutations_extended: RaggedExperiment with 2584 rows and 197 columns</span>
-<span class="co">#&gt;  [7] mutations_mskcc: RaggedExperiment with 2584 rows and 197 columns</span>
-<span class="co">#&gt;  [8] RNA_Seq_expression_median: SummarizedExperiment with 19720 rows and 179 columns</span>
-<span class="co">#&gt;  [9] RNA_Seq_mRNA_median_all_sample_Zscores: SummarizedExperiment with 19720 rows and 179 columns</span>
-<span class="co">#&gt;  [10] RNA_Seq_mRNA_median_Zscores: SummarizedExperiment with 19719 rows and 179 columns</span>
-<span class="co">#&gt;  [11] RNA_Seq_v2_expression_median: SummarizedExperiment with 20531 rows and 173 columns</span>
-<span class="co">#&gt;  [12] RNA_Seq_v2_mRNA_median_all_sample_Zscores: SummarizedExperiment with 20531 rows and 173 columns</span>
-<span class="co">#&gt;  [13] RNA_Seq_v2_mRNA_median_Zscores: SummarizedExperiment with 20440 rows and 173 columns</span>
+<span class="co">#&gt;  Containing an ExperimentList class object of length 11:</span>
+<span class="co">#&gt;  [1] cna_hg19.seg: RaggedExperiment with 16080 rows and 90 columns</span>
+<span class="co">#&gt;  [2] CNA: SummarizedExperiment with 24776 rows and 90 columns</span>
+<span class="co">#&gt;  [3] linear_CNA: SummarizedExperiment with 24776 rows and 90 columns</span>
+<span class="co">#&gt;  [4] methylation_hm450: SummarizedExperiment with 15755 rows and 80 columns</span>
+<span class="co">#&gt;  [5] mutations_extended: RaggedExperiment with 20166 rows and 90 columns</span>
+<span class="co">#&gt;  [6] mutations_mskcc: RaggedExperiment with 20166 rows and 90 columns</span>
+<span class="co">#&gt;  [7] RNA_Seq_v2_expression_median: SummarizedExperiment with 20531 rows and 79 columns</span>
+<span class="co">#&gt;  [8] RNA_Seq_v2_mRNA_median_all_sample_Zscores: SummarizedExperiment with 20531 rows and 79 columns</span>
+<span class="co">#&gt;  [9] RNA_Seq_v2_mRNA_median_Zscores: SummarizedExperiment with 20440 rows and 79 columns</span>
+<span class="co">#&gt;  [10] rppa_Zscores: SummarizedExperiment with 191 rows and 46 columns</span>
+<span class="co">#&gt;  [11] rppa: SummarizedExperiment with 192 rows and 46 columns</span>
 <span class="co">#&gt; Functionality:</span>
 <span class="co">#&gt;  experiments() - obtain the ExperimentList instance</span>
 <span class="co">#&gt;  colData() - the primary/phenotype DataFrame</span>
@@ -204,7 +202,7 @@
 <span class="co">#&gt;  `$`, `[`, `[[` - extract colData columns, subset, or experiment</span>
 <span class="co">#&gt;  *Format() - convert into a long or wide DataFrame</span>
 <span class="co">#&gt;  assays() - convert ExperimentList to a SimpleList of matrices</span>
-<span class="co">#&gt;  exportClass() - save all data to files</span></code></pre></div>
+<span class="co">#&gt;  exportClass() - save data to flat files</span></code></pre></div>
 </div>
 </div>
 </div>
@@ -246,7 +244,7 @@
 <h2>Dev status</h2>
 <ul class="list-unstyled">
 <li><a href="https://bioconductor.org/checkResults/release/bioc-LATEST/cBioPortalData"><img src="http://www.bioconductor.org/shields/build/release/bioc/cBioPortalData.svg" alt="BioC status"></a></li>
-<li><a href="https://www.bioconductor.org/packages/release/bioc/html/cBioPortalData.html#archives"><img src="http://www.bioconductor.org/shields/availability/3.12/cBioPortalData.svg" alt="Platforms"></a></li>
+<li><a href="https://www.bioconductor.org/packages/release/bioc/html/cBioPortalData.html#archives"><img src="http://www.bioconductor.org/shields/availability/release/cBioPortalData.svg" alt="Platforms"></a></li>
 <li><a href="https://travis-ci.org/waldronlab/cBioPortalData"><img src="https://travis-ci.org/waldronlab/cBioPortalData.svg?branch=master" alt="Travis Build Status"></a></li>
 <li><a href="https://ci.appveyor.com/project/waldronlab/cbioportaldata"><img src="https://ci.appveyor.com/api/projects/status/42kd6prni3o0q50b?svg=true" alt="Build status"></a></li>
 <li><a href="https://bioconductor.org/packages/stats/bioc/cBioPortalData/"><img src="https://www.bioconductor.org/shields/downloads/release/cBioPortalData.svg" alt="Downloads"></a></li>
