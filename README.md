@@ -5,7 +5,7 @@
 
 [![BioC
 status](http://www.bioconductor.org/shields/build/release/bioc/cBioPortalData.svg)](https://bioconductor.org/checkResults/release/bioc-LATEST/cBioPortalData)
-[![Platforms](http://www.bioconductor.org/shields/availability/3.12/cBioPortalData.svg)](https://www.bioconductor.org/packages/release/bioc/html/cBioPortalData.html#archives)
+[![Platforms](http://www.bioconductor.org/shields/availability/release/cBioPortalData.svg)](https://www.bioconductor.org/packages/release/bioc/html/cBioPortalData.html#archives)
 [![Travis Build
 Status](https://travis-ci.org/waldronlab/cBioPortalData.svg?branch=master)](https://travis-ci.org/waldronlab/cBioPortalData)
 [![Build
@@ -73,13 +73,13 @@ studies <- getStudies(cbio, buildReport = TRUE)
 
 ``` r
 table(studies$api_build)
-#>
-#> FALSE  TRUE
+#> 
+#> FALSE  TRUE 
 #>     5   308
 
 table(studies$pack_build)
-#>
-#> FALSE  TRUE
+#> 
+#> FALSE  TRUE 
 #>    86   227
 ```
 
@@ -111,7 +111,7 @@ gbm
 #>  `$`, `[`, `[[` - extract colData columns, subset, or experiment
 #>  *Format() - convert into a long or wide DataFrame
 #>  assays() - convert ExperimentList to a SimpleList of matrices
-#>  exportClass() - save all data to files
+#>  exportClass() - save data to flat files
 ```
 
 ### Packaged Data Service
@@ -122,27 +122,25 @@ website as a packaged tarball and serve it to users as a
 interested in obtaining all the data for a particular study.
 
 ``` r
-laml <- cBioDataPack("laml_tcga")
+acc <- cBioDataPack("acc_tcga")
 ```
 
 ``` r
-laml
-#> A MultiAssayExperiment object of 13 listed
+acc
+#> A MultiAssayExperiment object of 11 listed
 #>  experiments with user-defined names and respective classes.
-#>  Containing an ExperimentList class object of length 13:
-#>  [1] cna_hg19.seg: RaggedExperiment with 13571 rows and 191 columns
-#>  [2] CNA: SummarizedExperiment with 24776 rows and 191 columns
-#>  [3] linear_CNA: SummarizedExperiment with 24776 rows and 191 columns
-#>  [4] methylation_hm27: SummarizedExperiment with 10968 rows and 194 columns
-#>  [5] methylation_hm450: SummarizedExperiment with 10968 rows and 194 columns
-#>  [6] mutations_extended: RaggedExperiment with 2584 rows and 197 columns
-#>  [7] mutations_mskcc: RaggedExperiment with 2584 rows and 197 columns
-#>  [8] RNA_Seq_expression_median: SummarizedExperiment with 19720 rows and 179 columns
-#>  [9] RNA_Seq_mRNA_median_all_sample_Zscores: SummarizedExperiment with 19720 rows and 179 columns
-#>  [10] RNA_Seq_mRNA_median_Zscores: SummarizedExperiment with 19719 rows and 179 columns
-#>  [11] RNA_Seq_v2_expression_median: SummarizedExperiment with 20531 rows and 173 columns
-#>  [12] RNA_Seq_v2_mRNA_median_all_sample_Zscores: SummarizedExperiment with 20531 rows and 173 columns
-#>  [13] RNA_Seq_v2_mRNA_median_Zscores: SummarizedExperiment with 20440 rows and 173 columns
+#>  Containing an ExperimentList class object of length 11:
+#>  [1] cna_hg19.seg: RaggedExperiment with 16080 rows and 90 columns
+#>  [2] CNA: SummarizedExperiment with 24776 rows and 90 columns
+#>  [3] linear_CNA: SummarizedExperiment with 24776 rows and 90 columns
+#>  [4] methylation_hm450: SummarizedExperiment with 15755 rows and 80 columns
+#>  [5] mutations_extended: RaggedExperiment with 20166 rows and 90 columns
+#>  [6] mutations_mskcc: RaggedExperiment with 20166 rows and 90 columns
+#>  [7] RNA_Seq_v2_expression_median: SummarizedExperiment with 20531 rows and 79 columns
+#>  [8] RNA_Seq_v2_mRNA_median_all_sample_Zscores: SummarizedExperiment with 20531 rows and 79 columns
+#>  [9] RNA_Seq_v2_mRNA_median_Zscores: SummarizedExperiment with 20440 rows and 79 columns
+#>  [10] rppa_Zscores: SummarizedExperiment with 191 rows and 46 columns
+#>  [11] rppa: SummarizedExperiment with 192 rows and 46 columns
 #> Functionality:
 #>  experiments() - obtain the ExperimentList instance
 #>  colData() - the primary/phenotype DataFrame
@@ -150,5 +148,5 @@ laml
 #>  `$`, `[`, `[[` - extract colData columns, subset, or experiment
 #>  *Format() - convert into a long or wide DataFrame
 #>  assays() - convert ExperimentList to a SimpleList of matrices
-#>  exportClass() - save all data to files
+#>  exportClass() - save data to flat files
 ```
