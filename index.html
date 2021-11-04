@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">cBioPortalData</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.4.10</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.6.0</span>
       </span>
     </div>
 
@@ -134,36 +134,36 @@
 <div id="note" class="section level2">
 <h2 class="hasAnchor">
 <a href="#note" class="anchor"></a>Note</h2>
-<p><code>cBioPortalData</code> is a work in progress due to changes in data curation and cBioPortal API specification. Users can view the <code><a href="https://rdrr.io/r/utils/data.html">data(studiesTable)</a></code> dataset to get an overview of the studies that are available and currently building as <code>MultiAssayExperiment</code> representations. About 73 % of the studies via the API (<code>api_build</code>) and 83 % of the package studies (<code>pack_build</code>) are building, these include additional datasets that were not previously available. Feel free to file an issue to request prioritization of fixing any of the remaining datasets.</p>
+<p><code>cBioPortalData</code> is a work in progress due to changes in data curation and cBioPortal API specification. Users can view the <code>data(studiesTable)</code> dataset to get an overview of the studies that are available and currently building as <code>MultiAssayExperiment</code> representations. About 98 % of the studies via the API (<code>api_build</code>) and 73 % of the package studies (<code>pack_build</code>) are building, these include additional datasets that were not previously available. Feel free to file an issue to request prioritization of fixing any of the remaining datasets.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">studiesTable</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">cbio</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/cBioPortal.html">cBioPortal</a></span><span class="op">(</span><span class="op">)</span>
+<span class="va">studies</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/cBioPortal.html">getStudies</a></span><span class="op">(</span><span class="va">cbio</span>, buildReport <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">studies</span><span class="op">$</span><span class="va">api_build</span><span class="op">)</span>
+<span class="co">#&gt;</span>
+<span class="co">#&gt; FALSE  TRUE</span>
+<span class="co">#&gt;     5   308</span>
 
-<span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">studiesTable</span><span class="op">$</span><span class="va">api_build</span><span class="op">)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; FALSE  TRUE </span>
-<span class="co">#&gt;    78   209</span>
-
-<span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">studiesTable</span><span class="op">$</span><span class="va">pack_build</span><span class="op">)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; FALSE  TRUE </span>
-<span class="co">#&gt;    49   238</span></code></pre></div>
+<span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">studies</span><span class="op">$</span><span class="va">pack_build</span><span class="op">)</span>
+<span class="co">#&gt;</span>
+<span class="co">#&gt; FALSE  TRUE</span>
+<span class="co">#&gt;    86   227</span></code></pre></div>
 <div id="api-service" class="section level3">
 <h3 class="hasAnchor">
 <a href="#api-service" class="anchor"></a>API Service</h3>
 <p>Flexible and granular access to cBioPortal data from <code>cbioportal.org/api</code>. This option is best used with a particular gene panel of interest. It allows users to download sections of the data with molecular profile and gene panel combinations within a study.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">cbio</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/cBioPortal.html">cBioPortal</a></span><span class="op">(</span><span class="op">)</span>
-<span class="va">gbm</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/cBioPortalData.html">cBioPortalData</a></span><span class="op">(</span>api <span class="op">=</span> <span class="va">cbio</span>, by <span class="op">=</span> <span class="st">"hugoGeneSymbol"</span>, studyId <span class="op">=</span> <span class="st">"gbm_tcga"</span>,
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">gbm</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/cBioPortalData.html">cBioPortalData</a></span><span class="op">(</span>api <span class="op">=</span> <span class="va">cbio</span>, by <span class="op">=</span> <span class="st">"hugoGeneSymbol"</span>, studyId <span class="op">=</span> <span class="st">"gbm_tcga"</span>,
     genePanelId <span class="op">=</span> <span class="st">"IMPACT341"</span>,
     molecularProfileIds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"gbm_tcga_rppa"</span>, <span class="st">"gbm_tcga_mrna"</span><span class="op">)</span>
 <span class="op">)</span></code></pre></div>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">gbm</span>
 <span class="co">#&gt; A MultiAssayExperiment object of 2 listed</span>
 <span class="co">#&gt;  experiments with user-defined names and respective classes.</span>
 <span class="co">#&gt;  Containing an ExperimentList class object of length 2:</span>
 <span class="co">#&gt;  [1] gbm_tcga_rppa: SummarizedExperiment with 67 rows and 244 columns</span>
-<span class="co">#&gt;  [2] gbm_tcga_mrna: SummarizedExperiment with 334 rows and 401 columns</span>
+<span class="co">#&gt;  [2] gbm_tcga_mrna: SummarizedExperiment with 336 rows and 401 columns</span>
 <span class="co">#&gt; Functionality:</span>
 <span class="co">#&gt;  experiments() - obtain the ExperimentList instance</span>
 <span class="co">#&gt;  colData() - the primary/phenotype DataFrame</span>
@@ -177,25 +177,26 @@
 <h3 class="hasAnchor">
 <a href="#packaged-data-service" class="anchor"></a>Packaged Data Service</h3>
 <p>This function will download a dataset from the <code>cbioportal.org/datasets</code> website as a packaged tarball and serve it to users as a <code>MultiAssayExperiment</code> object. This option is good for users who are interested in obtaining all the data for a particular study.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">laml</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/cBioDataPack.html">cBioDataPack</a></span><span class="op">(</span><span class="st">"laml_tcga"</span><span class="op">)</span></code></pre></div>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">laml</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/cBioDataPack.html">cBioDataPack</a></span><span class="op">(</span><span class="st">"laml_tcga"</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">laml</span>
-<span class="co">#&gt; A MultiAssayExperiment object of 12 listed</span>
+<span class="co">#&gt; A MultiAssayExperiment object of 13 listed</span>
 <span class="co">#&gt;  experiments with user-defined names and respective classes.</span>
-<span class="co">#&gt;  Containing an ExperimentList class object of length 12:</span>
+<span class="co">#&gt;  Containing an ExperimentList class object of length 13:</span>
 <span class="co">#&gt;  [1] cna_hg19.seg: RaggedExperiment with 13571 rows and 191 columns</span>
 <span class="co">#&gt;  [2] CNA: SummarizedExperiment with 24776 rows and 191 columns</span>
 <span class="co">#&gt;  [3] linear_CNA: SummarizedExperiment with 24776 rows and 191 columns</span>
-<span class="co">#&gt;  [4] methylation_hm27: SummarizedExperiment with 10919 rows and 194 columns</span>
-<span class="co">#&gt;  [5] methylation_hm450: SummarizedExperiment with 10919 rows and 194 columns</span>
+<span class="co">#&gt;  [4] methylation_hm27: SummarizedExperiment with 10968 rows and 194 columns</span>
+<span class="co">#&gt;  [5] methylation_hm450: SummarizedExperiment with 10968 rows and 194 columns</span>
 <span class="co">#&gt;  [6] mutations_extended: RaggedExperiment with 2584 rows and 197 columns</span>
 <span class="co">#&gt;  [7] mutations_mskcc: RaggedExperiment with 2584 rows and 197 columns</span>
 <span class="co">#&gt;  [8] RNA_Seq_expression_median: SummarizedExperiment with 19720 rows and 179 columns</span>
 <span class="co">#&gt;  [9] RNA_Seq_mRNA_median_all_sample_Zscores: SummarizedExperiment with 19720 rows and 179 columns</span>
-<span class="co">#&gt;  [10] RNA_Seq_v2_expression_median: SummarizedExperiment with 20531 rows and 173 columns</span>
-<span class="co">#&gt;  [11] RNA_Seq_v2_mRNA_median_all_sample_Zscores: SummarizedExperiment with 20531 rows and 173 columns</span>
-<span class="co">#&gt;  [12] RNA_Seq_v2_mRNA_median_Zscores: SummarizedExperiment with 20440 rows and 173 columns</span>
+<span class="co">#&gt;  [10] RNA_Seq_mRNA_median_Zscores: SummarizedExperiment with 19719 rows and 179 columns</span>
+<span class="co">#&gt;  [11] RNA_Seq_v2_expression_median: SummarizedExperiment with 20531 rows and 173 columns</span>
+<span class="co">#&gt;  [12] RNA_Seq_v2_mRNA_median_all_sample_Zscores: SummarizedExperiment with 20531 rows and 173 columns</span>
+<span class="co">#&gt;  [13] RNA_Seq_v2_mRNA_median_Zscores: SummarizedExperiment with 20440 rows and 173 columns</span>
 <span class="co">#&gt; Functionality:</span>
 <span class="co">#&gt;  experiments() - obtain the ExperimentList instance</span>
 <span class="co">#&gt;  colData() - the primary/phenotype DataFrame</span>
@@ -245,7 +246,9 @@
 <h2>Dev status</h2>
 <ul class="list-unstyled">
 <li><a href="https://bioconductor.org/checkResults/release/bioc-LATEST/cBioPortalData"><img src="http://www.bioconductor.org/shields/build/release/bioc/cBioPortalData.svg" alt="BioC status"></a></li>
-<li><a href="https://www.bioconductor.org/packages/release/bioc/html/cBioPortalData.html#archives"><img src="http://www.bioconductor.org/shields/availability/3.13/cBioPortalData.svg" alt="Platforms"></a></li>
+<li><a href="https://www.bioconductor.org/packages/release/bioc/html/cBioPortalData.html#archives"><img src="http://www.bioconductor.org/shields/availability/3.12/cBioPortalData.svg" alt="Platforms"></a></li>
+<li><a href="https://travis-ci.org/waldronlab/cBioPortalData"><img src="https://travis-ci.org/waldronlab/cBioPortalData.svg?branch=master" alt="Travis Build Status"></a></li>
+<li><a href="https://ci.appveyor.com/project/waldronlab/cbioportaldata"><img src="https://ci.appveyor.com/api/projects/status/42kd6prni3o0q50b?svg=true" alt="Build status"></a></li>
 <li><a href="https://bioconductor.org/packages/stats/bioc/cBioPortalData/"><img src="https://www.bioconductor.org/shields/downloads/release/cBioPortalData.svg" alt="Downloads"></a></li>
 </ul>
 </div>

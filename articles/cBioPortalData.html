@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">cBioPortalData</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.4.10</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.6.0</span>
       </span>
     </div>
 
@@ -91,7 +91,7 @@
       <h1 data-toc-skip>cBioPortalData: User Start Guide</h1>
                         <h4 class="author">Marcel Ramos &amp; Levi Waldron</h4>
             
-            <h4 class="date">October 04, 2021</h4>
+            <h4 class="date">November 04, 2021</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/waldronlab/cBioPortalData/blob/master/vignettes/cBioPortalData.Rmd"><code>vignettes/cBioPortalData.Rmd</code></a></small>
       <div class="hidden name"><code>cBioPortalData.Rmd</code></div>
@@ -128,28 +128,24 @@
 <div id="identifying-available-studies" class="section level3">
 <h3 class="hasAnchor">
 <a href="#identifying-available-studies" class="anchor"></a>Identifying available studies</h3>
-<p>As we work through the data, there are some datasest that cannot be represented as <code>MultiAssayExperiment</code> objects. This can be due to a number of reasons such as the way the data is handled, presence of mis-matched identifiers, invalid data types, etc. To see what datasets are currently not building, we can look at the <code>studiesTable</code> dataset that comes with the package. We can invoke it using:</p>
+<p>As we work through the data, there are some datasest that cannot be represented as <code>MultiAssayExperiment</code> objects. This can be due to a number of reasons such as the way the data is handled, presence of mis-matched identifiers, invalid data types, etc. To see what datasets are currently not building, we can look refer to <code><a href="../reference/cBioPortal.html">getStudies()</a></code> with the <code>buildReport = TRUE</code> argument.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"studiesTable"</span>, package <span class="op">=</span> <span class="st">"cBioPortalData"</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">studiesTable</span><span class="op">)</span></code></pre></div>
-<pre><code>## DataFrame with 6 rows and 6 columns
-##       cancer_study_id             study_name            description
-##           &lt;character&gt;            &lt;character&gt;            &lt;character&gt;
-## 1       paac_jhu_2014 Acinar Cell Carcinom.. Whole exome sequenci..
-## 2 mel_tsam_liang_2017 Acral Melanoma (TGEN.. Whole exome sequenci..
-## 3     all_stjude_2015 Acute Lymphoblastic .. Comprehensive profil..
-## 4     all_stjude_2016 Acute Lymphoblastic .. Whole-genome and/or ..
-## 5       aml_ohsu_2018 Acute Myeloid Leukem.. Whole-exome sequenci..
-## 6           laml_tcga Acute Myeloid Leukem.. TCGA Acute Myeloid L..
-##                      URL pack_build api_build
-##              &lt;character&gt;  &lt;logical&gt; &lt;logical&gt;
-## 1                              TRUE      TRUE
-## 2                             FALSE      TRUE
-## 3                              TRUE      TRUE
-## 4                              TRUE      TRUE
-## 5                              TRUE      TRUE
-## 6 http://gdac.broadins..       TRUE      TRUE</code></pre>
-<p>The last two columns will show the availability of each <code>cancer_study_id</code> for either download method (<code>pack_build</code> for <code>cBioDataPack</code> and <code>api_build</code> for <code>cBioPortalData</code>).</p>
+<code class="sourceCode R"><span class="va">cbio</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cBioPortal.html">cBioPortal</a></span><span class="op">(</span><span class="op">)</span>
+<span class="va">studies</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cBioPortal.html">getStudies</a></span><span class="op">(</span><span class="va">cbio</span>, buildReport <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">studies</span><span class="op">)</span></code></pre></div>
+<pre><code>## # A tibble: 6 × 15
+##   name      description     publicStudy pmid   citation groups status importDate
+##   &lt;chr&gt;     &lt;chr&gt;           &lt;lgl&gt;       &lt;chr&gt;  &lt;chr&gt;    &lt;chr&gt;   &lt;int&gt; &lt;chr&gt;     
+## 1 Pan-Lung… "Whole-exome s… TRUE        27158… TCGA, N… ""          0 2021-04-0…
+## 2 Head and… "TCGA Head and… TRUE        &lt;NA&gt;   &lt;NA&gt;     "PUBL…      0 2021-04-2…
+## 3 Ovarian … "Whole exome s… TRUE        21720… TCGA, N… "PUBL…      0 2021-04-2…
+## 4 Uterine … "Whole exome s… TRUE        23636… TCGA, N… "PUBL…      0 2021-04-2…
+## 5 Bladder … "Whole-exome s… TRUE        28988… Roberts… "PUBL…      0 2021-04-2…
+## 6 Cervical… "TCGA Cervical… TRUE        &lt;NA&gt;   &lt;NA&gt;     "PUBL…      0 2021-04-2…
+## # … with 7 more variables: allSampleCount &lt;int&gt;, readPermission &lt;lgl&gt;,
+## #   studyId &lt;chr&gt;, cancerTypeId &lt;chr&gt;, referenceGenome &lt;chr&gt;, api_build &lt;lgl&gt;,
+## #   pack_build &lt;lgl&gt;</code></pre>
+<p>The last two columns will show the availability of each <code>studyId</code> for either download method (<code>pack_build</code> for <code>cBioDataPack</code> and <code>api_build</code> for <code>cBioPortalData</code>).</p>
 </div>
 <div id="choosing-download-method" class="section level3">
 <h3 class="hasAnchor">
@@ -195,15 +191,14 @@
 ##  `$`, `[`, `[[` - extract colData columns, subset, or experiment
 ##  *Format() - convert into a long or wide DataFrame
 ##  assays() - convert ExperimentList to a SimpleList of matrices
-##  exportClass() - save all data to files</code></pre>
+##  exportClass() - save data to flat files</code></pre>
 </div>
 <div id="cbioportaldata-obtain-data-from-the-cbioportal-api" class="section level3">
 <h3 class="hasAnchor">
 <a href="#cbioportaldata-obtain-data-from-the-cbioportal-api" class="anchor"></a>cBioPortalData: Obtain data from the cBioPortal API</h3>
 <p>This function provides a more flexible and granular way to request a MultiAssayExperiment object from a study ID, molecular profile, gene panel, sample list.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">cbio</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cBioPortal.html">cBioPortal</a></span><span class="op">(</span><span class="op">)</span>
-<span class="va">acc</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cBioPortalData.html">cBioPortalData</a></span><span class="op">(</span>api <span class="op">=</span> <span class="va">cbio</span>, by <span class="op">=</span> <span class="st">"hugoGeneSymbol"</span>, studyId <span class="op">=</span> <span class="st">"acc_tcga"</span>,
+<code class="sourceCode R"><span class="va">acc</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cBioPortalData.html">cBioPortalData</a></span><span class="op">(</span>api <span class="op">=</span> <span class="va">cbio</span>, by <span class="op">=</span> <span class="st">"hugoGeneSymbol"</span>, studyId <span class="op">=</span> <span class="st">"acc_tcga"</span>,
     genePanelId <span class="op">=</span> <span class="st">"IMPACT341"</span>,
     molecularProfileIds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"acc_tcga_rppa"</span>, <span class="st">"acc_tcga_linear_CNA"</span><span class="op">)</span>
 <span class="op">)</span></code></pre></div>
@@ -223,7 +218,7 @@
 ##  `$`, `[`, `[[` - extract colData columns, subset, or experiment
 ##  *Format() - convert into a long or wide DataFrame
 ##  assays() - convert ExperimentList to a SimpleList of matrices
-##  exportClass() - save all data to files</code></pre>
+##  exportClass() - save data to flat files</code></pre>
 <p>Note. To avoid overloading the API service, the API was designed to only query a part of the study data. Therefore, the user is required to enter either a set of genes of interest or a gene panel identifier.</p>
 </div>
 </div>
@@ -304,41 +299,41 @@
 ## [11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
 ## 
 ## attached base packages:
-## [1] parallel  stats4    stats     graphics  grDevices utils     datasets 
-## [8] methods   base     
+## [1] stats4    stats     graphics  grDevices utils     datasets  methods  
+## [8] base     
 ## 
 ## other attached packages:
 ##  [1] survminer_0.4.9             ggpubr_0.4.0               
 ##  [3] ggplot2_3.3.5               survival_3.2-13            
-##  [5] cBioPortalData_2.4.10       MultiAssayExperiment_1.18.0
-##  [7] SummarizedExperiment_1.22.0 Biobase_2.52.0             
-##  [9] GenomicRanges_1.44.0        GenomeInfoDb_1.28.4        
-## [11] IRanges_2.26.0              S4Vectors_0.30.1           
-## [13] BiocGenerics_0.38.0         MatrixGenerics_1.4.3       
-## [15] matrixStats_0.61.0          AnVIL_1.4.1                
-## [17] dplyr_1.0.7                 BiocStyle_2.20.2           
+##  [5] cBioPortalData_2.6.0        MultiAssayExperiment_1.20.0
+##  [7] SummarizedExperiment_1.24.0 Biobase_2.54.0             
+##  [9] GenomicRanges_1.46.0        GenomeInfoDb_1.30.0        
+## [11] IRanges_2.28.0              S4Vectors_0.32.0           
+## [13] BiocGenerics_0.40.0         MatrixGenerics_1.6.0       
+## [15] matrixStats_0.61.0          AnVIL_1.6.0                
+## [17] dplyr_1.0.7                 BiocStyle_2.22.0           
 ## 
 ## loaded via a namespace (and not attached):
-##   [1] readxl_1.3.1              backports_1.2.1          
-##   [3] BiocFileCache_2.0.0       systemfonts_1.0.2        
+##   [1] readxl_1.3.1              backports_1.3.0          
+##   [3] BiocFileCache_2.2.0       systemfonts_1.0.3        
 ##   [5] RCircos_1.2.1             splines_4.1.1            
-##   [7] BiocParallel_1.26.2       TCGAutils_1.12.0         
+##   [7] BiocParallel_1.28.0       TCGAutils_1.14.0         
 ##   [9] digest_0.6.28             htmltools_0.5.2          
 ##  [11] fansi_0.5.0               magrittr_2.0.1           
-##  [13] memoise_2.0.0             tzdb_0.1.2               
-##  [15] openxlsx_4.2.4            limma_3.48.3             
-##  [17] Biostrings_2.60.2         readr_2.0.2              
+##  [13] memoise_2.0.0             tzdb_0.2.0               
+##  [15] openxlsx_4.2.4            limma_3.50.0             
+##  [17] Biostrings_2.62.0         readr_2.0.2              
 ##  [19] vroom_1.5.5               pkgdown_1.6.1            
 ##  [21] prettyunits_1.1.1         colorspace_2.0-2         
-##  [23] blob_1.2.2                rvest_1.0.1              
-##  [25] rappdirs_0.3.3            textshaping_0.3.5        
-##  [27] haven_2.4.3               xfun_0.26                
-##  [29] crayon_1.4.1              RCurl_1.98-1.5           
-##  [31] jsonlite_1.7.2            RaggedExperiment_1.16.0  
+##  [23] blob_1.2.2                rvest_1.0.2              
+##  [25] rappdirs_0.3.3            textshaping_0.3.6        
+##  [27] haven_2.4.3               xfun_0.27                
+##  [29] crayon_1.4.2              RCurl_1.98-1.5           
+##  [31] jsonlite_1.7.2            RaggedExperiment_1.18.0  
 ##  [33] zoo_1.8-9                 glue_1.4.2               
-##  [35] GenomicDataCommons_1.16.0 gtable_0.3.0             
-##  [37] zlibbioc_1.38.0           XVector_0.32.0           
-##  [39] DelayedArray_0.18.0       car_3.0-11               
+##  [35] GenomicDataCommons_1.18.0 gtable_0.3.0             
+##  [37] zlibbioc_1.40.0           XVector_0.34.0           
+##  [39] DelayedArray_0.20.0       car_3.0-11               
 ##  [41] abind_1.4-5               scales_1.1.1             
 ##  [43] futile.options_1.0.1      DBI_1.1.1                
 ##  [45] rstatix_0.7.0             Rcpp_1.0.7               
@@ -350,42 +345,43 @@
 ##  [57] XML_3.99-0.8              rapiclient_0.1.3         
 ##  [59] dbplyr_2.1.1              utf8_1.2.2               
 ##  [61] RJSONIO_1.3-1.6           labeling_0.4.2           
-##  [63] tidyselect_1.1.1          rlang_0.4.11             
-##  [65] AnnotationDbi_1.54.1      munsell_0.5.0            
+##  [63] tidyselect_1.1.1          rlang_0.4.12             
+##  [65] AnnotationDbi_1.56.1      munsell_0.5.0            
 ##  [67] cellranger_1.1.0          tools_4.1.1              
-##  [69] cachem_1.0.6              cli_3.0.1                
-##  [71] generics_0.1.0            RSQLite_2.2.8            
-##  [73] broom_0.7.9               evaluate_0.14            
+##  [69] cachem_1.0.6              cli_3.1.0                
+##  [71] generics_0.1.1            RSQLite_2.2.8            
+##  [73] broom_0.7.10              evaluate_0.14            
 ##  [75] stringr_1.4.0             fastmap_1.1.0            
-##  [77] yaml_2.2.1                ragg_1.1.3               
+##  [77] yaml_2.2.1                ragg_1.2.0               
 ##  [79] knitr_1.36                bit64_4.0.5              
 ##  [81] fs_1.5.0                  zip_2.2.0                
 ##  [83] survMisc_0.5.5            purrr_0.3.4              
-##  [85] KEGGREST_1.32.0           formatR_1.11             
-##  [87] xml2_1.3.2                biomaRt_2.48.3           
+##  [85] KEGGREST_1.34.0           formatR_1.11             
+##  [87] xml2_1.3.2                biomaRt_2.50.0           
 ##  [89] compiler_4.1.1            filelock_1.0.2           
 ##  [91] curl_4.3.2                png_0.1-7                
 ##  [93] ggsignif_0.6.3            tibble_3.1.5             
-##  [95] stringi_1.7.4             highr_0.9                
-##  [97] futile.logger_1.4.3       GenomicFeatures_1.44.2   
+##  [95] stringi_1.7.5             highr_0.9                
+##  [97] futile.logger_1.4.3       GenomicFeatures_1.46.1   
 ##  [99] desc_1.4.0                forcats_0.5.1            
 ## [101] lattice_0.20-45           Matrix_1.3-4             
 ## [103] markdown_1.1              KMsurv_0.1-5             
-## [105] RTCGAToolbox_2.22.1       vctrs_0.3.8              
-## [107] pillar_1.6.3              lifecycle_1.0.1          
+## [105] RTCGAToolbox_2.24.0       vctrs_0.3.8              
+## [107] pillar_1.6.4              lifecycle_1.0.1          
 ## [109] BiocManager_1.30.16       jquerylib_0.1.4          
 ## [111] data.table_1.14.2         bitops_1.0-7             
-## [113] rtracklayer_1.52.1        R6_2.5.1                 
-## [115] BiocIO_1.2.0              bookdown_0.24            
+## [113] rtracklayer_1.54.0        R6_2.5.1                 
+## [115] BiocIO_1.4.0              bookdown_0.24            
 ## [117] gridExtra_2.3             rio_0.5.27               
 ## [119] codetools_0.2-18          lambda.r_1.2.4           
 ## [121] assertthat_0.2.1          rprojroot_2.0.2          
 ## [123] rjson_0.2.20              withr_2.4.2              
-## [125] GenomicAlignments_1.28.0  Rsamtools_2.8.0          
-## [127] GenomeInfoDbData_1.2.6    ggtext_0.1.1             
-## [129] hms_1.1.1                 grid_4.1.1               
-## [131] tidyr_1.1.4               rmarkdown_2.11           
-## [133] carData_3.0-4             restfulr_0.0.13</code></pre>
+## [125] GenomicAlignments_1.30.0  Rsamtools_2.10.0         
+## [127] GenomeInfoDbData_1.2.7    ggtext_0.1.1             
+## [129] parallel_4.1.1            hms_1.1.1                
+## [131] grid_4.1.1                tidyr_1.1.4              
+## [133] rmarkdown_2.11            carData_3.0-4            
+## [135] restfulr_0.0.13</code></pre>
 </div>
 <div id="references" class="section level1">
 <h1 class="hasAnchor">

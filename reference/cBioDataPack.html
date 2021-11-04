@@ -77,7 +77,7 @@ representation to faciliate analysis and data management operations." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">cBioPortalData</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.4.10</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.6.0</span>
       </span>
     </div>
 
@@ -143,7 +143,7 @@ a MultiAssayExperiment object</h1>
     <div class="ref-description">
     <p>The <code>cBioDataPack</code> function allows the user to
 download and process cancer study datasets found in MSKCC's cBioPortal.
-Output datasets use the MultiAssayExperiment data
+Output datasets use the <a href='http://waldronlab.io/MultiAssayExperiment/reference/MultiAssayExperiment-class.html'>MultiAssayExperiment</a> data
 representation to faciliate analysis and data management operations.</p>
     </div>
 
@@ -192,20 +192,17 @@ currently building as <code>MultiAssayExperiment</code> based on previous testin
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A MultiAssayExperiment object</p>
+    <p>A <a href='http://waldronlab.io/MultiAssayExperiment/reference/MultiAssayExperiment-class.html'>MultiAssayExperiment</a> object</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The list of datasets can be found in the <code>studiesTable</code> dataset
-by doing <code><a href='https://rdrr.io/r/utils/data.html'>data("studiesTable")</a></code>. Some datasets may not be available
-for download and are not guaranteed to be represented as MultiAssayExperiment
-data objects. After taking a random sample of 100
-(using <code><a href='https://rdrr.io/r/base/Random.html'>set.seed(1234)</a></code>), we were able to succesfully represent about
-76 percent of the study identifiers as MultiAssayExperiment objects. Please
-refer to the #' <a href='http://cbioportal.org/data_sets.jsp'>website</a> for the
-full list of available datasets. Users who would like to prioritize
-particular datasets should open GitHub issues at the URL in the <code>DESCRIPTION</code>
-file. For a more fine-grained approach to downloading data from the
-cBioPortal API, refer to the <code>cBioPortalData</code> function.</p>
+    <p>The full list of study identifiers (<code>studyId</code>s) can obtained from
+<code><a href='cBioPortal.html'>getStudies()</a></code>. Currently, only ~ 72% of datasets can be represented as
+<code>MultiAssayExperiment</code> data objects from the data tarballs. Refer to
+<code>getStudies(..., buildReport = TRUE)</code> and its <code>"pack_build"</code> column to see
+which study identifiers are not building. Users who would like to prioritize
+particular datasets should open GitHub issues at the URL in the
+<code>DESCRIPTION</code> file. For a more fine-grained approach to downloading data
+from the cBioPortal API, refer to the <code>cBioPortalData</code> function.</p>
     <h2 class="hasAnchor" id="cbio-url"><a class="anchor" href="#cbio-url"></a>cBio_URL</h2>
 
     
@@ -216,7 +213,7 @@ pointed to 'http://download.cbioportal.org'. This recent change
 (&gt; 2.1.17) should provide faster and more reliable downloads for all users.
 See the URL using <code>cBioPortalData:::.url_location</code>. This can be changed
 if there are mirrors that host this data by setting the <code>cBio_URL</code> option
-with <code><a href='https://rdrr.io/r/base/options.html'>getOption("cBio_URL", "https://some.url.com/")</a></code> before running the
+with <code>getOption("cBio_URL", "https://some.url.com/")</code> before running the
 function.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -226,16 +223,31 @@ function.</p>
     <p>Levi Waldron, Marcel R., Ino dB.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>studiesTable</span><span class='op'>)</span>
-
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>studiesTable</span><span class='op'>[[</span><span class='st'>"cancer_study_id"</span><span class='op'>]</span><span class='op'>]</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "paac_jhu_2014"       "mel_tsam_liang_2017" "all_stjude_2015"    
-#&gt; [4] "all_stjude_2016"     "aml_ohsu_2018"       "laml_tcga"          </div><div class='input'>
-<span class='co'># ask=FALSE for non-interactive use</span>
-<span class='va'>mae</span> <span class='op'>&lt;-</span> <span class='fu'>cBioDataPack</span><span class='op'>(</span><span class='st'>"acc_tcga"</span>, ask <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>Study file in cache: acc_tcga</span></div><div class='output co'>#&gt; <span class='message'>Working on: /tmp/RtmpkFpeau/10d54dea8b7f_acc_tcga/acc_tcga/data_cna_hg19.seg</span></div><div class='output co'>#&gt; <span class='message'>Working on: /tmp/RtmpkFpeau/10d54dea8b7f_acc_tcga/acc_tcga/data_CNA.txt</span></div><div class='output co'>#&gt; <span class='message'>Working on: /tmp/RtmpkFpeau/10d54dea8b7f_acc_tcga/acc_tcga/data_linear_CNA.txt</span></div><div class='output co'>#&gt; <span class='message'>Working on: /tmp/RtmpkFpeau/10d54dea8b7f_acc_tcga/acc_tcga/data_methylation_hm450.txt</span></div><div class='output co'>#&gt; <span class='message'>Working on: /tmp/RtmpkFpeau/10d54dea8b7f_acc_tcga/acc_tcga/data_mutations_extended.txt</span></div><div class='output co'>#&gt; <span class='message'>Working on: /tmp/RtmpkFpeau/10d54dea8b7f_acc_tcga/acc_tcga/data_mutations_mskcc.txt</span></div><div class='output co'>#&gt; <span class='message'>Working on: /tmp/RtmpkFpeau/10d54dea8b7f_acc_tcga/acc_tcga/data_mutsig.txt</span></div><div class='output co'>#&gt; <span class='message'>Working on: /tmp/RtmpkFpeau/10d54dea8b7f_acc_tcga/acc_tcga/data_RNA_Seq_v2_expression_median.txt</span></div><div class='output co'>#&gt; <span class='message'>Working on: /tmp/RtmpkFpeau/10d54dea8b7f_acc_tcga/acc_tcga/data_RNA_Seq_v2_mRNA_median_all_sample_Zscores.txt</span></div><div class='output co'>#&gt; <span class='message'>Working on: /tmp/RtmpkFpeau/10d54dea8b7f_acc_tcga/acc_tcga/data_RNA_Seq_v2_mRNA_median_Zscores.txt</span></div><div class='output co'>#&gt; <span class='message'>Working on: /tmp/RtmpkFpeau/10d54dea8b7f_acc_tcga/acc_tcga/data_rppa_Zscores.txt</span></div><div class='output co'>#&gt; <span class='message'>Working on: /tmp/RtmpkFpeau/10d54dea8b7f_acc_tcga/acc_tcga/data_rppa.txt</span></div><div class='output co'>#&gt; <span class='warning'>Warning:  Multiple prefixes found, using keyword 'region' or taking first one</span></div><div class='output co'>#&gt; <span class='warning'>Warning:  Multiple prefixes found, using keyword 'region' or taking first one</span></div><div class='input'>
-</div></pre>
+    <pre class="examples"><span class='r-in'></span>
+<span class='r-in'><span class='va'>cbio</span> <span class='op'>&lt;-</span> <span class='fu'><a href='cBioPortal.html'>cBioPortal</a></span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='cBioPortal.html'>getStudies</a></span><span class='op'>(</span><span class='va'>cbio</span><span class='op'>)</span><span class='op'>[[</span><span class='st'>"studyId"</span><span class='op'>]</span><span class='op'>]</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "nsclc_tcga_broad_2016" "hnsc_tcga"             "ov_tcga_pub"          </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [4] "ucec_tcga_pub"         "blca_tcga_pub_2017"    "cesc_tcga"            </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># ask=FALSE for non-interactive use</span></span>
+<span class='r-in'><span class='va'>mae</span> <span class='op'>&lt;-</span> <span class='fu'>cBioDataPack</span><span class='op'>(</span><span class='st'>"acc_tcga"</span>, ask <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Study file in cache: acc_tcga</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Working on: /tmp/RtmpD7ZDA6/1da4719accb6_acc_tcga/acc_tcga/data_cna_hg19.seg</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Working on: /tmp/RtmpD7ZDA6/1da4719accb6_acc_tcga/acc_tcga/data_CNA.txt</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Working on: /tmp/RtmpD7ZDA6/1da4719accb6_acc_tcga/acc_tcga/data_linear_CNA.txt</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Working on: /tmp/RtmpD7ZDA6/1da4719accb6_acc_tcga/acc_tcga/data_methylation_hm450.txt</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Working on: /tmp/RtmpD7ZDA6/1da4719accb6_acc_tcga/acc_tcga/data_mutations.txt</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Working on: /tmp/RtmpD7ZDA6/1da4719accb6_acc_tcga/acc_tcga/data_mutsig.txt</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Working on: /tmp/RtmpD7ZDA6/1da4719accb6_acc_tcga/acc_tcga/data_RNA_Seq_v2_expression_median.txt</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Working on: /tmp/RtmpD7ZDA6/1da4719accb6_acc_tcga/acc_tcga/data_RNA_Seq_v2_mRNA_median_all_sample_Zscores.txt</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Working on: /tmp/RtmpD7ZDA6/1da4719accb6_acc_tcga/acc_tcga/data_RNA_Seq_v2_mRNA_median_Zscores.txt</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Working on: /tmp/RtmpD7ZDA6/1da4719accb6_acc_tcga/acc_tcga/data_rppa_Zscores.txt</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Working on: /tmp/RtmpD7ZDA6/1da4719accb6_acc_tcga/acc_tcga/data_rppa.txt</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span> Multiple prefixes found, using keyword 'region' or taking first one</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span> Multiple prefixes found, using keyword 'region' or taking first one</span>
+<span class='r-in'></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

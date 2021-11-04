@@ -74,7 +74,7 @@ BiocFileCache system." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">cBioPortalData</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.4.10</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.6.0</span>
       </span>
     </div>
 
@@ -188,8 +188,7 @@ location of the cache directory</p></td>
     </tr>
     <tr>
       <th>cancer_study_id</th>
-      <td><p>A single string from <code>studiesTable</code> associated
-with a study tarball</p></td>
+      <td><p>character(1) The <code>studyId</code> from <code>getStudies</code></p></td>
     </tr>
     <tr>
       <th>dry.run</th>
@@ -263,39 +262,42 @@ go to the user directory as given by:</p><pre>
 <p>Some files may become corrupt when downloading, this function allows
 the user to delete the tarball associated with a <code>cancer_study_id</code> in the
 cache. This only works for the <code>cBioDataPack</code> function. To remove the entire
-<code>cBioPortalData</code> cache, run <code><a href='https://rdrr.io/r/base/unlink.html'>unlink("~/.cache/cBioPortalData")</a></code>.</p>
+<code>cBioPortalData</code> cache, run <code>unlink("~/.cache/cBioPortalData")</code>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-<span class='fu'>cBioCache</span><span class='op'>(</span><span class='op'>)</span>
-
-<span class='fu'>removePackCache</span><span class='op'>(</span><span class='st'>"acc_tcga"</span>, dry.run <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 1 × 10</span>
-#&gt;   rid   rname  create_time  access_time rpath rtype fpath last_modified_t… etag 
-#&gt;   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>        <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>       <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>            <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>
-#&gt; <span style='color: #BCBCBC;'>1</span> BFC8  acc_t… 2021-10-04 … 2021-10-04… /git… web   http… 2021-08-04 00:0… 3c22…
-#&gt; <span style='color: #949494;'># … with 1 more variable: expires &lt;dbl&gt;</span></div><div class='input'>
-
-<span class='va'>cbio</span> <span class='op'>&lt;-</span> <span class='fu'><a href='cBioPortal.html'>cBioPortal</a></span><span class='op'>(</span><span class='op'>)</span>
-
-<span class='fu'><a href='cBioPortalData.html'>cBioPortalData</a></span><span class='op'>(</span>
-    <span class='va'>cbio</span>, by <span class='op'>=</span> <span class='st'>"hugoGeneSymbol"</span>,
-    studyId <span class='op'>=</span> <span class='st'>"acc_tcga"</span>,
-    genePanelId <span class='op'>=</span> <span class='st'>"AmpliSeq"</span>,
-    molecularProfileIds <span class='op'>=</span>
-        <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"acc_tcga_rppa"</span>, <span class='st'>"acc_tcga_linear_CNA"</span>, <span class='st'>"acc_tcga_mutations"</span><span class='op'>)</span>
-<span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in eval(args[["api"]]): object 'cbio' not found</span></div><div class='input'>
-<span class='fu'>removeDataCache</span><span class='op'>(</span>
-    <span class='va'>cbio</span>, by <span class='op'>=</span> <span class='st'>"hugoGeneSymbol"</span>,
-    studyId <span class='op'>=</span> <span class='st'>"acc_tcga"</span>,
-    genePanelId <span class='op'>=</span> <span class='st'>"AmpliSeq"</span>,
-    molecularProfileIds <span class='op'>=</span>
-        <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"acc_tcga_rppa"</span>, <span class='st'>"acc_tcga_linear_CNA"</span>, <span class='st'>"acc_tcga_mutations"</span><span class='op'>)</span>,
-    dry.run <span class='op'>=</span> <span class='cn'>TRUE</span>
-<span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in eval(args[["api"]]): object 'cbio' not found</span></div><div class='input'>
-</div></pre>
+    <pre class="examples"><span class='r-in'></span>
+<span class='r-in'><span class='fu'>cBioCache</span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'>removePackCache</span><span class='op'>(</span><span class='st'>"acc_tcga"</span>, dry.run <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 1 × 10</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   rid   rname  create_time  access_time rpath rtype fpath last_modified_t… etag </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>        <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>       <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>            <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span> BFC8  acc_t… 2021-11-04 … 2021-11-04… /git… web   http… 2021-10-27 23:0… e133…</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># … with 1 more variable: expires &lt;dbl&gt;</span></span>
+<span class='r-in'></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>cbio</span> <span class='op'>&lt;-</span> <span class='fu'><a href='cBioPortal.html'>cBioPortal</a></span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'><a href='cBioPortalData.html'>cBioPortalData</a></span><span class='op'>(</span></span>
+<span class='r-in'>    <span class='va'>cbio</span>, by <span class='op'>=</span> <span class='st'>"hugoGeneSymbol"</span>,</span>
+<span class='r-in'>    studyId <span class='op'>=</span> <span class='st'>"acc_tcga"</span>,</span>
+<span class='r-in'>    genePanelId <span class='op'>=</span> <span class='st'>"AmpliSeq"</span>,</span>
+<span class='r-in'>    molecularProfileIds <span class='op'>=</span></span>
+<span class='r-in'>        <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"acc_tcga_rppa"</span>, <span class='st'>"acc_tcga_linear_CNA"</span>, <span class='st'>"acc_tcga_mutations"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>)</span></span>
+<span class='r-err co'><span class='r-pr'>#&gt;</span> <span class='error'>Error in eval(args[["api"]]):</span> object 'cbio' not found</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'>removeDataCache</span><span class='op'>(</span></span>
+<span class='r-in'>    <span class='va'>cbio</span>, by <span class='op'>=</span> <span class='st'>"hugoGeneSymbol"</span>,</span>
+<span class='r-in'>    studyId <span class='op'>=</span> <span class='st'>"acc_tcga"</span>,</span>
+<span class='r-in'>    genePanelId <span class='op'>=</span> <span class='st'>"AmpliSeq"</span>,</span>
+<span class='r-in'>    molecularProfileIds <span class='op'>=</span></span>
+<span class='r-in'>        <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"acc_tcga_rppa"</span>, <span class='st'>"acc_tcga_linear_CNA"</span>, <span class='st'>"acc_tcga_mutations"</span><span class='op'>)</span>,</span>
+<span class='r-in'>    dry.run <span class='op'>=</span> <span class='cn'>TRUE</span></span>
+<span class='r-in'><span class='op'>)</span></span>
+<span class='r-err co'><span class='r-pr'>#&gt;</span> <span class='error'>Error in eval(args[["api"]]):</span> object 'cbio' not found</span>
+<span class='r-in'></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

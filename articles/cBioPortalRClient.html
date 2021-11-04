@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">cBioPortalData</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.4.10</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.6.0</span>
       </span>
     </div>
 
@@ -91,7 +91,7 @@
       <h1 data-toc-skip>cBioPortalData: API Reference Guide for Devs</h1>
                         <h4 class="author">Marcel Ramos &amp; Levi Waldron</h4>
             
-            <h4 class="date">October 04, 2021</h4>
+            <h4 class="date">November 04, 2021</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/waldronlab/cBioPortalData/blob/master/vignettes/cBioPortalRClient.Rmd"><code>vignettes/cBioPortalRClient.Rmd</code></a></small>
       <div class="hidden name"><code>cBioPortalRClient.Rmd</code></div>
@@ -207,20 +207,20 @@
 <p>Get the list of studies available:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/cBioPortal.html">getStudies</a></span><span class="op">(</span><span class="va">cbio</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 321 × 13
+<pre><code>## # A tibble: 327 × 13
 ##    name      description     publicStudy pmid  citation groups status importDate
 ##    &lt;chr&gt;     &lt;chr&gt;           &lt;lgl&gt;       &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;   &lt;int&gt; &lt;chr&gt;     
 ##  1 Pan-Lung… "Whole-exome s… TRUE        2715… TCGA, N… ""          0 2021-04-0…
 ##  2 Head and… "TCGA Head and… TRUE        &lt;NA&gt;  &lt;NA&gt;     "PUBL…      0 2021-04-2…
-##  3 Breast I… "Whole-exome s… TRUE        2645… TCGA, C… "PUBL…      0 2021-04-2…
-##  4 Ovarian … "Whole exome s… TRUE        2172… TCGA, N… "PUBL…      0 2021-04-2…
-##  5 Uterine … "Whole exome s… TRUE        2363… TCGA, N… "PUBL…      0 2021-04-2…
-##  6 Bladder … "Whole-exome s… TRUE        2898… Roberts… "PUBL…      0 2021-04-2…
-##  7 Cervical… "TCGA Cervical… TRUE        &lt;NA&gt;  &lt;NA&gt;     "PUBL…      0 2021-04-2…
-##  8 Cholangi… "TCGA Cholangi… TRUE        &lt;NA&gt;  &lt;NA&gt;     "PUBL…      0 2021-04-2…
-##  9 Kidney C… "TCGA Kidney C… TRUE        &lt;NA&gt;  &lt;NA&gt;     "PUBL…      0 2021-04-2…
-## 10 Colorect… "TCGA Colorect… TRUE        &lt;NA&gt;  &lt;NA&gt;     "PUBL…      0 2021-04-2…
-## # … with 311 more rows, and 5 more variables: allSampleCount &lt;int&gt;,
+##  3 Ovarian … "Whole exome s… TRUE        2172… TCGA, N… "PUBL…      0 2021-04-2…
+##  4 Uterine … "Whole exome s… TRUE        2363… TCGA, N… "PUBL…      0 2021-04-2…
+##  5 Bladder … "Whole-exome s… TRUE        2898… Roberts… "PUBL…      0 2021-04-2…
+##  6 Cervical… "TCGA Cervical… TRUE        &lt;NA&gt;  &lt;NA&gt;     "PUBL…      0 2021-04-2…
+##  7 Cholangi… "TCGA Cholangi… TRUE        &lt;NA&gt;  &lt;NA&gt;     "PUBL…      0 2021-04-2…
+##  8 Kidney C… "TCGA Kidney C… TRUE        &lt;NA&gt;  &lt;NA&gt;     "PUBL…      0 2021-04-2…
+##  9 Colorect… "TCGA Colorect… TRUE        &lt;NA&gt;  &lt;NA&gt;     "PUBL…      0 2021-04-2…
+## 10 Lymphoid… "TCGA Lymphoid… TRUE        &lt;NA&gt;  &lt;NA&gt;     "PUBL…      0 2021-04-2…
+## # … with 317 more rows, and 5 more variables: allSampleCount &lt;int&gt;,
 ## #   readPermission &lt;lgl&gt;, studyId &lt;chr&gt;, cancerTypeId &lt;chr&gt;,
 ## #   referenceGenome &lt;chr&gt;</code></pre>
 </div>
@@ -265,8 +265,8 @@
 ## [5] "acc_tcga_rna_seq_v2_mrna_median_Zscores"           
 ## [6] "acc_tcga_linear_CNA"                               
 ## [7] "acc_tcga_methylation_hm450"                        
-## [8] "acc_tcga_mutations"                                
-## [9] "acc_tcga_rna_seq_v2_mrna_median_all_sample_Zscores"</code></pre>
+## [8] "acc_tcga_rna_seq_v2_mrna_median_all_sample_Zscores"
+## [9] "acc_tcga_mutations"</code></pre>
 </div>
 <div id="molecular-profile-data" class="section level2">
 <h2 class="hasAnchor">
@@ -316,7 +316,7 @@
 <a href="#gene-panels" class="anchor"></a>Gene Panels</h3>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/cBioPortal.html">genePanels</a></span><span class="op">(</span><span class="va">cbio</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 52 × 2
+<pre><code>## # A tibble: 53 × 2
 ##    description                                               genePanelId        
 ##    &lt;chr&gt;                                                     &lt;chr&gt;              
 ##  1 Targeted (27 cancer genes) sequencing of adenoid cystic … ACYC_FMI_27        
@@ -329,7 +329,7 @@
 ##  8 Foundation Medicine T7 gene panel (429 genes)             FMI-T7             
 ##  9 Foundation Medicine T5 gene panel (326 genes)             glioma_mskcc_2019_…
 ## 10 Foundation Medicine T7 gene panel (434 genes)             glioma_mskcc_2019_…
-## # … with 42 more rows</code></pre>
+## # … with 43 more rows</code></pre>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/cBioPortal.html">getGenePanel</a></span><span class="op">(</span><span class="va">cbio</span>, <span class="st">"IMPACT341"</span><span class="op">)</span></code></pre></div>
 <pre><code>## # A tibble: 341 × 2
@@ -508,7 +508,7 @@
 <div id="advanced-usage" class="section level1">
 <h1 class="hasAnchor">
 <a href="#advanced-usage" class="anchor"></a>Advanced Usage</h1>
-<p>The <code>cBioPortal</code> API representation is not limited to the functions provided in the package. Users who wish to make use of any of the endpoints provided by the API specification should use the dollar sign <code><a href="https://rdrr.io/r/base/Extract.html">$</a></code> function to access the endpoints.</p>
+<p>The <code>cBioPortal</code> API representation is not limited to the functions provided in the package. Users who wish to make use of any of the endpoints provided by the API specification should use the dollar sign <code>$</code> function to access the endpoints.</p>
 <p>First the user should see the input for a particular endpoint as detailed in the API:</p>
 <div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">cbio</span><span class="op">$</span><span class="va">getGeneUsingGET</span></code></pre></div>
@@ -522,7 +522,7 @@
 <div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="op">(</span><span class="va">resp</span> <span class="op">&lt;-</span> <span class="va">cbio</span><span class="op">$</span><span class="fu">getGeneUsingGET</span><span class="op">(</span><span class="st">"BRCA1"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>## Response [https://www.cbioportal.org/api/genes/BRCA1]
-##   Date: 2021-10-04 17:19
+##   Date: 2021-11-04 22:47
 ##   Status: 200
 ##   Content-Type: application/json
 ##   Size: 69 B</code></pre>
@@ -566,71 +566,71 @@
 ## [11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
 ## 
 ## attached base packages:
-## [1] parallel  stats4    stats     graphics  grDevices utils     datasets 
-## [8] methods   base     
+## [1] stats4    stats     graphics  grDevices utils     datasets  methods  
+## [8] base     
 ## 
 ## other attached packages:
-##  [1] cBioPortalData_2.4.10       MultiAssayExperiment_1.18.0
-##  [3] SummarizedExperiment_1.22.0 Biobase_2.52.0             
-##  [5] GenomicRanges_1.44.0        GenomeInfoDb_1.28.4        
-##  [7] IRanges_2.26.0              S4Vectors_0.30.1           
-##  [9] BiocGenerics_0.38.0         MatrixGenerics_1.4.3       
-## [11] matrixStats_0.61.0          AnVIL_1.4.1                
-## [13] dplyr_1.0.7                 BiocStyle_2.20.2           
+##  [1] cBioPortalData_2.6.0        MultiAssayExperiment_1.20.0
+##  [3] SummarizedExperiment_1.24.0 Biobase_2.54.0             
+##  [5] GenomicRanges_1.46.0        GenomeInfoDb_1.30.0        
+##  [7] IRanges_2.28.0              S4Vectors_0.32.0           
+##  [9] BiocGenerics_0.40.0         MatrixGenerics_1.6.0       
+## [11] matrixStats_0.61.0          AnVIL_1.6.0                
+## [13] dplyr_1.0.7                 BiocStyle_2.22.0           
 ## 
 ## loaded via a namespace (and not attached):
 ##   [1] bitops_1.0-7              fs_1.5.0                 
 ##   [3] bit64_4.0.5               progress_1.2.2           
 ##   [5] filelock_1.0.2            httr_1.4.2               
-##   [7] rprojroot_2.0.2           GenomicDataCommons_1.16.0
+##   [7] rprojroot_2.0.2           GenomicDataCommons_1.18.0
 ##   [9] tools_4.1.1               utf8_1.2.2               
 ##  [11] R6_2.5.1                  DBI_1.1.1                
 ##  [13] withr_2.4.2               prettyunits_1.1.1        
-##  [15] tidyselect_1.1.1          TCGAutils_1.12.0         
+##  [15] tidyselect_1.1.1          TCGAutils_1.14.0         
 ##  [17] bit_4.0.4                 curl_4.3.2               
-##  [19] compiler_4.1.1            cli_3.0.1                
-##  [21] rvest_1.0.1               textshaping_0.3.5        
+##  [19] compiler_4.1.1            cli_3.1.0                
+##  [21] rvest_1.0.2               textshaping_0.3.6        
 ##  [23] formatR_1.11              xml2_1.3.2               
-##  [25] desc_1.4.0                DelayedArray_0.18.0      
-##  [27] rtracklayer_1.52.1        bookdown_0.24            
+##  [25] desc_1.4.0                DelayedArray_0.20.0      
+##  [27] rtracklayer_1.54.0        bookdown_0.24            
 ##  [29] readr_2.0.2               rappdirs_0.3.3           
 ##  [31] pkgdown_1.6.1             rapiclient_0.1.3         
-##  [33] RCircos_1.2.1             Rsamtools_2.8.0          
-##  [35] systemfonts_1.0.2         stringr_1.4.0            
+##  [33] RCircos_1.2.1             Rsamtools_2.10.0         
+##  [35] systemfonts_1.0.3         stringr_1.4.0            
 ##  [37] digest_0.6.28             rmarkdown_2.11           
-##  [39] XVector_0.32.0            pkgconfig_2.0.3          
+##  [39] XVector_0.34.0            pkgconfig_2.0.3          
 ##  [41] htmltools_0.5.2           dbplyr_2.1.1             
-##  [43] fastmap_1.1.0             limma_3.48.3             
-##  [45] rlang_0.4.11              RSQLite_2.2.8            
-##  [47] BiocIO_1.2.0              jquerylib_0.1.4          
-##  [49] generics_0.1.0            jsonlite_1.7.2           
-##  [51] BiocParallel_1.26.2       RCurl_1.98-1.5           
-##  [53] magrittr_2.0.1            GenomeInfoDbData_1.2.6   
+##  [43] fastmap_1.1.0             limma_3.50.0             
+##  [45] rlang_0.4.12              RSQLite_2.2.8            
+##  [47] BiocIO_1.4.0              jquerylib_0.1.4          
+##  [49] generics_0.1.1            jsonlite_1.7.2           
+##  [51] BiocParallel_1.28.0       RCurl_1.98-1.5           
+##  [53] magrittr_2.0.1            GenomeInfoDbData_1.2.7   
 ##  [55] futile.logger_1.4.3       Matrix_1.3-4             
 ##  [57] Rcpp_1.0.7                fansi_0.5.0              
-##  [59] lifecycle_1.0.1           stringi_1.7.4            
-##  [61] yaml_2.2.1                RaggedExperiment_1.16.0  
-##  [63] RJSONIO_1.3-1.6           zlibbioc_1.38.0          
-##  [65] BiocFileCache_2.0.0       grid_4.1.1               
-##  [67] blob_1.2.2                crayon_1.4.1             
-##  [69] lattice_0.20-45           Biostrings_2.60.2        
-##  [71] splines_4.1.1             GenomicFeatures_1.44.2   
-##  [73] KEGGREST_1.32.0           hms_1.1.1                
-##  [75] knitr_1.36                pillar_1.6.3             
-##  [77] rjson_0.2.20              codetools_0.2-18         
-##  [79] biomaRt_2.48.3            futile.options_1.0.1     
-##  [81] XML_3.99-0.8              glue_1.4.2               
-##  [83] evaluate_0.14             lambda.r_1.2.4           
-##  [85] data.table_1.14.2         BiocManager_1.30.16      
-##  [87] png_0.1-7                 tzdb_0.1.2               
-##  [89] vctrs_0.3.8               purrr_0.3.4              
-##  [91] tidyr_1.1.4               assertthat_0.2.1         
-##  [93] cachem_1.0.6              xfun_0.26                
-##  [95] restfulr_0.0.13           ragg_1.1.3               
-##  [97] survival_3.2-13           tibble_3.1.5             
-##  [99] RTCGAToolbox_2.22.1       GenomicAlignments_1.28.0 
-## [101] AnnotationDbi_1.54.1      memoise_2.0.0            
-## [103] ellipsis_0.3.2</code></pre>
+##  [59] lifecycle_1.0.1           stringi_1.7.5            
+##  [61] yaml_2.2.1                RaggedExperiment_1.18.0  
+##  [63] RJSONIO_1.3-1.6           zlibbioc_1.40.0          
+##  [65] BiocFileCache_2.2.0       grid_4.1.1               
+##  [67] blob_1.2.2                parallel_4.1.1           
+##  [69] crayon_1.4.2              lattice_0.20-45          
+##  [71] Biostrings_2.62.0         splines_4.1.1            
+##  [73] GenomicFeatures_1.46.1    KEGGREST_1.34.0          
+##  [75] hms_1.1.1                 knitr_1.36               
+##  [77] pillar_1.6.4              rjson_0.2.20             
+##  [79] codetools_0.2-18          biomaRt_2.50.0           
+##  [81] futile.options_1.0.1      XML_3.99-0.8             
+##  [83] glue_1.4.2                evaluate_0.14            
+##  [85] lambda.r_1.2.4            data.table_1.14.2        
+##  [87] BiocManager_1.30.16       png_0.1-7                
+##  [89] tzdb_0.2.0                vctrs_0.3.8              
+##  [91] purrr_0.3.4               tidyr_1.1.4              
+##  [93] assertthat_0.2.1          cachem_1.0.6             
+##  [95] xfun_0.27                 restfulr_0.0.13          
+##  [97] ragg_1.2.0                survival_3.2-13          
+##  [99] tibble_3.1.5              RTCGAToolbox_2.24.0      
+## [101] GenomicAlignments_1.30.0  AnnotationDbi_1.56.1     
+## [103] memoise_2.0.0             ellipsis_0.3.2</code></pre>
 </div>
   </div>
 

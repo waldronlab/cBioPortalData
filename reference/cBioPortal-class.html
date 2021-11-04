@@ -74,7 +74,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">cBioPortalData</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.4.10</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.6.0</span>
       </span>
     </div>
 
@@ -158,36 +158,37 @@
     <div class='dont-index'><p><a href='cBioPortal.html'>cBioPortal</a>, <a href='https://rdrr.io/pkg/AnVIL/man/Service.html'>Service</a></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-<span class='fu'><a href='cBioPortal.html'>cBioPortal</a></span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; service: cBioPortal
-#&gt; tags(); use cbioportal$&lt;tab completion&gt;:
-#&gt; <span style='color: #949494;'># A tibble: 61 × 3</span>
-#&gt;    tag                 operation                                  summary       
-#&gt;    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>               <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                                      <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>         
-#&gt; <span style='color: #BCBCBC;'> 1</span> Cancer Types        getAllCancerTypesUsingGET                  Get all cance…
-#&gt; <span style='color: #BCBCBC;'> 2</span> Cancer Types        getCancerTypeUsingGET                      Get a cancer …
-#&gt; <span style='color: #BCBCBC;'> 3</span> Clinical Attributes fetchClinicalAttributesUsingPOST           Fetch clinica…
-#&gt; <span style='color: #BCBCBC;'> 4</span> Clinical Attributes getAllClinicalAttributesInStudyUsingGET    Get all clini…
-#&gt; <span style='color: #BCBCBC;'> 5</span> Clinical Attributes getAllClinicalAttributesUsingGET           Get all clini…
-#&gt; <span style='color: #BCBCBC;'> 6</span> Clinical Attributes getClinicalAttributeInStudyUsingGET        Get specified…
-#&gt; <span style='color: #BCBCBC;'> 7</span> Clinical Data       fetchAllClinicalDataInStudyUsingPOST       Fetch clinica…
-#&gt; <span style='color: #BCBCBC;'> 8</span> Clinical Data       fetchClinicalDataUsingPOST                 Fetch clinica…
-#&gt; <span style='color: #BCBCBC;'> 9</span> Clinical Data       getAllClinicalDataInStudyUsingGET          Get all clini…
-#&gt; <span style='color: #BCBCBC;'>10</span> Clinical Data       getAllClinicalDataOfPatientInStudyUsingGET Get all clini…
-#&gt; <span style='color: #949494;'># … with 51 more rows</span>
-#&gt; tag values:
-#&gt;   Cancer Types, Clinical Attributes, Clinical Data, Copy Number
-#&gt;   Segments, Discrete Copy Number Alterations, Gene Panels, Generic
-#&gt;   Assays, Genes, Molecular Data, Molecular Profiles, Mutations,
-#&gt;   Patients, Sample Lists, Samples, Structural Variants, Studies,
-#&gt;   Treatments
-#&gt; schemas():
-#&gt;   AlleleSpecificCopyNumber, AlterationFilter,
-#&gt;   AndedPatientTreatmentFilters, AndedSampleTreatmentFilters,
-#&gt;   CancerStudy
-#&gt;   # ... with 58 more elements</div><div class='input'>
-</div></pre>
+    <pre class="examples"><span class='r-in'></span>
+<span class='r-in'><span class='fu'><a href='cBioPortal.html'>cBioPortal</a></span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> service: cBioPortal</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> tags(); use cbioportal$&lt;tab completion&gt;:</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 61 × 3</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    tag                 operation                                  summary       </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>               <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                                      <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>         </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span> Cancer Types        getAllCancerTypesUsingGET                  Get all cance…</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span> Cancer Types        getCancerTypeUsingGET                      Get a cancer …</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span> Clinical Attributes fetchClinicalAttributesUsingPOST           Fetch clinica…</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span> Clinical Attributes getAllClinicalAttributesInStudyUsingGET    Get all clini…</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span> Clinical Attributes getAllClinicalAttributesUsingGET           Get all clini…</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span> Clinical Attributes getClinicalAttributeInStudyUsingGET        Get specified…</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span> Clinical Data       fetchAllClinicalDataInStudyUsingPOST       Fetch clinica…</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span> Clinical Data       fetchClinicalDataUsingPOST                 Fetch clinica…</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span> Clinical Data       getAllClinicalDataInStudyUsingGET          Get all clini…</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span> Clinical Data       getAllClinicalDataOfPatientInStudyUsingGET Get all clini…</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># … with 51 more rows</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> tag values:</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   Cancer Types, Clinical Attributes, Clinical Data, Copy Number</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   Segments, Discrete Copy Number Alterations, Gene Panels, Generic</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   Assays, Genes, Molecular Data, Molecular Profiles, Mutations,</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   Patients, Sample Lists, Samples, Structural Variants, Studies,</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   Treatments</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> schemas():</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   AlleleSpecificCopyNumber, AlterationFilter,</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   AndedPatientTreatmentFilters, AndedSampleTreatmentFilters,</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   CancerStudy</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   # ... with 58 more elements</span>
+<span class='r-in'></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

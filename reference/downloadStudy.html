@@ -43,15 +43,15 @@
 <meta property="og:description" content="Note that these functions should be used when a particular
 study is not currently available as a MultiAssayExperiment
 representation. Otherwise, use cBioDataPack. Provide a cancer_study_id
-from the studiesTable and retrieve the study tarball from the cBio
+from getStudies and retrieve the study tarball from the cBio
 Genomics Portal.  These functions are used by cBioDataPack under the hood
 to download,untar, and load the tarball datasets with caching. As stated in
 ?cBioDataPack, not all studies are currently working as
 MultiAssayExperiment objects. As of July 2020, about ~80% of
 datasets can be successfully imported into the MultiAssayExperiment data
 class. Please open an issue if you would like the team to prioritize a
-study. You may also check studiesTable$pack_build for a more current
-status." />
+study. You may also check getStudies(buildReport = TRUE)$pack_build
+for the current status." />
 
 
 
@@ -83,7 +83,7 @@ status." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">cBioPortalData</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.4.10</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.6.0</span>
       </span>
     </div>
 
@@ -149,15 +149,15 @@ status." />
     <p><strong>Note</strong> that these functions should be used when a particular
 study is <em>not</em> currently available as a <code>MultiAssayExperiment</code>
 representation. Otherwise, use <code>cBioDataPack</code>. Provide a <code>cancer_study_id</code>
-from the <code>studiesTable</code> and retrieve the study tarball from the cBio
+from <code>getStudies</code> and retrieve the study tarball from the cBio
 Genomics Portal.  These functions are used by <code>cBioDataPack</code> under the hood
 to download,untar, and load the tarball datasets with caching. As stated in
 <code><a href='cBioDataPack.html'>?cBioDataPack</a></code>, not all studies are currently working as
 <code>MultiAssayExperiment</code> objects. As of July 2020, about ~80% of
 datasets can be successfully imported into the <code>MultiAssayExperiment</code> data
 class. Please open an issue if you would like the team to prioritize a
-study. You may also check <code>studiesTable$pack_build</code> for a more current
-status.</p>
+study. You may also check <code>getStudies(buildReport = TRUE)$pack_build</code>
+for the current status.</p>
     </div>
 
     <pre class="usage"><span class='fu'>downloadStudy</span><span class='op'>(</span>
@@ -247,39 +247,55 @@ The tarball of the downloaded data is cached via <code>BiocFileCache</code> when
 <code>use_cache</code> is <code>TRUE</code>.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><a href='cBioDataPack.html'>cBioDataPack</a>, MultiAssayExperiment</p></div>
+    <div class='dont-index'><p><a href='cBioDataPack.html'>cBioDataPack</a>, <a href='http://waldronlab.io/MultiAssayExperiment/reference/MultiAssayExperiment-class.html'>MultiAssayExperiment</a></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-<span class='op'>(</span><span class='va'>acc_file</span> <span class='op'>&lt;-</span> <span class='fu'>downloadStudy</span><span class='op'>(</span><span class='st'>"acc_tcga"</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>Study file in cache: acc_tcga</span></div><div class='output co'>#&gt;                                                                BFC8 
-#&gt; "/github/home/.cache/R/cBioPortalData/10d54dea8b7f_acc_tcga.tar.gz" </div><div class='input'>
-<span class='op'>(</span><span class='va'>file_dir</span> <span class='op'>&lt;-</span> <span class='fu'>untarStudy</span><span class='op'>(</span><span class='va'>acc_file</span>, <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "/tmp/RtmpkFpeau/10d54dea8b7f_acc_tcga"</div><div class='input'>
-<span class='fu'>loadStudy</span><span class='op'>(</span><span class='va'>file_dir</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>Working on: /tmp/RtmpkFpeau/10d54dea8b7f_acc_tcga/acc_tcga/data_cna_hg19.seg</span></div><div class='output co'>#&gt; <span class='message'>Working on: /tmp/RtmpkFpeau/10d54dea8b7f_acc_tcga/acc_tcga/data_CNA.txt</span></div><div class='output co'>#&gt; <span class='message'>Working on: /tmp/RtmpkFpeau/10d54dea8b7f_acc_tcga/acc_tcga/data_linear_CNA.txt</span></div><div class='output co'>#&gt; <span class='message'>Working on: /tmp/RtmpkFpeau/10d54dea8b7f_acc_tcga/acc_tcga/data_methylation_hm450.txt</span></div><div class='output co'>#&gt; <span class='message'>Working on: /tmp/RtmpkFpeau/10d54dea8b7f_acc_tcga/acc_tcga/data_mutations_extended.txt</span></div><div class='output co'>#&gt; <span class='message'>Working on: /tmp/RtmpkFpeau/10d54dea8b7f_acc_tcga/acc_tcga/data_mutations_mskcc.txt</span></div><div class='output co'>#&gt; <span class='message'>Working on: /tmp/RtmpkFpeau/10d54dea8b7f_acc_tcga/acc_tcga/data_mutsig.txt</span></div><div class='output co'>#&gt; <span class='message'>Working on: /tmp/RtmpkFpeau/10d54dea8b7f_acc_tcga/acc_tcga/data_RNA_Seq_v2_expression_median.txt</span></div><div class='output co'>#&gt; <span class='message'>Working on: /tmp/RtmpkFpeau/10d54dea8b7f_acc_tcga/acc_tcga/data_RNA_Seq_v2_mRNA_median_all_sample_Zscores.txt</span></div><div class='output co'>#&gt; <span class='message'>Working on: /tmp/RtmpkFpeau/10d54dea8b7f_acc_tcga/acc_tcga/data_RNA_Seq_v2_mRNA_median_Zscores.txt</span></div><div class='output co'>#&gt; <span class='message'>Working on: /tmp/RtmpkFpeau/10d54dea8b7f_acc_tcga/acc_tcga/data_rppa_Zscores.txt</span></div><div class='output co'>#&gt; <span class='message'>Working on: /tmp/RtmpkFpeau/10d54dea8b7f_acc_tcga/acc_tcga/data_rppa.txt</span></div><div class='output co'>#&gt; <span class='warning'>Warning:  Multiple prefixes found, using keyword 'region' or taking first one</span></div><div class='output co'>#&gt; <span class='warning'>Warning:  Multiple prefixes found, using keyword 'region' or taking first one</span></div><div class='output co'>#&gt; A MultiAssayExperiment object of 11 listed
-#&gt;  experiments with user-defined names and respective classes.
-#&gt;  Containing an ExperimentList class object of length 11:
-#&gt;  [1] cna_hg19.seg: RaggedExperiment with 16080 rows and 90 columns
-#&gt;  [2] CNA: SummarizedExperiment with 24776 rows and 90 columns
-#&gt;  [3] linear_CNA: SummarizedExperiment with 24776 rows and 90 columns
-#&gt;  [4] methylation_hm450: SummarizedExperiment with 15755 rows and 80 columns
-#&gt;  [5] mutations_extended: RaggedExperiment with 20166 rows and 90 columns
-#&gt;  [6] mutations_mskcc: RaggedExperiment with 20166 rows and 90 columns
-#&gt;  [7] RNA_Seq_v2_expression_median: SummarizedExperiment with 20531 rows and 79 columns
-#&gt;  [8] RNA_Seq_v2_mRNA_median_all_sample_Zscores: SummarizedExperiment with 20531 rows and 79 columns
-#&gt;  [9] RNA_Seq_v2_mRNA_median_Zscores: SummarizedExperiment with 20440 rows and 79 columns
-#&gt;  [10] rppa_Zscores: SummarizedExperiment with 191 rows and 46 columns
-#&gt;  [11] rppa: SummarizedExperiment with 192 rows and 46 columns
-#&gt; Functionality:
-#&gt;  experiments() - obtain the ExperimentList instance
-#&gt;  colData() - the primary/phenotype DataFrame
-#&gt;  sampleMap() - the sample coordination DataFrame
-#&gt;  `$`, `[`, `[[` - extract colData columns, subset, or experiment
-#&gt;  *Format() - convert into a long or wide DataFrame
-#&gt;  assays() - convert ExperimentList to a SimpleList of matrices
-#&gt;  exportClass() - save all data to files</div><div class='input'>
-</div></pre>
+    <pre class="examples"><span class='r-in'></span>
+<span class='r-in'><span class='op'>(</span><span class='va'>acc_file</span> <span class='op'>&lt;-</span> <span class='fu'>downloadStudy</span><span class='op'>(</span><span class='st'>"acc_tcga"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Study file in cache: acc_tcga</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                                                BFC8 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> "/github/home/.cache/R/cBioPortalData/1da4719accb6_acc_tcga.tar.gz" </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='op'>(</span><span class='va'>file_dir</span> <span class='op'>&lt;-</span> <span class='fu'>untarStudy</span><span class='op'>(</span><span class='va'>acc_file</span>, <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "/tmp/RtmpD7ZDA6/1da4719accb6_acc_tcga"</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'>loadStudy</span><span class='op'>(</span><span class='va'>file_dir</span><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Working on: /tmp/RtmpD7ZDA6/1da4719accb6_acc_tcga/acc_tcga/data_cna_hg19.seg</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Working on: /tmp/RtmpD7ZDA6/1da4719accb6_acc_tcga/acc_tcga/data_CNA.txt</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Working on: /tmp/RtmpD7ZDA6/1da4719accb6_acc_tcga/acc_tcga/data_linear_CNA.txt</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Working on: /tmp/RtmpD7ZDA6/1da4719accb6_acc_tcga/acc_tcga/data_methylation_hm450.txt</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Working on: /tmp/RtmpD7ZDA6/1da4719accb6_acc_tcga/acc_tcga/data_mutations.txt</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Working on: /tmp/RtmpD7ZDA6/1da4719accb6_acc_tcga/acc_tcga/data_mutsig.txt</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Working on: /tmp/RtmpD7ZDA6/1da4719accb6_acc_tcga/acc_tcga/data_RNA_Seq_v2_expression_median.txt</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Working on: /tmp/RtmpD7ZDA6/1da4719accb6_acc_tcga/acc_tcga/data_RNA_Seq_v2_mRNA_median_all_sample_Zscores.txt</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Working on: /tmp/RtmpD7ZDA6/1da4719accb6_acc_tcga/acc_tcga/data_RNA_Seq_v2_mRNA_median_Zscores.txt</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Working on: /tmp/RtmpD7ZDA6/1da4719accb6_acc_tcga/acc_tcga/data_rppa_Zscores.txt</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Working on: /tmp/RtmpD7ZDA6/1da4719accb6_acc_tcga/acc_tcga/data_rppa.txt</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span> Multiple prefixes found, using keyword 'region' or taking first one</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span> Multiple prefixes found, using keyword 'region' or taking first one</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> A MultiAssayExperiment object of 10 listed</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  experiments with user-defined names and respective classes.</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Containing an ExperimentList class object of length 10:</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1] cna_hg19.seg: RaggedExperiment with 16080 rows and 90 columns</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [2] CNA: SummarizedExperiment with 24776 rows and 90 columns</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [3] linear_CNA: SummarizedExperiment with 24776 rows and 90 columns</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [4] methylation_hm450: SummarizedExperiment with 15755 rows and 80 columns</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [5] mutations: RaggedExperiment with 20166 rows and 90 columns</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [6] RNA_Seq_v2_expression_median: SummarizedExperiment with 20531 rows and 79 columns</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [7] RNA_Seq_v2_mRNA_median_all_sample_Zscores: SummarizedExperiment with 20531 rows and 79 columns</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [8] RNA_Seq_v2_mRNA_median_Zscores: SummarizedExperiment with 20440 rows and 79 columns</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [9] rppa_Zscores: SummarizedExperiment with 191 rows and 46 columns</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [10] rppa: SummarizedExperiment with 192 rows and 46 columns</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Functionality:</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  experiments() - obtain the ExperimentList instance</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  colData() - the primary/phenotype DataFrame</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  sampleMap() - the sample coordination DataFrame</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  `$`, `[`, `[[` - extract colData columns, subset, or experiment</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  *Format() - convert into a long or wide DataFrame</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  assays() - convert ExperimentList to a SimpleList of matrices</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  exportClass() - save data to flat files</span>
+<span class='r-in'></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

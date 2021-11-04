@@ -78,7 +78,7 @@ by the https://cbioportal.org/datasets, refer to cBioDataPack." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">cBioPortalData</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.4.10</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.6.0</span>
       </span>
     </div>
 
@@ -208,15 +208,16 @@ metadata (default: 'entrezGeneId')</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A MultiAssayExperiment object</p>
+    <p>A <a href='http://waldronlab.io/MultiAssayExperiment/reference/MultiAssayExperiment-class.html'>MultiAssayExperiment</a> object</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>As of May 2020, there were about 96.6 percent of the 268 datasets
-successfully imported. The datasets that currently fail to import are:</p><pre>
-        c("all_stjude_2015", "sclc_ucologne_2015", "skcm_ucla_201
-        "sclc_jhu", "gbm_tcga_pub2013", "hnsc_tcga_pub", "kirc_tc
-        "brca_tcga_pub", "brca_tcga_pub2015")
-    </pre><p>Note that changes to the cBioPortal API may affect this rate at any
+    <p>We are able to succesfully represent 98 percent of the study
+identifiers as <code>MultiAssayExperiment</code> objects as obtained via
+<code>cBioPortalData</code> with the <code>IMPACT341</code> <code>genePanelId</code> as the example
+gene panel. Datasets that currently fail to import
+can be seen in the <code>getStudies(..., buildReport = TRUE)</code> dataset
+under the <code>"api_build"</code> column.
+Note that changes to the cBioPortal API may affect this rate at any
 time. If you encounter any issues, please open a GitHub issue at the
 <a href='https://github.com/waldronlab/cBioPortalData/issues/'>https://github.com/waldronlab/cBioPortalData/issues/</a> page with
 a fully reproducible example.</p>
@@ -225,38 +226,40 @@ a fully reproducible example.</p>
     <div class='dont-index'><p><a href='cBioDataPack.html'>cBioDataPack</a></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-<span class='va'>cbio</span> <span class='op'>&lt;-</span> <span class='fu'><a href='cBioPortal.html'>cBioPortal</a></span><span class='op'>(</span><span class='op'>)</span>
-
-<span class='va'>samps</span> <span class='op'>&lt;-</span> <span class='fu'><a href='cBioPortal.html'>samplesInSampleLists</a></span><span class='op'>(</span><span class='va'>cbio</span>, <span class='st'>"acc_tcga_rppa"</span><span class='op'>)</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span>
-
-<span class='fu'><a href='cBioPortal.html'>getGenePanelMolecular</a></span><span class='op'>(</span>
-    <span class='va'>cbio</span>, molecularProfileIds <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"acc_tcga_rppa"</span>, <span class='st'>"acc_tcga_linear_CNA"</span><span class='op'>)</span>,
-    <span class='va'>samps</span>
-<span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 92 × 7</span>
-#&gt;    uniqueSampleKey  uniquePatientKey molecularProfil… sampleId patientId studyId
-#&gt;    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>            <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>            <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>            <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  
-#&gt; <span style='color: #BCBCBC;'> 1</span> VENHQS1PUi1BNUo… VENHQS1PUi1BNUo… acc_tcga_linear… TCGA-OR… TCGA-OR-… acc_tc…
-#&gt; <span style='color: #BCBCBC;'> 2</span> VENHQS1PUi1BNUo… VENHQS1PUi1BNUo… acc_tcga_linear… TCGA-OR… TCGA-OR-… acc_tc…
-#&gt; <span style='color: #BCBCBC;'> 3</span> VENHQS1PUi1BNUo… VENHQS1PUi1BNUo… acc_tcga_linear… TCGA-OR… TCGA-OR-… acc_tc…
-#&gt; <span style='color: #BCBCBC;'> 4</span> VENHQS1PUi1BNUo… VENHQS1PUi1BNUo… acc_tcga_linear… TCGA-OR… TCGA-OR-… acc_tc…
-#&gt; <span style='color: #BCBCBC;'> 5</span> VENHQS1PUi1BNUo… VENHQS1PUi1BNUo… acc_tcga_linear… TCGA-OR… TCGA-OR-… acc_tc…
-#&gt; <span style='color: #BCBCBC;'> 6</span> VENHQS1PUi1BNUo… VENHQS1PUi1BNUo… acc_tcga_linear… TCGA-OR… TCGA-OR-… acc_tc…
-#&gt; <span style='color: #BCBCBC;'> 7</span> VENHQS1PUi1BNUp… VENHQS1PUi1BNUp… acc_tcga_linear… TCGA-OR… TCGA-OR-… acc_tc…
-#&gt; <span style='color: #BCBCBC;'> 8</span> VENHQS1PUi1BNUp… VENHQS1PUi1BNUp… acc_tcga_linear… TCGA-OR… TCGA-OR-… acc_tc…
-#&gt; <span style='color: #BCBCBC;'> 9</span> VENHQS1PUi1BNUp… VENHQS1PUi1BNUp… acc_tcga_linear… TCGA-OR… TCGA-OR-… acc_tc…
-#&gt; <span style='color: #BCBCBC;'>10</span> VENHQS1PUi1BNUp… VENHQS1PUi1BNUp… acc_tcga_linear… TCGA-OR… TCGA-OR-… acc_tc…
-#&gt; <span style='color: #949494;'># … with 82 more rows, and 1 more variable: profiled &lt;lgl&gt;</span></div><div class='input'>
-<span class='va'>acc_tcga</span> <span class='op'>&lt;-</span> <span class='fu'>cBioPortalData</span><span class='op'>(</span>
-    <span class='va'>cbio</span>, by <span class='op'>=</span> <span class='st'>"hugoGeneSymbol"</span>,
-    studyId <span class='op'>=</span> <span class='st'>"acc_tcga"</span>,
-    genePanelId <span class='op'>=</span> <span class='st'>"AmpliSeq"</span>,
-    molecularProfileIds <span class='op'>=</span>
-        <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"acc_tcga_rppa"</span>, <span class='st'>"acc_tcga_linear_CNA"</span>, <span class='st'>"acc_tcga_mutations"</span><span class='op'>)</span>
-<span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in eval(args[["api"]]): object 'cbio' not found</span></div><div class='input'>
-</div></pre>
+    <pre class="examples"><span class='r-in'></span>
+<span class='r-in'><span class='va'>cbio</span> <span class='op'>&lt;-</span> <span class='fu'><a href='cBioPortal.html'>cBioPortal</a></span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>samps</span> <span class='op'>&lt;-</span> <span class='fu'><a href='cBioPortal.html'>samplesInSampleLists</a></span><span class='op'>(</span><span class='va'>cbio</span>, <span class='st'>"acc_tcga_rppa"</span><span class='op'>)</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'><a href='cBioPortal.html'>getGenePanelMolecular</a></span><span class='op'>(</span></span>
+<span class='r-in'>    <span class='va'>cbio</span>, molecularProfileIds <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"acc_tcga_rppa"</span>, <span class='st'>"acc_tcga_linear_CNA"</span><span class='op'>)</span>,</span>
+<span class='r-in'>    <span class='va'>samps</span></span>
+<span class='r-in'><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 92 × 7</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    uniqueSampleKey  uniquePatientKey molecularProfil… sampleId patientId studyId</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>            <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>            <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>            <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span> VENHQS1PUi1BNUo… VENHQS1PUi1BNUo… acc_tcga_linear… TCGA-OR… TCGA-OR-… acc_tc…</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span> VENHQS1PUi1BNUo… VENHQS1PUi1BNUo… acc_tcga_linear… TCGA-OR… TCGA-OR-… acc_tc…</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span> VENHQS1PUi1BNUo… VENHQS1PUi1BNUo… acc_tcga_linear… TCGA-OR… TCGA-OR-… acc_tc…</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span> VENHQS1PUi1BNUo… VENHQS1PUi1BNUo… acc_tcga_linear… TCGA-OR… TCGA-OR-… acc_tc…</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span> VENHQS1PUi1BNUo… VENHQS1PUi1BNUo… acc_tcga_linear… TCGA-OR… TCGA-OR-… acc_tc…</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span> VENHQS1PUi1BNUo… VENHQS1PUi1BNUo… acc_tcga_linear… TCGA-OR… TCGA-OR-… acc_tc…</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span> VENHQS1PUi1BNUp… VENHQS1PUi1BNUp… acc_tcga_linear… TCGA-OR… TCGA-OR-… acc_tc…</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span> VENHQS1PUi1BNUp… VENHQS1PUi1BNUp… acc_tcga_linear… TCGA-OR… TCGA-OR-… acc_tc…</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span> VENHQS1PUi1BNUp… VENHQS1PUi1BNUp… acc_tcga_linear… TCGA-OR… TCGA-OR-… acc_tc…</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span> VENHQS1PUi1BNUp… VENHQS1PUi1BNUp… acc_tcga_linear… TCGA-OR… TCGA-OR-… acc_tc…</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># … with 82 more rows, and 1 more variable: profiled &lt;lgl&gt;</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>acc_tcga</span> <span class='op'>&lt;-</span> <span class='fu'>cBioPortalData</span><span class='op'>(</span></span>
+<span class='r-in'>    <span class='va'>cbio</span>, by <span class='op'>=</span> <span class='st'>"hugoGeneSymbol"</span>,</span>
+<span class='r-in'>    studyId <span class='op'>=</span> <span class='st'>"acc_tcga"</span>,</span>
+<span class='r-in'>    genePanelId <span class='op'>=</span> <span class='st'>"AmpliSeq"</span>,</span>
+<span class='r-in'>    molecularProfileIds <span class='op'>=</span></span>
+<span class='r-in'>        <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"acc_tcga_rppa"</span>, <span class='st'>"acc_tcga_linear_CNA"</span>, <span class='st'>"acc_tcga_mutations"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>)</span></span>
+<span class='r-err co'><span class='r-pr'>#&gt;</span> <span class='error'>Error in eval(args[["api"]]):</span> object 'cbio' not found</span>
+<span class='r-in'></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">cBioPortalData</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.4.10</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.6.0</span>
       </span>
     </div>
 
@@ -91,7 +91,7 @@
       <h1 data-toc-skip>cBioPortalData: Data Build Errors</h1>
                         <h4 class="author">Marcel Ramos &amp; Levi Waldron</h4>
             
-            <h4 class="date">October 04, 2021</h4>
+            <h4 class="date">November 04, 2021</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/waldronlab/cBioPortalData/blob/master/vignettes/cBioPortalDataErrors.Rmd"><code>vignettes/cBioPortalDataErrors.Rmd</code></a></small>
       <div class="hidden name"><code>cBioPortalDataErrors.Rmd</code></div>
@@ -118,501 +118,353 @@
 <p>First, we load the error <code>Rda</code> dataset.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">api_errs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span>
-    <span class="st">"extdata"</span>, <span class="st">"err_api_info.rda"</span>, package <span class="op">=</span> <span class="st">"cBioPortalData"</span>, mustWork <span class="op">=</span> <span class="cn">TRUE</span>
+    <span class="st">"extdata"</span>, <span class="st">"api"</span>, <span class="st">"err_api_info.rda"</span>,
+    package <span class="op">=</span> <span class="st">"cBioPortalData"</span>, mustWork <span class="op">=</span> <span class="cn">TRUE</span>
 <span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/load.html">load</a></span><span class="op">(</span><span class="va">api_errs</span><span class="op">)</span>
-<span class="va">err_api_info</span></code></pre></div>
-<pre><code>## $`Inconsistent build numbers found`
-##  [1] "past_dkfz_heidelberg_2013"    "mbl_sickkids_2016"           
-##  [3] "mrt_bcgsc_2016"               "acyc_jhu_2016"               
-##  [5] "mpnst_mskcc"                  "gct_msk_2016"                
-##  [7] "chol_msk_2018"                "hcc_mskimpact_2018"          
-##  [9] "hnc_mskcc_2016"               "es_dfarber_broad_2014"       
-## [11] "pptc_2019"                    "stad_tcga_pub"               
-## [13] "prad_eururol_2017"            "nhl_bcgsc_2011"              
-## [15] "nhl_bcgsc_2013"               "prad_mich"                   
-## [17] "nsclc_tcga_broad_2016"        "prad_broad_2013"             
-## [19] "prad_tcga_pan_can_atlas_2018" "thca_tcga_pan_can_atlas_2018"
-## [21] "ucs_tcga_pan_can_atlas_2018"  "uvm_tcga_pan_can_atlas_2018" 
-## [23] "stad_tcga_pan_can_atlas_2018" "prad_su2c_2019"              
-## [25] "thyroid_mskcc_2016"           "prad_msk_2019"               
-## [27] "acyc_mda_2015"                "acyc_mgh_2016"               
-## [29] "ccrcc_utokyo_2013"            "blca_tcga_pub"               
-## [31] "laml_tcga_pub"                "kirc_tcga_pub"               
-## [33] "hnsc_tcga_pub"                "luad_oncosg_2020"            
-## [35] "luad_tcga_pub"                "prad_su2c_2015"              
-## [37] "prad_tcga_pub"                "blca_plasmacytoid_mskcc_2016"
-## [39] "thca_tcga_pub"                "prad_mskcc_2017"             
-## [41] "prad_p1000"                   "tet_nci_2014"                
-## [43] "acc_tcga_pan_can_atlas_2018"  "chol_tcga_pan_can_atlas_2018"
-## [45] "dlbc_tcga_pan_can_atlas_2018" "esca_tcga_pan_can_atlas_2018"
-## [47] "hnsc_tcga_pan_can_atlas_2018" "kich_tcga_pan_can_atlas_2018"
-## [49] "kirc_tcga_pan_can_atlas_2018" "egc_trap_msk_2020"           
-## [51] "prad_mcspc_mskcc_2020"        "laml_tcga_pan_can_atlas_2018"
-## [53] "lihc_tcga_pan_can_atlas_2018" "luad_tcga_pan_can_atlas_2018"
-## [55] "meso_tcga_pan_can_atlas_2018" "ov_tcga_pan_can_atlas_2018"  
-## [57] "rbl_mskcc_2020"              
-## 
-## $`replacement has length zero`
-## [1] "glioma_msk_2018"
-## 
-## $`Frequency of NA values higher than the cutoff tolerance`
-## [1] "sarc_tcga_pan_can_atlas_2018" "all_stjude_2015"             
-## 
-## $`Only two build types at a time can be used`
-## [1] "sclc_jhu"
-## 
-## $`Barcodes must start with 'TCGA'`
-## [1] "blca_msk_tcga_2020"</code></pre>
+<span class="fu"><a href="https://rdrr.io/r/base/load.html">load</a></span><span class="op">(</span><span class="va">api_errs</span><span class="op">)</span></code></pre></div>
 <p>We can now inspect the contents of the data:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="va">err_api_info</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] "list"</code></pre>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">err_api_info</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] 5</code></pre>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<pre><code>## [1] 4</code></pre>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/lengths.html">lengths</a></span><span class="op">(</span><span class="va">err_api_info</span><span class="op">)</span></code></pre></div>
-<pre><code>##                        Inconsistent build numbers found 
-##                                                      57 
-##                             replacement has length zero 
+<pre><code>##                         Barcodes must start with 'TCGA' 
+##                                                       2 
+##                                 Empty reply from server 
 ##                                                       1 
 ## Frequency of NA values higher than the cutoff tolerance 
-##                                                       2 
-##              Only two build types at a time can be used 
 ##                                                       1 
-##                         Barcodes must start with 'TCGA' 
+##                             replacement has length zero 
 ##                                                       1</code></pre>
-<p>There were about 5 unique errors during the last build run.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<p>There were about 4 unique errors during the last build run.</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">err_api_info</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] "Inconsistent build numbers found"                       
-## [2] "replacement has length zero"                            
+<pre><code>## [1] "Barcodes must start with 'TCGA'"                        
+## [2] "Empty reply from server"                                
 ## [3] "Frequency of NA values higher than the cutoff tolerance"
-## [4] "Only two build types at a time can be used"             
-## [5] "Barcodes must start with 'TCGA'"</code></pre>
+## [4] "replacement has length zero"</code></pre>
 <p>The most common error was <code>Inconsistent build numbers found</code>. This is due to annotations from different build numbers that were not able to be resolved.</p>
 <p>To see what datasets (<code>cancer_study_id</code> s) have that error we can use:</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">err_api_info</span><span class="op">[[</span><span class="st">'Inconsistent build numbers found'</span><span class="op">]</span><span class="op">]</span></code></pre></div>
-<pre><code>##  [1] "past_dkfz_heidelberg_2013"    "mbl_sickkids_2016"           
-##  [3] "mrt_bcgsc_2016"               "acyc_jhu_2016"               
-##  [5] "mpnst_mskcc"                  "gct_msk_2016"                
-##  [7] "chol_msk_2018"                "hcc_mskimpact_2018"          
-##  [9] "hnc_mskcc_2016"               "es_dfarber_broad_2014"       
-## [11] "pptc_2019"                    "stad_tcga_pub"               
-## [13] "prad_eururol_2017"            "nhl_bcgsc_2011"              
-## [15] "nhl_bcgsc_2013"               "prad_mich"                   
-## [17] "nsclc_tcga_broad_2016"        "prad_broad_2013"             
-## [19] "prad_tcga_pan_can_atlas_2018" "thca_tcga_pan_can_atlas_2018"
-## [21] "ucs_tcga_pan_can_atlas_2018"  "uvm_tcga_pan_can_atlas_2018" 
-## [23] "stad_tcga_pan_can_atlas_2018" "prad_su2c_2019"              
-## [25] "thyroid_mskcc_2016"           "prad_msk_2019"               
-## [27] "acyc_mda_2015"                "acyc_mgh_2016"               
-## [29] "ccrcc_utokyo_2013"            "blca_tcga_pub"               
-## [31] "laml_tcga_pub"                "kirc_tcga_pub"               
-## [33] "hnsc_tcga_pub"                "luad_oncosg_2020"            
-## [35] "luad_tcga_pub"                "prad_su2c_2015"              
-## [37] "prad_tcga_pub"                "blca_plasmacytoid_mskcc_2016"
-## [39] "thca_tcga_pub"                "prad_mskcc_2017"             
-## [41] "prad_p1000"                   "tet_nci_2014"                
-## [43] "acc_tcga_pan_can_atlas_2018"  "chol_tcga_pan_can_atlas_2018"
-## [45] "dlbc_tcga_pan_can_atlas_2018" "esca_tcga_pan_can_atlas_2018"
-## [47] "hnsc_tcga_pan_can_atlas_2018" "kich_tcga_pan_can_atlas_2018"
-## [49] "kirc_tcga_pan_can_atlas_2018" "egc_trap_msk_2020"           
-## [51] "prad_mcspc_mskcc_2020"        "laml_tcga_pan_can_atlas_2018"
-## [53] "lihc_tcga_pan_can_atlas_2018" "luad_tcga_pan_can_atlas_2018"
-## [55] "meso_tcga_pan_can_atlas_2018" "ov_tcga_pan_can_atlas_2018"  
-## [57] "rbl_mskcc_2020"</code></pre>
+<pre><code>## NULL</code></pre>
 <p>We can also have a look at the entirety of the dataset.</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">err_api_info</span></code></pre></div>
-<pre><code>## $`Inconsistent build numbers found`
-##  [1] "past_dkfz_heidelberg_2013"    "mbl_sickkids_2016"           
-##  [3] "mrt_bcgsc_2016"               "acyc_jhu_2016"               
-##  [5] "mpnst_mskcc"                  "gct_msk_2016"                
-##  [7] "chol_msk_2018"                "hcc_mskimpact_2018"          
-##  [9] "hnc_mskcc_2016"               "es_dfarber_broad_2014"       
-## [11] "pptc_2019"                    "stad_tcga_pub"               
-## [13] "prad_eururol_2017"            "nhl_bcgsc_2011"              
-## [15] "nhl_bcgsc_2013"               "prad_mich"                   
-## [17] "nsclc_tcga_broad_2016"        "prad_broad_2013"             
-## [19] "prad_tcga_pan_can_atlas_2018" "thca_tcga_pan_can_atlas_2018"
-## [21] "ucs_tcga_pan_can_atlas_2018"  "uvm_tcga_pan_can_atlas_2018" 
-## [23] "stad_tcga_pan_can_atlas_2018" "prad_su2c_2019"              
-## [25] "thyroid_mskcc_2016"           "prad_msk_2019"               
-## [27] "acyc_mda_2015"                "acyc_mgh_2016"               
-## [29] "ccrcc_utokyo_2013"            "blca_tcga_pub"               
-## [31] "laml_tcga_pub"                "kirc_tcga_pub"               
-## [33] "hnsc_tcga_pub"                "luad_oncosg_2020"            
-## [35] "luad_tcga_pub"                "prad_su2c_2015"              
-## [37] "prad_tcga_pub"                "blca_plasmacytoid_mskcc_2016"
-## [39] "thca_tcga_pub"                "prad_mskcc_2017"             
-## [41] "prad_p1000"                   "tet_nci_2014"                
-## [43] "acc_tcga_pan_can_atlas_2018"  "chol_tcga_pan_can_atlas_2018"
-## [45] "dlbc_tcga_pan_can_atlas_2018" "esca_tcga_pan_can_atlas_2018"
-## [47] "hnsc_tcga_pan_can_atlas_2018" "kich_tcga_pan_can_atlas_2018"
-## [49] "kirc_tcga_pan_can_atlas_2018" "egc_trap_msk_2020"           
-## [51] "prad_mcspc_mskcc_2020"        "laml_tcga_pan_can_atlas_2018"
-## [53] "lihc_tcga_pan_can_atlas_2018" "luad_tcga_pan_can_atlas_2018"
-## [55] "meso_tcga_pan_can_atlas_2018" "ov_tcga_pan_can_atlas_2018"  
-## [57] "rbl_mskcc_2020"              
+<pre><code>## $`Barcodes must start with 'TCGA'`
+## [1] "nsclc_tcga_broad_2016" "blca_msk_tcga_2020"   
 ## 
-## $`replacement has length zero`
-## [1] "glioma_msk_2018"
+## $`Empty reply from server`
+## [1] "ccle_broad_2019"
 ## 
 ## $`Frequency of NA values higher than the cutoff tolerance`
-## [1] "sarc_tcga_pan_can_atlas_2018" "all_stjude_2015"             
+## [1] "mixed_msk_tcga_2021"
 ## 
-## $`Only two build types at a time can be used`
-## [1] "sclc_jhu"
-## 
-## $`Barcodes must start with 'TCGA'`
-## [1] "blca_msk_tcga_2020"</code></pre>
+## $`replacement has length zero`
+## [1] "glioma_msk_2018"</code></pre>
 </div>
 <div id="packaged-data-from-cbiodatapack" class="section level2">
 <h2 class="hasAnchor">
 <a href="#packaged-data-from-cbiodatapack" class="anchor"></a>Packaged data from <code>cBioDataPack()</code>
 </h2>
 <p>Now let’s look at the errors in the packaged datasets that are used for <code>cBioDataPack</code>:</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">pack_errs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span>
-    <span class="st">"extdata"</span>, <span class="st">"err_pack_info.rda"</span>, package <span class="op">=</span> <span class="st">"cBioPortalData"</span>, mustWork <span class="op">=</span> <span class="cn">TRUE</span>
+    <span class="st">"extdata"</span>, <span class="st">"pack"</span>, <span class="st">"err_pack_info.rda"</span>,
+    package <span class="op">=</span> <span class="st">"cBioPortalData"</span>, mustWork <span class="op">=</span> <span class="cn">TRUE</span>
 <span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/load.html">load</a></span><span class="op">(</span><span class="va">pack_errs</span><span class="op">)</span>
-<span class="va">err_pack_info</span></code></pre></div>
-<pre><code>## $`cannnot find seqnames column`
-##  [1] "mel_tsam_liang_2017"          "gbm_columbia_2019"           
-##  [3] "glioma_msk_2018"              "glioma_mskcc_2019"           
-##  [5] "lgg_ucsf_2014"                "nsclc_tcga_broad_2016"       
-##  [7] "thyroid_mskcc_2016"           "prad_cdk12_mskcc_2020"       
-##  [9] "sclc_cancercell_gardner_2017" "brca_mbcproject_wagle_2017"  
-## [11] "prad_mpcproject_2018"         "lung_msk_pdx"                
-## [13] "ntrk_msk_2019"               
-## 
-## $`attempt to extract less than one element`
-## [1] "laml_tcga_pub"         "blca_mskcc_solit_2012" "brca_tcga_pub2015"    
-## [4] "luad_tcga_pub"         "ucec_tcga_pub"        
-## 
-## $`more columns than column names`
-## [1] "acyc_fmi_2014"
-## 
-## $`cannot coerce type 'closure' to vector of type 'character'`
-##  [1] "bcc_unige_2016"            "brca_bccrc_xenograft_2014"
-##  [3] "lcll_broad_2013"           "cllsll_icgc_2011"         
-##  [5] "ctcl_columbia_2015"        "dlbc_broad_2012"          
-##  [7] "chol_jhu_2013"             "hcc_msk_venturaa_2018"    
-##  [9] "luad_tsp"                  "mcl_idibips_2013"         
-## [11] "mbl_broad_2012"            "mds_mskcc_2020"           
-## [13] "mpn_cimr_2013"             "nsclc_unito_2016"         
-## [15] "sarc_mskcc"               
-## 
-## $`'cancer_study_id', blca_msk_tcga_2020, not found. See 'data("studiesTable")'.`
-## [1] "blca_msk_tcga_2020"
-## 
-## $`'cancer_study_id', brca_smc_2018, not found. See 'data("studiesTable")'.`
-## [1] "brca_smc_2018"
-## 
-## $`'names.field' is not found in 'names(df)'`
-## [1] "brca_tcga_pub"
-## 
-## $`'cancer_study_id', msk_ch_2020, not found. See 'data("studiesTable")'.`
-## [1] "msk_ch_2020"
-## 
-## $`some values in the "start" column cannot be turned into numeric values`
-## [1] "cesc_tcga"
-## 
-## $`'cancer_study_id', gct_msk_2020, not found. See 'data("studiesTable")'.`
-## [1] "gct_msk_2020"
-## 
-## $`attempt to set too many names (16325) on IRanges object of length 13957`
-## [1] "gbm_tcga_pub2013"
-## 
-## $`'start.field' and 'end.field' suffixes do not match`
-## [1] "ihch_smmu_2014"
-## 
-## $`'cancer_study_id', brca_jup_msk_2020, not found. See 'data("studiesTable")'.`
-## [1] "brca_jup_msk_2020"
-## 
-## $`'cancer_study_id', luad_oncosg_2020, not found. See 'data("studiesTable")'.`
-## [1] "luad_oncosg_2020"
-## 
-## $`'cancer_study_id', lung_smc_2016, not found. See 'data("studiesTable")'.`
-## [1] "lung_smc_2016"
-## 
-## $`attempt to set too many names (73018) on IRanges object of length 73010`
-## [1] "lusc_tcga_pub"
-## 
-## $`non-character argument`
-## [1] "mbn_mdacc_2013" "prad_fhcrc"    
-## 
-## $`'cancer_study_id', skcm_tcga_pub_2015, not found. See 'data("studiesTable")'.`
-## [1] "skcm_tcga_pub_2015"
-## 
-## $`'cancer_study_id', mel_dfci_2019, not found. See 'data("studiesTable")'.`
-## [1] "mel_dfci_2019"
-## 
-## $`replacement has 1 row, data has 0`
-## [1] "prad_su2c_2015"
-## 
-## $`'cancer_study_id', mixed_cfdna_msk_2020, not found. See 'data("studiesTable")'.`
-## [1] "mixed_cfdna_msk_2020"
-## 
-## $`some values in the "End_Position" column cannot be turned into numeric\n  values`
-## [1] "nsclc_tracerx_2017"
-## 
-## $`attempt to set too many names (19420) on IRanges object of length 19419`
-## [1] "ov_tcga_pub"
-## 
-## $`attempt to set too many names (6736) on IRanges object of length 6734`
-## [1] "thca_tcga_pub"
-## 
-## $`NAs are not allowed in subscripted assignments`
-## [1] "pediatric_dkfz_2017"
-## 
-## $`'cancer_study_id', rbl_cfdna_msk_2020, not found. See 'data("studiesTable")'.`
-## [1] "rbl_cfdna_msk_2020"
-## 
-## $`some values in the "Start_Position" column cannot be turned into\n  numeric values`
-## [1] "sclc_ucologne_2015"
-## 
-## $`invalid class "ExperimentList" object: \n    Non-unique names provided`
-## [1] "stad_tcga_pub"
-## 
-## $`'cancer_study_id', angs_painter_2020, not found. See 'data("studiesTable")'.`
-## [1] "angs_painter_2020"
-## 
-## $`subscript contains out-of-bounds indices`
-## [1] "angs_project_painter_2018"
-## 
-## $`'cancer_study_id', utuc_igbmc_2021, not found. See 'data("studiesTable")'.`
-## [1] "utuc_igbmc_2021"
-## 
-## $`invalid [[ subscript type: NULL`
-## [1] "um_qimr_2016"</code></pre>
+<span class="fu"><a href="https://rdrr.io/r/base/load.html">load</a></span><span class="op">(</span><span class="va">pack_errs</span><span class="op">)</span></code></pre></div>
 <p>We can do the same for this data:</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">err_pack_info</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] 32</code></pre>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<pre><code>## [1] 42</code></pre>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/lengths.html">lengths</a></span><span class="op">(</span><span class="va">err_pack_info</span><span class="op">)</span></code></pre></div>
-<pre><code>##                                                       cannnot find seqnames column 
-##                                                                                 13 
-##                                           attempt to extract less than one element 
-##                                                                                  5 
-##                                                     more columns than column names 
-##                                                                                  1 
-##                         cannot coerce type 'closure' to vector of type 'character' 
-##                                                                                 15 
-##      'cancer_study_id', blca_msk_tcga_2020, not found. See 'data("studiesTable")'. 
-##                                                                                  1 
-##           'cancer_study_id', brca_smc_2018, not found. See 'data("studiesTable")'. 
-##                                                                                  1 
-##                                          'names.field' is not found in 'names(df)' 
-##                                                                                  1 
-##             'cancer_study_id', msk_ch_2020, not found. See 'data("studiesTable")'. 
-##                                                                                  1 
-##             some values in the "start" column cannot be turned into numeric values 
-##                                                                                  1 
-##            'cancer_study_id', gct_msk_2020, not found. See 'data("studiesTable")'. 
-##                                                                                  1 
-##            attempt to set too many names (16325) on IRanges object of length 13957 
-##                                                                                  1 
-##                                'start.field' and 'end.field' suffixes do not match 
-##                                                                                  1 
-##       'cancer_study_id', brca_jup_msk_2020, not found. See 'data("studiesTable")'. 
-##                                                                                  1 
-##        'cancer_study_id', luad_oncosg_2020, not found. See 'data("studiesTable")'. 
-##                                                                                  1 
-##           'cancer_study_id', lung_smc_2016, not found. See 'data("studiesTable")'. 
-##                                                                                  1 
-##            attempt to set too many names (73018) on IRanges object of length 73010 
-##                                                                                  1 
-##                                                             non-character argument 
-##                                                                                  2 
-##      'cancer_study_id', skcm_tcga_pub_2015, not found. See 'data("studiesTable")'. 
-##                                                                                  1 
-##           'cancer_study_id', mel_dfci_2019, not found. See 'data("studiesTable")'. 
-##                                                                                  1 
-##                                                  replacement has 1 row, data has 0 
-##                                                                                  1 
-##    'cancer_study_id', mixed_cfdna_msk_2020, not found. See 'data("studiesTable")'. 
-##                                                                                  1 
-##   some values in the "End_Position" column cannot be turned into numeric\n  values 
-##                                                                                  1 
-##            attempt to set too many names (19420) on IRanges object of length 19419 
-##                                                                                  1 
-##              attempt to set too many names (6736) on IRanges object of length 6734 
-##                                                                                  1 
-##                                     NAs are not allowed in subscripted assignments 
-##                                                                                  1 
-##      'cancer_study_id', rbl_cfdna_msk_2020, not found. See 'data("studiesTable")'. 
-##                                                                                  1 
-## some values in the "Start_Position" column cannot be turned into\n  numeric values 
-##                                                                                  1 
-##             invalid class "ExperimentList" object: \n    Non-unique names provided 
-##                                                                                  1 
-##       'cancer_study_id', angs_painter_2020, not found. See 'data("studiesTable")'. 
-##                                                                                  1 
-##                                           subscript contains out-of-bounds indices 
-##                                                                                  1 
-##         'cancer_study_id', utuc_igbmc_2021, not found. See 'data("studiesTable")'. 
-##                                                                                  1 
-##                                                    invalid [[ subscript type: NULL 
-##                                                                                  1</code></pre>
+<pre><code>##                    failed to create directory '/tmp/RtmpzXtVhu/3249cd7a0f6245_laml_tcga' 
+##                                                                                        1 
+##                                                              no lines available in input 
+##                                                                                       12 
+##                    failed to create directory '/tmp/RtmpzXtVhu/3249dc7a0f6245_cesc_tcga' 
+##                                                                                        1 
+##                    failed to create directory '/tmp/RtmpzXtVhu/3249dd7a0f6245_chol_tcga' 
+##                                                                                        1 
+##                    failed to create directory '/tmp/RtmpzXtVhu/3249f02adae78d_kich_tcga' 
+##                                                                                        1 
+##                failed to create directory '/tmp/RtmpzXtVhu/3249e0108540f3_coadread_tcga' 
+##                                                                                        1 
+##                    failed to create directory '/tmp/RtmpzXtVhu/3249f77ab68a7d_dlbc_tcga' 
+##                                                                                        1 
+##                     failed to create directory '/tmp/RtmpzXtVhu/3249d62adae78d_lgg_tcga' 
+##                                                                                        1 
+##                                                              object 'clindata' not found 
+##                                                                                        7 
+##                     attempt to set 'colnames' on an object with less than two dimensions 
+##                                                                                        8 
+##                               cannot coerce type 'closure' to vector of type 'character' 
+##                                                                                       19 
+##                                                                   non-character argument 
+##                                                                                        2 
+##      failed to create directory '/tmp/RtmpzXtVhu/3249d4108540f3_blca_dfarber_mskcc_2014' 
+##                                                                                        1 
+##                  failed to create directory '/tmp/RtmpzXtVhu/3249d9108540f3_brca_sanger' 
+##                                                                                        1 
+##                                                           more columns than column names 
+##                                                                                        2 
+##                   failed to create directory '/tmp/RtmpzXtVhu/3249e57a0f6245_esca_broad' 
+##                                                                                        1 
+##                   failed to create directory '/tmp/RtmpzXtVhu/3249f37a0f6245_lihc_riken' 
+##                                                                                        1 
+##              failed to create directory '/tmp/RtmpzXtVhu/3249f47ab68a7d_luad_mskcc_2015' 
+##                                                                                        1 
+##                failed to create directory '/tmp/RtmpzXtVhu/3249cc2adae78d_paac_jhu_2014' 
+##                                                                                        1 
+##                                                        replacement has 1 row, data has 0 
+##                                                                                        1 
+##                   invalid class "ExperimentList" object: \n    Non-unique names provided 
+##                                                                                        1 
+##                failed to create directory '/tmp/RtmpzXtVhu/324a037ab68a7d_nepc_wcm_2016' 
+##                                                                                        1 
+##              failed to create directory '/tmp/RtmpzXtVhu/3249de2adae78d_lcll_broad_2013' 
+##                                                                                        1 
+##             failed to create directory '/tmp/RtmpzXtVhu/3249f8108540f3_mixed_allen_2018' 
+##                                                                                        1 
+##              failed to create directory '/tmp/RtmpzXtVhu/324a142adae78d_rectal_msk_2019' 
+##                                                                                        1 
+##        failed to create directory '/tmp/RtmpzXtVhu/324a007a0f6245_prad_mcspc_mskcc_2020' 
+##                                                                                        1 
+##                failed to create directory '/tmp/RtmpzXtVhu/3249d82adae78d_brca_smc_2018' 
+##                                                                                        1 
+##         failed to create directory '/tmp/RtmpzXtVhu/324a007ab68a7d_mixed_cfdna_msk_2020' 
+##                                                                                        1 
+##                failed to create directory '/tmp/RtmpzXtVhu/3249f6108540f3_lung_smc_2016' 
+##                                                                                        1 
+##               failed to create directory '/tmp/RtmpzXtVhu/324a017a0f6245_mds_tokyo_2011' 
+##                                                                                        1 
+##                failed to create directory '/tmp/RtmpzXtVhu/3249e27ab68a7d_pact_jhu_2011' 
+##                                                                                        1 
+##               failed to create directory '/tmp/RtmpzXtVhu/176b15456c3cf_utuc_mskcc_2015' 
+##                                                                                        1 
+##               failed to create directory '/tmp/RtmpzXtVhu/324a037a0f6245_nbl_broad_2013' 
+##                                                                                        1 
+##                 failed to create directory '/tmp/RtmpzXtVhu/3249fd108540f3_egc_msk_2017' 
+##                                                                                        1 
+##                 failed to create directory '/tmp/RtmpzXtVhu/3249fd7a0f6245_crc_msk_2017' 
+##                                                                                        1 
+##                failed to create directory '/tmp/RtmpzXtVhu/3249fe108540f3_mel_ucla_2016' 
+##                                                                                        1 
+## failed to create directory '/tmp/RtmpzXtVhu/3249e47a0f6245_dlbc_tcga_pan_can_atlas_2018' 
+##                                                                                        1 
+##            failed to create directory '/tmp/RtmpzXtVhu/3249d8108540f3_bfn_duke_nus_2015' 
+##                                                                                        1 
+##            failed to create directory '/tmp/RtmpzXtVhu/3249eb7a0f6245_glioma_mskcc_2019' 
+##                                                                                        1 
+##                  failed to create directory '/tmp/RtmpzXtVhu/1769344c0b9fb_vsc_cuk_2018' 
+##                                                                                        1 
+##                   failed to create directory '/tmp/RtmpzXtVhu/7a1a5a6a8099_lung_msk_pdx' 
+##                                                                                        1 
+##  failed to create directory '/tmp/RtmpzXtVhu/3249ee2adae78d_histiocytosis_cobi_msk_2019' 
+##                                                                                        1</code></pre>
 <p>We can get a list of all the errors present:</p>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">err_pack_info</span><span class="op">)</span></code></pre></div>
-<pre><code>##  [1] "cannnot find seqnames column"                                                        
-##  [2] "attempt to extract less than one element"                                            
-##  [3] "more columns than column names"                                                      
-##  [4] "cannot coerce type 'closure' to vector of type 'character'"                          
-##  [5] "'cancer_study_id', blca_msk_tcga_2020, not found. See 'data(\"studiesTable\")'."     
-##  [6] "'cancer_study_id', brca_smc_2018, not found. See 'data(\"studiesTable\")'."          
-##  [7] "'names.field' is not found in 'names(df)'"                                           
-##  [8] "'cancer_study_id', msk_ch_2020, not found. See 'data(\"studiesTable\")'."            
-##  [9] "some values in the \"start\" column cannot be turned into numeric values"            
-## [10] "'cancer_study_id', gct_msk_2020, not found. See 'data(\"studiesTable\")'."           
-## [11] "attempt to set too many names (16325) on IRanges object of length 13957"             
-## [12] "'start.field' and 'end.field' suffixes do not match"                                 
-## [13] "'cancer_study_id', brca_jup_msk_2020, not found. See 'data(\"studiesTable\")'."      
-## [14] "'cancer_study_id', luad_oncosg_2020, not found. See 'data(\"studiesTable\")'."       
-## [15] "'cancer_study_id', lung_smc_2016, not found. See 'data(\"studiesTable\")'."          
-## [16] "attempt to set too many names (73018) on IRanges object of length 73010"             
-## [17] "non-character argument"                                                              
-## [18] "'cancer_study_id', skcm_tcga_pub_2015, not found. See 'data(\"studiesTable\")'."     
-## [19] "'cancer_study_id', mel_dfci_2019, not found. See 'data(\"studiesTable\")'."          
-## [20] "replacement has 1 row, data has 0"                                                   
-## [21] "'cancer_study_id', mixed_cfdna_msk_2020, not found. See 'data(\"studiesTable\")'."   
-## [22] "some values in the \"End_Position\" column cannot be turned into numeric\n  values"  
-## [23] "attempt to set too many names (19420) on IRanges object of length 19419"             
-## [24] "attempt to set too many names (6736) on IRanges object of length 6734"               
-## [25] "NAs are not allowed in subscripted assignments"                                      
-## [26] "'cancer_study_id', rbl_cfdna_msk_2020, not found. See 'data(\"studiesTable\")'."     
-## [27] "some values in the \"Start_Position\" column cannot be turned into\n  numeric values"
-## [28] "invalid class \"ExperimentList\" object: \n    Non-unique names provided"            
-## [29] "'cancer_study_id', angs_painter_2020, not found. See 'data(\"studiesTable\")'."      
-## [30] "subscript contains out-of-bounds indices"                                            
-## [31] "'cancer_study_id', utuc_igbmc_2021, not found. See 'data(\"studiesTable\")'."        
-## [32] "invalid [[ subscript type: NULL"</code></pre>
+<pre><code>##  [1] "failed to create directory '/tmp/RtmpzXtVhu/3249cd7a0f6245_laml_tcga'"                   
+##  [2] "no lines available in input"                                                             
+##  [3] "failed to create directory '/tmp/RtmpzXtVhu/3249dc7a0f6245_cesc_tcga'"                   
+##  [4] "failed to create directory '/tmp/RtmpzXtVhu/3249dd7a0f6245_chol_tcga'"                   
+##  [5] "failed to create directory '/tmp/RtmpzXtVhu/3249f02adae78d_kich_tcga'"                   
+##  [6] "failed to create directory '/tmp/RtmpzXtVhu/3249e0108540f3_coadread_tcga'"               
+##  [7] "failed to create directory '/tmp/RtmpzXtVhu/3249f77ab68a7d_dlbc_tcga'"                   
+##  [8] "failed to create directory '/tmp/RtmpzXtVhu/3249d62adae78d_lgg_tcga'"                    
+##  [9] "object 'clindata' not found"                                                             
+## [10] "attempt to set 'colnames' on an object with less than two dimensions"                    
+## [11] "cannot coerce type 'closure' to vector of type 'character'"                              
+## [12] "non-character argument"                                                                  
+## [13] "failed to create directory '/tmp/RtmpzXtVhu/3249d4108540f3_blca_dfarber_mskcc_2014'"     
+## [14] "failed to create directory '/tmp/RtmpzXtVhu/3249d9108540f3_brca_sanger'"                 
+## [15] "more columns than column names"                                                          
+## [16] "failed to create directory '/tmp/RtmpzXtVhu/3249e57a0f6245_esca_broad'"                  
+## [17] "failed to create directory '/tmp/RtmpzXtVhu/3249f37a0f6245_lihc_riken'"                  
+## [18] "failed to create directory '/tmp/RtmpzXtVhu/3249f47ab68a7d_luad_mskcc_2015'"             
+## [19] "failed to create directory '/tmp/RtmpzXtVhu/3249cc2adae78d_paac_jhu_2014'"               
+## [20] "replacement has 1 row, data has 0"                                                       
+## [21] "invalid class \"ExperimentList\" object: \n    Non-unique names provided"                
+## [22] "failed to create directory '/tmp/RtmpzXtVhu/324a037ab68a7d_nepc_wcm_2016'"               
+## [23] "failed to create directory '/tmp/RtmpzXtVhu/3249de2adae78d_lcll_broad_2013'"             
+## [24] "failed to create directory '/tmp/RtmpzXtVhu/3249f8108540f3_mixed_allen_2018'"            
+## [25] "failed to create directory '/tmp/RtmpzXtVhu/324a142adae78d_rectal_msk_2019'"             
+## [26] "failed to create directory '/tmp/RtmpzXtVhu/324a007a0f6245_prad_mcspc_mskcc_2020'"       
+## [27] "failed to create directory '/tmp/RtmpzXtVhu/3249d82adae78d_brca_smc_2018'"               
+## [28] "failed to create directory '/tmp/RtmpzXtVhu/324a007ab68a7d_mixed_cfdna_msk_2020'"        
+## [29] "failed to create directory '/tmp/RtmpzXtVhu/3249f6108540f3_lung_smc_2016'"               
+## [30] "failed to create directory '/tmp/RtmpzXtVhu/324a017a0f6245_mds_tokyo_2011'"              
+## [31] "failed to create directory '/tmp/RtmpzXtVhu/3249e27ab68a7d_pact_jhu_2011'"               
+## [32] "failed to create directory '/tmp/RtmpzXtVhu/176b15456c3cf_utuc_mskcc_2015'"              
+## [33] "failed to create directory '/tmp/RtmpzXtVhu/324a037a0f6245_nbl_broad_2013'"              
+## [34] "failed to create directory '/tmp/RtmpzXtVhu/3249fd108540f3_egc_msk_2017'"                
+## [35] "failed to create directory '/tmp/RtmpzXtVhu/3249fd7a0f6245_crc_msk_2017'"                
+## [36] "failed to create directory '/tmp/RtmpzXtVhu/3249fe108540f3_mel_ucla_2016'"               
+## [37] "failed to create directory '/tmp/RtmpzXtVhu/3249e47a0f6245_dlbc_tcga_pan_can_atlas_2018'"
+## [38] "failed to create directory '/tmp/RtmpzXtVhu/3249d8108540f3_bfn_duke_nus_2015'"           
+## [39] "failed to create directory '/tmp/RtmpzXtVhu/3249eb7a0f6245_glioma_mskcc_2019'"           
+## [40] "failed to create directory '/tmp/RtmpzXtVhu/1769344c0b9fb_vsc_cuk_2018'"                 
+## [41] "failed to create directory '/tmp/RtmpzXtVhu/7a1a5a6a8099_lung_msk_pdx'"                  
+## [42] "failed to create directory '/tmp/RtmpzXtVhu/3249ee2adae78d_histiocytosis_cobi_msk_2019'"</code></pre>
 <p>And finally the full list of errors:</p>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">err_pack_info</span></code></pre></div>
-<pre><code>## $`cannnot find seqnames column`
-##  [1] "mel_tsam_liang_2017"          "gbm_columbia_2019"           
-##  [3] "glioma_msk_2018"              "glioma_mskcc_2019"           
-##  [5] "lgg_ucsf_2014"                "nsclc_tcga_broad_2016"       
-##  [7] "thyroid_mskcc_2016"           "prad_cdk12_mskcc_2020"       
-##  [9] "sclc_cancercell_gardner_2017" "brca_mbcproject_wagle_2017"  
-## [11] "prad_mpcproject_2018"         "lung_msk_pdx"                
-## [13] "ntrk_msk_2019"               
+<pre><code>## $`failed to create directory '/tmp/RtmpzXtVhu/3249cd7a0f6245_laml_tcga'`
+## [1] "laml_tcga"
 ## 
-## $`attempt to extract less than one element`
-## [1] "laml_tcga_pub"         "blca_mskcc_solit_2012" "brca_tcga_pub2015"    
-## [4] "luad_tcga_pub"         "ucec_tcga_pub"        
+## $`no lines available in input`
+##  [1] "blca_tcga"                    "brca_tcga"                   
+##  [3] "skcm_tcga"                    "prad_tcga"                   
+##  [5] "laml_tcga_pub"                "lgggbm_tcga_pub"             
+##  [7] "luad_tcga_pub"                "brca_metabric"               
+##  [9] "lihc_tcga_pan_can_atlas_2018" "brca_mbcproject_wagle_2017"  
+## [11] "angs_painter_2020"            "paad_qcmg_uq_2016"           
 ## 
-## $`more columns than column names`
-## [1] "acyc_fmi_2014"
+## $`failed to create directory '/tmp/RtmpzXtVhu/3249dc7a0f6245_cesc_tcga'`
+## [1] "cesc_tcga"
+## 
+## $`failed to create directory '/tmp/RtmpzXtVhu/3249dd7a0f6245_chol_tcga'`
+## [1] "chol_tcga"
+## 
+## $`failed to create directory '/tmp/RtmpzXtVhu/3249f02adae78d_kich_tcga'`
+## [1] "kich_tcga"
+## 
+## $`failed to create directory '/tmp/RtmpzXtVhu/3249e0108540f3_coadread_tcga'`
+## [1] "coadread_tcga"
+## 
+## $`failed to create directory '/tmp/RtmpzXtVhu/3249f77ab68a7d_dlbc_tcga'`
+## [1] "dlbc_tcga"
+## 
+## $`failed to create directory '/tmp/RtmpzXtVhu/3249d62adae78d_lgg_tcga'`
+## [1] "lgg_tcga"
+## 
+## $`object 'clindata' not found`
+## [1] "luad_tcga"           "hnsc_tcga_pub"       "luad_broad"         
+## [4] "thca_tcga_pub"       "msk_impact_2017"     "nbl_target_2018_pub"
+## [7] "skcm_dfci_2015"     
+## 
+## $`attempt to set 'colnames' on an object with less than two dimensions`
+## [1] "lusc_tcga"                    "ampca_bcm_2016"              
+## [3] "skcm_tcga_pub_2015"           "thym_tcga_pan_can_atlas_2018"
+## [5] "msk_ch_2020"                  "cll_broad_2015"              
+## [7] "cscc_hgsc_bcm_2014"           "ucs_tcga_pan_can_atlas_2018" 
 ## 
 ## $`cannot coerce type 'closure' to vector of type 'character'`
 ##  [1] "bcc_unige_2016"            "brca_bccrc_xenograft_2014"
-##  [3] "lcll_broad_2013"           "cllsll_icgc_2011"         
-##  [5] "ctcl_columbia_2015"        "dlbc_broad_2012"          
-##  [7] "chol_jhu_2013"             "hcc_msk_venturaa_2018"    
-##  [9] "luad_tsp"                  "mcl_idibips_2013"         
-## [11] "mbl_broad_2012"            "mds_mskcc_2020"           
-## [13] "mpn_cimr_2013"             "nsclc_unito_2016"         
-## [15] "sarc_mskcc"               
-## 
-## $`'cancer_study_id', blca_msk_tcga_2020, not found. See 'data("studiesTable")'.`
-## [1] "blca_msk_tcga_2020"
-## 
-## $`'cancer_study_id', brca_smc_2018, not found. See 'data("studiesTable")'.`
-## [1] "brca_smc_2018"
-## 
-## $`'names.field' is not found in 'names(df)'`
-## [1] "brca_tcga_pub"
-## 
-## $`'cancer_study_id', msk_ch_2020, not found. See 'data("studiesTable")'.`
-## [1] "msk_ch_2020"
-## 
-## $`some values in the "start" column cannot be turned into numeric values`
-## [1] "cesc_tcga"
-## 
-## $`'cancer_study_id', gct_msk_2020, not found. See 'data("studiesTable")'.`
-## [1] "gct_msk_2020"
-## 
-## $`attempt to set too many names (16325) on IRanges object of length 13957`
-## [1] "gbm_tcga_pub2013"
-## 
-## $`'start.field' and 'end.field' suffixes do not match`
-## [1] "ihch_smmu_2014"
-## 
-## $`'cancer_study_id', brca_jup_msk_2020, not found. See 'data("studiesTable")'.`
-## [1] "brca_jup_msk_2020"
-## 
-## $`'cancer_study_id', luad_oncosg_2020, not found. See 'data("studiesTable")'.`
-## [1] "luad_oncosg_2020"
-## 
-## $`'cancer_study_id', lung_smc_2016, not found. See 'data("studiesTable")'.`
-## [1] "lung_smc_2016"
-## 
-## $`attempt to set too many names (73018) on IRanges object of length 73010`
-## [1] "lusc_tcga_pub"
+##  [3] "chol_jhu_2013"             "luad_tsp"                 
+##  [5] "mbl_broad_2012"            "sarc_mskcc"               
+##  [7] "ctcl_columbia_2015"        "mds_mskcc_2020"           
+##  [9] "rbl_cfdna_msk_2020"        "mcl_idibips_2013"         
+## [11] "cllsll_icgc_2011"          "nsclc_unito_2016"         
+## [13] "hcc_msk_venturaa_2018"     "mpn_cimr_2013"            
+## [15] "brca_jup_msk_2020"         "utuc_igbmc_2021"          
+## [17] "dlbc_broad_2012"           "mixed_msk_tcga_2021"      
+## [19] "ihch_mskcc_2020"          
 ## 
 ## $`non-character argument`
-## [1] "mbn_mdacc_2013" "prad_fhcrc"    
+## [1] "prad_fhcrc"     "mbn_mdacc_2013"
 ## 
-## $`'cancer_study_id', skcm_tcga_pub_2015, not found. See 'data("studiesTable")'.`
-## [1] "skcm_tcga_pub_2015"
+## $`failed to create directory '/tmp/RtmpzXtVhu/3249d4108540f3_blca_dfarber_mskcc_2014'`
+## [1] "blca_dfarber_mskcc_2014"
 ## 
-## $`'cancer_study_id', mel_dfci_2019, not found. See 'data("studiesTable")'.`
-## [1] "mel_dfci_2019"
+## $`failed to create directory '/tmp/RtmpzXtVhu/3249d9108540f3_brca_sanger'`
+## [1] "brca_sanger"
+## 
+## $`more columns than column names`
+## [1] "ccrcc_utokyo_2013" "acyc_fmi_2014"    
+## 
+## $`failed to create directory '/tmp/RtmpzXtVhu/3249e57a0f6245_esca_broad'`
+## [1] "esca_broad"
+## 
+## $`failed to create directory '/tmp/RtmpzXtVhu/3249f37a0f6245_lihc_riken'`
+## [1] "lihc_riken"
+## 
+## $`failed to create directory '/tmp/RtmpzXtVhu/3249f47ab68a7d_luad_mskcc_2015'`
+## [1] "luad_mskcc_2015"
+## 
+## $`failed to create directory '/tmp/RtmpzXtVhu/3249cc2adae78d_paac_jhu_2014'`
+## [1] "paac_jhu_2014"
 ## 
 ## $`replacement has 1 row, data has 0`
 ## [1] "prad_su2c_2015"
 ## 
-## $`'cancer_study_id', mixed_cfdna_msk_2020, not found. See 'data("studiesTable")'.`
-## [1] "mixed_cfdna_msk_2020"
-## 
-## $`some values in the "End_Position" column cannot be turned into numeric\n  values`
-## [1] "nsclc_tracerx_2017"
-## 
-## $`attempt to set too many names (19420) on IRanges object of length 19419`
-## [1] "ov_tcga_pub"
-## 
-## $`attempt to set too many names (6736) on IRanges object of length 6734`
-## [1] "thca_tcga_pub"
-## 
-## $`NAs are not allowed in subscripted assignments`
-## [1] "pediatric_dkfz_2017"
-## 
-## $`'cancer_study_id', rbl_cfdna_msk_2020, not found. See 'data("studiesTable")'.`
-## [1] "rbl_cfdna_msk_2020"
-## 
-## $`some values in the "Start_Position" column cannot be turned into\n  numeric values`
-## [1] "sclc_ucologne_2015"
-## 
 ## $`invalid class "ExperimentList" object: \n    Non-unique names provided`
 ## [1] "stad_tcga_pub"
 ## 
-## $`'cancer_study_id', angs_painter_2020, not found. See 'data("studiesTable")'.`
-## [1] "angs_painter_2020"
+## $`failed to create directory '/tmp/RtmpzXtVhu/324a037ab68a7d_nepc_wcm_2016'`
+## [1] "nepc_wcm_2016"
 ## 
-## $`subscript contains out-of-bounds indices`
-## [1] "angs_project_painter_2018"
+## $`failed to create directory '/tmp/RtmpzXtVhu/3249de2adae78d_lcll_broad_2013'`
+## [1] "lcll_broad_2013"
 ## 
-## $`'cancer_study_id', utuc_igbmc_2021, not found. See 'data("studiesTable")'.`
-## [1] "utuc_igbmc_2021"
+## $`failed to create directory '/tmp/RtmpzXtVhu/3249f8108540f3_mixed_allen_2018'`
+## [1] "mixed_allen_2018"
 ## 
-## $`invalid [[ subscript type: NULL`
-## [1] "um_qimr_2016"</code></pre>
+## $`failed to create directory '/tmp/RtmpzXtVhu/324a142adae78d_rectal_msk_2019'`
+## [1] "rectal_msk_2019"
+## 
+## $`failed to create directory '/tmp/RtmpzXtVhu/324a007a0f6245_prad_mcspc_mskcc_2020'`
+## [1] "prad_mcspc_mskcc_2020"
+## 
+## $`failed to create directory '/tmp/RtmpzXtVhu/3249d82adae78d_brca_smc_2018'`
+## [1] "brca_smc_2018"
+## 
+## $`failed to create directory '/tmp/RtmpzXtVhu/324a007ab68a7d_mixed_cfdna_msk_2020'`
+## [1] "mixed_cfdna_msk_2020"
+## 
+## $`failed to create directory '/tmp/RtmpzXtVhu/3249f6108540f3_lung_smc_2016'`
+## [1] "lung_smc_2016"
+## 
+## $`failed to create directory '/tmp/RtmpzXtVhu/324a017a0f6245_mds_tokyo_2011'`
+## [1] "mds_tokyo_2011"
+## 
+## $`failed to create directory '/tmp/RtmpzXtVhu/3249e27ab68a7d_pact_jhu_2011'`
+## [1] "pact_jhu_2011"
+## 
+## $`failed to create directory '/tmp/RtmpzXtVhu/176b15456c3cf_utuc_mskcc_2015'`
+## [1] "utuc_mskcc_2015"
+## 
+## $`failed to create directory '/tmp/RtmpzXtVhu/324a037a0f6245_nbl_broad_2013'`
+## [1] "nbl_broad_2013"
+## 
+## $`failed to create directory '/tmp/RtmpzXtVhu/3249fd108540f3_egc_msk_2017'`
+## [1] "egc_msk_2017"
+## 
+## $`failed to create directory '/tmp/RtmpzXtVhu/3249fd7a0f6245_crc_msk_2017'`
+## [1] "crc_msk_2017"
+## 
+## $`failed to create directory '/tmp/RtmpzXtVhu/3249fe108540f3_mel_ucla_2016'`
+## [1] "mel_ucla_2016"
+## 
+## $`failed to create directory '/tmp/RtmpzXtVhu/3249e47a0f6245_dlbc_tcga_pan_can_atlas_2018'`
+## [1] "dlbc_tcga_pan_can_atlas_2018"
+## 
+## $`failed to create directory '/tmp/RtmpzXtVhu/3249d8108540f3_bfn_duke_nus_2015'`
+## [1] "bfn_duke_nus_2015"
+## 
+## $`failed to create directory '/tmp/RtmpzXtVhu/3249eb7a0f6245_glioma_mskcc_2019'`
+## [1] "glioma_mskcc_2019"
+## 
+## $`failed to create directory '/tmp/RtmpzXtVhu/1769344c0b9fb_vsc_cuk_2018'`
+## [1] "vsc_cuk_2018"
+## 
+## $`failed to create directory '/tmp/RtmpzXtVhu/7a1a5a6a8099_lung_msk_pdx'`
+## [1] "lung_msk_pdx"
+## 
+## $`failed to create directory '/tmp/RtmpzXtVhu/3249ee2adae78d_histiocytosis_cobi_msk_2019'`
+## [1] "histiocytosis_cobi_msk_2019"</code></pre>
 </div>
 </div>
 <div id="sessioninfo" class="section level1">
 <h1 class="hasAnchor">
 <a href="#sessioninfo" class="anchor"></a>sessionInfo</h1>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <pre><code>## R version 4.1.1 (2021-08-10)
 ## Platform: x86_64-pc-linux-gnu (64-bit)
@@ -630,70 +482,70 @@
 ## [11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
 ## 
 ## attached base packages:
-## [1] parallel  stats4    stats     graphics  grDevices utils     datasets 
-## [8] methods   base     
+## [1] stats4    stats     graphics  grDevices utils     datasets  methods  
+## [8] base     
 ## 
 ## other attached packages:
-##  [1] cBioPortalData_2.4.10       MultiAssayExperiment_1.18.0
-##  [3] SummarizedExperiment_1.22.0 Biobase_2.52.0             
-##  [5] GenomicRanges_1.44.0        GenomeInfoDb_1.28.4        
-##  [7] IRanges_2.26.0              S4Vectors_0.30.1           
-##  [9] BiocGenerics_0.38.0         MatrixGenerics_1.4.3       
-## [11] matrixStats_0.61.0          AnVIL_1.4.1                
-## [13] dplyr_1.0.7                 BiocStyle_2.20.2           
+##  [1] cBioPortalData_2.6.0        MultiAssayExperiment_1.20.0
+##  [3] SummarizedExperiment_1.24.0 Biobase_2.54.0             
+##  [5] GenomicRanges_1.46.0        GenomeInfoDb_1.30.0        
+##  [7] IRanges_2.28.0              S4Vectors_0.32.0           
+##  [9] BiocGenerics_0.40.0         MatrixGenerics_1.6.0       
+## [11] matrixStats_0.61.0          AnVIL_1.6.0                
+## [13] dplyr_1.0.7                 BiocStyle_2.22.0           
 ## 
 ## loaded via a namespace (and not attached):
 ##   [1] bitops_1.0-7              fs_1.5.0                 
 ##   [3] bit64_4.0.5               progress_1.2.2           
 ##   [5] filelock_1.0.2            httr_1.4.2               
-##   [7] rprojroot_2.0.2           GenomicDataCommons_1.16.0
+##   [7] rprojroot_2.0.2           GenomicDataCommons_1.18.0
 ##   [9] tools_4.1.1               utf8_1.2.2               
 ##  [11] R6_2.5.1                  DBI_1.1.1                
 ##  [13] prettyunits_1.1.1         tidyselect_1.1.1         
-##  [15] TCGAutils_1.12.0          bit_4.0.4                
+##  [15] TCGAutils_1.14.0          bit_4.0.4                
 ##  [17] curl_4.3.2                compiler_4.1.1           
-##  [19] rvest_1.0.1               textshaping_0.3.5        
+##  [19] rvest_1.0.2               textshaping_0.3.6        
 ##  [21] formatR_1.11              xml2_1.3.2               
-##  [23] desc_1.4.0                DelayedArray_0.18.0      
-##  [25] rtracklayer_1.52.1        bookdown_0.24            
+##  [23] desc_1.4.0                DelayedArray_0.20.0      
+##  [25] rtracklayer_1.54.0        bookdown_0.24            
 ##  [27] readr_2.0.2               rappdirs_0.3.3           
 ##  [29] pkgdown_1.6.1             rapiclient_0.1.3         
-##  [31] RCircos_1.2.1             Rsamtools_2.8.0          
-##  [33] systemfonts_1.0.2         stringr_1.4.0            
+##  [31] RCircos_1.2.1             Rsamtools_2.10.0         
+##  [33] systemfonts_1.0.3         stringr_1.4.0            
 ##  [35] digest_0.6.28             rmarkdown_2.11           
-##  [37] XVector_0.32.0            pkgconfig_2.0.3          
+##  [37] XVector_0.34.0            pkgconfig_2.0.3          
 ##  [39] htmltools_0.5.2           dbplyr_2.1.1             
-##  [41] fastmap_1.1.0             limma_3.48.3             
-##  [43] rlang_0.4.11              RSQLite_2.2.8            
-##  [45] BiocIO_1.2.0              jquerylib_0.1.4          
-##  [47] generics_0.1.0            jsonlite_1.7.2           
-##  [49] BiocParallel_1.26.2       RCurl_1.98-1.5           
-##  [51] magrittr_2.0.1            GenomeInfoDbData_1.2.6   
+##  [41] fastmap_1.1.0             limma_3.50.0             
+##  [43] rlang_0.4.12              RSQLite_2.2.8            
+##  [45] BiocIO_1.4.0              jquerylib_0.1.4          
+##  [47] generics_0.1.1            jsonlite_1.7.2           
+##  [49] BiocParallel_1.28.0       RCurl_1.98-1.5           
+##  [51] magrittr_2.0.1            GenomeInfoDbData_1.2.7   
 ##  [53] futile.logger_1.4.3       Matrix_1.3-4             
 ##  [55] Rcpp_1.0.7                fansi_0.5.0              
-##  [57] lifecycle_1.0.1           stringi_1.7.4            
-##  [59] yaml_2.2.1                RaggedExperiment_1.16.0  
-##  [61] RJSONIO_1.3-1.6           zlibbioc_1.38.0          
-##  [63] BiocFileCache_2.0.0       grid_4.1.1               
-##  [65] blob_1.2.2                crayon_1.4.1             
-##  [67] lattice_0.20-45           Biostrings_2.60.2        
-##  [69] splines_4.1.1             GenomicFeatures_1.44.2   
-##  [71] KEGGREST_1.32.0           hms_1.1.1                
-##  [73] knitr_1.36                pillar_1.6.3             
-##  [75] rjson_0.2.20              codetools_0.2-18         
-##  [77] biomaRt_2.48.3            futile.options_1.0.1     
-##  [79] XML_3.99-0.8              glue_1.4.2               
-##  [81] evaluate_0.14             lambda.r_1.2.4           
-##  [83] data.table_1.14.2         BiocManager_1.30.16      
-##  [85] png_0.1-7                 tzdb_0.1.2               
-##  [87] vctrs_0.3.8               purrr_0.3.4              
-##  [89] tidyr_1.1.4               assertthat_0.2.1         
-##  [91] cachem_1.0.6              xfun_0.26                
-##  [93] restfulr_0.0.13           ragg_1.1.3               
-##  [95] survival_3.2-13           tibble_3.1.5             
-##  [97] RTCGAToolbox_2.22.1       GenomicAlignments_1.28.0 
-##  [99] AnnotationDbi_1.54.1      memoise_2.0.0            
-## [101] ellipsis_0.3.2</code></pre>
+##  [57] lifecycle_1.0.1           stringi_1.7.5            
+##  [59] yaml_2.2.1                RaggedExperiment_1.18.0  
+##  [61] RJSONIO_1.3-1.6           zlibbioc_1.40.0          
+##  [63] BiocFileCache_2.2.0       grid_4.1.1               
+##  [65] blob_1.2.2                parallel_4.1.1           
+##  [67] crayon_1.4.2              lattice_0.20-45          
+##  [69] Biostrings_2.62.0         splines_4.1.1            
+##  [71] GenomicFeatures_1.46.1    KEGGREST_1.34.0          
+##  [73] hms_1.1.1                 knitr_1.36               
+##  [75] pillar_1.6.4              rjson_0.2.20             
+##  [77] codetools_0.2-18          biomaRt_2.50.0           
+##  [79] futile.options_1.0.1      XML_3.99-0.8             
+##  [81] glue_1.4.2                evaluate_0.14            
+##  [83] lambda.r_1.2.4            data.table_1.14.2        
+##  [85] BiocManager_1.30.16       png_0.1-7                
+##  [87] tzdb_0.2.0                vctrs_0.3.8              
+##  [89] purrr_0.3.4               tidyr_1.1.4              
+##  [91] assertthat_0.2.1          cachem_1.0.6             
+##  [93] xfun_0.27                 restfulr_0.0.13          
+##  [95] ragg_1.2.0                survival_3.2-13          
+##  [97] tibble_3.1.5              RTCGAToolbox_2.24.0      
+##  [99] GenomicAlignments_1.30.0  AnnotationDbi_1.56.1     
+## [101] memoise_2.0.0             ellipsis_0.3.2</code></pre>
 </div>
   </div>
 
