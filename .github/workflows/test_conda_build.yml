@@ -1,15 +1,18 @@
 name: Build Conda Docker
+
 on: [push, pull_request]
+
 jobs:
-  test:
+  conda:
     runs-on: ubuntu-latest
     steps:
-      - name: 'Checkout git repo'
-        uses: actions/checkout@v1
-      - name: Build Docker image
-        uses: docker/build-push-action@v1
+      -
+        name: 'Checkout git repo'
+        uses: actions/checkout@v2
+      -
+        name: Build Docker image
+        uses: docker/build-push-action@v2
         with:
-          repository: waldronlab/cBioPortalData
           # don't push, since this is a test
           push: false
-          dockerfile: inst/docker/Dockerfile
+          file: inst/docker/Dockerfile
