@@ -25,7 +25,13 @@ utils::globalVariables(c("clinicalAttributeId", "value", "sampleId"))
 #' cBioPortal()
 #'
 #' @export
-.cBioPortal <- setClass("cBioPortal", contains = "Service")
+.cBioPortal <- setClass(
+    "cBioPortal",
+    contains = "Service",
+    slots = c(api_header = "character")
+)
+
+.api_header <- function(x) x@api_header
 
 #' @rdname cBioPortal
 #'
@@ -53,6 +59,9 @@ utils::globalVariables(c("clinicalAttributeId", "value", "sampleId"))
 #'
 #' @param api. character(1) The directory location of the API protocol within
 #'     the hostname (default: '/api/api-docs')
+#'
+#' @param token character(1) The Authorization Bearer token e.g.,
+#'     "63eba81c-2591-4e15-9d1c-fb6e8e51e35d"
 #'
 #' @param studyId character(1) Indicates the "studyId" as taken from
 #'     `getStudies`
@@ -133,8 +142,14 @@ utils::globalVariables(c("clinicalAttributeId", "value", "sampleId"))
 #'
 #' @export
 cBioPortal <- function(
-    hostname = "www.cbioportal.org", protocol = "https", api. = "/api/api-docs"
+    hostname = "www.cbioportal.org",
+    protocol = "https",
+    api. = "/api/api-docs",
+    token = character()
 ) {
+    if (length(token))
+        token <- c(Authorization = paste("Bearer", token))
+
     apiUrl <- paste0(protocol, "://", hostname, api.)
     .cBioPortal(
         Service(
@@ -148,9 +163,19 @@ cBioPortal <- function(
             api_reference_md5sum = "6abc321feb60da3251620743b527bab9",
             package = "cBioPortalData",
             schemes = protocol
-        )
+        ),
+        api_header = token
     )
 }
+
+setMethod(
+    "operations", "cBioPortal",
+    function(x, ..., .deprecated = FALSE)
+{
+    callNextMethod(
+        x, .headers = .api_header(x), ..., .deprecated = .deprecated
+    )
+})
 
 .loadReportData <- function() {
     denv <- new.env(parent = emptyenv())
