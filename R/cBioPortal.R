@@ -161,6 +161,7 @@ cBioPortal <- function(
             authenticate = FALSE,
             api_reference_url = apiUrl,
             api_reference_md5sum = "6abc321feb60da3251620743b527bab9",
+            api_reference_headers = token,
             package = "cBioPortalData",
             schemes = protocol
         ),
@@ -168,6 +169,8 @@ cBioPortal <- function(
     )
 }
 
+#' @importFrom AnVIL operations
+#' @export
 setMethod(
     "operations", "cBioPortal",
     function(x, ..., .deprecated = FALSE)
@@ -589,8 +592,8 @@ getGenePanelMolecular <-
 {
     if (missing(sampleIds))
         stop(
-            paste0("Provide valid 'sampleIds' from 'samplesInSampleLists()'",
-            " or 'allSamples()'")
+            "Provide valid 'sampleIds' from 'samplesInSampleLists()'",
+            " or 'allSamples()'"
         )
 
     SampMolIds <- S4Vectors::expand.grid(

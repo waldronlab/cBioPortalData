@@ -24,7 +24,8 @@
 cBioPortal(
   hostname = "www.cbioportal.org",
   protocol = "https",
-  api. = "/api/api-docs"
+  api. = "/api/api-docs",
+  token = character()
 )
 
 getStudies(api, buildReport = FALSE)
@@ -111,6 +112,9 @@ hostname (default: 'https')}
 
 \item{api.}{character(1) The directory location of the API protocol within
 the hostname (default: '/api/api-docs')}
+
+\item{token}{character(1) The Authorization Bearer token e.g.,
+"63eba81c-2591-4e15-9d1c-fb6e8e51e35d"}
 
 \item{api}{An API object of class `cBioPortal` from the `cBioPortal`
 function}
