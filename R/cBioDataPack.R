@@ -305,7 +305,7 @@ untarStudy <- function(cancer_study_file, exdir = tempdir()) {
     if (is.null(exp_name))
         stop("<internal> 'exp_name' is NULL")
 
-    message(paste0("Working on: ", file))
+    message("Working on: ", file)
     dat <- utils::read.delim(
         file, sep = "\t", comment.char = "#", stringsAsFactors = FALSE,
         check.names = FALSE

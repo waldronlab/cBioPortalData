@@ -28,6 +28,5 @@ inst/rsconnect
 inst/docker
 .*_cache
 .BBSoptions
-longtests
 ^\.httr-oauth$
 ^README\.Rmd
