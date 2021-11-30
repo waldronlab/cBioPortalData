@@ -9,7 +9,7 @@ Description: The cBioPortalData package takes compressed resources
     from repositories such as cBioPortal and assembles a MultiAssayExperiment
     object with Bioconductor classes.
 Depends: R (>= 4.2.0),
-    AnVIL,
+    AnVIL (>= 1.7.1),
     MultiAssayExperiment
 Imports:
     BiocFileCache (>= 1.5.3),
