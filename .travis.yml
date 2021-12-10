@@ -12,7 +12,7 @@ warnings_are_errors: false
 
 branches:
   only:
-    - master
+    - devel
 
 # Test code coverage
 r_github_packages:

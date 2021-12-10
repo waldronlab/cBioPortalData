@@ -3,11 +3,11 @@ name: Devel PR CMD check
 on:
   push:
     branches-ignore:
-      - master
+      - devel
       - RELEASE_3_*
   pull_request:
     branches:
-      - master
+      - devel
 
 jobs:
   checkPR:

@@ -3,7 +3,7 @@ name: Devel R CMD check and Docker
 on:
   push:
     branches:
-      - master
+      - devel
 
 jobs:
   checkDock:
