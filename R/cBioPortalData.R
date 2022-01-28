@@ -108,10 +108,12 @@
     if (length(newby)) {
         exptoupdate <- explist[[assayname]]
         altNames <- unique(metainfo[[newby]])
-        allName <- all.equal(
-            altNames,
-            Reduce(intersect, split(metainfo[[newby]], metainfo[["patientId"]]))
-        )
+        allName <- if (!is.null(altNames)) {
+            all.equal(
+                altNames,
+                Reduce(intersect, split(metainfo[[newby]], metainfo[["patientId"]]))
+            )
+        } else { FALSE }
         if (isTRUE(allName)) {
             altDF <- DataFrame(altNames)
             names(altDF) <- newby
