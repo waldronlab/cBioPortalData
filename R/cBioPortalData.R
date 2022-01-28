@@ -4,7 +4,7 @@
 ) {
     expers <- getDataByGenes(api, genes = genes, genePanelId = genePanelId,
         studyId = studyId, molecularProfileIds = molecularProfileIds,
-        sampleListId = sampleListId, sampleIds = sampleIds)
+        sampleListId = sampleListId, sampleIds = sampleIds, by = by)
 
     sampmap <- lapply(expers, function(x) {
         if (length(x)) {
