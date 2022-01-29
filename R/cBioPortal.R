@@ -33,6 +33,15 @@ utils::globalVariables(c("clinicalAttributeId", "value", "sampleId"))
 
 .api_header <- function(x) x@api_header
 
+.handle_token <- function(token) {
+    if (file.exists(token))
+        token <- readLines(token)
+    else if (grepl(.Platform$file.sep, token, fixed = TRUE))
+        stop("The token filepath is not valid")
+    token <- gsub("token: ", "", token)
+    c(Authorization = paste("Bearer", token))
+}
+
 #' @rdname cBioPortal
 #'
 #' @aliases cBioPortal
@@ -147,10 +156,8 @@ cBioPortal <- function(
     api. = "/api/api-docs",
     token = character()
 ) {
-    if (length(token)) {
-        token <- gsub("token: ", "", token, fixed = TRUE)
-        token <- c(Authorization = paste("Bearer", token))
-    }
+    if (length(token))
+        token <- .handle_token(token)
 
     apiUrl <- paste0(protocol, "://", hostname, api.)
     .cBioPortal(
