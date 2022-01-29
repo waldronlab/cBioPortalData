@@ -114,7 +114,7 @@ hostname (default: 'https')}
 the hostname (default: '/api/api-docs')}
 
 \item{token}{character(1) The Authorization Bearer token e.g.,
-"63eba81c-2591-4e15-9d1c-fb6e8e51e35d"}
+"63eba81c-2591-4e15-9d1c-fb6e8e51e35d" or a path to text file.}
 
 \item{api}{An API object of class `cBioPortal` from the `cBioPortal`
 function}
