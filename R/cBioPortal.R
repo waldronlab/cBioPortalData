@@ -147,8 +147,10 @@ cBioPortal <- function(
     api. = "/api/api-docs",
     token = character()
 ) {
-    if (length(token))
+    if (length(token)) {
+        token <- gsub("token: ", "", token, fixed = TRUE)
         token <- c(Authorization = paste("Bearer", token))
+    }
 
     apiUrl <- paste0(protocol, "://", hostname, api.)
     .cBioPortal(
