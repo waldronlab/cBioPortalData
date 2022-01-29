@@ -12,7 +12,8 @@ cBioPortalData(
   molecularProfileIds = NULL,
   sampleListId = NULL,
   sampleIds = NULL,
-  by = c("entrezGeneId", "hugoGeneSymbol")
+  by = c("entrezGeneId", "hugoGeneSymbol"),
+  check_build = TRUE
 )
 }
 \arguments{
@@ -39,6 +40,11 @@ given to Entrez IDs due to faster query responses.}
 
 \item{by}{character(1) Either 'entrezGeneId' or 'hugoGeneSymbol' for row
 metadata (default: 'entrezGeneId')}
+
+\item{check_buid}{logical(1L) Whether to check the build status of the
+\code{studyId} using an internal dataset. This argument should be set to
+\code{FALSE} if using alternative \code{hostnames}, e.g.,
+'pedcbioportal.kidsfirstdrc.org'}
 }
 \value{
 A \linkS4class{MultiAssayExperiment} object

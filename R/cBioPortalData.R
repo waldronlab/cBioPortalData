@@ -191,6 +191,11 @@ update.args <- function(args) {
 #'
 #' @inheritParams cBioPortal
 #'
+#' @param check_build logical(1L) Whether to check the build status of the
+#'     `studyId` using an internal dataset. This argument should be set to
+#'     `FALSE` if using alternative `hostnames`, e.g.,
+#'     'pedcbioportal.kidsfirstdrc.org'
+#'
 #' @md
 #'
 #' @examples
@@ -224,7 +229,8 @@ cBioPortalData <-
         molecularProfileIds = NULL,
         sampleListId = NULL,
         sampleIds = NULL,
-        by = c("entrezGeneId", "hugoGeneSymbol")
+        by = c("entrezGeneId", "hugoGeneSymbol"),
+        check_build = TRUE
     )
 {
     if (missing(api))
@@ -239,7 +245,8 @@ cBioPortalData <-
     exargs <- eval.args(exargs)
     exargs <- update.args(exargs)
 
-    .check_study_id_building(exargs[["studyId"]], "api_build")
+    if (check_build)
+        .check_study_id_building(exargs[["studyId"]], "api_build")
 
     lists <- do.call(.portalExperiments, exargs)
 
