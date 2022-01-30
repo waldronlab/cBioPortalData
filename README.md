@@ -44,13 +44,20 @@ objects into Bioconductor. Some of the features of the package include:
 
 ### Installation
 
+To install from Bioconductor (recommended for most users, this will install the release or development version corresponding to your version of Bioconductor):
 ``` r
 if (!requireNamespace("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
+```
 
+To install from GitHub (for bleeding-edge, not generally necessary because changes here are also pushed to [bioc-devel](https://www.bioconductor.org/developers/how-to/useDevel/). Installing the development version and generally requires running [bioc-devel](https://www.bioconductor.org/developers/how-to/useDevel/))
+``` r
 if (!requireNamespace("cBioPortalData", quietly = TRUE))
     BiocManager::install("waldronlab/cBioPortalData")
+```
 
+To load the library:
+``` r
 library(cBioPortalData)
 ```
 
