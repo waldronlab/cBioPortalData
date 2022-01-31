@@ -6,8 +6,6 @@
 [![BioC
 status](http://www.bioconductor.org/shields/build/release/bioc/cBioPortalData.svg)](https://bioconductor.org/checkResults/release/bioc-LATEST/cBioPortalData)
 [![Platforms](http://www.bioconductor.org/shields/availability/release/cBioPortalData.svg)](https://www.bioconductor.org/packages/release/bioc/html/cBioPortalData.html#archives)
-[![Travis Build
-Status](https://travis-ci.org/waldronlab/cBioPortalData.svg?branch=devel)](https://travis-ci.org/waldronlab/cBioPortalData)
 [![Build
 status](https://ci.appveyor.com/api/projects/status/42kd6prni3o0q50b?svg=true)](https://ci.appveyor.com/project/waldronlab/cbioportaldata)
 [![Downloads](https://www.bioconductor.org/shields/downloads/release/cBioPortalData.svg)](https://bioconductor.org/packages/stats/bioc/cBioPortalData/)
@@ -44,19 +42,28 @@ objects into Bioconductor. Some of the features of the package include:
 
 ### Installation
 
-To install from Bioconductor (recommended for most users, this will install the release or development version corresponding to your version of Bioconductor):
+To install from Bioconductor (recommended for most users, this will
+install the release or development version corresponding to your version
+of Bioconductor):
+
 ``` r
-if (!requireNamespace("BiocManager", quietly = TRUE))
+if (!require("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
 ```
 
-To install from GitHub (for bleeding-edge, not generally necessary because changes here are also pushed to [bioc-devel](https://www.bioconductor.org/developers/how-to/useDevel/). Installing the development version and generally requires running [bioc-devel](https://www.bioconductor.org/developers/how-to/useDevel/))
+To install from GitHub (for bleeding-edge, not generally necessary
+because changes here are also pushed to
+[bioc-devel](https://www.bioconductor.org/developers/how-to/useDevel/).
+Installing the development version and generally requires running
+[bioc-devel](https://www.bioconductor.org/developers/how-to/useDevel/))
+
 ``` r
-if (!requireNamespace("cBioPortalData", quietly = TRUE))
+if (!require("cBioPortalData", quietly = TRUE))
     BiocManager::install("waldronlab/cBioPortalData")
 ```
 
-To load the library:
+To load the package:
+
 ``` r
 library(cBioPortalData)
 ```
