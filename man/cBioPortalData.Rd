@@ -41,7 +41,7 @@ given to Entrez IDs due to faster query responses.}
 \item{by}{character(1) Either 'entrezGeneId' or 'hugoGeneSymbol' for row
 metadata (default: 'entrezGeneId')}
 
-\item{check_buid}{logical(1L) Whether to check the build status of the
+\item{check_build}{logical(1L) Whether to check the build status of the
 \code{studyId} using an internal dataset. This argument should be set to
 \code{FALSE} if using alternative \code{hostnames}, e.g.,
 'pedcbioportal.kidsfirstdrc.org'}
