@@ -79,9 +79,9 @@ utils::globalVariables("element")
     x <- RTCGAToolbox:::.standardizeBC(x)
     args <- list(assays = SimpleList(x))
     if (hasRanged)
-        args <- append(args, rowRanges = rowranges)
+        args <- append(args, list(rowRanges = rowranges))
     else
-        args <- append(args, rowData = annote)
+        args <- append(args, list(rowData = annote))
     do.call(SummarizedExperiment::SummarizedExperiment, args)
 }
 
