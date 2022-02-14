@@ -335,6 +335,56 @@ untarStudy <- function(cancer_study_file, exdir = tempdir()) {
     })
 }
 
+.loadExperimentsFromFiles <-
+    function(fpath, dataFiles, names.field, colData)
+{
+    exptfiles <- file.path(fpath,
+        grep("clinical|study|LICENSE|fusion|gistic", dataFiles, invert = TRUE,
+            value = TRUE))
+    expnames <- sub(".*data_", "", sub("\\.txt", "", basename(exptfiles)))
+    names(exptfiles) <- expnames
+    explist <- Map(
+        function(x, y) {
+            .preprocess_data(
+                file = x, exp_name = y, names.field = names.field,
+                ptIDs = colData[["PATIENT_ID"]]
+            )
+        },
+        y = expnames, x = exptfiles
+    )
+    Filter(length, explist)
+}
+
+.isNonExpData <- function(exp) {
+    is(exp, "GRanges") || is(exp, "DataFrame")
+}
+
+.readGISTIC <- function(filepath, datafiles, gist = list()) {
+    gisticExtra <- .grepFiles("gistic", filepath, datafiles, ignore.case = TRUE)
+    if (length(gisticExtra)) {
+        gistics <- stats::setNames(gisticExtra, basename(gisticExtra))
+        gist <- lapply(gistics, function(x) {
+            gfile <- .silentRead(x)
+            .getGisticData(gfile)
+        })
+    }
+    gist
+}
+
+.readFUSION <- function(filepath, datafiles, fudat = list()) {
+    fusionExtra <- .grepFiles("fusion", filepath, datafiles, ignore.case = TRUE)
+    if (length(fusionExtra))
+        fudat <- list(Fusion = .silentRead(fusionExtra))
+    fudat
+}
+
+.grepFiles <- function(pattern, filepath, datafiles, ignore.case = FALSE) {
+    file.path(
+        filepath,
+        grep(pattern, datafiles, value = TRUE, ignore.case = ignore.case)
+    )
+}
+
 #' @rdname downloadStudy
 #'
 #' @export
@@ -350,76 +400,43 @@ loadStudy <- function(
         list.files(filepath, recursive = TRUE)
     )
 
-    exptfiles <- file.path(filepath,
-        grep("clinical|study|LICENSE|fusion|gistic", datafiles, invert = TRUE,
-            value = TRUE))
-    clinicalfiles <- file.path(filepath,
-        grep("clinical", datafiles, value = TRUE))
-    mdatafile <- file.path(filepath,
-        grep("meta_study", datafiles, value = TRUE))
-    licensefile <- file.path(filepath,
-        grep("/LICENSE", datafiles, value = TRUE))
-    fusionExtra <- file.path(filepath, grep("fusion", datafiles,
-        value = TRUE, ignore.case = TRUE))
-    gisticExtra <- file.path(filepath, grep("gistic", datafiles,
-        value = TRUE, ignore.case = TRUE))
-
-    expnames <- sub(".*data_", "", sub("\\.txt", "", basename(exptfiles)))
-    expseq <- seq_along(exptfiles)
-    names(expseq) <- expnames
-
-    coldata <- cbioportal2clinicaldf(clinicalfiles)
-
-    names(exptfiles) <- expnames
-
-    exptlist <- Map(
-        function(x, y) {
-            .preprocess_data(
-                file = x, exp_name = y, names.field = names.field,
-                ptIDs = coldata[["PATIENT_ID"]]
-            )
-        },
-        y = expnames, x = exptfiles
-    )
-
-    exptlist <- Filter(length, exptlist)
-
-    .checkNonExpData <- function(exp) {
-        is(exp, "GRanges") || is(exp, "DataFrame")
-    }
-
-    metadats <- Filter(.checkNonExpData, exptlist)
-    exptlist <- Filter(function(expt) {!.checkNonExpData(expt)}, exptlist)
+    mdatafile <- .grepFiles("meta_study", filepath, datafiles)
+    licensefile <- .grepFiles("/LICENSE", filepath, datafiles)
     mdat <- cbioportal2metadata(mdatafile, licensefile)
 
-    if (length(fusionExtra))
-        fudat <- list(Fusion = .silentRead(fusionExtra))
-    else
-        fudat <- list()
+    clinicalfiles <- .grepFiles("clinical", filepath, datafiles)
+    coldata <- cbioportal2clinicaldf(clinicalfiles)
 
-    if (length(gisticExtra))
-        gist <- lapply(gisticExtra, function(x) {
-            gfile <- .silentRead(x)
-            .getGisticData(gfile)
-        })
-    else
-        gist <- list()
+    explist <- .loadExperimentsFromFiles(
+        fpath = filepath, dataFiles = datafiles,
+        names.field = names.field, colData = coldata
+    )
+
+    slip <- split(explist, vapply(explist, .isNonExpData, logical(1L)))
+    metadats <- slip[['TRUE']]
+    explist <- MultiAssayExperiment::ExperimentList(slip[['FALSE']])
+
+    fudat <- .readFUSION(filepath, datafiles)
+    gist <- .readGISTIC(filepath, datafiles)
 
     mdat <- c(mdat, metadats, fudat, gist)
-    exptlist <- MultiAssayExperiment::ExperimentList(exptlist)
 
     if (any(.TCGAcols(coldata))) {
-        gmap <- TCGAutils::generateMap(exptlist, coldata,
+        gmap <- TCGAutils::generateMap(explist, coldata,
             TCGAutils::TCGAbarcode)
     } else if (.hasMappers(coldata)) {
-        gmap <- TCGAutils::generateMap(exptlist, coldata,
+        gmap <- TCGAutils::generateMap(explist, coldata,
             sampleCol = "SAMPLE_ID", patientCol = "PATIENT_ID")
     } else {
         stop("Experiment data could not be mapped to colData")
     }
 
-    MultiAssayExperiment(experiments = exptlist,
-        colData = coldata, sampleMap = gmap, metadata = mdat)
+    MultiAssayExperiment(
+        experiments = explist,
+        colData = coldata,
+        sampleMap = gmap,
+        metadata = mdat
+    )
 }
 
 .check_study_id_building <-
