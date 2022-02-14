@@ -77,10 +77,12 @@ utils::globalVariables("element")
     }
 
     x <- RTCGAToolbox:::.standardizeBC(x)
-    SummarizedExperiment::SummarizedExperiment(
-        assays = SimpleList(x),
-        if (hasRanged) rowRanges = rowranges else rowData = annote
-    )
+    args <- list(assays = SimpleList(x))
+    if (hasRanged)
+        args <- append(args, rowRanges = rowranges)
+    else
+        args <- append(args, rowData = annote)
+    do.call(SummarizedExperiment::SummarizedExperiment, args)
 }
 
 .cleanHugo <- function(x) {
