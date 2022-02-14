@@ -49,6 +49,7 @@ RoxygenNote: 7.1.2
 Collate: 
     'utils.R'
     'cBioDataPack.R'
+    'cBioPortal-class.R'
     'cBioPortal.R'
     'cBioPortalData-pkg.R'
     'cBioPortalData.R'
