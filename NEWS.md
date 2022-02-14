@@ -1,3 +1,17 @@
+## Changes in version 2.8.0
+
+## New features
+
+* Added a `token` argument to the `cBioPortal` function for authentication.
+* Included a `check_build` argument to the `cBioPortalData` function.
+
+### Bug fixes and minor improvements
+
+* Added names to metadata elements that originate from GISTIC datasets.
+* Moved `cBioPortal-class` into its own file.
+* Removed `getDataByGenePanel` in favor or `getDataByGenes`
+* Removed support for `data('studiesTable')`, replaced with `getStudies()`
+
 ## Changes in version 2.6.0
 
 ### New features
