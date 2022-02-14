@@ -198,7 +198,7 @@ utils::globalVariables("element")
 {
     if (interactive()) {
         repeat {
-            cat(msg)
+            message(msg)
             answer <- readLines(n = 1)
             if (answer %in% allowed)
                 break
