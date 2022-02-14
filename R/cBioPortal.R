@@ -647,24 +647,6 @@ getSampleInfo <-
     )
 }
 
-#' @name cBioPortal
-#'
-#' @section Gene Panels:
-#'     * getDataByGenePanel - [Defunct] Download data for a gene panel and
-#'     `molecularProfileId` combination, optionally a `sampleListId` can be
-#'     provided.
-#'
-#' @export
-getDataByGenePanel <-
-    function(api, studyId = NA_character_, genePanelId = NA_character_,
-        molecularProfileIds = NULL, sampleListId = NULL, sampleIds = NULL)
-{
-    .Defunct(
-        new = "getDataByGenes",
-        msg = "'getDataByGenePanel' is defunct. Use 'getDataByGenes' instead."
-    )
-}
-
 .resolveFeatures <- function(api, by, genes, genePanelId) {
     isSingleNA <- function(x) { length(x) == 1L && is.na(x) }
 

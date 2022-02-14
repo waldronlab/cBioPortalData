@@ -17,7 +17,6 @@
 \alias{genePanelMolecular}
 \alias{getGenePanelMolecular}
 \alias{getSampleInfo}
-\alias{getDataByGenePanel}
 \alias{getDataByGenes}
 \title{The R interface to the cBioPortal API Data Service}
 \usage{
@@ -80,15 +79,6 @@ getSampleInfo(
   studyId = NA_character_,
   sampleListIds = NULL,
   projection = c("SUMMARY", "ID", "DETAILED", "META")
-)
-
-getDataByGenePanel(
-  api,
-  studyId = NA_character_,
-  genePanelId = NA_character_,
-  molecularProfileIds = NULL,
-  sampleListId = NULL,
-  sampleIds = NULL
 )
 
 getDataByGenes(
@@ -247,11 +237,6 @@ This section of the documentation lists the functions that
 
     * getGenePanelMolecular - get gene panel data for a combination of
     `molecularProfileId` and `sampleListId` vectors
-
-
-    * getDataByGenePanel - [Defunct] Download data for a gene panel and
-    `molecularProfileId` combination, optionally a `sampleListId` can be
-    provided.
 }
 
 \section{Genes}{
