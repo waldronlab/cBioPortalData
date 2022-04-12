@@ -145,7 +145,7 @@ cBioPortal <- function(
     hostname = "www.cbioportal.org",
     protocol = "https",
     api. = "/api/api-docs",
-    token = character()
+    token = NA_character_
 ) {
     if (length(token))
         token <- c(Authorization = paste("Bearer", token))
