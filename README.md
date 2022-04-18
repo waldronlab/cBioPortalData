@@ -6,8 +6,6 @@
 [![BioC
 status](http://www.bioconductor.org/shields/build/release/bioc/cBioPortalData.svg)](https://bioconductor.org/checkResults/release/bioc-LATEST/cBioPortalData)
 [![Platforms](http://www.bioconductor.org/shields/availability/release/cBioPortalData.svg)](https://www.bioconductor.org/packages/release/bioc/html/cBioPortalData.html#archives)
-[![Build
-status](https://ci.appveyor.com/api/projects/status/42kd6prni3o0q50b?svg=true)](https://ci.appveyor.com/project/waldronlab/cbioportaldata)
 [![Downloads](https://www.bioconductor.org/shields/downloads/release/cBioPortalData.svg)](https://bioconductor.org/packages/stats/bioc/cBioPortalData/)
 <!-- end badges here -->
 
@@ -49,6 +47,8 @@ of Bioconductor):
 ``` r
 if (!require("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
+
+BiocManager::install("cBioPortalData")
 ```
 
 To install from GitHub (for bleeding-edge, not generally necessary
