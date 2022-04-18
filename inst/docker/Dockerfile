@@ -12,7 +12,6 @@ RUN conda env update -n base --file environment.yml
 COPY DESCRIPTION /app
 COPY NAMESPACE /app
 COPY R /app/R
-COPY data /app/data
 COPY inst/docker/scripts /app/scripts
 COPY man /app/man
 COPY tests /app/tests
