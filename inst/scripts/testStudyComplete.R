@@ -6,8 +6,7 @@ cbioportal <- cBioPortal()
 
 (studies <- getStudies(cbioportal)[["studyId"]])
 
-complete <- vector("list", length(studies))
-names(complete) <- studies
+complete <- structure(vector("list", length(studies)), .Names = studies)
 
 for (stud in studies) {
     message("Working on: ", stud)

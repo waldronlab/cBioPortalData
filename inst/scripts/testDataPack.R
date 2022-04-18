@@ -1,26 +1,17 @@
 library(cBioPortalData)
 
-data(studiesTable)
+cbioportal <- cBioPortal()
+studies <- stats::setNames(nm = getStudies(cbioportal)[["studyId"]])
 
-studiesTable$cancer_study_id
 set.seed(1234)
 # original sample in documentation
-ff <- sample(studiesTable$cancer_study_id, 100)
-
-gg <- studiesTable$cancer_study_id
-
-## [223] ccrcc_utokyo_2013 causes segfault
-gg2 <- studiesTable$cancer_study_id[224:length(studiesTable$cancer_study_id)]
-
-## run code on all samples
-studies <- studiesTable$cancer_study_id
-studies <- studies[-which(studies == "ccrcc_utokyo_2013")]
+ff <- sample(studies, 100)
 
 cacheLoc <- "~/data/cBioPortal"
 if (!dir.exists(cacheLoc))
     dir.create(cacheLoc)
 
-for (studyId in gg2) {
+for (studyId in ff) {
     currFile <- file.path(cacheLoc, paste0(studyId, ".rda"))
     if (!file.exists(currFile)) {
         start <- proc.time()

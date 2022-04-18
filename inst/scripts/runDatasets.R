@@ -4,9 +4,8 @@ devtools::load_all()
 
 setCache("/data/16tb/cbio")
 
-data(studiesTable)
-full_ids <- studiesTable$cancer_study_id
-names(full_ids) <- full_ids
+cbio <- cBioPortal()
+studies <- stats::setNames(nm = getStudies(cbio)[["studyId"]])
 
 data_links <- vapply(full_ids, downloadStudy, character(1L))
 
