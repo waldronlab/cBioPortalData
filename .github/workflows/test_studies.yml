@@ -24,9 +24,8 @@ jobs:
 
       - name: Install Dependencies
         run: |
-          options(repos = c(CRAN = 'https://cran.r-project.org')); BiocManager::install(c('remotes', 'AnVIL'), ask = FALSE, update = TRUE)
+          options(repos = c(CRAN = 'https://cran.r-project.org')); BiocManager::install(c('remotes', 'AnVIL', 'lubridate'), ask = FALSE, update = TRUE)
           remotes::install_local(repos = BiocManager::repositories(), dependencies = TRUE)
-          BiocManager::install("lubridate")
         shell: Rscript {0}
 
       - name: Add pack_build to studiesTable
