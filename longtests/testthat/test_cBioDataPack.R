@@ -1,23 +1,18 @@
 test_that("cBioDataPack works on at least 70% of studies", {
 
-    data(studiesTable)
-    studies <- studiesTable$cancer_study_id
-    studies <- stats::setNames(studies, studies)
+    cbioportal <- cBioPortal()
+    studies <- stats::setNames(nm = getStudies(cbioportal)[["studyId"]])
 
-    complete <- vector("list", length(studies))
-    names(complete) <- studies
+    isMAE <- structure(vector("list", length(studies)), .Names = studies)
 
     for (stud in studies) {
         message("Working on: ", stud)
-        complete[[stud]] <- tryCatch({
-            cBioDataPack(cancer_study_id = stud)
+        isMAE[[stud]] <- tryCatch({
+            study <- cBioDataPack(cancer_study_id = stud)
+            is(study, "MultiAssayExperiment")
         }, error = function(e) conditionMessage(e))
         removePackCache(cancer_study_id = stud, dry.run = FALSE)
     }
-
-    isMAE <- vapply(
-        complete, function(x) is(x, "MultiAssayExperiment"), logical(1L)
-    )
 
     successrate <- (100 * sum(isMAE)) / length(isMAE)
 

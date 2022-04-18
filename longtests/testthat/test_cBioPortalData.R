@@ -1,15 +1,13 @@
 test_that("cBioPortal API is working with most studies", {
+
     cbio <- cBioPortal()
     studies <- getStudies(cbio)[["studyId"]]
-    # may cause segfault: investigation pending
-    studies <- studies[studies != "ccrcc_utokyo_2013"]
 
-    complete <- vector("logical", length(studies))
-    names(complete) <- studies
+    isMAE <- structure(vector("list", length(studies)), .Names = studies)
 
     for (api_stud in studies) {
         message("Working on: ", api_stud)
-        complete[[api_stud]] <- is(
+        isMAE[[api_stud]] <- is(
             tryCatch({
                 cBioPortalData(
                     cbio, studyId = api_stud, genePanelId = "IMPACT341"
@@ -22,7 +20,7 @@ test_that("cBioPortal API is working with most studies", {
         )
     }
 
-    successrate <- (100 * sum(complete)) / length(complete)
+    successrate <- (100 * sum(isMAE)) / length(isMAE)
 
     expect_true(successrate > 90)
 })
