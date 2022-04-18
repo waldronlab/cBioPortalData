@@ -7,6 +7,7 @@
 
 ### Bug fixes and minor improvements
 
+* Bug fix: `by` argument gets passed along to `getDataByGenes`
 * Added names to metadata elements that originate from GISTIC datasets.
 * Moved `cBioPortal-class` into its own file.
 * Removed `getDataByGenePanel` in favor or `getDataByGenes`
