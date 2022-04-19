@@ -146,9 +146,12 @@ function, if you only have Hugo symbols. First, convert to Entrez gene IDs
 and then obtain all the samples in the sample list of interest.
 
 ```{r}
-genetab <- geneTable(cbio, pageSize = 10000)
-logi <- genetab[["hugoGeneSymbol"]] %in% c("NF1", "TP53", "ABL1")
-entrez <- unlist(genetab[logi, "entrezGeneId"])
+genetab <- queryGeneTable(cbio,
+    by = "hugoGeneSymbol",
+    genes = c("NF1", "TP53", "ABL1")
+)
+genetab
+entrez <- genetab[["entrezGeneId"]]
 
 allsamps <- samplesInSampleLists(cbio, "gbm_tcga_pub_all")
 
