@@ -1,0 +1,224 @@
+---
+title: "cgds Migration"
+author: "Karim Mezhoud & Marcel Ramos"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+vignette: >
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteIndexEntry{Migrating from cgds to cBioPortalData}
+  %\VignetteEncoding{UTF-8}
+output:
+  BiocStyle::html_document:
+    number_sections: no
+    toc: yes
+    toc_depth: 4
+---
+
+```{r, setup, include=FALSE}
+knitr::opts_chunk$set(cache = TRUE)
+```
+
+# Introduction
+
+This vignette aims to help developers migrate from the now defunct `cgds`
+CRAN package. Note that the `cgds` package code is shown for comparison but it
+is not guaranteed to work. If you have questions regarding the contents,
+please create an issue at the GitHub repository:
+https://github.com/waldronlab/cBioPortalData/issues
+
+# Loading the package
+
+```{r,include=TRUE,results="hide",message=FALSE,warning=FALSE}
+library(cBioPortalData)
+```
+
+# Discovering studies
+
+## cgds
+
+```{r,eval=FALSE}
+library(cgdsr)
+cgds <- CGDS("http://www.cbioportal.org/")
+getCancerStudies.CGDS(cgds)
+```
+
+## cBioPortalData
+
+Here we show the default inputs to the cBioPortal function for clarity.
+
+```{r}
+cbio <- cBioPortal(
+    hostname = "www.cbioportal.org",
+    protocol = "https",
+    api. = "/api/api-docs"
+)
+getStudies(cbio)
+```
+
+Note that the `studyId` column is important for further queries.
+
+```{r}
+head(getStudies(cbio)[["studyId"]])
+```
+
+# Obtaining Cases and Clinical data
+
+## cgds
+
+The `case_list_id` in `cgds` and obtain the clinical data with the first
+case list identifier (`gbm_tcga_pub_all` in this example).
+
+```{r,eval=FALSE}
+clist1 <-
+    getCaseLists.CGDS(cgds, cancerStudy = "gbm_tcga_pub")[1, "case_list_id"]
+
+getClinicalData.CGDS(cgds, clist1)
+```
+
+## cBioPortalData
+
+For the case list identifiers, you can use `sampleLists` and inspect the
+`sampleListId` column. Here we take the first value as in the example above.
+
+```{r}
+clist1 <- sampleLists(cbio, "gbm_tcga_pub")[1, "sampleListId", drop = TRUE]
+clist1
+```
+
+Note that a sample list ID is not required when using the
+`fetchAllClinicalDataInStudyUsingPOST` internal endpoint. Data for all
+patients can be obtained using the `clinicalData` function.
+
+```{r}
+clinicalData(cbio, "gbm_tcga_pub")
+```
+
+But you can still use a different endpoint to obtain data for a single sample:
+
+```{r}
+samplist <- samplesInSampleLists(cbio, clist1)
+onesample <- samplist[["gbm_tcga_pub_all"]][1]
+onesample
+
+cbio$getAllClinicalDataOfSampleInStudyUsingGET(
+    sampleId = onesample, studyId = "gbm_tcga_pub"
+)
+```
+
+There may be other endpoints that you could look into: 
+
+```{r}
+searchOps(cbio, "clinical")
+```
+
+# Genetic profiles / molecular profiles
+
+## cgds
+
+```{r,eval=FALSE}
+getGeneticProfiles.CGDS(cgds, cancerStudy = "gbm_tcga_pub")
+```
+
+## cBioPortalData
+
+```{r}
+molecularProfiles(cbio, "gbm_tcga_pub")
+```
+
+Note that we want to pull the `molecularProfileId` column to use in other
+queries.
+
+# Profile data or molecular data (mRNA expression) for a set of genes
+
+## cgds
+
+```{r,eval=FALSE}
+getProfileData.CGDS(x = cgds, 
+    genes = c("NF1", "TP53", "ABL1"),
+    geneticProfiles = "gbm_tcga_pub_mrna", 
+    caseList = "gbm_tcga_pub_all"
+)
+```
+
+## cBioPortalData
+
+Currently, some conversion is needed to directly use the `molecularData`
+function, if you only have Hugo symbols. First, convert to Entrez gene IDs
+and then obtain all the samples in the sample list of interest.
+
+```{r}
+genetab <- geneTable(cbio, pageSize = 10000)
+logi <- genetab[["hugoGeneSymbol"]] %in% c("NF1", "TP53", "ABL1")
+entrez <- unlist(genetab[logi, "entrezGeneId"])
+
+allsamps <- samplesInSampleLists(cbio, "gbm_tcga_pub_all")
+
+molecularData(cbio, "gbm_tcga_pub_mrna",
+    entrezGeneIds = entrez, sampleIds = unlist(allsamps))
+```
+
+Note that this can also be done by using the `getDataByGenes` function, which
+automatically figures out all the sample identifiers in the study:
+
+```{r}
+getDataByGenes(
+    api =  cbio,
+    studyId = "gbm_tcga_pub",
+    genes = c("NF1", "TP53", "ABL1"),
+    by = "hugoGeneSymbol",
+    molecularProfileIds = "gbm_tcga_pub_mrna"
+)
+```
+
+# Mutation data
+
+## cgds
+
+```{r,eval=FALSE}
+getMutationData.CGDS(
+    x = cgds, 
+    caseList = "getMutationData",
+    geneticProfile = "gbm_tcga_pub_mutations",
+    genes = c("NF1", "TP53", "ABL1")
+)
+```
+
+## cBioPortalData
+
+Similar to `molecularData`, mutation data can be obtained with the
+`mutationData` function or the `getDataByGenes` function.
+
+```{r}
+mutationData(
+    api = cbio,
+    molecularProfileIds = "gbm_tcga_pub_mutations",
+    entrezGeneIds = entrez,
+    sampleIds = unlist(allsamps)
+)
+```
+
+```{r}
+getDataByGenes(
+    api = cbio,
+    studyId = "gbm_tcga_pub",
+    genes = c("NF1", "TP53", "ABL1"),
+    by = "hugoGeneSymbol",
+    molecularProfileIds = "gbm_tcga_pub_mutations"
+)
+```
+
+# cBioPortalData main function
+
+It is important to note that end users who wish to obtain the data as
+easily as possible should use the main `cBioPortalData` function:
+
+```{r}
+gbm_pub <- cBioPortalData(
+    api = cbio,
+    studyId = "gbm_tcga_pub",
+    genes = c("NF1", "TP53", "ABL1"), by = "hugoGeneSymbol",
+    molecularProfileIds = "gbm_tcga_pub_mrna"
+)
+
+assay(gbm_pub[["gbm_tcga_pub_mrna"]])[, 1:4]
+```
+
