@@ -422,7 +422,7 @@ geneTable <- function(api, pageSize = 1000, pageNumber = 0, ...) {
     if (missing(api))
         stop("Provide a valid 'api' from 'cBioPortal()'")
 
-    .invoke_bind(api, "getAllGenesUsingGET", TRUE, pageSize = pageSize,
+    .invoke_bind(api, "getAllGenesUsingGET", FALSE, pageSize = pageSize,
         pageNumber = pageNumber, ...)
 }
 
