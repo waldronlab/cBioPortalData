@@ -8,15 +8,16 @@
 \alias{mutationData}
 \alias{molecularData}
 \alias{searchOps}
-\alias{geneTable}
 \alias{samplesInSampleLists}
 \alias{sampleLists}
 \alias{allSamples}
+\alias{getSampleInfo}
 \alias{genePanels}
 \alias{getGenePanel}
 \alias{genePanelMolecular}
 \alias{getGenePanelMolecular}
-\alias{getSampleInfo}
+\alias{geneTable}
+\alias{queryGeneTable}
 \alias{getDataByGenes}
 \title{The R interface to the cBioPortal API Data Service}
 \usage{
@@ -53,13 +54,18 @@ molecularData(
 
 searchOps(api, keyword)
 
-geneTable(api, pageSize = 1000, pageNumber = 0, ...)
-
 samplesInSampleLists(api, sampleListIds = NA_character_)
 
 sampleLists(api, studyId = NA_character_)
 
 allSamples(api, studyId = NA_character_)
+
+getSampleInfo(
+  api,
+  studyId = NA_character_,
+  sampleListIds = NULL,
+  projection = c("SUMMARY", "ID", "DETAILED", "META")
+)
 
 genePanels(api)
 
@@ -74,11 +80,13 @@ genePanelMolecular(
 
 getGenePanelMolecular(api, molecularProfileIds = NA_character_, sampleIds)
 
-getSampleInfo(
+geneTable(api, pageSize = 1000, pageNumber = 0, ...)
+
+queryGeneTable(
   api,
-  studyId = NA_character_,
-  sampleListIds = NULL,
-  projection = c("SUMMARY", "ID", "DETAILED", "META")
+  by = c("entrezGeneId", "hugoGeneSymbol"),
+  genes = NA_character_,
+  genePanelId = NA_character_
 )
 
 getDataByGenes(
@@ -127,12 +135,6 @@ type for data retrieval for details see API documentation}
 \item{keyword}{character(1) Keyword or pattern for searching through
 available operations}
 
-\item{pageSize}{numeric(1) The number of rows in the table to return}
-
-\item{pageNumber}{numeric(1) The pagination page number}
-
-\item{...}{Additional arguments to lower level API functions}
-
 \item{sampleListIds}{character() A vector of 'sampleListId' as obtained from
 `sampleLists`}
 
@@ -144,13 +146,19 @@ from the `genePanels` function}
 \item{sampleListId}{character(1) A sample list identifier as obtained from
 `sampleLists()``}
 
+\item{pageSize}{numeric(1) The number of rows in the table to return}
+
+\item{pageNumber}{numeric(1) The pagination page number}
+
+\item{...}{Additional arguments to lower level API functions}
+
+\item{by}{character(1) Either 'entrezGeneId' or 'hugoGeneSymbol' for row
+metadata (default: 'entrezGeneId')}
+
 \item{genes}{character() Either Entrez gene identifiers or Hugo gene
 symbols. When included, the 'by' argument indicates the type of
 identifier provided and 'genePanelId' is ignored. Preference is
 given to Entrez IDs due to faster query responses.}
-
-\item{by}{character(1) Either 'entrezGeneId' or 'hugoGeneSymbol' for row
-metadata (default: 'entrezGeneId')}
 }
 \value{
 cBioPortal: An API object of class 'cBioPortal'
@@ -182,10 +190,6 @@ This section of the documentation lists the functions that
     * searchOps - Search through API operations with a keyword
 
 
-    * geneTable - Get a table of all genes by 'entrezGeneId' or
-    'hugoGeneSymbol'
-
-
     * sampleLists - obtain all `sampleListIds` for a particular `studyId`
 
 
@@ -193,6 +197,14 @@ This section of the documentation lists the functions that
 
 
     * genePanels - Show all available gene panels
+
+
+    * geneTable - Get a table of all genes by 'entrezGeneId' and
+    'hugoGeneSymbol'
+
+
+    * queryGeneTable - Get a table for only the `genes` or `genePanelId` of
+    interest. Gene inputs are identified with the `by` argument
 }
 
 \section{Patient Data}{
@@ -231,12 +243,12 @@ This section of the documentation lists the functions that
     * getGenePanels - Obtain the gene panel for a particular 'genePanelId'
 
 
-    * genePanelMolecular - get gene panel data for a paricular
-    `molecularProfileId` and `sampleListId` combination
+    * genePanelMolecular - get gene panel data for a particular
+    `molecularProfileId` and either a vector of `sampleListId` or `sampleId`
 
 
-    * getGenePanelMolecular - get gene panel data for a combination of
-    `molecularProfileId` and `sampleListId` vectors
+    * getGenePanelMolecular - get gene panel data for multiple
+    `molecularProfileId`s and a vector of `sampleIds`
 }
 
 \section{Genes}{
@@ -286,6 +298,8 @@ samplesInSampleLists(
 genePanels(api = cbio)
 
 getGenePanel(api = cbio, genePanelId = "IMPACT341")
+
+queryGeneTable(api = cbio, by = "entrezGeneId", genes = 7157)
 
 
 getDataByGenes(

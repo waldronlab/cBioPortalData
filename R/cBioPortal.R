@@ -116,6 +116,8 @@ utils::globalVariables(c("clinicalAttributeId", "value", "sampleId"))
 #'
 #' getGenePanel(api = cbio, genePanelId = "IMPACT341")
 #'
+#' queryGeneTable(api = cbio, by = "entrezGeneId", genes = 7157)
+#'
 #' @export
 cBioPortal <- function(
     hostname = "www.cbioportal.org",
@@ -407,27 +409,6 @@ searchOps <- function(api, keyword) {
 
 #' @name cBioPortal
 #'
-#' @section API Metadata:
-#'     * geneTable - Get a table of all genes by 'entrezGeneId' or
-#'     'hugoGeneSymbol'
-#'
-#' @param pageSize numeric(1) The number of rows in the table to return
-#'
-#' @param pageNumber numeric(1) The pagination page number
-#'
-#' @param ... Additional arguments to lower level API functions
-#'
-#' @export
-geneTable <- function(api, pageSize = 1000, pageNumber = 0, ...) {
-    if (missing(api))
-        stop("Provide a valid 'api' from 'cBioPortal()'")
-
-    .invoke_bind(api, "getAllGenesUsingGET", FALSE, pageSize = pageSize,
-        pageNumber = pageNumber, ...)
-}
-
-#' @name cBioPortal
-#'
 #' @section Sample Data:
 #'     * samplesInSampleLists - get all samples associated with a 'sampleListId'
 #'
@@ -487,6 +468,33 @@ allSamples <- function(api, studyId = NA_character_) {
 
 #' @name cBioPortal
 #'
+#' @section Sample Data:
+#'     * getSampleInfo - Obtain sample metadata for a particular `studyId` or
+#'     `sampleListId`
+#' @export
+getSampleInfo <-
+    function(api, studyId = NA_character_, sampleListIds = NULL,
+        projection = c("SUMMARY", "ID", "DETAILED", "META"))
+{
+    if (missing(api))
+        stop("Provide a valid 'api' from 'cBioPortal()'")
+    projection <- match.arg(projection)
+    if (!is.null(sampleListIds))
+        queryobj <- list(sampleListIds = sampleListIds)
+    else
+        queryobj <- list(sampleIdentifiers =
+            as.data.frame(
+                allSamples(api, studyId)[, c("sampleId", "studyId")]
+            )
+        )
+
+    .invoke_bind(api = api, name = "fetchSamplesUsingPOST", use_cache = FALSE,
+        projection = projection, sampleIdentifiers = queryobj
+    )
+}
+
+#' @name cBioPortal
+#'
 #' @section API Metadata:
 #'     * genePanels - Show all available gene panels
 #'
@@ -517,8 +525,8 @@ getGenePanel <- function(api, genePanelId = NA_character_) {
 #' @name cBioPortal
 #'
 #' @section Gene Panels:
-#'     * genePanelMolecular - get gene panel data for a paricular
-#'     `molecularProfileId` and `sampleListId` combination
+#'     * genePanelMolecular - get gene panel data for a particular
+#'     `molecularProfileId` and either a vector of `sampleListId` or `sampleId`
 #'
 #' @param sampleListId character(1) A sample list identifier as obtained from
 #'     `sampleLists()``
@@ -548,8 +556,8 @@ genePanelMolecular <-
 #' @name cBioPortal
 #'
 #' @section Gene Panels:
-#'     * getGenePanelMolecular - get gene panel data for a combination of
-#'     `molecularProfileId` and `sampleListId` vectors
+#'     * getGenePanelMolecular - get gene panel data for multiple
+#'     `molecularProfileId`s and a vector of `sampleIds`
 #'
 #' @export
 getGenePanelMolecular <-
@@ -578,52 +586,53 @@ getGenePanelMolecular <-
 
 #' @name cBioPortal
 #'
-#' @section Sample Data:
-#'     * getSampleInfo - Obtain sample metadata for a particular `studyId` or
-#'     `sampleListId`
+#' @section API Metadata:
+#'     * geneTable - Get a table of all genes by 'entrezGeneId' and
+#'     'hugoGeneSymbol'
+#'
+#' @param pageSize numeric(1) The number of rows in the table to return
+#'
+#' @param pageNumber numeric(1) The pagination page number
+#'
+#' @param ... Additional arguments to lower level API functions
+#'
 #' @export
-getSampleInfo <-
-    function(api, studyId = NA_character_, sampleListIds = NULL,
-        projection = c("SUMMARY", "ID", "DETAILED", "META"))
-{
+geneTable <- function(api, pageSize = 1000, pageNumber = 0, ...) {
     if (missing(api))
         stop("Provide a valid 'api' from 'cBioPortal()'")
-    projection <- match.arg(projection)
-    if (!is.null(sampleListIds))
-        queryobj <- list(sampleListIds = sampleListIds)
-    else
-        queryobj <- list(sampleIdentifiers =
-            as.data.frame(
-                allSamples(api, studyId)[, c("sampleId", "studyId")]
-            )
-        )
 
-    .invoke_bind(api = api, name = "fetchSamplesUsingPOST", use_cache = FALSE,
-        projection = projection, sampleIdentifiers = queryobj
-    )
+    .invoke_bind(api, "getAllGenesUsingGET", FALSE, pageSize = pageSize,
+        pageNumber = pageNumber, ...)
 }
 
-.resolveFeatures <- function(api, by, genes, genePanelId) {
-    isSingleNA <- function(x) { length(x) == 1L && is.na(x) }
+#' @name cBioPortal
+#'
+#' @section API Metadata:
+#'     * queryGeneTable - Get a table for only the `genes` or `genePanelId` of
+#'     interest. Gene inputs are identified with the `by` argument
+#'
+#' @export
+queryGeneTable <- function(
+        api,
+        by = c("entrezGeneId", "hugoGeneSymbol"),
+        genes = NA_character_,
+        genePanelId = NA_character_
+) {
+    all.na <- function(x) all(is.na(x))
 
-    if (isSingleNA(genes) && isSingleNA(genePanelId))
+    if (all.na(genes) && all.na(genePanelId))
         stop("Provide either 'genes' or 'genePanelId'")
 
+    by <- match.arg(by)
     geneIdType <- switch(
-        by, entrezGeneId = "ENTREZ_GENE_ID", 'HUGO_GENE_SYMBOL'
+        by, entrezGeneId = "ENTREZ_GENE_ID", hugoGeneSymbol = 'HUGO_GENE_SYMBOL'
     )
 
-    feats <- genes
-    if (identical(by, "hugoGeneSymbol") && !all(is.na(genes)))
-        feats <- .invoke_bind(api, "fetchGenesUsingPOST", TRUE,
+    if (!all.na(genes))
+        .invoke_bind(api, "fetchGenesUsingPOST", TRUE,
             geneIdType = geneIdType, geneIds = as.character(genes))
     else
-        feats <- tibble::tibble(entrezGeneId = genes)
-
-    if (isSingleNA(genes))
-        feats <- getGenePanel(api, genePanelId = genePanelId)
-
-    feats
+        getGenePanel(api, genePanelId = genePanelId)
 }
 
 #' @name cBioPortal
@@ -657,7 +666,7 @@ getDataByGenes <-
 
     by <- match.arg(by)
 
-    feats <- .resolveFeatures(api, by, genes, genePanelId)
+    feats <- queryGeneTable(api, by, genes, genePanelId)
 
     digi <- digest::digest(
         list("getDataByGenes", api, studyId, feats, sampleIds,

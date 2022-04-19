@@ -145,7 +145,7 @@ removePackCache <- function(cancer_study_id, dry.run = TRUE) {
     else if (is.null(sampleIds))
         sampleIds <- allSamples(api, studyId)[["sampleId"]]
 
-    feats <- .resolveFeatures(
+    feats <- queryGeneTable(
         api = api, by = by, genes = genes, genePanelId = genePanelId
     )
     digi <- digest::digest(
