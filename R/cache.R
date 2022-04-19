@@ -131,7 +131,7 @@ removePackCache <- function(cancer_study_id, dry.run = TRUE) {
     if (!length(rid))
         bfcnew(bfc, hashtag, ext = ".rda")
     else
-        bfcquery(bfc, hashtag, "rname", exact = TRUE)$rpath
+        bfcrpath(bfc, hashtag, "rname", exact = TRUE)
 }
 
 .molDataCache <-
