@@ -614,7 +614,7 @@ getSampleInfo <-
     )
 
     feats <- genes
-    if (identical(by, "hugoGeneSymbol") && !is.na(genes))
+    if (identical(by, "hugoGeneSymbol") && !all(is.na(genes)))
         feats <- .invoke_bind(api, "fetchGenesUsingPOST", TRUE,
             geneIdType = geneIdType, geneIds = as.character(genes))
     else
