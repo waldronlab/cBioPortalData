@@ -41,12 +41,14 @@ jobs:
         shell: Rscript {0}
 
       - name: Check Package
+        id: rcmdcheck
         env:
           _R_CHECK_CRAN_INCOMING_REMOTE_: false
         run: rcmdcheck::rcmdcheck(args = c("--no-manual"), error_on = "error", check_dir = "check")
         shell: Rscript {0}
 
       - name: Run BiocCheck
+        id: bioccheck
         run: |
           BiocCheck::BiocCheck(
               dir('check', 'tar.gz$', full.names = TRUE),
@@ -61,10 +63,9 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Build and Push Docker container
-        if: ${{ success() }}
+        if: steps.bioccheck.outcome == 'success' && steps.rcmdcheck.outcome == 'success'
         uses: docker/build-push-action@v2
         with:
-          context: .
           file: inst/docker/pkg/Dockerfile
           push: true
-          tags: mr148/cbioportaldata:${GITHUB_REF_NAME}
+          tags: ${{ secrets.DOCKER_USERNAME }}/cbioportaldata:${GITHUB_REF_NAME}
