@@ -20,8 +20,7 @@ jobs:
 
       - name: Query dependencies
         run: |
-          install.packages('remotes')
-          devtools::install_github("Bioconductor/AnVIL")
+          BiocManager::install(c("remotes", "Bioconductor/BiocManager"))
           saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
         shell: Rscript {0}
 
@@ -36,7 +35,7 @@ jobs:
       - name: Install Dependencies
         run: |
           options(repos = c(CRAN = "https://packagemanager.rstudio.com/cran/__linux__/focal/latest"))
-          remotes::install_deps(dependencies = TRUE, repos = AnVIL::repositories())
+          remotes::install_deps(dependencies = TRUE, repos = BiocManager::repositories())
           BiocManager::install(c("rcmdcheck", "BiocCheck"), ask = FALSE, update = TRUE)
         shell: Rscript {0}
 
