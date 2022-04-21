@@ -1,10 +1,10 @@
 ---
-title: "cgds Migration"
+title: "cgdsr Migration"
 author: "Karim Mezhoud & Marcel Ramos"
 date: "`r format(Sys.time(), '%B %d, %Y')`"
 vignette: >
   %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteIndexEntry{Migrating from cgds to cBioPortalData}
+  %\VignetteIndexEntry{Migrating from cgdsr to cBioPortalData}
   %\VignetteEncoding{UTF-8}
 output:
   BiocStyle::html_document:
@@ -19,8 +19,8 @@ knitr::opts_chunk$set(cache = TRUE)
 
 # Introduction
 
-This vignette aims to help developers migrate from the now defunct `cgds`
-CRAN package. Note that the `cgds` package code is shown for comparison but it
+This vignette aims to help developers migrate from the now defunct `cgdsr`
+CRAN package. Note that the `cgdsr` package code is shown for comparison but it
 is not guaranteed to work. If you have questions regarding the contents,
 please create an issue at the GitHub repository:
 https://github.com/waldronlab/cBioPortalData/issues
@@ -33,7 +33,7 @@ library(cBioPortalData)
 
 # Discovering studies
 
-## cgds
+## cgdsr
 
 ```{r,eval=FALSE}
 library(cgdsr)
@@ -62,7 +62,7 @@ head(getStudies(cbio)[["studyId"]])
 
 # Obtaining Cases and Clinical data
 
-## cgds
+## cgdsr
 
 The `case_list_id` in `cgds` and obtain the clinical data with the first
 case list identifier (`gbm_tcga_pub_all` in this example).
@@ -104,7 +104,7 @@ cbio$getAllClinicalDataOfSampleInStudyUsingGET(
 )
 ```
 
-There may be other endpoints that you could look into: 
+There may be other endpoints that you could look into:
 
 ```{r}
 searchOps(cbio, "clinical")
@@ -112,7 +112,7 @@ searchOps(cbio, "clinical")
 
 # Genetic profiles / molecular profiles
 
-## cgds
+## cgdsr
 
 ```{r,eval=FALSE}
 getGeneticProfiles.CGDS(cgds, cancerStudy = "gbm_tcga_pub")
@@ -129,12 +129,12 @@ queries.
 
 # Profile data or molecular data (mRNA expression) for a set of genes
 
-## cgds
+## cgdsr
 
 ```{r,eval=FALSE}
-getProfileData.CGDS(x = cgds, 
+getProfileData.CGDS(x = cgds,
     genes = c("NF1", "TP53", "ABL1"),
-    geneticProfiles = "gbm_tcga_pub_mrna", 
+    geneticProfiles = "gbm_tcga_pub_mrna",
     caseList = "gbm_tcga_pub_all"
 )
 ```
@@ -174,11 +174,11 @@ getDataByGenes(
 
 # Mutation data
 
-## cgds
+## cgdsr
 
 ```{r,eval=FALSE}
 getMutationData.CGDS(
-    x = cgds, 
+    x = cgds,
     caseList = "getMutationData",
     geneticProfile = "gbm_tcga_pub_mutations",
     genes = c("NF1", "TP53", "ABL1")
