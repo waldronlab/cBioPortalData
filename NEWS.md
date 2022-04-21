@@ -1,6 +1,6 @@
 ## Changes in version 2.8.0
 
-## New features
+### New features
 
 * Add `token` argument to the `cBioPortal` function for authentication.
 * Include `check_build` argument to the `cBioPortalData` function.
