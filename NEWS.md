@@ -1,6 +1,6 @@
 ## Changes in version 2.8.0
 
-## New features
+### New features
 
 * Auth `token` string or file can now be included in the `cBioPortal` function.
 * The `check_build` argument can be set to `FALSE` for alternative APIs, e.g.,
