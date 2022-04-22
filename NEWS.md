@@ -2,18 +2,19 @@
 
 ## New features
 
-* Add `token` argument to the `cBioPortal` function for authentication.
-* Include `check_build` argument to the `cBioPortalData` function.
+* Auth `token` string or file can now be included in the `cBioPortal` function.
+* The `check_build` argument can be set to `FALSE` for alternative APIs, e.g.,
+KidsFirst, when using `cBioPortalData` 
 * `queryGeneTable` translates gene IDs ('hugoGeneSymbols' <>
 'entrezGeneIds') via the API service
+* `getDataByGenes` supersedes `getDataByGenePanel`
+* `getStudies()` replaces `data('studiesTable')` to discover study IDs
 
 ### Bug fixes and minor improvements
 
-* Bug fix: `by` argument gets passed along to `getDataByGenes`
+* Fixed issue where the `by` argument was not passed to `getDataByGenes` in
+internal calls
 * Add names to metadata elements that originate from GISTIC datasets.
-* Move `cBioPortal-class` into its own file.
-* Remove `getDataByGenePanel` in favor or `getDataByGenes`
-* Remove support for `data('studiesTable')`, replaced with `getStudies()`
 
 ## Changes in version 2.6.0
 
