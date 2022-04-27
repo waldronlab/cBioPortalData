@@ -35,15 +35,7 @@ library(cBioPortalData)
 
 # Discovering studies {.tabset .tabset-fade .tabset-pills}
 
-## `cgdsr`
-```{r, comment=FALSE, eval = FALSE}
-cgds <- cgdsr::CGDS("http://www.cbioportal.org/")
-
-cgdsr::getCancerStudies.CGDS(cgds)
-
-```
-
-## `cBioPortalData`
+## `cBioPortalData` setup
 
 * Here we show the default inputs to the `cBioPortal` function for clarity.
 
@@ -59,13 +51,71 @@ getStudies(cbio) |>
 
 ```
 
+## `cgdsr` setup
 
-**Note**
+```{r,eval=FALSE}
+library(cgdsr)
+cgds <- CGDS("http://www.cbioportal.org/")
+getCancerStudies.CGDS(cgds)
+```
 
-* The `studyId` column is important for further queries.
+# Obtaining Cases {.tabset .tabset-fade .tabset-pills}
 
+## `cBioPortalData` (Cases)
 
-# Obtaining Cases and Clinical data {.tabset .tabset-fade .tabset-pills}
+### Notes
+
+* Each patient is identified by a `patientId`.
+* `sampleListId` identifies groups of `patientId` based on profile type
+* The `sampleLists` function uses `studyId` input to return `sampleListId`
+
+### sampleLists
+
+For the sample list identifiers, you can use `sampleLists` and inspect the
+`sampleListId` column.
+
+```{r}
+samps <- sampleLists(cbio, "gbm_tcga_pub")
+samps[, c("category", "name", "sampleListId")]
+```
+
+### samples from sampleLists
+
+It is possible to get `case_ids` directly when using the `samplesInSampleLists`
+function. The function handles multiple `sampleList` identifiers.
+
+```{r}
+samplesInSampleLists(
+    api = cbio, 
+    sampleListIds = c(
+        "gbm_tcga_pub_expr_classical", "gbm_tcga_pub_expr_mesenchymal"
+    )
+)
+```
+
+### getSampleInfo
+
+To get more information about patients, we can query with `getSampleInfo`
+function.
+
+```{r}
+getSampleInfo(api = cbio,  studyId = "gbm_tcga_pub", projection = "SUMMARY")
+```
+
+## `cgdsr` (Cases)
+
+### Notes
+
+* 'Cases' and 'Patients' are synonymous.
+* Each patient is identified by a `case_id`.
+* Queries only handle a single `cancerStudy` identifier
+* The `case_list_description` describes the assays
+
+### `getCaseLists` and `getClinicalData`
+
+We obtain the first `case_list_id` in the `cgds` object from above and the
+corresponding clinical data for that case list (`gbm_tcga_pub_all` as the case
+list in this example).
 
 **Definition**
 
@@ -85,34 +135,13 @@ cgdsr::getCaseLists.CGDS(x = cgds,
 ```
 **Note**
 
-* Can not query for multiple  `cancerStudy`
+# Obtaining Clinical Data {.tabset .tabset-fade .tabset-pills}
 
-## `cBioPortalData` (Cases)
+## `cBioPortalData` (Clinical)
 
-**Definition**
+### All clinical data
 
-* Each sample is associated to one or multiple `CaseId`. 
-
-* Each `CaseId` is a Patient. 
-
-* Each patient can participate to one or multiple assays.
-
-* User can find a `case_id` in multiple `case_list_id`.
-
-* The `case_list_description` describes the assays.
-
-* `sampleLists` function uses `studyId` as an argument to return case list identifiers. 
-
-* Be attention to `sampleListId` column.
-
-
-```{r, echo=TRUE}
-sampleLists(api = cbio, 
-            studyId = "gbm_tcga_pub") |>
-  head(1)
-```
-
-* Note that a sample list ID is not required when using the
+Note that a `sampleListId` is not required when using the
 `fetchAllClinicalDataInStudyUsingPOST` internal endpoint. Data for all
 patients can be obtained using the `clinicalData` function.
 
@@ -138,17 +167,22 @@ getSampleInfo(api = cbio,
  head(1)
 ```
 
-There may be other endpoints to get Info. Please reefer to section [Endpoits and Search options][Endpoits and Search options of `cBioportalData`]
+### By sample data
+
+You can use a different endpoint to obtain data for a single sample.
+First, obtain a single `sampleId` with the `samplesInSampleLists` function.
 
 ```{r}
-case_ids_1 <- samplesInSampleLists(api = cbio, 
-                                   sampleListIds = "gbm_tcga_pub_expr_classical") |>
-                unlist() |>
-                head(1) |>
-                unname()
+clist1 <- "gbm_tcga_pub_all"
+samplist <- samplesInSampleLists(cbio, clist1)
+onesample <- samplist[["gbm_tcga_pub_all"]][1]
+onesample
+```
 
+Then we use the API endpoint to retrieve the data. Note that you would run
+`httr::content` on the output to extract the data.
 
-
+```{r}
 cbio$getAllClinicalDataOfSampleInStudyUsingGET(
     sampleId = case_ids_1, 
     studyId = "gbm_tcga_pub"
@@ -169,108 +203,124 @@ getClinicalData.CGDS(x = cgds,
 
 ```
 
-**Note**
+## `cgdsr` (Clinical)
 
-* We queried clinical data for `_expr_classical` cases in `gbm_tcga_pub` study id.
+### Notes
 
-## `cBioPortalData` (Clinic.)
+* `getClinicalData` uses `case_list_id` as input without specifying the
+`study_id` as case list identifiers are unique to each study.
 
-* Compared to `cgdsr`, `clinicalData` function needs `studyId` and not `case_list_id` to query clinical data sets.
+### getClinicalData
 
-```{r}
-## get Clinical data
-clinicalData(api = cbio, 
-             studyId = "gbm_tcga_pub") |>
-  colnames()
+We query clinical data for the `gbm_tcga_pub_expr_classical` case list
+identifier which is part of the `gbm_tcga_pub` study.
+
+```{r, eval = FALSE}
+getClinicalData.CGDS(x = cgds, 
+    caseList = "gbm_tcga_pub_expr_classical"
+)
 ```
 
-**Note**
+# Clinical Data Summary
 
-* Explicitly we queried a subset (only `_expr_classical`, 54 samples) clinical data with `cgdsr` and all (206 samples) clinical data with `cBioPortalData`.
+`cgdsr` allows you to obtain clinical data for a case list subset
+(54 cases with `gbm_tcga_pub_expr_classical`) and `cBioPortalData` provides
+clinical data for all 206 samples in `gbm_tcga_pub` using the `clinicalData`
+function.
 
-* `cgdsr` returns a dataframe with `sampleId` (TCGA.02.0009.01)  but not `patientId` (TCGA.02.0009)
+* `cgdsr` returns a `data.frame` with `sampleId` (TCGA.02.0009.01)  but not
+`patientId` (TCGA.02.0009)
+* `cBioPortalData` returns `sampleId` (TCGA-02-0009-01) and `patientId`
+(TCGA-02-0009).
+* Note the differences in identifier delimiters between the two packages,
+`cgdsr` provides `case_id`s with `.` and `cBioPortalData` returns `patientId`s
+with `-`.
 
-* `cBioPortalData` returns `sampleId` (TCGA-02-0009-01) & `patientId` (TCGA-02-0009).
-
-
-# get Genetic Profiles or Molecular Profiles Identifiers {.tabset .tabset-fade .tabset-pills}
-
-## `cgdsr`
-```{r, eval=FALSE}
-getGeneticProfiles.CGDS(cgds,cancerStudy = "gbm_tcga_pub" )
-```
-
-## `cBioPrtalData`
+You may be interested in other clinical data endpoints. For a list, use
+the `searchOps` function.
 
 ```{r}
-molecularProfiles(api = cbio, studyId = "gbm_tcga_pub") |>
-  head(1)
+searchOps(cbio, "clinical")
+```
+
+# Molecular or Genetic Profiles {.tabset .tabset-fade .tabset-pills}
+
+## `cBioPortalData` (molecularProfiles)
+
+```{r}
+molecularProfiles(api = cbio, studyId = "gbm_tcga_pub")
 ```
 
 # Profile Data or molecular Data (mRNA expression) for a set of  genes {.tabset .tabset-fade .tabset-pills}
 
-## `cgdsr`
+## `cgdsr` (getGeneticProfiles)
 
-```{r, eval=FALSE}
-getProfileData.CGDS(x = cgds,
-                    genes = c("NF1", "TP53", "ABL1"),
-                    geneticProfiles = "gbm_tcga_pub_mrna",
-                    caseList = "gbm_tcga_pub_all") %>%
-                     datatable(options = list(pageLength = 5))
+```{r,eval=FALSE}
+getGeneticProfiles.CGDS(cgds, cancerStudy = "gbm_tcga_pub")
 ```
 
-## `cBioPortalData`
+# Genomic Profile Data for a set of genes {.tabset .tabset-fade .tabset-pills}
+
+## `cBioPortalData` (Indentify samples and genes)
 
 Currently, some conversion is needed to directly use the `molecularData`
 function, if you only have Hugo symbols. First, convert to Entrez gene IDs
 and then obtain all the samples in the sample list of interest.
 
-### Convert gene HugoSymbol to Entrez
+### Convert `hugoGeneSymbol` to `entrezGeneId`
 
-```{r, eval=TRUE}
-## convert Hugo Symbol genes to Entrez code
-our_entrez <- queryGeneTable(cbio,
-                             by = "hugoGeneSymbol",
-                             genes = c("NF1", "TP53", "ABL1")
-                             )%>%
-                             pull(entrezGeneId)
-out_entrez
-```
-
-**Convert all or selected `genePanelId` to gene Hugo Symbol:**
-
-```{r, eval = FALSE}
-# get all genPanelId
-all_genePanelId <- genePanels(api = cbio) %>% pull(genePanelId)
-
-
-## get all Genes entrez/symbol from all genePanelID, rm duplicates
-lapply(X = all_genePanelId,
-       function(x) getGenePanel(api = cbio, 
-                                genePanelId = x)) %>%
-                 bind_rows() %>%
-                 distinct() %>%
-    datatable(options = list(pageLength = 5))
-```
-
-### Three ways to get molecular Data for mRNA expression
-
-**(1) `molecularData` function**
 ```{r}
-
-## get mRNA expression
-molecularData(api = cbio, 
-              molecularProfileIds = "gbm_tcga_pub_mrna",
-              entrezGeneIds = c("7157", "25", "4763"), # our_entrez, 
-              sampleIds = unlist(samplesInSampleLists(api = cbio,
-                                                      sampleListIds = "gbm_tcga_pub_all"))
-              )
+genetab <- queryGeneTable(cbio,
+    by = "hugoGeneSymbol",
+    genes = c("NF1", "TP53", "ABL1")
+)
+genetab
+entrez <- genetab[["entrezGeneId"]]
 ```
 
-**(2) `getDataByGenes` function**
+### Obtain all samples in study
 
-* Note that this can also be done by using the `getDataByGenes` function, which
-automatically figures out all the sample identifiers in the study:
+```{r}
+allsamps <- samplesInSampleLists(cbio, "gbm_tcga_pub_all")
+```
+
+In the next section, we will show how to use the genes and sample identifiers
+to obtain the molecular profile data.
+
+## `cgdsr` (Profile Data)
+
+The `getProfileData` function allows for straightforward retrieval of the
+molecular profile data with only a case list and genetic profile identifiers.
+
+```{r,eval=FALSE}
+getProfileData.CGDS(x = cgds,
+    genes = c("NF1", "TP53", "ABL1"),
+    geneticProfiles = "gbm_tcga_pub_mrna",
+    caseList = "gbm_tcga_pub_all"
+)
+```
+
+# Molecular Data with `cBioPortalData`
+
+`cBioPortalData` provides a number of options for retrieving molecular profile
+data depending on the use case. Note that `molecularData` is mostly used
+internally and that the `cBioPortalData` function is the user-friendly method
+for downloading such data.
+
+## `molecularData`
+
+We use the translated `entrez` identifiers from above.
+
+```{r}
+molecularData(cbio, "gbm_tcga_pub_mrna",
+    entrezGeneIds = entrez, sampleIds = unlist(allsamps))
+```
+
+## `getDataByGenes`
+
+The `getDataByGenes` function automatically figures out all the sample
+identifiers in the study and it allows Hugo and Entrez identifiers, as well
+as `genePanelId` inputs.
 
 ```{r}
 our_mRNA_gbm <- getDataByGenes(
@@ -299,19 +349,25 @@ our_gbm_pub <- cBioPortalData(
 assay(our_gbm_pub[["gbm_tcga_pub_mrna"]])[, 1:4]
 ```
 
-# Mutation Data {.tabset .tabset-fade .tabset-pills}
+## `cBioPortalData`: the main end-user function
 
-## `cgdsr`
+It is important to note that end users who wish to obtain the data as
+easily as possible should use the main `cBioPortalData` function:
 
-```{r, eval = FALSE}
-getMutationData.CGDS(
-    x = cgds,
-    caseList = "getMutationData",
-    geneticProfile = "gbm_tcga_pub_mutations",
-    genes = c("NF1", "TP53", "ABL1")
+```{r}
+gbm_pub <- cBioPortalData(
+    api = cbio,
+    studyId = "gbm_tcga_pub",
+    genes = c("NF1", "TP53", "ABL1"), by = "hugoGeneSymbol",
+    molecularProfileIds = "gbm_tcga_pub_mrna"
 )
+
+assay(gbm_pub[["gbm_tcga_pub_mrna"]])[, 1:4]
 ```
 
+# Mutation Data {.tabset .tabset-fade .tabset-pills}
+
+## `cBioPortalData` (mutationData)
 
 ## `cBioPortalData`
 
@@ -350,62 +406,13 @@ our_Mut_gbm <- getDataByGenes(
 assay(our_Mut_gbm[["gbm_tcga_pub_mutations"]])[, 1:4]
 ```
 
-**(3) `cBioPortalData` function**
+## `cgdsr` (getMutationData)
 
-```{r, eval=TRUE}
-our_Mut_gbm <- cBioPortalData(
-    api = cbio,
-    studyId = "gbm_tcga_pub",
-    genes = c("NF1", "TP53", "ABL1"),
-    by = "hugoGeneSymbol",
-    molecularProfileIds = "gbm_tcga_pub_mutations"
+```{r,eval=FALSE}
+getMutationData.CGDS(
+    x = cgds,
+    caseList = "getMutationData",
+    geneticProfile = "gbm_tcga_pub_mutations",
+    genes = c("NF1", "TP53", "ABL1")
 )
-
-assay(our_Mut_gbm[["gbm_tcga_pub_mutations"]])[, 1:4]
-```
-
-# Copy Number Alteration Data (CNA)  {.tabset .tabset-fade .tabset-pills}
-
-## `cgdsr`
-
-## `cBioPortalData`
-
-# Methylation Data  {.tabset .tabset-fade .tabset-pills}
-
-## `cgdsr`
-
-## `cBioPortalData`
-
-# Endpoits and Search options of `cBioportalData`
-
-* `searchOps` function returns all endpoints needed using `regex`. Here some example of endpoints:  
-
-
-**By Sample endpoint**
-```{r}
-searchOps(cbio, "sample")
-```
-
-
-
-**By Clinical endpoint**
-```{r}
-searchOps(cbio, "clinical")
-```
-
-
-**By molecular endpoint**
-```{r}
-searchOps(cbio, "molecular")
-```
-
-**By profile endpoint**
-```{r}
-searchOps(cbio, "profile")
-```
-
-**By mutation endpoint**
-
-```{r}
-searchOps(cbio, "mutation")
 ```
