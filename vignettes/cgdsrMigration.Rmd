@@ -18,16 +18,15 @@ output:
 knitr::opts_chunk$set(cache = TRUE)
 ```
 
-
 # Introduction
 
 This vignette aims to help developers migrate from the now defunct `cgdsr`
 CRAN package. Note that the `cgdsr` package code is shown for comparison but it
 is not guaranteed to work. If you have questions regarding the contents,
-please create an issue at the [GitHub](https://github.com/waldronlab/cBioPortalData/issues) repository.
+please create an issue at the GitHub repository:
+https://github.com/waldronlab/cBioPortalData/issues
 
-
-# Load the package
+# Loading the package
 
 ```{r,include=TRUE,results="hide",message=FALSE,warning=FALSE}
 library(cBioPortalData)
@@ -37,7 +36,7 @@ library(cBioPortalData)
 
 ## `cBioPortalData` setup
 
-* Here we show the default inputs to the `cBioPortal` function for clarity.
+Here we show the default inputs to the cBioPortal function for clarity.
 
 ```{r , comment=FALSE, warning=FALSE, message=FALSE}
 cbio <- cBioPortal(
@@ -45,10 +44,13 @@ cbio <- cBioPortal(
     protocol = "https",
     api. = "/api/api-docs"
 )
+getStudies(cbio)
+```
 
-getStudies(cbio) |> 
-   colnames()
+Note that the `studyId` column is important for further queries.
 
+```{r}
+head(getStudies(cbio)[["studyId"]])
 ```
 
 ## `cgdsr` setup
@@ -117,23 +119,12 @@ We obtain the first `case_list_id` in the `cgds` object from above and the
 corresponding clinical data for that case list (`gbm_tcga_pub_all` as the case
 list in this example).
 
-**Definition**
+```{r,eval=FALSE}
+clist1 <-
+    getCaseLists.CGDS(cgds, cancerStudy = "gbm_tcga_pub")[1, "case_list_id"]
 
-* The Cases is synonym to the Patients. 
-
-* Each patient is identified  by `Case_id`.
-
-* Each patient has one or multiple samples used for molecular/genetic  profile analysis, like mRNA, mutation, CNA, and Methylation.
-
-## `cgdsr` (Cases)
-
-```{r, eval = FALSE}
-
-cgdsr::getCaseLists.CGDS(x = cgds,
-                  cancerStudy = "gbm_tcga_pub")
-
+getClinicalData.CGDS(cgds, clist1)
 ```
-**Note**
 
 # Obtaining Clinical Data {.tabset .tabset-fade .tabset-pills}
 
@@ -145,26 +136,8 @@ Note that a `sampleListId` is not required when using the
 `fetchAllClinicalDataInStudyUsingPOST` internal endpoint. Data for all
 patients can be obtained using the `clinicalData` function.
 
-* It is possible to get directly `case_ids`. We can use `samplesInSampleLists` function.
-
 ```{r}
-samplesInSampleLists(api = cbio, 
-                     sampleListIds = c("gbm_tcga_pub_expr_classical", "gbm_tcga_pub_expr_mesenchymal") )
-```
-
-**Note**
-
-* We can query multiple `case_list_id` to get `case_ids` (samples identifiers)
-
-* `sampleInSampleLists` can query a subset of sample list. 
-
-* To get more information about Patients, we can query with `getSampleInfo` function.
-
-```{r}
-getSampleInfo(api = cbio, 
-              studyId = "gbm_tcga_pub",
-              projection = c("SUMMARY", "ID", "DETAILED", "META")) |>
- head(1)
+clinicalData(cbio, "gbm_tcga_pub")
 ```
 
 ### By sample data
@@ -184,23 +157,8 @@ Then we use the API endpoint to retrieve the data. Note that you would run
 
 ```{r}
 cbio$getAllClinicalDataOfSampleInStudyUsingGET(
-    sampleId = case_ids_1, 
-    studyId = "gbm_tcga_pub"
+    sampleId = onesample, studyId = "gbm_tcga_pub"
 )
-
-
-```
-
-## `cgdsr` (Clinic.)
-
-* The User needs to specify which samples list from one Study.
-
-* `getClinicalData`  uses `case_list_id` as an argument without specifying the `study_id`.
-
-```{r, eval = FALSE}
-getClinicalData.CGDS(x = cgds, 
-                     caseList =  "gbm_tcga_pub_expr_classical")
-
 ```
 
 ## `cgdsr` (Clinical)
@@ -251,7 +209,8 @@ searchOps(cbio, "clinical")
 molecularProfiles(api = cbio, studyId = "gbm_tcga_pub")
 ```
 
-# Profile Data or molecular Data (mRNA expression) for a set of  genes {.tabset .tabset-fade .tabset-pills}
+Note that we want to pull the `molecularProfileId` column to use in other
+queries.
 
 ## `cgdsr` (getGeneticProfiles)
 
@@ -323,30 +282,13 @@ identifiers in the study and it allows Hugo and Entrez identifiers, as well
 as `genePanelId` inputs.
 
 ```{r}
-our_mRNA_gbm <- getDataByGenes(
+getDataByGenes(
     api =  cbio,
     studyId = "gbm_tcga_pub",
     genes = c("NF1", "TP53", "ABL1"),
     by = "hugoGeneSymbol",
     molecularProfileIds = "gbm_tcga_pub_mrna"
 )
-
-assay(our_mRNA_gbm[["gbm_tcga_pub_mrna"]])[, 1:4]
-```
-
-**(3) `cBioPortalData` function**
-It is important to note that end users who wish to obtain the data as
-easily as possible should use the main `cBioPortalData` function:
-
-```{r, eval=TRUE}
-our_gbm_pub <- cBioPortalData(
-    api = cbio,
-    studyId = "gbm_tcga_pub",
-    genes = c("NF1", "TP53", "ABL1"), 
-    by = "hugoGeneSymbol",
-    molecularProfileIds = "gbm_tcga_pub_mrna"
-)
-assay(our_gbm_pub[["gbm_tcga_pub_mrna"]])[, 1:4]
 ```
 
 ## `cBioPortalData`: the main end-user function
@@ -369,41 +311,26 @@ assay(gbm_pub[["gbm_tcga_pub_mrna"]])[, 1:4]
 
 ## `cBioPortalData` (mutationData)
 
-## `cBioPortalData`
-
-### Three ways to get molecular Data for mutation
-
-**`mutationData` function**
-
-Similar to `molecularData`, `mutationData` function  can query mutation data.
-```{r, eval=TRUE}
-our_Mut_gbm <- mutationData(
-    api = cbio,
-    molecularProfileIds = "gbm_tcga_pub_mutations",
-    by = "hugoGeneSymbol",
-    genes = c("NF1", "TP53", "ABL1"),
-    #entrezGeneIds = c("7157", "25", "4763"), # our_entrez, 
-    sampleIds = unlist(samplesInSampleLists(api = cbio,
-                                                      sampleListIds = "gbm_tcga_pub_all"))
-) 
-
-assay(our_Mut_gbm[["gbm_tcga_pub_mutations"]])[, 1:4]
-```
-
-**(2) `getDataByGene` function**
-
- Mutation data can also queried by  the `getDataByGenes` function.
+Similar to `molecularData`, mutation data can be obtained with the
+`mutationData` function or the `getDataByGenes` function.
 
 ```{r}
-our_Mut_gbm <- getDataByGenes(
+mutationData(
+    api = cbio,
+    molecularProfileIds = "gbm_tcga_pub_mutations",
+    entrezGeneIds = entrez,
+    sampleIds = unlist(allsamps)
+)
+```
+
+```{r}
+getDataByGenes(
     api = cbio,
     studyId = "gbm_tcga_pub",
     genes = c("NF1", "TP53", "ABL1"),
     by = "hugoGeneSymbol",
     molecularProfileIds = "gbm_tcga_pub_mutations"
-) 
-
-assay(our_Mut_gbm[["gbm_tcga_pub_mutations"]])[, 1:4]
+)
 ```
 
 ## `cgdsr` (getMutationData)
