@@ -2,6 +2,7 @@
 
 ### New features
 
+* Add `cgdsr` to `cBioPortalData` migration vignette (@kmezhoud, #54)
 * Auth `token` string or file can now be included in the `cBioPortal` function.
 * The `check_build` argument can be set to `FALSE` for alternative APIs, e.g.,
 KidsFirst, when using `cBioPortalData` 
