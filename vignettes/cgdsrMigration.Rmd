@@ -343,3 +343,85 @@ getMutationData.CGDS(
     genes = c("NF1", "TP53", "ABL1")
 )
 ```
+
+# Copy Number Alteration (CNA) {.tabset .tabset-fade .tabset-pills}
+
+## `cBioPortalData` (CNA)
+
+Copy Number Alteration data  can be obtained with the `getDataByGenes` function
+or by the main `cBioPortal` function.
+
+```{r}
+our_gbm_CNA <- getDataByGenes(
+    api = cbio,
+    studyId = "gbm_tcga_pub",
+    genes = c("NF1", "TP53", "ABL1"),
+    by = "hugoGeneSymbol",
+    molecularProfileIds = "gbm_tcga_pub_cna_rae"
+)
+
+our_gbm_CNA$gbm_tcga_pub_cna_rae[,c("entrezGeneId", "sampleId", "value")]
+```
+
+```{r}
+our_gbm_CNA <-cBioPortalData(
+    api = cbio,
+    studyId = "gbm_tcga_pub",
+    genes = c("NF1", "TP53", "ABL1"),
+    by = "hugoGeneSymbol",
+    molecularProfileIds = "gbm_tcga_pub_cna_rae"
+)
+
+our_gbm_CNA$gbm_tcga_pub_cna_rae[,c("entrezGeneId", "sampleId", "value")]
+```
+
+
+## `cgdsr` (CNA)
+
+```{r, eval=FALSE}
+getProfileData.CGDS(x = cgds,
+                    genes = c("NF1", "TP53", "ABL1"),
+                    geneticProfiles = "gbm_tcga_pub_cna_rae",
+                    caseList = "gbm_tcga_pub_cna")
+```
+
+
+# Methylation Data  {.tabset .tabset-fade .tabset-pills}
+
+## `cBioPortalData` (Methylation)
+
+Similar to Copy Number Alteration, Methylation can be obtained by `getDataByGenes` function or by 'cBioPortalData' function.
+
+```{r}
+our_gbm_Met <- getDataByGenes(
+    api = cbio,
+    studyId = "gbm_tcga_pub",
+    genes = c("NF1", "TP53", "ABL1"),
+    by = "hugoGeneSymbol",
+    molecularProfileIds = "gbm_tcga_pub_methylation_hm27"
+)
+
+our_gbm_Met$gbm_tcga_pub_methylation_hm27[,c("entrezGeneId", "sampleId", "value")]
+```
+
+
+```{r}
+our_gbm_Met <- cBioPortalData(
+    api = cbio,
+    studyId = "gbm_tcga_pub",
+    genes = c("NF1", "TP53", "ABL1"),
+    by = "hugoGeneSymbol",
+    molecularProfileIds = "gbm_tcga_pub_methylation_hm27"
+)
+
+our_gbm_Met$gbm_tcga_pub_methylation_hm27[,c("entrezGeneId", "sampleId", "value")]
+```
+
+## `cgdsr` (Methylation)
+
+```{r}
+cgdsr::getProfileData.CGDS(x = cgds, 
+                           genes = c("NF1", "TP53", "ABL1"),
+                           geneticProfiles = "gbm_tcga_pub_methylation_hm27",
+                           caseList = "gbm_tcga_pub_methylation_hm27") 
+```
