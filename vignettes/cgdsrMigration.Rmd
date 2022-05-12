@@ -88,7 +88,7 @@ function. The function handles multiple `sampleList` identifiers.
 
 ```{r}
 samplesInSampleLists(
-    api = cbio, 
+    api = cbio,
     sampleListIds = c(
         "gbm_tcga_pub_expr_classical", "gbm_tcga_pub_expr_mesenchymal"
     )
@@ -174,7 +174,7 @@ We query clinical data for the `gbm_tcga_pub_expr_classical` case list
 identifier which is part of the `gbm_tcga_pub` study.
 
 ```{r, eval = FALSE}
-getClinicalData.CGDS(x = cgds, 
+getClinicalData.CGDS(x = cgds,
     caseList = "gbm_tcga_pub_expr_classical"
 )
 ```
@@ -352,37 +352,35 @@ Copy Number Alteration data  can be obtained with the `getDataByGenes` function
 or by the main `cBioPortal` function.
 
 ```{r}
-our_gbm_CNA <- getDataByGenes(
+getDataByGenes(
     api = cbio,
     studyId = "gbm_tcga_pub",
     genes = c("NF1", "TP53", "ABL1"),
     by = "hugoGeneSymbol",
     molecularProfileIds = "gbm_tcga_pub_cna_rae"
 )
-
-our_gbm_CNA$gbm_tcga_pub_cna_rae[,c("entrezGeneId", "sampleId", "value")]
 ```
 
 ```{r}
-our_gbm_CNA <-cBioPortalData(
+cBioPortalData(
     api = cbio,
     studyId = "gbm_tcga_pub",
     genes = c("NF1", "TP53", "ABL1"),
     by = "hugoGeneSymbol",
     molecularProfileIds = "gbm_tcga_pub_cna_rae"
 )
-
-our_gbm_CNA$gbm_tcga_pub_cna_rae[,c("entrezGeneId", "sampleId", "value")]
 ```
 
 
 ## `cgdsr` (CNA)
 
 ```{r, eval=FALSE}
-getProfileData.CGDS(x = cgds,
-                    genes = c("NF1", "TP53", "ABL1"),
-                    geneticProfiles = "gbm_tcga_pub_cna_rae",
-                    caseList = "gbm_tcga_pub_cna")
+getProfileData.CGDS(
+    x = cgds,
+    genes = c("NF1", "TP53", "ABL1"),
+    geneticProfiles = "gbm_tcga_pub_cna_rae",
+    caseList = "gbm_tcga_pub_cna"
+)
 ```
 
 
@@ -390,38 +388,37 @@ getProfileData.CGDS(x = cgds,
 
 ## `cBioPortalData` (Methylation)
 
-Similar to Copy Number Alteration, Methylation can be obtained by `getDataByGenes` function or by 'cBioPortalData' function.
+Similar to Copy Number Alteration, Methylation can be obtained by
+`getDataByGenes` function or by 'cBioPortalData' function.
 
 ```{r}
-our_gbm_Met <- getDataByGenes(
+getDataByGenes(
     api = cbio,
     studyId = "gbm_tcga_pub",
     genes = c("NF1", "TP53", "ABL1"),
     by = "hugoGeneSymbol",
     molecularProfileIds = "gbm_tcga_pub_methylation_hm27"
 )
-
-our_gbm_Met$gbm_tcga_pub_methylation_hm27[,c("entrezGeneId", "sampleId", "value")]
 ```
 
 
 ```{r}
-our_gbm_Met <- cBioPortalData(
+cBioPortalData(
     api = cbio,
     studyId = "gbm_tcga_pub",
     genes = c("NF1", "TP53", "ABL1"),
     by = "hugoGeneSymbol",
     molecularProfileIds = "gbm_tcga_pub_methylation_hm27"
 )
-
-our_gbm_Met$gbm_tcga_pub_methylation_hm27[,c("entrezGeneId", "sampleId", "value")]
 ```
 
 ## `cgdsr` (Methylation)
 
-```{r}
-cgdsr::getProfileData.CGDS(x = cgds, 
-                           genes = c("NF1", "TP53", "ABL1"),
-                           geneticProfiles = "gbm_tcga_pub_methylation_hm27",
-                           caseList = "gbm_tcga_pub_methylation_hm27") 
+```{r,eval=FALSE}
+getProfileData.CGDS(
+    x = cgds,
+    genes = c("NF1", "TP53", "ABL1"),
+    geneticProfiles = "gbm_tcga_pub_methylation_hm27",
+    caseList = "gbm_tcga_pub_methylation_hm27"
+)
 ```
