@@ -19,7 +19,7 @@ BiocFileCache system."><!-- mathjax --><script src="https://cdnjs.cloudflare.com
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">cBioPortalData</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.6.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.8.0</span>
       </span>
     </div>
 
@@ -31,7 +31,7 @@ BiocFileCache system."><!-- mathjax --><script src="https://cdnjs.cloudflare.com
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -41,6 +41,9 @@ BiocFileCache system."><!-- mathjax --><script src="https://cdnjs.cloudflare.com
     </li>
     <li>
       <a href="../articles/cBioPortalRClient.html">cBioPortalData: API Reference Guide for Devs</a>
+    </li>
+    <li>
+      <a href="../articles/cgdsrMigration.html">cgdsr Migration</a>
     </li>
   </ul></li>
 <li>
@@ -177,11 +180,15 @@ cache. This only works for the <code>cBioDataPack</code> function. To remove the
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 10</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   rid   rname   create_time access_time rpath rtype fpath last_modified_t… etag </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> BFC8  acc_tc… 2022-01-28… 2022-01-28… /git… web   http… 2021-11-12 20:5… d82b…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> BFC12 acc_tc… 2022-05-18… 2022-05-18… /git… web   http… 2022-03-25 19:3… e181…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 1 more variable: expires &lt;dbl&gt;</span></span>
 <span class="r-in"></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="va">cbio</span> <span class="op">&lt;-</span> <span class="fu"><a href="cBioPortal.html">cBioPortal</a></span><span class="op">(</span><span class="op">)</span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>service version differs from validated version</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span>     service url: https://www.cbioportal.org/api/api-docs</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span>     observed md5sum: 456be3b7a6b5871a1b41f1233ecbae85</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span>     expected md5sum: 1615443badbeaada68463859c34f15f8</span>
 <span class="r-in"></span>
 <span class="r-in"><span class="fu"><a href="cBioPortalData.html">cBioPortalData</a></span><span class="op">(</span></span>
 <span class="r-in">    <span class="va">cbio</span>, by <span class="op">=</span> <span class="st">"hugoGeneSymbol"</span>,</span>
@@ -216,7 +223,7 @@ cache. This only works for the <code>cBioDataPack</code> function. To remove the
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
       </footer></div>

@@ -1,9 +1,10 @@
-pandoc: 2.14.0.3
-pkgdown: 2.0.2
+pandoc: 2.17.1.1
+pkgdown: 2.0.3
 pkgdown_sha: ~
 articles:
   cBioPortalData: cBioPortalData.html
   cBioPortalDataErrors: cBioPortalDataErrors.html
   cBioPortalRClient: cBioPortalRClient.html
-last_built: 2022-01-28T01:40Z
+  cgdsrMigration: cgdsrMigration.html
+last_built: 2022-05-18T20:04Z
 

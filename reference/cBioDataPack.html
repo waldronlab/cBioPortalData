@@ -22,7 +22,7 @@ representation to faciliate analysis and data management operations."><!-- mathj
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">cBioPortalData</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.6.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.8.0</span>
       </span>
     </div>
 
@@ -34,7 +34,7 @@ representation to faciliate analysis and data management operations."><!-- mathj
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -44,6 +44,9 @@ representation to faciliate analysis and data management operations."><!-- mathj
     </li>
     <li>
       <a href="../articles/cBioPortalRClient.html">cBioPortalData: API Reference Guide for Devs</a>
+    </li>
+    <li>
+      <a href="../articles/cgdsrMigration.html">cgdsr Migration</a>
     </li>
   </ul></li>
 <li>
@@ -153,24 +156,28 @@ function.</p>
 <span class="r-in"><span class="va">cbio</span> <span class="op">&lt;-</span> <span class="fu"><a href="cBioPortal.html">cBioPortal</a></span><span class="op">(</span><span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="cBioPortal.html">getStudies</a></span><span class="op">(</span><span class="va">cbio</span><span class="op">)</span><span class="op">[[</span><span class="st">"studyId"</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "prad_mskcc_2014"              "pan_origimed_2020"           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3] "skcm_tcga_pan_can_atlas_2018" "crc_nigerian_2020"           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5] "acc_tcga"                     "acyc_sanger_2013"            </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "acc_tcga"                     "blca_plasmacytoid_mskcc_2016"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3] "bcc_unige_2016"               "all_stjude_2015"             </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5] "ampca_bcm_2016"               "blca_dfarber_mskcc_2014"     </span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># ask=FALSE for non-interactive use</span></span>
 <span class="r-in"><span class="va">mae</span> <span class="op">&lt;-</span> <span class="fu">cBioDataPack</span><span class="op">(</span><span class="st">"acc_tcga"</span>, ask <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Study file in cache: acc_tcga</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: /tmp/RtmplZmuPe/fd268236ec_acc_tcga/acc_tcga/data_cna.txt</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: /tmp/RtmplZmuPe/fd268236ec_acc_tcga/acc_tcga/data_cna_hg19.seg</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: /tmp/RtmplZmuPe/fd268236ec_acc_tcga/acc_tcga/data_linear_cna.txt</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: /tmp/RtmplZmuPe/fd268236ec_acc_tcga/acc_tcga/data_methylation_hm450.txt</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: /tmp/RtmplZmuPe/fd268236ec_acc_tcga/acc_tcga/data_mrna_seq_v2_rsem.txt</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: /tmp/RtmplZmuPe/fd268236ec_acc_tcga/acc_tcga/data_mrna_seq_v2_rsem_zscores_ref_all_samples.txt</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: /tmp/RtmplZmuPe/fd268236ec_acc_tcga/acc_tcga/data_mrna_seq_v2_rsem_zscores_ref_diploid_samples.txt</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: /tmp/RtmplZmuPe/fd268236ec_acc_tcga/acc_tcga/data_mutations.txt</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: /tmp/RtmplZmuPe/fd268236ec_acc_tcga/acc_tcga/data_mutsig.txt</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: /tmp/RtmplZmuPe/fd268236ec_acc_tcga/acc_tcga/data_rppa.txt</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: /tmp/RtmplZmuPe/fd268236ec_acc_tcga/acc_tcga/data_rppa_zscores.txt</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: /tmp/RtmpmqB3l9/e94dad7c10_acc_tcga/acc_tcga/data_cna.txt</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: /tmp/RtmpmqB3l9/e94dad7c10_acc_tcga/acc_tcga/data_cna_hg19.seg</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: /tmp/RtmpmqB3l9/e94dad7c10_acc_tcga/acc_tcga/data_linear_cna.txt</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: /tmp/RtmpmqB3l9/e94dad7c10_acc_tcga/acc_tcga/data_methylation_hm450.txt</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: /tmp/RtmpmqB3l9/e94dad7c10_acc_tcga/acc_tcga/data_mrna_seq_v2_rsem.txt</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Unable to import: mrna_seq_v2_rsem</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> Reason: missing value where TRUE/FALSE needed</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: /tmp/RtmpmqB3l9/e94dad7c10_acc_tcga/acc_tcga/data_mrna_seq_v2_rsem_zscores_ref_all_samples.txt</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Unable to import: mrna_seq_v2_rsem_zscores_ref_all_samples</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> Reason: missing value where TRUE/FALSE needed</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: /tmp/RtmpmqB3l9/e94dad7c10_acc_tcga/acc_tcga/data_mrna_seq_v2_rsem_zscores_ref_diploid_samples.txt</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: /tmp/RtmpmqB3l9/e94dad7c10_acc_tcga/acc_tcga/data_mutations.txt</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: /tmp/RtmpmqB3l9/e94dad7c10_acc_tcga/acc_tcga/data_mutsig.txt</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: /tmp/RtmpmqB3l9/e94dad7c10_acc_tcga/acc_tcga/data_rppa.txt</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: /tmp/RtmpmqB3l9/e94dad7c10_acc_tcga/acc_tcga/data_rppa_zscores.txt</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span> Multiple prefixes found, using keyword 'region' or taking first one</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span> Multiple prefixes found, using keyword 'region' or taking first one</span>
 <span class="r-in"></span>
@@ -188,7 +195,7 @@ function.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
       </footer></div>
