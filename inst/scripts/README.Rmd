@@ -1,5 +1,7 @@
 ---
 output: github_document
+knit: (function(inputFile, encoding) {
+  rmarkdown::render(inputFile, encoding = encoding, output_dir = "../../") })
 ---
 
 ```{r, include = FALSE}

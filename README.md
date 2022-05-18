@@ -75,7 +75,7 @@ and cBioPortal API specification. Users can view the
 `data(studiesTable)` dataset to get an overview of the studies that are
 available and currently building as `MultiAssayExperiment`
 representations. About 98 % of the studies via the API (`api_build`) and
-73 % of the package studies (`pack_build`) are building, these include
+72 % of the package studies (`pack_build`) are building, these include
 additional datasets that were not previously available. Feel free to
 file an issue to request prioritization of fixing any of the remaining
 datasets.
@@ -89,12 +89,12 @@ studies <- getStudies(cbio, buildReport = TRUE)
 table(studies$api_build)
 #> 
 #> FALSE  TRUE 
-#>     5   308
+#>     5   307
 
 table(studies$pack_build)
 #> 
 #> FALSE  TRUE 
-#>    86   227
+#>    86   226
 ```
 
 ### API Service
@@ -141,20 +141,17 @@ acc <- cBioDataPack("acc_tcga")
 
 ``` r
 acc
-#> A MultiAssayExperiment object of 11 listed
+#> A MultiAssayExperiment object of 8 listed
 #>  experiments with user-defined names and respective classes.
-#>  Containing an ExperimentList class object of length 11:
+#>  Containing an ExperimentList class object of length 8:
 #>  [1] cna_hg19.seg: RaggedExperiment with 16080 rows and 90 columns
-#>  [2] CNA: SummarizedExperiment with 24776 rows and 90 columns
-#>  [3] linear_CNA: SummarizedExperiment with 24776 rows and 90 columns
-#>  [4] methylation_hm450: SummarizedExperiment with 15755 rows and 80 columns
-#>  [5] mutations_extended: RaggedExperiment with 20166 rows and 90 columns
-#>  [6] mutations_mskcc: RaggedExperiment with 20166 rows and 90 columns
-#>  [7] RNA_Seq_v2_expression_median: SummarizedExperiment with 20531 rows and 79 columns
-#>  [8] RNA_Seq_v2_mRNA_median_all_sample_Zscores: SummarizedExperiment with 20531 rows and 79 columns
-#>  [9] RNA_Seq_v2_mRNA_median_Zscores: SummarizedExperiment with 20440 rows and 79 columns
-#>  [10] rppa_Zscores: SummarizedExperiment with 191 rows and 46 columns
-#>  [11] rppa: SummarizedExperiment with 192 rows and 46 columns
+#>  [2] cna: SummarizedExperiment with 24776 rows and 90 columns
+#>  [3] linear_cna: SummarizedExperiment with 24776 rows and 90 columns
+#>  [4] methylation_hm450: SummarizedExperiment with 15754 rows and 80 columns
+#>  [5] mrna_seq_v2_rsem_zscores_ref_diploid_samples: SummarizedExperiment with 20440 rows and 79 columns
+#>  [6] mutations: RaggedExperiment with 20166 rows and 90 columns
+#>  [7] rppa_zscores: SummarizedExperiment with 191 rows and 46 columns
+#>  [8] rppa: SummarizedExperiment with 192 rows and 46 columns
 #> Functionality:
 #>  experiments() - obtain the ExperimentList instance
 #>  colData() - the primary/phenotype DataFrame
