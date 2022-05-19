@@ -510,7 +510,8 @@ loadStudy <- function(
 #'
 #' @return A \linkS4class{MultiAssayExperiment} object
 #'
-#' @seealso \url{https://www.cbioportal.org/datasets}, \link{cBioPortalData}
+#' @seealso \url{https://www.cbioportal.org/datasets}, \link{cBioPortalData},
+#'   \link{removePackCache}
 #'
 #' @author Levi Waldron, Marcel R., Ino dB.
 #' @include utils.R

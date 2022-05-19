@@ -219,7 +219,7 @@ update.args <- function(args) {
 #'
 #' @return A \linkS4class{MultiAssayExperiment} object
 #'
-#' @seealso \link{cBioDataPack}
+#' @seealso \link{cBioDataPack}, \link{removeDataCache}
 #'
 #' @export
 cBioPortalData <-
