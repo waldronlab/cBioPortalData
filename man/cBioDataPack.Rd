@@ -75,7 +75,8 @@ mae <- cBioDataPack("acc_tcga")
 
 }
 \seealso{
-\url{https://www.cbioportal.org/datasets}, \link{cBioPortalData}
+\url{https://www.cbioportal.org/datasets}, \link{cBioPortalData},
+\link{removePackCache}
 }
 \author{
 Levi Waldron, Marcel R., Ino dB.
