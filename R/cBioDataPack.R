@@ -218,8 +218,11 @@ cbioportal2clinicaldf <- function(files) {
 #' downloading packaged data. Can be set using the 'cBio_URL' option (see
 #' `?cBioDataPack` for more details)
 #'
-#' @param names.field A character vector of possible column names for the
-#' column that is used to label ranges from a mutations or copy number file.
+#' @param names.field character() Possible column names for the
+#' column that will used to label ranges for data such as mutations or copy
+#' number (default: `c("Hugo_Symbol", "Entrez_Gene_Id", "Gene")`). Values are
+#' cycled through and eliminated when no data present, or duplicates are found.
+#' Values in the corresponding column must be unique in each row.
 #'
 #' @param cancer_study_file character(1) indicates the on-disk location
 #' of the downloaded tarball
