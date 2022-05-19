@@ -10,7 +10,7 @@ cBioDataPack(
   use_cache = TRUE,
   names.field = c("Hugo_Symbol", "Entrez_Gene_Id", "Gene"),
   cleanup = TRUE,
-  ask = TRUE
+  ask = interactive()
 )
 }
 \arguments{
@@ -27,12 +27,12 @@ that is used to label ranges from a mutations or copy number file.}
 \item{cleanup}{logical(1) whether to delete the \code{untar}-red contents from
 the \code{exdir} folder (default TRUE)}
 
-\item{ask}{A logical vector of length one indicating whether to prompt the
-the user before downloading and loading study \code{MultiAssayExperiment}. If
-TRUE, the user will be prompted to continue for studies that are not
+\item{ask}{logical(1) Whether to prompt the the user before downloading and
+loading study \code{MultiAssayExperiment}. Set to \code{interactive()} by default;
+the user will be prompted to continue for studies that are not
 currently building as \code{MultiAssayExperiment} based on previous testing
-(in a non-interactive session, no data will be downloaded and built unless
-\code{ask = FALSE}).}
+(in a non-interactive session, data download will be attempted; equivalent
+to \code{ask = FALSE})}
 }
 \value{
 A \linkS4class{MultiAssayExperiment} object
@@ -71,8 +71,7 @@ cbio <- cBioPortal()
 
 head(getStudies(cbio)[["studyId"]])
 
-# ask=FALSE for non-interactive use
-mae <- cBioDataPack("acc_tcga", ask = FALSE)
+mae <- cBioDataPack("acc_tcga")
 
 }
 \seealso{

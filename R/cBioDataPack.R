@@ -501,15 +501,12 @@ loadStudy <- function(
 #'
 #' @inheritParams downloadStudy
 #'
-#' @param names.field A character vector of possible column names for the column
-#' that is used to label ranges from a mutations or copy number file.
-#'
-#' @param ask A logical vector of length one indicating whether to prompt the
-#' the user before downloading and loading study `MultiAssayExperiment`. If
-#' TRUE, the user will be prompted to continue for studies that are not
-#' currently building as `MultiAssayExperiment` based on previous testing
-#' (in a non-interactive session, no data will be downloaded and built unless
-#' `ask = FALSE`).
+#' @param ask logical(1) Whether to prompt the the user before downloading and
+#'   loading study `MultiAssayExperiment`. Set to `interactive()` by default;
+#'   the user will be prompted to continue for studies that are not
+#'   currently building as `MultiAssayExperiment` based on previous testing
+#'   (in a non-interactive session, data download will be attempted; equivalent
+#'   to `ask = FALSE`)
 #'
 #' @return A \linkS4class{MultiAssayExperiment} object
 #'
@@ -526,13 +523,12 @@ loadStudy <- function(
 #'
 #' head(getStudies(cbio)[["studyId"]])
 #'
-#' # ask=FALSE for non-interactive use
-#' mae <- cBioDataPack("acc_tcga", ask = FALSE)
+#' mae <- cBioDataPack("acc_tcga")
 #'
 #' @export
 cBioDataPack <- function(cancer_study_id, use_cache = TRUE,
     names.field = c("Hugo_Symbol", "Entrez_Gene_Id", "Gene"),
-    cleanup = TRUE, ask = TRUE)
+    cleanup = TRUE, ask = interactive())
 {
     .check_study_id_building(cancer_study_id, "pack_build", ask = ask)
 
