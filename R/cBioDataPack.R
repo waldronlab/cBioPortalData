@@ -434,6 +434,9 @@ loadStudy <- function(
         stop("Experiment data could not be mapped to colData")
     }
 
+    mdat <- c(mdat,
+        unmapped = explist[names(explist) != unique(gmap[["assay"]])])
+
     MultiAssayExperiment(
         experiments = explist,
         colData = coldata,
