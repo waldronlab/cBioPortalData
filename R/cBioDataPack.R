@@ -98,7 +98,7 @@ cbioportal2clinicaldf <- function(files) {
             }, c(list(clindata), singles))
         }
     } else {
-        clindata <- .silentRead(file, mxlines = 5L)
+        clindata <- .silentRead(files, mxlines = 5L)
     }
     clinmeta <- .getClinMeta(files)
     clindata <- as(clindata, "DataFrame")
