@@ -19,7 +19,7 @@ BiocFileCache system."><!-- mathjax --><script src="https://cdnjs.cloudflare.com
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">cBioPortalData</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.8.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.8.2</span>
       </span>
     </div>
 
@@ -43,7 +43,7 @@ BiocFileCache system."><!-- mathjax --><script src="https://cdnjs.cloudflare.com
       <a href="../articles/cBioPortalRClient.html">cBioPortalData: API Reference Guide for Devs</a>
     </li>
     <li>
-      <a href="../articles/cgdsrMigration.html">cgdsr Migration</a>
+      <a href="../articles/cgdsrMigration.html">Migrating from cgdsr to cBioPortalData</a>
     </li>
   </ul></li>
 <li>
@@ -104,46 +104,75 @@ BiocFileCache system.</p>
     <h2>Arguments</h2>
     <dl><dt>...</dt>
 <dd><p>For <code>cBioCache</code>, arguments passed to <code>setCache</code></p></dd>
+
+
 <dt>directory</dt>
 <dd><p>The file location where the cache is located. Once set
 future downloads will go to this folder.</p></dd>
+
+
 <dt>verbose</dt>
 <dd><p>Whether to print descriptive messages</p></dd>
+
+
 <dt>ask</dt>
 <dd><p>logical (default TRUE when interactive session) Confirm the file
 location of the cache directory</p></dd>
+
+
 <dt>cancer_study_id</dt>
 <dd><p>character(1) The <code>studyId</code> from <code>getStudies</code></p></dd>
+
+
 <dt>dry.run</dt>
 <dd><p>logical Whether or not to remove cache files (default TRUE).</p></dd>
+
+
 <dt>api</dt>
 <dd><p>An API object of class `cBioPortal` from the `cBioPortal`
 function</p></dd>
+
+
 <dt>studyId</dt>
 <dd><p>character(1) Indicates the "studyId" as taken from
 `getStudies`</p></dd>
+
+
 <dt>genePanelId</dt>
 <dd><p>character(1) Identifies the gene panel, as obtained
 from the `genePanels` function</p></dd>
+
+
 <dt>genes</dt>
 <dd><p>character() Either Entrez gene identifiers or Hugo gene
 symbols. When included, the 'by' argument indicates the type of
 identifier provided and 'genePanelId' is ignored. Preference is
 given to Entrez IDs due to faster query responses.</p></dd>
+
+
 <dt>molecularProfileIds</dt>
 <dd><p>character() A vector of molecular profile IDs</p></dd>
+
+
 <dt>sampleListId</dt>
 <dd><p>character(1) A sample list identifier as obtained from
 `sampleLists()``</p></dd>
+
+
 <dt>sampleIds</dt>
 <dd><p>character() Sample identifiers</p></dd>
+
+
 <dt>by</dt>
 <dd><p>character(1) Either 'entrezGeneId' or 'hugoGeneSymbol' for row
 metadata (default: 'entrezGeneId')</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>cBioCache: The path to the cache location</p>
+    
+
+<p>cBioCache: The path to the cache location</p>
     </div>
     <div id="cbiocache">
     <h2>cBioCache</h2>
@@ -180,7 +209,7 @@ cache. This only works for the <code>cBioDataPack</code> function. To remove the
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 10</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   rid   rname   create_time access_time rpath rtype fpath last_modified_t… etag </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> BFC12 acc_tc… 2022-05-19… 2022-05-19… /git… web   http… 2022-03-25 19:3… e181…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> BFC16 acc_tc… 2022-06-15… 2022-06-15… /git… web   http… 2022-03-25 19:3… e181…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 1 more variable: expires &lt;dbl&gt;</span></span>
 <span class="r-in"></span>
 <span class="r-in"></span>
@@ -223,7 +252,7 @@ cache. This only works for the <code>cBioDataPack</code> function. To remove the
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

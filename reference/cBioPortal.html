@@ -24,7 +24,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">cBioPortalData</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.8.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.8.2</span>
       </span>
     </div>
 
@@ -48,7 +48,7 @@
       <a href="../articles/cBioPortalRClient.html">cBioPortalData: API Reference Guide for Devs</a>
     </li>
     <li>
-      <a href="../articles/cgdsrMigration.html">cgdsr Migration</a>
+      <a href="../articles/cgdsrMigration.html">Migrating from cgdsr to cBioPortalData</a>
     </li>
   </ul></li>
 <li>
@@ -172,66 +172,111 @@
     <dl><dt>hostname</dt>
 <dd><p>character(1) The internet location of the service
 (default: 'www.cbioportal.org')</p></dd>
+
+
 <dt>protocol</dt>
 <dd><p>character(1) The internet protocol used to access the
 hostname (default: 'https')</p></dd>
+
+
 <dt>api.</dt>
 <dd><p>character(1) The directory location of the API protocol within
 the hostname (default: '/api/api-docs')</p></dd>
+
+
 <dt>token</dt>
 <dd><p>character(1) The Authorization Bearer token e.g.,
 "63eba81c-2591-4e15-9d1c-fb6e8e51e35d" or a path to text file.</p></dd>
+
+
 <dt>api</dt>
 <dd><p>An API object of class `cBioPortal` from the `cBioPortal`
 function</p></dd>
+
+
 <dt>buildReport</dt>
 <dd><p>logical(1) Indicates whether to append the build
 information to the `getStudies()` table (default FALSE)</p></dd>
+
+
 <dt>studyId</dt>
 <dd><p>character(1) Indicates the "studyId" as taken from
 `getStudies`</p></dd>
+
+
 <dt>projection</dt>
 <dd><p>character(default: "SUMMARY") Specify the projection
 type for data retrieval for details see API documentation</p></dd>
+
+
 <dt>molecularProfileIds</dt>
 <dd><p>character() A vector of molecular profile IDs</p></dd>
+
+
 <dt>entrezGeneIds</dt>
 <dd><p>numeric() A vector indicating entrez gene IDs</p></dd>
+
+
 <dt>sampleIds</dt>
 <dd><p>character() Sample identifiers</p></dd>
+
+
 <dt>keyword</dt>
 <dd><p>character(1) Keyword or pattern for searching through
 available operations</p></dd>
+
+
 <dt>sampleListIds</dt>
 <dd><p>character() A vector of 'sampleListId' as obtained from
 `sampleLists`</p></dd>
+
+
 <dt>genePanelId</dt>
 <dd><p>character(1) Identifies the gene panel, as obtained
 from the `genePanels` function</p></dd>
+
+
 <dt>molecularProfileId</dt>
 <dd><p>character(1) Indicates a molecular profile ID</p></dd>
+
+
 <dt>sampleListId</dt>
 <dd><p>character(1) A sample list identifier as obtained from
 `sampleLists()``</p></dd>
+
+
 <dt>pageSize</dt>
 <dd><p>numeric(1) The number of rows in the table to return</p></dd>
+
+
 <dt>pageNumber</dt>
 <dd><p>numeric(1) The pagination page number</p></dd>
+
+
 <dt>...</dt>
 <dd><p>Additional arguments to lower level API functions</p></dd>
+
+
 <dt>by</dt>
 <dd><p>character(1) Either 'entrezGeneId' or 'hugoGeneSymbol' for row
 metadata (default: 'entrezGeneId')</p></dd>
+
+
 <dt>genes</dt>
 <dd><p>character() Either Entrez gene identifiers or Hugo gene
 symbols. When included, the 'by' argument indicates the type of
 identifier provided and 'genePanelId' is ignored. Preference is
 given to Entrez IDs due to faster query responses.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>cBioPortal: An API object of class 'cBioPortal'
-    cBioPortalData: A data object of class 'MultiAssayExperiment'</p>
+    
+
+<p>cBioPortal: An API object of class 'cBioPortal'</p>
+
+
+<p>cBioPortalData: A data object of class 'MultiAssayExperiment'</p>
     </div>
     <div id="api-metadata">
     <h2>API Metadata</h2>
@@ -319,7 +364,7 @@ given to Entrez IDs due to faster query responses.</p></dd>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">cbio</span> <span class="op">&lt;-</span> <span class="fu">cBioPortal</span><span class="op">(</span><span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="fu">getStudies</span><span class="op">(</span>api <span class="op">=</span> <span class="va">cbio</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 342 × 13</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 344 × 13</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    name          description publicStudy groups status importDate allSampleCount</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> Adrenocortic… <span style="color: #949494;">"</span>TCGA Adre… TRUE        <span style="color: #949494;">"</span>PUBL…      0 2022-03-0…             92</span>
@@ -332,7 +377,7 @@ given to Entrez IDs due to faster query responses.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> Bladder Urot… <span style="color: #949494;">"</span>Whole-exo… TRUE        <span style="color: #949494;">"</span>PUBL…      0 2022-03-0…             99</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> Bladder Canc… <span style="color: #949494;">"</span>Genomic P… TRUE        <span style="color: #949494;">"</span>PUBL…      0 2022-03-0…            109</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> Hypodiploid … <span style="color: #949494;">"</span>Whole gen… TRUE        <span style="color: #949494;">""</span>          0 2022-03-0…             44</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 332 more rows, and 6 more variables: readPermission &lt;lgl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 334 more rows, and 6 more variables: readPermission &lt;lgl&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   studyId &lt;chr&gt;, cancerTypeId &lt;chr&gt;, referenceGenome &lt;chr&gt;, pmid &lt;chr&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   citation &lt;chr&gt;</span></span>
 <span class="r-in"></span>
@@ -517,7 +562,7 @@ given to Entrez IDs due to faster query responses.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

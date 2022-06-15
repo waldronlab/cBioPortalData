@@ -23,7 +23,7 @@ by the https://cbioportal.org/datasets, refer to cBioDataPack."><!-- mathjax -->
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">cBioPortalData</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.8.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.8.2</span>
       </span>
     </div>
 
@@ -47,7 +47,7 @@ by the https://cbioportal.org/datasets, refer to cBioDataPack."><!-- mathjax -->
       <a href="../articles/cBioPortalRClient.html">cBioPortalData: API Reference Guide for Devs</a>
     </li>
     <li>
-      <a href="../articles/cgdsrMigration.html">cgdsr Migration</a>
+      <a href="../articles/cgdsrMigration.html">Migrating from cgdsr to cBioPortalData</a>
     </li>
   </ul></li>
 <li>
@@ -102,36 +102,55 @@ by the <a href="https://cbioportal.org/datasets" class="external-link">https://c
     <dl><dt>api</dt>
 <dd><p>An API object of class `cBioPortal` from the `cBioPortal`
 function</p></dd>
+
+
 <dt>studyId</dt>
 <dd><p>character(1) Indicates the "studyId" as taken from
 `getStudies`</p></dd>
+
+
 <dt>genePanelId</dt>
 <dd><p>character(1) Identifies the gene panel, as obtained
 from the `genePanels` function</p></dd>
+
+
 <dt>genes</dt>
 <dd><p>character() Either Entrez gene identifiers or Hugo gene
 symbols. When included, the 'by' argument indicates the type of
 identifier provided and 'genePanelId' is ignored. Preference is
 given to Entrez IDs due to faster query responses.</p></dd>
+
+
 <dt>molecularProfileIds</dt>
 <dd><p>character() A vector of molecular profile IDs</p></dd>
+
+
 <dt>sampleListId</dt>
 <dd><p>character(1) A sample list identifier as obtained from
 `sampleLists()``</p></dd>
+
+
 <dt>sampleIds</dt>
 <dd><p>character() Sample identifiers</p></dd>
+
+
 <dt>by</dt>
 <dd><p>character(1) Either 'entrezGeneId' or 'hugoGeneSymbol' for row
 metadata (default: 'entrezGeneId')</p></dd>
+
+
 <dt>check_build</dt>
 <dd><p>logical(1L) Whether to check the build status of the
 <code>studyId</code> using an internal dataset. This argument should be set to
 <code>FALSE</code> if using alternative <code>hostnames</code>, e.g.,
 'pedcbioportal.kidsfirstdrc.org'</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A <a href="http://waldronlab.io/MultiAssayExperiment/reference/MultiAssayExperiment-class.html" class="external-link">MultiAssayExperiment</a> object</p>
+    
+
+<p>A <a href="http://waldronlab.io/MultiAssayExperiment/reference/MultiAssayExperiment-class.html" class="external-link">MultiAssayExperiment</a> object</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -200,7 +219,7 @@ a fully reproducible example.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

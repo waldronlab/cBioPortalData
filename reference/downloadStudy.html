@@ -28,7 +28,7 @@ for the current status."><!-- mathjax --><script src="https://cdnjs.cloudflare.c
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">cBioPortalData</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.8.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.8.2</span>
       </span>
     </div>
 
@@ -52,7 +52,7 @@ for the current status."><!-- mathjax --><script src="https://cdnjs.cloudflare.c
       <a href="../articles/cBioPortalRClient.html">cBioPortalData: API Reference Guide for Devs</a>
     </li>
     <li>
-      <a href="../articles/cgdsrMigration.html">cgdsr Migration</a>
+      <a href="../articles/cgdsrMigration.html">Migrating from cgdsr to cBioPortalData</a>
     </li>
   </ul></li>
 <li>
@@ -115,40 +115,59 @@ for the current status.</p>
     <dl><dt>cancer_study_id</dt>
 <dd><p>character(1) The study identifier from cBioPortal as
 in <a href="https://cbioportal.org/webAPI" class="external-link">https://cbioportal.org/webAPI</a></p></dd>
+
+
 <dt>use_cache</dt>
 <dd><p>logical(1) (default TRUE) create the default cache location
 and use it to track downloaded data. If data found in the cache, data will
 not be re-downloaded. A path can also be provided to data cache location.</p></dd>
+
+
 <dt>force</dt>
 <dd><p>logical(1) (default FALSE) whether to force re-download data
 from remote location</p></dd>
+
+
 <dt>url_location</dt>
 <dd><p>character(1)
 (default "https://cbioportal-datahub.s3.amazonaws.com") the URL location for
 downloading packaged data. Can be set using the 'cBio_URL' option (see
 <code><a href="cBioDataPack.html">?cBioDataPack</a></code> for more details)</p></dd>
+
+
 <dt>cancer_study_file</dt>
 <dd><p>character(1) indicates the on-disk location
 of the downloaded tarball</p></dd>
+
+
 <dt>exdir</dt>
 <dd><p>character(1) indicates the folder location to <em>put</em>
 the contents of the tarball (default <code><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir()</a></code>; see also <code><a href="https://rdrr.io/r/utils/untar.html" class="external-link">?untar</a></code>)</p></dd>
+
+
 <dt>filepath</dt>
 <dd><p>character(1) indicates the folder location where
 the contents of the tarball are <em>located</em> (usually the same as <code>exdir</code>)</p></dd>
+
+
 <dt>names.field</dt>
 <dd><p>character() Possible column names for the
 column that will used to label ranges from data such as mutations or copy
 number (default: <code>c("Hugo_Symbol", "Entrez_Gene_Id", "Gene")</code>). Values are
 cycled through and eliminated when no data present, or duplicates are found.
 Values in the corresponding column must be unique in each row.</p></dd>
+
+
 <dt>cleanup</dt>
 <dd><p>logical(1) whether to delete the <code>untar</code>-red contents from
 the <code>exdir</code> folder (default TRUE)</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <ul><li><p>downloadStudy - The file location of the data tarball</p></li>
+    
+
+<ul><li><p>downloadStudy - The file location of the data tarball</p></li>
 <li><p>untarStudy - The directory location of the contents</p></li>
 <li><p>loadStudy - A MultiAssayExperiment-class object</p></li>
 </ul></div>
@@ -171,28 +190,28 @@ The tarball of the downloaded data is cached via <code>BiocFileCache</code> when
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"></span>
 <span class="r-in"><span class="op">(</span><span class="va">acc_file</span> <span class="op">&lt;-</span> <span class="fu">downloadStudy</span><span class="op">(</span><span class="st">"acc_tcga"</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Study file in cache: acc_tcga</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                              BFC12 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> "/github/home/.cache/R/cBioPortalData/443382e526a_acc_tcga.tar.gz" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                              BFC16 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> "/github/home/.cache/R/cBioPortalData/d3c7fc6cc62_acc_tcga.tar.gz" </span>
 <span class="r-in"></span>
 <span class="r-in"><span class="op">(</span><span class="va">file_dir</span> <span class="op">&lt;-</span> <span class="fu">untarStudy</span><span class="op">(</span><span class="va">acc_file</span>, <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/tmp/RtmpQXvz3A/443382e526a_acc_tcga"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/tmp/Rtmpe8Jl06/d3c7fc6cc62_acc_tcga"</span>
 <span class="r-in"></span>
 <span class="r-in"><span class="fu">loadStudy</span><span class="op">(</span><span class="va">file_dir</span><span class="op">)</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: /tmp/RtmpQXvz3A/443382e526a_acc_tcga/acc_tcga/data_cna.txt</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: /tmp/RtmpQXvz3A/443382e526a_acc_tcga/acc_tcga/data_cna_hg19.seg</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: /tmp/RtmpQXvz3A/443382e526a_acc_tcga/acc_tcga/data_linear_cna.txt</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: /tmp/RtmpQXvz3A/443382e526a_acc_tcga/acc_tcga/data_methylation_hm450.txt</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: /tmp/RtmpQXvz3A/443382e526a_acc_tcga/acc_tcga/data_mrna_seq_v2_rsem.txt</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: /tmp/Rtmpe8Jl06/d3c7fc6cc62_acc_tcga/acc_tcga/data_cna.txt</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: /tmp/Rtmpe8Jl06/d3c7fc6cc62_acc_tcga/acc_tcga/data_cna_hg19.seg</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: /tmp/Rtmpe8Jl06/d3c7fc6cc62_acc_tcga/acc_tcga/data_linear_cna.txt</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: /tmp/Rtmpe8Jl06/d3c7fc6cc62_acc_tcga/acc_tcga/data_methylation_hm450.txt</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: /tmp/Rtmpe8Jl06/d3c7fc6cc62_acc_tcga/acc_tcga/data_mrna_seq_v2_rsem.txt</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Unable to import: mrna_seq_v2_rsem</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> Reason: missing value where TRUE/FALSE needed</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: /tmp/RtmpQXvz3A/443382e526a_acc_tcga/acc_tcga/data_mrna_seq_v2_rsem_zscores_ref_all_samples.txt</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: /tmp/Rtmpe8Jl06/d3c7fc6cc62_acc_tcga/acc_tcga/data_mrna_seq_v2_rsem_zscores_ref_all_samples.txt</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Unable to import: mrna_seq_v2_rsem_zscores_ref_all_samples</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> Reason: missing value where TRUE/FALSE needed</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: /tmp/RtmpQXvz3A/443382e526a_acc_tcga/acc_tcga/data_mrna_seq_v2_rsem_zscores_ref_diploid_samples.txt</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: /tmp/RtmpQXvz3A/443382e526a_acc_tcga/acc_tcga/data_mutations.txt</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: /tmp/RtmpQXvz3A/443382e526a_acc_tcga/acc_tcga/data_mutsig.txt</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: /tmp/RtmpQXvz3A/443382e526a_acc_tcga/acc_tcga/data_rppa.txt</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: /tmp/RtmpQXvz3A/443382e526a_acc_tcga/acc_tcga/data_rppa_zscores.txt</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: /tmp/Rtmpe8Jl06/d3c7fc6cc62_acc_tcga/acc_tcga/data_mrna_seq_v2_rsem_zscores_ref_diploid_samples.txt</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: /tmp/Rtmpe8Jl06/d3c7fc6cc62_acc_tcga/acc_tcga/data_mutations.txt</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: /tmp/Rtmpe8Jl06/d3c7fc6cc62_acc_tcga/acc_tcga/data_mutsig.txt</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: /tmp/Rtmpe8Jl06/d3c7fc6cc62_acc_tcga/acc_tcga/data_rppa.txt</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: /tmp/Rtmpe8Jl06/d3c7fc6cc62_acc_tcga/acc_tcga/data_rppa_zscores.txt</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span> Multiple prefixes found, using keyword 'region' or taking first one</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span> Multiple prefixes found, using keyword 'region' or taking first one</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> A MultiAssayExperiment object of 8 listed</span>
@@ -229,7 +248,7 @@ The tarball of the downloaded data is cached via <code>BiocFileCache</code> when
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>
