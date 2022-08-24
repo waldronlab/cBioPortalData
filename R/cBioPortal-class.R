@@ -28,7 +28,7 @@
 #'
 #' cBioPortal()
 #'
-#' @export
+#' @exportClass cBioPortal
 .cBioPortal <- setClass(
     "cBioPortal",
     contains = "Service",
