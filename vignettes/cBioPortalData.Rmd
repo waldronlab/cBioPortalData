@@ -1,10 +1,10 @@
 ---
-title: "cBioPortalData: User Start Guide"
+title: "cBioPortalData: User Guide"
 author: "Marcel Ramos & Levi Waldron"
 date: "`r format(Sys.time(), '%B %d, %Y')`"
 vignette: >
   %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteIndexEntry{cBioPortal User Guide}
+  %\VignetteIndexEntry{cBioPortalData User Guide}
   %\VignetteEncoding{UTF-8}
 output:
   BiocStyle::html_document:

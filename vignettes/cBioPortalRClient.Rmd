@@ -4,7 +4,7 @@ author: "Marcel Ramos & Levi Waldron"
 date: "`r format(Sys.time(), '%B %d, %Y')`"
 vignette: >
   %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteIndexEntry{cBioPortal Quick-start Guide}
+  %\VignetteIndexEntry{cBioPortal Developer Guide}
   %\VignetteEncoding{UTF-8}
 output:
   BiocStyle::html_document:

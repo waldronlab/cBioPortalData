@@ -1,10 +1,10 @@
 ---
-title: "Migrating from cgdsr to cBioPortalData"
+title: "cgdsr to cBioPortalData: Migration Tutorial"
 author: "Karim Mezhoud & Marcel Ramos"
 date: "`r format(Sys.time(), '%B %d, %Y')`"
 vignette: >
   %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteIndexEntry{Migrating from cgdsr to cBioPortalData}
+  %\VignetteIndexEntry{cgdsr to cBioPortalData Migration}
   %\VignetteEncoding{UTF-8}
 output:
   BiocStyle::html_document:
