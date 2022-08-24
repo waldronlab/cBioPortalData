@@ -14,7 +14,7 @@
 given by the \link{cBioPortal} function.}
 
 \item{...}{additional arguments passed to methods or, for
-`operations,Service-method`, to the internal `get_operation()`
+\verb{operations,Service-method}, to the internal \code{get_operation()}
 function.}
 
 \item{.deprecated}{optional logical(1) include deprecated operations?}
@@ -37,9 +37,9 @@ to the functionality provided by the rest of the package.
 }
 \section{Functions}{
 \itemize{
-\item \code{operations,cBioPortal-method}: 
-}}
+\item \code{operations(cBioPortal)}: 
 
+}}
 \examples{
 
 cBioPortal()

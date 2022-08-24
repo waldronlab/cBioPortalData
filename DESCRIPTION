@@ -48,7 +48,7 @@ Encoding: UTF-8
 VignetteBuilder: knitr
 BugReports: https://github.com/waldronlab/cBioPortalData/issues
 biocViews: Software, Infrastructure, ThirdPartyClient
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.1
 Collate: 
     'utils.R'
     'cBioDataPack.R'

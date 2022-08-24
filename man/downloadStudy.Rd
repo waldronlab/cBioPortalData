@@ -47,7 +47,7 @@ the contents of the tarball (default \code{tempdir()}; see also \code{?untar})}
 the contents of the tarball are \emph{located} (usually the same as \code{exdir})}
 
 \item{names.field}{character() Possible column names for the
-column that will used to label ranges from data such as mutations or copy
+column that will used to label ranges for data such as mutations or copy
 number (default: \code{c("Hugo_Symbol", "Entrez_Gene_Id", "Gene")}). Values are
 cycled through and eliminated when no data present, or duplicates are found.
 Values in the corresponding column must be unique in each row.}
