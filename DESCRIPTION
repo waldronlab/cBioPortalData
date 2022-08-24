@@ -1,12 +1,12 @@
 Package: cBioPortalData
 Title: Exposes and makes available data from the cBioPortal web resources
 Version: 2.9.4
-Authors@R: c(person("Levi", "Waldron", email = "lwaldron.research@gmail.com",
-    role = "aut"),
-    person("Marcel", "Ramos", email = "marcel.ramos@roswellpark.org",
-    role = c("aut", "cre"), comment = c(ORCID = "0000-0002-3242-0582")),
-    person("Karim", "Mezhoud", email = "kmezhoud@gmail.com",
-    role = "ctb")
+Authors@R: c(
+    person("Levi", "Waldron", , "lwaldron.research@gmail.com", "aut"),
+    person("Marcel", "Ramos", , "marcel.ramos@roswellpark.org",
+      c("aut", "cre"), c(ORCID = "0000-0002-3242-0582")
+    ),
+    person("Karim", "Mezhoud", , "kmezhoud@gmail.com", "ctb")
   )
 Description: The cBioPortalData R package accesses study datasets from the
     cBio Cancer Genomics Portal. It accesses the data either from
