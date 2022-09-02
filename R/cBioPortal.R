@@ -122,7 +122,7 @@ utils::globalVariables(c("clinicalAttributeId", "value", "sampleId"))
 cBioPortal <- function(
     hostname = "www.cbioportal.org",
     protocol = "https",
-    api. = "/api/api-docs",
+    api. = "/api/v2/api-docs",
     token = character()
 ) {
     if (length(token))

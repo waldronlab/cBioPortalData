@@ -24,7 +24,7 @@
 cBioPortal(
   hostname = "www.cbioportal.org",
   protocol = "https",
-  api. = "/api/api-docs",
+  api. = "/api/v2/api-docs",
   token = character()
 )
 
