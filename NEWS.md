@@ -1,8 +1,18 @@
-## Changes in version 2.8.0
+## Changes in version 2.10.0
 
 ### New features
 
 * Add `cgdsr` to `cBioPortalData` migration vignette (@kmezhoud, #54)
+* Unmapped experiments are now added to the metadata in `cBioDataPack`
+* Set default `api. = api/v2/api-docs` in `cBioPortal` to access the API
+protocol's new location 
+* The `fetchData` developer function added to handle both `molecularData` and
+`mutationData` requests as deduced from the `molecularProfileIds` vector
+
+## Changes in version 2.8.0
+
+### New features
+
 * Auth `token` string or file can now be included in the `cBioPortal` function.
 * The `check_build` argument can be set to `FALSE` for alternative APIs, e.g.,
 KidsFirst, when using `cBioPortalData` 
