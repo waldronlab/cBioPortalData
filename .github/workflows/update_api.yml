@@ -4,7 +4,7 @@ on: workflow_dispatch
 
 jobs:
   apiUpdate:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     container: bioconductor/bioconductor_docker:devel
 
     env:
@@ -14,19 +14,11 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
-
-      - name: Query dependencies
-        run: |
-          install.packages('remotes')
-          devtools::install_github("Bioconductor/AnVIL")
-          saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
-        shell: Rscript {0}
+        with:
+          fetch-depth: 0
 
       - name: Install Dependencies
-        run: |
-          remotes::install_local(dependencies = TRUE, repos = AnVIL::repositories(), upgrade = TRUE)
-          BiocManager::install(update = TRUE, ask = FALSE)
-        shell: Rscript {0}
+        run: Rscript -e "install.packages('digest')"
 
       - name: Download API and write MD5
         run: Rscript -e "source('./inst/scripts/update_api-docs.R')"
@@ -35,7 +27,7 @@ jobs:
         if: ${{ success() }}
         run: |
           git config --local user.email ${{ secrets.EMAIL }}
-          git config --local user.name "LiNk-NY"
+          git config --local user.name ${{ secrets.USERNAME }}
           git commit -am "Update to API"
 
       - name: Push action

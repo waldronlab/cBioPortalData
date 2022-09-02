@@ -2,7 +2,7 @@
 file_loc <- "inst/service/cBioPortal/api.json"
 
 download.file(
-    url = "https://www.cbioportal.org/api/api-docs",
+    url = "https://www.cbioportal.org/api/v2/api-docs",
     destfile = file_loc
 )
 
