@@ -275,9 +275,58 @@ molecularProfiles <- function(api, studyId = NA_character_,
     SampMolIds[order(SampMolIds[["molecularProfileId"]]), ]
 }
 
+.FilterLengthWarn <- function(datalist) {
+    datanames <- names(datalist)
+    for (dname in datanames) {
+        byG <- datalist[[dname]]
+        if ("message" %in% names(byG) || !length(byG)) {
+            msg <- byG[["message"]]
+            if (length(msg)) {
+                warning(dname, ": ", msg, call. = FALSE)
+                datalist[[dname]] <- dplyr::tibble()
+            }
+        }
+    }
+    empty <- vapply(datalist, function(len) !length(len), logical(1L))
+    enames <- paste(datanames[empty], collapse = ", ")
+    if (length(empty))
+        warning("No data found for molecularProfileId: ", enames, call. = FALSE)
+    ## remove empty responses (e.g., in ov_tcga_pub_mirna)
+    Filter(length, datalist)
+}
+
 #' @name cBioPortal
 #'
-#' @section Mutation Data:
+#' @section Molecular Data:
+#'     * fetchData - A convenience function to download both mutation and
+#'     molecular data with `molecularProfileId`, `entrezGeneIds`, and
+#'     `sampleIds`
+#'
+#' @export
+fetchData <-
+    function(
+        api, molecularProfileIds = NA_character_,
+        entrezGeneIds = NULL, sampleIds = NULL
+) {
+    byGeneList <- vector("list", length(molecularProfileIds))
+    names(byGeneList) <- molecularProfileIds
+
+    mutation <- grepl("mutation", molecularProfileIds)
+    mutationList <- mutationData(
+        api = api, molecularProfileIds = molecularProfileIds[mutation],
+        entrezGeneIds = entrezGeneIds, sampleIds = sampleIds
+    )
+    molecularList <- molecularData(
+        api = api, molecularProfileIds = molecularProfileIds[!mutation],
+        entrezGeneIds = entrezGeneIds, sampleIds = sampleIds
+    )
+    byGeneList <- c(mutationList, molecularList)
+    .FilterLengthWarn(byGeneList)
+}
+
+#' @name cBioPortal
+#'
+#' @section Molecular Data:
 #'     * mutationData - Produce a dataset of mutation data using
 #'     `molecularProfileId`, `entrezGeneIds`, and `sampleIds`
 #'
@@ -285,48 +334,45 @@ molecularProfiles <- function(api, studyId = NA_character_,
 mutationData <- function(api, molecularProfileIds = NA_character_,
     entrezGeneIds = NULL, sampleIds = NULL)
 {
-    endpoint <-
-        if (length(molecularProfileIds) == 1L)
-            "fetchMutationsInMolecularProfileUsingPOST"
-        else
-            "fetchMutationsInMultipleMolecularProfilesUsingPOST"
-
+    if (missing(api))
+        stop("Provide a valid 'api' from 'cBioPortal()'")
+    if (is.null(entrezGeneIds))
+        stop("Provide a character vector of 'entrezGeneIds'")
+    if (is.null(sampleIds))
+        stop("Provide a character vector of 'sampleIds'")
+    
     if (length(molecularProfileIds) > 1L) {
         SampMolIds <- .sampleMolIds(molecularProfileIds, sampleIds)
     }
-    args <- list(api = api, name = endpoint, use_cache = FALSE)
-
-    if (length(molecularProfileIds) == 1L)
-        args <- c(args, list(
+    
+    if (length(molecularProfileIds) == 1L) {
+        endpoint <- "fetchMutationsInMolecularProfileUsingPOST"
+        byGene <- .invoke_bind(
+            api, endpoint, use_cache = FALSE,
             molecularProfileId = molecularProfileIds,
             entrezGeneIds = sort(entrezGeneIds),
             sampleIds = sort(sampleIds)
-        ))
-    else
-        args <- c(args, list(
+        )
+    } else if (length(molecularProfileIds)) {
+        endpoint <- "fetchMutationsInMultipleMolecularProfilesUsingPOST"
+        byGene <- .invoke_bind(
+            api, endpoint, use_cache = FALSE,
             molecularProfileIds = molecularProfileIds,
             sampleMolecularIdentifiers = SampMolIds
-        ))
-
-    byGene <- do.call(.invoke_bind, args)
-
-    if ("message" %in% names(byGene) || !length(byGene)) {
-        msg <- byGene[["message"]]
-        if (length(msg))
-            warning(msg)
-        else
-            warning(
-                "No data found for molecularProfileId: ", molecularProfileIds
-            )
-        dplyr::tibble()
-    } else {
+        )
+    } 
+    if (!length(molecularProfileIds) || !length(byGene))
+        structure(
+            vector("list", length(molecularProfileIds)),
+            .Names = molecularProfileIds
+        )
+    else    
         split(byGene, byGene[["molecularProfileId"]])
-    }
 }
 
 #' @name cBioPortal
 #'
-#' @section Molecular Profiles:
+#' @section Molecular Data:
 #'     * molecularData - Produce a dataset of molecular profile data based on
 #'     `molecularProfileId`, `entrezGeneIds`, and `sampleIds`
 #'
@@ -340,16 +386,6 @@ molecularData <- function(api, molecularProfileIds = NA_character_,
         stop("Provide a character vector of 'entrezGeneIds'")
     if (is.null(sampleIds))
         stop("Provide a character vector of 'sampleIds'")
-
-    byGeneList <- vector("list", length(molecularProfileIds))
-    names(byGeneList) <- molecularProfileIds
-
-    mutation <- grepl("mutation", molecularProfileIds)
-    if (any(mutation))
-        byGeneList[mutation] <- mutationData(
-            api, molecularProfileIds[mutation], entrezGeneIds, sampleIds
-        )
-    molecularProfileIds <- molecularProfileIds[!mutation]
 
     if (length(molecularProfileIds) == 1L) {
         endpoint <- "fetchAllMolecularDataInMolecularProfileUsingPOST"
@@ -371,29 +407,14 @@ molecularData <- function(api, molecularProfileIds = NA_character_,
                 molecularProfileIds, sampleIds
             )
         )
-    } else {
-        byGene <- dplyr::tibble(molecularProfileId = NA_character_)
-    }
-
-    byGene <- split(byGene, byGene[["molecularProfileId"]])
-    byGeneList[names(byGene)] <- byGene
-    ## remove empty responses (e.g., in ov_tcga_pub_mirna)
-    byGeneList <- Filter(length, byGeneList)
-
-    for (gnames in names(byGeneList)) {
-        byG <- byGeneList[[gnames]]
-        if ("message" %in% names(byG) || !length(byG)) {
-            msg <- byG[["message"]]
-            if (length(msg))
-                warning(msg)
-            else
-                warning(
-                    "No data found for molecularProfileId: ",
-                )
-            byGeneList[[gnames]] <- dplyr::tibble()
-        }
-    }
-    byGeneList
+    } 
+    if (!length(molecularProfileIds) || !length(byGene))
+        structure(
+            vector("list", length(molecularProfileIds)),
+            .Names = molecularProfileIds
+        )
+    else    
+        split(byGene, byGene[["molecularProfileId"]])
 }
 
 #' @name cBioPortal
@@ -676,13 +697,16 @@ getDataByGenes <-
     if (file.exists(cacheloc)) {
         load(cacheloc)
     } else {
-        molData <- molecularData(api = api,
+        molData <- fetchData(
+            api = api,
             molecularProfileIds = molecularProfileIds,
             entrezGeneIds = feats[["entrezGeneId"]],
             sampleIds = sampleIds
         )
-        molData <- lapply(molData, function(x) suppressMessages({
-            dplyr::left_join(x, feats)
+        molData <- lapply(
+            molData,
+            function(x) suppressMessages({
+                dplyr::left_join(x, feats)
             })
         )
         save(molData, file = cacheloc)

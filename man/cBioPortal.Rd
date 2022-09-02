@@ -5,6 +5,7 @@
 \alias{getStudies}
 \alias{clinicalData}
 \alias{molecularProfiles}
+\alias{fetchData}
 \alias{mutationData}
 \alias{molecularData}
 \alias{searchOps}
@@ -36,6 +37,13 @@ molecularProfiles(
   api,
   studyId = NA_character_,
   projection = c("SUMMARY", "ID", "DETAILED", "META")
+)
+
+fetchData(
+  api,
+  molecularProfileIds = NA_character_,
+  entrezGeneIds = NULL,
+  sampleIds = NULL
 )
 
 mutationData(
@@ -217,15 +225,20 @@ This section of the documentation lists the functions that
 
      * molecularProfiles - Produce a molecular profiles dataset for a given
      study identifier ('studyId')
+}
+
+\section{Molecular Data}{
+
+    * fetchData - A convenience function to download both mutation and
+    molecular data with `molecularProfileId`, `entrezGeneIds`, and
+    `sampleIds`
+
+
+    * mutationData - Produce a dataset of mutation data using
+    `molecularProfileId`, `entrezGeneIds`, and `sampleIds`
 
 
     * molecularData - Produce a dataset of molecular profile data based on
-    `molecularProfileId`, `entrezGeneIds`, and `sampleIds`
-}
-
-\section{Mutation Data}{
-
-    * mutationData - Produce a dataset of mutation data using
     `molecularProfileId`, `entrezGeneIds`, and `sampleIds`
 }
 
