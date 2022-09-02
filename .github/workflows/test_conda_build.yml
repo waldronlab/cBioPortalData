@@ -2,9 +2,10 @@ name: Build Conda Docker
 
 on:
   push:
-    paths: ['DESCRIPTION']
     branches:
       - devel
+    paths: 
+      - DESCRIPTION
 
 jobs:
   conda:
