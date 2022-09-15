@@ -9,6 +9,13 @@ protocol's new location
 * The `fetchData` developer function added to handle both `molecularData` and
 `mutationData` requests as deduced from the `molecularProfileIds` vector
 
+### Bug fixes and minor improvements
+
+* `ask` argument correctly passed down to caching mechanism in `cBioDataPack`
+* `check_build` option available in `cBioDataPack` particularly for new studies
+that have not been checked against.
+
+
 ## Changes in version 2.8.0
 
 ### New features
