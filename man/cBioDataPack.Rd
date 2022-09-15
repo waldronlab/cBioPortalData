@@ -10,7 +10,8 @@ cBioDataPack(
   use_cache = TRUE,
   names.field = c("Hugo_Symbol", "Entrez_Gene_Id", "Gene"),
   cleanup = TRUE,
-  ask = interactive()
+  ask = interactive(),
+  check_build = TRUE
 )
 }
 \arguments{
@@ -36,6 +37,11 @@ the user will be prompted to continue for studies that are not
 currently building as \code{MultiAssayExperiment} based on previous testing
 (in a non-interactive session, data download will be attempted; equivalent
 to \code{ask = FALSE})}
+
+\item{check_build}{logical(1L) Whether to check the build status of the
+\code{studyId} using an internal dataset. This argument should be set to
+\code{FALSE} if using alternative \code{hostnames}, e.g.,
+'pedcbioportal.kidsfirstdrc.org'}
 }
 \value{
 A \linkS4class{MultiAssayExperiment} object

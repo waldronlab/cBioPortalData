@@ -538,9 +538,10 @@ loadStudy <- function(
 #' @export
 cBioDataPack <- function(cancer_study_id, use_cache = TRUE,
     names.field = c("Hugo_Symbol", "Entrez_Gene_Id", "Gene"),
-    cleanup = TRUE, ask = interactive())
+    cleanup = TRUE, ask = interactive(), check_build = TRUE)
 {
-    .check_study_id_building(cancer_study_id, "pack_build", ask = ask)
+    if (check_build)
+        .check_study_id_building(cancer_study_id, "pack_build", ask = ask)
 
     cancer_study_file <- downloadStudy(cancer_study_id, use_cache)
     exdir <- untarStudy(cancer_study_file)
