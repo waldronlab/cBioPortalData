@@ -256,7 +256,7 @@ cbioportal2clinicaldf <- function(files) {
 #'
 #' @export
 downloadStudy <- function(cancer_study_id, use_cache = TRUE, force = FALSE,
-    url_location = getOption("cBio_URL", .url_location))
+    url_location = getOption("cBio_URL", .url_location), ask = TRUE)
 {
     .validStudyID(cancer_study_id)
 
@@ -265,13 +265,15 @@ downloadStudy <- function(cancer_study_id, use_cache = TRUE, force = FALSE,
     if (is.character(use_cache) && length(use_cache) == 1L)
         cBioCache(directory = use_cache)
     else if (isTRUE(use_cache))
-        cBioCache()
+        cBioCache(ask = ask)
     else
         stop("Use 'setCache' or specify a download location")
 
-    tryCatch({
-        .download_data_file(url_file, cancer_study_id, verbose = TRUE,
-            force = force)
+    tryCatch(
+        {
+            .download_data_file(
+                url_file, cancer_study_id, verbose = TRUE, force = force
+            )
         },
         error = function(cond) {
             message("\n", cond)
@@ -506,6 +508,7 @@ loadStudy <- function(
 #' function.
 #'
 #' @inheritParams downloadStudy
+#' @inheritParams cBioPortalData
 #'
 #' @param ask logical(1) Whether to prompt the the user before downloading and
 #'   loading study `MultiAssayExperiment`. Set to `interactive()` by default;

@@ -76,8 +76,8 @@
 #'
 #' @return cBioCache: The path to the cache location
 #' @export
-cBioCache <- function(...) {
-    getOption("cBioCache", setCache(..., verbose = FALSE))
+cBioCache <- function(..., ask) {
+    getOption("cBioCache", setCache(..., verbose = FALSE, ask = ask))
 }
 
 #' @rdname cBioCache

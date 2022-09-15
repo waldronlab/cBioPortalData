@@ -10,7 +10,8 @@ downloadStudy(
   cancer_study_id,
   use_cache = TRUE,
   force = FALSE,
-  url_location = getOption("cBio_URL", .url_location)
+  url_location = getOption("cBio_URL", .url_location),
+  ask = TRUE
 )
 
 untarStudy(cancer_study_file, exdir = tempdir())

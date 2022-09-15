@@ -7,7 +7,7 @@
 \alias{removeDataCache}
 \title{Manage cache / download directories for study data}
 \usage{
-cBioCache(...)
+cBioCache(..., ask)
 
 setCache(
   directory = tools::R_user_dir("cBioPortalData", "cache"),
@@ -33,13 +33,13 @@ removeDataCache(
 \arguments{
 \item{...}{For \code{cBioCache}, arguments passed to \code{setCache}}
 
+\item{ask}{logical (default TRUE when interactive session) Confirm the file
+location of the cache directory}
+
 \item{directory}{The file location where the cache is located. Once set
 future downloads will go to this folder.}
 
 \item{verbose}{Whether to print descriptive messages}
-
-\item{ask}{logical (default TRUE when interactive session) Confirm the file
-location of the cache directory}
 
 \item{cancer_study_id}{character(1) The \code{studyId} from \code{getStudies}}
 
