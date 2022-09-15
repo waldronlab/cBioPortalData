@@ -11,10 +11,10 @@ protocol's new location
 
 ### Bug fixes and minor improvements
 
+* Check for valid `studyId`s with `getStudies` in `cBioDataPack`
 * `ask` argument correctly passed down to caching mechanism in `cBioDataPack`
 * `check_build` option available in `cBioDataPack` particularly for new studies
 that have not been checked against.
-
 
 ## Changes in version 2.8.0
 
