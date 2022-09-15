@@ -209,6 +209,13 @@ cbioportal2clinicaldf <- function(files) {
 #' and use it to track downloaded data. If data found in the cache, data will
 #' not be re-downloaded. A path can also be provided to data cache location.
 #'
+#' @param ask logical(1) Whether to prompt the the user before downloading and
+#'   loading study `MultiAssayExperiment` that is not currently building based
+#'   on previous testing. Set to `interactive()` by default. In a
+#'   non-interactive session, data download will be attempted; equivalent to
+#'   `ask = FALSE`. The argument will also be used when a cache directory needs
+#'   to be created when using `downloadStudy`.
+#'
 #' @param force logical(1) (default FALSE) whether to force re-download data
 #' from remote location
 #'
@@ -255,7 +262,7 @@ cbioportal2clinicaldf <- function(files) {
 #'
 #' @export
 downloadStudy <- function(cancer_study_id, use_cache = TRUE, force = FALSE,
-    url_location = getOption("cBio_URL", .url_location), ask = TRUE)
+    url_location = getOption("cBio_URL", .url_location), ask = interactive())
 {
     .validStudyID(cancer_study_id)
 
@@ -509,13 +516,6 @@ loadStudy <- function(
 #' @inheritParams downloadStudy
 #' @inheritParams cBioPortalData
 #'
-#' @param ask logical(1) Whether to prompt the the user before downloading and
-#'   loading study `MultiAssayExperiment`. Set to `interactive()` by default;
-#'   the user will be prompted to continue for studies that are not
-#'   currently building as `MultiAssayExperiment` based on previous testing
-#'   (in a non-interactive session, data download will be attempted; equivalent
-#'   to `ask = FALSE`)
-#'
 #' @return A \linkS4class{MultiAssayExperiment} object
 #'
 #' @seealso \url{https://www.cbioportal.org/datasets}, \link{cBioPortalData},
@@ -542,7 +542,9 @@ cBioDataPack <- function(cancer_study_id, use_cache = TRUE,
     if (check_build)
         .check_study_id_building(cancer_study_id, "pack_build", ask = ask)
 
-    cancer_study_file <- downloadStudy(cancer_study_id, use_cache)
+    cancer_study_file <- downloadStudy(
+        cancer_study_id, use_cache = use_cache, ask = ask
+    )
     exdir <- untarStudy(cancer_study_file)
     loadStudy(exdir, names.field, cleanup)
 }

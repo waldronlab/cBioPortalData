@@ -32,11 +32,11 @@ Values in the corresponding column must be unique in each row.}
 the \code{exdir} folder (default TRUE)}
 
 \item{ask}{logical(1) Whether to prompt the the user before downloading and
-loading study \code{MultiAssayExperiment}. Set to \code{interactive()} by default;
-the user will be prompted to continue for studies that are not
-currently building as \code{MultiAssayExperiment} based on previous testing
-(in a non-interactive session, data download will be attempted; equivalent
-to \code{ask = FALSE})}
+loading study \code{MultiAssayExperiment} that is not currently building based
+on previous testing. Set to \code{interactive()} by default. In a
+non-interactive session, data download will be attempted; equivalent to
+\code{ask = FALSE}. The argument will also be used when a cache directory needs
+to be created when using \code{downloadStudy}.}
 
 \item{check_build}{logical(1L) Whether to check the build status of the
 \code{studyId} using an internal dataset. This argument should be set to

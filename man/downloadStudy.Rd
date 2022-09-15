@@ -11,7 +11,7 @@ downloadStudy(
   use_cache = TRUE,
   force = FALSE,
   url_location = getOption("cBio_URL", .url_location),
-  ask = TRUE
+  ask = interactive()
 )
 
 untarStudy(cancer_study_file, exdir = tempdir())
@@ -37,6 +37,13 @@ from remote location}
 (default "https://cbioportal-datahub.s3.amazonaws.com") the URL location for
 downloading packaged data. Can be set using the 'cBio_URL' option (see
 \code{?cBioDataPack} for more details)}
+
+\item{ask}{logical(1) Whether to prompt the the user before downloading and
+loading study \code{MultiAssayExperiment} that is not currently building based
+on previous testing. Set to \code{interactive()} by default. In a
+non-interactive session, data download will be attempted; equivalent to
+\code{ask = FALSE}. The argument will also be used when a cache directory needs
+to be created when using \code{downloadStudy}.}
 
 \item{cancer_study_file}{character(1) indicates the on-disk location
 of the downloaded tarball}
