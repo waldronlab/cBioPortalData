@@ -119,8 +119,7 @@ cbioportal2clinicaldf <- function(files) {
 
     cancer_study_id <- tolower(cancer_study_id)
 
-    denv <- .loadReportData()
-    validStudies <- denv[["pack_build"]][["studyId"]]
+    validStudies <- getStudies(cBioPortal())[["studyId"]]
 
     ## Ensure study ID is valid
     inTable <- cancer_study_id %in% validStudies
