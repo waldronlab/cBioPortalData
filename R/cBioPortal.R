@@ -1,5 +1,3 @@
-utils::globalVariables(c("clinicalAttributeId", "value", "sampleId"))
-
 .handle_token <- function(token) {
     if (file.exists(token))
         token <- readLines(token)

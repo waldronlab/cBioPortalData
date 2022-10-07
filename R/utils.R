@@ -1,5 +1,3 @@
-utils::globalVariables("element")
-
 .biocExtract <- function(object, names.field, colnames) {
     hasRanged <- RTCGAToolbox:::.hasRangeNames(object)
     if (hasRanged) {
