@@ -422,3 +422,9 @@ getProfileData.CGDS(
     caseList = "gbm_tcga_pub_methylation_hm27"
 )
 ```
+
+# sessionInfo
+
+```{r}
+sessionInfo()
+```
