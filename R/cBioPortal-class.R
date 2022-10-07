@@ -20,6 +20,8 @@
 #'
 #' @importFrom methods new
 #'
+#' @return A \code{cBioPortal} class instance
+#'
 #' @seealso  \link{cBioPortal}, \linkS4class{Service}
 #'
 #' @md

@@ -19,6 +19,9 @@ function.}
 
 \item{.deprecated}{optional logical(1) include deprecated operations?}
 }
+\value{
+A \code{cBioPortal} class instance
+}
 \description{
 The \code{cBioPortal} class is a representation of the \code{cBioPortal}
 API protocol that directly inherits from the \code{Service} class in the
