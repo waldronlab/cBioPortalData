@@ -76,7 +76,7 @@
 #'
 #' @return cBioCache: The path to the cache location
 #' @export
-cBioCache <- function(..., ask) {
+cBioCache <- function(..., ask = interactive()) {
     getOption("cBioCache", setCache(..., verbose = FALSE, ask = ask))
 }
 

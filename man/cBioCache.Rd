@@ -7,7 +7,7 @@
 \alias{removeDataCache}
 \title{Manage cache / download directories for study data}
 \usage{
-cBioCache(..., ask)
+cBioCache(..., ask = interactive())
 
 setCache(
   directory = tools::R_user_dir("cBioPortalData", "cache"),
