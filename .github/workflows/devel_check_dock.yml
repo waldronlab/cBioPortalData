@@ -21,7 +21,7 @@ jobs:
 
       - name: Query dependencies
         run: |
-          BiocManager::install(c("remotes", "Bioconductor/BiocManager"))
+          BiocManager::install(c("remotes", "covr", "Bioconductor/BiocManager"))
           saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
         shell: Rscript {0}
 
@@ -44,6 +44,10 @@ jobs:
         env:
           _R_CHECK_CRAN_INCOMING_REMOTE_: false
         run: rcmdcheck::rcmdcheck(args = c("--no-manual"), error_on = "error", check_dir = "check")
+        shell: Rscript {0}
+
+      - name: Test coverage
+        run: covr::codecov(quiet = FALSE)
         shell: Rscript {0}
 
       - name: Run BiocCheck
