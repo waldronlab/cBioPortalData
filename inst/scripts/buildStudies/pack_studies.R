@@ -12,29 +12,7 @@ names(comp_pack) <- studies
 err_pack <- vector("character", length(studies))
 names(err_pack) <- studies
 
-if (parallel::detectCores() > 90 && identical(Sys.getenv("USER"), "mramos")) {
-
-    library(BiocParallel)
-    registered()
-    params <- MulticoreParam(
-        workers = 30, stop.on.error = FALSE, progressbar = TRUE
-    )
-
-    res_pack <- bplapply(X = studies, FUN = function(x) {
-        err <- character(1L)
-        dats <- tryCatch({
-            cBioPortalData::cBioDataPack(cancer_study_id = x, ask = FALSE)
-        }, error = function(e) conditionMessage(e))
-        success <- is(dats, "MultiAssayExperiment")
-        if (!success)
-            err <- dats
-        comp <- success
-        list(comp_pack = comp, err_pack = err)
-    }, BPPARAM = params)
-    comp_pack <- vapply(res_pack, `[[`, logical(1L), 1L)
-    err_pack <- vapply(res_pack, `[[`, character(1L), 2L)
-
-} else {
+if (identical(tolower(Sys.getenv("IS_BIOC_BUILD_MACHINE")), "true")) {
 
     for (pack_stud in studies) {
         message("Working on: ", pack_stud)
@@ -51,6 +29,28 @@ if (parallel::detectCores() > 90 && identical(Sys.getenv("USER"), "mramos")) {
         ## clean up data
         removePackCache(cancer_study_id = pack_stud, dry.run = FALSE)
     }
+
+} else if (identical("IS_SUPERMICRO_MACHINE", "TRUE")) {
+
+    library(BiocParallel)
+    params <- MulticoreParam(
+        workers = 64, stop.on.error = FALSE, progressbar = TRUE
+    )
+
+    res_pack <- bplapply(X = studies, FUN = function(x) {
+        dats <- tryCatch({
+            cBioPortalData::cBioDataPack(cancer_study_id = x, ask = FALSE)
+        }, error = function(e) conditionMessage(e))
+        comp <- is(dats, "MultiAssayExperiment")
+        if (!comp)
+            err <- dats
+        else
+            err <- ""
+        list(comp_pack = comp, err_pack = err)
+    }, BPPARAM = params)
+    comp_pack <- vapply(res_pack, `[[`, logical(1L), "comp_pack")
+    err_pack <- vapply(res_pack, `[[`, character(1L), "err_pack")
+
 }
 
 err_pack <- Filter(nchar, err_pack)
