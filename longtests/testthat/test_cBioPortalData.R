@@ -22,5 +22,5 @@ test_that("cBioPortal API is working with most studies", {
 
     successrate <- (100 * sum(isMAE)) / length(isMAE)
 
-    expect_true(successrate > 90)
+    expect_true(successrate > 80)
 })

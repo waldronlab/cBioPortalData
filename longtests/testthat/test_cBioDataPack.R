@@ -16,5 +16,5 @@ test_that("cBioDataPack works on at least 70% of studies", {
 
     successrate <- (100 * sum(isMAE)) / length(isMAE)
 
-    expect_true(successrate > 70)
+    expect_true(successrate > 80)
 })
