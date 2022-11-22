@@ -3,7 +3,7 @@ test_that("cBioDataPack works on at least 70% of studies", {
     cbioportal <- cBioPortal()
     studies <- stats::setNames(nm = getStudies(cbioportal)[["studyId"]])
 
-    isMAE <- structure(vector("list", length(studies)), .Names = studies)
+    isMAE <- structure(vector("logical", length(studies)), .Names = studies)
 
     for (stud in studies) {
         message("Working on: ", stud)
