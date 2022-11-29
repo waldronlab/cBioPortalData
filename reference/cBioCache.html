@@ -19,7 +19,7 @@ BiocFileCache system."><!-- mathjax --><script src="https://cdnjs.cloudflare.com
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">cBioPortalData</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.8.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.10.1</span>
       </span>
     </div>
 
@@ -43,7 +43,7 @@ BiocFileCache system."><!-- mathjax --><script src="https://cdnjs.cloudflare.com
       <a href="../articles/cBioPortalRClient.html">cBioPortalData: API Reference Guide for Devs</a>
     </li>
     <li>
-      <a href="../articles/cgdsrMigration.html">Migrating from cgdsr to cBioPortalData</a>
+      <a href="../articles/cgdsrMigration.html">cgdsr to cBioPortalData: Migration Tutorial</a>
     </li>
   </ul></li>
 <li>
@@ -76,34 +76,39 @@ BiocFileCache system.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">cBioCache</span><span class="op">(</span><span class="va">...</span><span class="op">)</span>
-
-<span class="fu">setCache</span><span class="op">(</span>
-  directory <span class="op">=</span> <span class="fu">tools</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/tools/userdir.html" class="external-link">R_user_dir</a></span><span class="op">(</span><span class="st">"cBioPortalData"</span>, <span class="st">"cache"</span><span class="op">)</span>,
-  verbose <span class="op">=</span> <span class="cn">TRUE</span>,
-  ask <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span>
-<span class="op">)</span>
-
-<span class="fu">removePackCache</span><span class="op">(</span><span class="va">cancer_study_id</span>, dry.run <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-
-<span class="fu">removeDataCache</span><span class="op">(</span>
-  <span class="va">api</span>,
-  studyId <span class="op">=</span> <span class="cn">NA_character_</span>,
-  genePanelId <span class="op">=</span> <span class="cn">NA_character_</span>,
-  genes <span class="op">=</span> <span class="cn">NA_character_</span>,
-  molecularProfileIds <span class="op">=</span> <span class="cn">NULL</span>,
-  sampleListId <span class="op">=</span> <span class="cn">NULL</span>,
-  sampleIds <span class="op">=</span> <span class="cn">NULL</span>,
-  by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"entrezGeneId"</span>, <span class="st">"hugoGeneSymbol"</span><span class="op">)</span>,
-  dry.run <span class="op">=</span> <span class="cn">TRUE</span>,
-  <span class="va">...</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">cBioCache</span><span class="op">(</span><span class="va">...</span>, ask <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">setCache</span><span class="op">(</span></span>
+<span>  directory <span class="op">=</span> <span class="fu">tools</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/tools/userdir.html" class="external-link">R_user_dir</a></span><span class="op">(</span><span class="st">"cBioPortalData"</span>, <span class="st">"cache"</span><span class="op">)</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  ask <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">removePackCache</span><span class="op">(</span><span class="va">cancer_study_id</span>, dry.run <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">removeDataCache</span><span class="op">(</span></span>
+<span>  <span class="va">api</span>,</span>
+<span>  studyId <span class="op">=</span> <span class="cn">NA_character_</span>,</span>
+<span>  genePanelId <span class="op">=</span> <span class="cn">NA_character_</span>,</span>
+<span>  genes <span class="op">=</span> <span class="cn">NA_character_</span>,</span>
+<span>  molecularProfileIds <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  sampleListId <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  sampleIds <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"entrezGeneId"</span>, <span class="st">"hugoGeneSymbol"</span><span class="op">)</span>,</span>
+<span>  dry.run <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>...</dt>
 <dd><p>For <code>cBioCache</code>, arguments passed to <code>setCache</code></p></dd>
+
+
+<dt>ask</dt>
+<dd><p>logical (default TRUE when interactive session) Confirm the file
+location of the cache directory</p></dd>
 
 
 <dt>directory</dt>
@@ -113,11 +118,6 @@ future downloads will go to this folder.</p></dd>
 
 <dt>verbose</dt>
 <dd><p>Whether to print descriptive messages</p></dd>
-
-
-<dt>ask</dt>
-<dd><p>logical (default TRUE when interactive session) Confirm the file
-location of the cache directory</p></dd>
 
 
 <dt>cancer_study_id</dt>
@@ -187,7 +187,8 @@ a cache if not already created. A specific directory can be used via
     
 
 <p>Specify the directory location of the data cache. By default, it will
-go to the user directory as given by:</p><div class="sourceCode"><pre><code><span class="fu">tools</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/tools/userdir.html" class="external-link">R_user_dir</a></span><span class="op">(</span><span class="st">"cBioPortalData"</span>, <span class="st">"cache"</span><span class="op">)</span></code></pre></div>
+go to the user directory as given by:</p><div class="sourceCode"><pre><code><span></span>
+<span>    <span class="fu">tools</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/tools/userdir.html" class="external-link">R_user_dir</a></span><span class="op">(</span><span class="st">"cBioPortalData"</span>, <span class="st">"cache"</span><span class="op">)</span></span></code></pre></div>
 
     </div>
     <div id="removepackcache">
@@ -202,42 +203,38 @@ cache. This only works for the <code>cBioDataPack</code> function. To remove the
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"></span>
-<span class="r-in"><span class="fu">cBioCache</span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu">removePackCache</span><span class="op">(</span><span class="st">"acc_tcga"</span>, dry.run <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">cBioCache</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">removePackCache</span><span class="op">(</span><span class="st">"acc_tcga"</span>, dry.run <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 10</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   rid   rname   create_time access_time rpath rtype fpath last_modified_t… etag </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> BFC16 acc_tc… 2022-06-15… 2022-06-15… /git… web   http… 2022-03-25 19:3… e181…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 1 more variable: expires &lt;dbl&gt;</span></span>
-<span class="r-in"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">cbio</span> <span class="op">&lt;-</span> <span class="fu"><a href="cBioPortal.html">cBioPortal</a></span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>service version differs from validated version</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>     service url: https://www.cbioportal.org/api/api-docs</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>     observed md5sum: 456be3b7a6b5871a1b41f1233ecbae85</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>     expected md5sum: 1615443badbeaada68463859c34f15f8</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu"><a href="cBioPortalData.html">cBioPortalData</a></span><span class="op">(</span></span>
-<span class="r-in">    <span class="va">cbio</span>, by <span class="op">=</span> <span class="st">"hugoGeneSymbol"</span>,</span>
-<span class="r-in">    studyId <span class="op">=</span> <span class="st">"acc_tcga"</span>,</span>
-<span class="r-in">    genePanelId <span class="op">=</span> <span class="st">"AmpliSeq"</span>,</span>
-<span class="r-in">    molecularProfileIds <span class="op">=</span></span>
-<span class="r-in">        <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"acc_tcga_rppa"</span>, <span class="st">"acc_tcga_linear_CNA"</span>, <span class="st">"acc_tcga_mutations"</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   rid   rname    create_time     acces…¹ rpath rtype fpath last_…² etag  expires</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> BFC16 acc_tcga 2022-11-29 21:… 2022-1… /git… web   http… 2022-0… e181…      <span style="color: #BB0000;">NA</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with abbreviated variable names ¹​access_time, ²​last_modified_time</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">cbio</span> <span class="op">&lt;-</span> <span class="fu"><a href="cBioPortal.html">cBioPortal</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="cBioPortalData.html">cBioPortalData</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    <span class="va">cbio</span>, by <span class="op">=</span> <span class="st">"hugoGeneSymbol"</span>,</span></span>
+<span class="r-in"><span>    studyId <span class="op">=</span> <span class="st">"acc_tcga"</span>,</span></span>
+<span class="r-in"><span>    genePanelId <span class="op">=</span> <span class="st">"AmpliSeq"</span>,</span></span>
+<span class="r-in"><span>    molecularProfileIds <span class="op">=</span></span></span>
+<span class="r-in"><span>        <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"acc_tcga_rppa"</span>, <span class="st">"acc_tcga_linear_CNA"</span>, <span class="st">"acc_tcga_mutations"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(args[["api"]]):</span> object 'cbio' not found</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu">removeDataCache</span><span class="op">(</span></span>
-<span class="r-in">    <span class="va">cbio</span>, by <span class="op">=</span> <span class="st">"hugoGeneSymbol"</span>,</span>
-<span class="r-in">    studyId <span class="op">=</span> <span class="st">"acc_tcga"</span>,</span>
-<span class="r-in">    genePanelId <span class="op">=</span> <span class="st">"AmpliSeq"</span>,</span>
-<span class="r-in">    molecularProfileIds <span class="op">=</span></span>
-<span class="r-in">        <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"acc_tcga_rppa"</span>, <span class="st">"acc_tcga_linear_CNA"</span>, <span class="st">"acc_tcga_mutations"</span><span class="op">)</span>,</span>
-<span class="r-in">    dry.run <span class="op">=</span> <span class="cn">TRUE</span></span>
-<span class="r-in"><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">removeDataCache</span><span class="op">(</span></span></span>
+<span class="r-in"><span>    <span class="va">cbio</span>, by <span class="op">=</span> <span class="st">"hugoGeneSymbol"</span>,</span></span>
+<span class="r-in"><span>    studyId <span class="op">=</span> <span class="st">"acc_tcga"</span>,</span></span>
+<span class="r-in"><span>    genePanelId <span class="op">=</span> <span class="st">"AmpliSeq"</span>,</span></span>
+<span class="r-in"><span>    molecularProfileIds <span class="op">=</span></span></span>
+<span class="r-in"><span>        <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"acc_tcga_rppa"</span>, <span class="st">"acc_tcga_linear_CNA"</span>, <span class="st">"acc_tcga_mutations"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    dry.run <span class="op">=</span> <span class="cn">TRUE</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(args[["api"]]):</span> object 'cbio' not found</span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -252,7 +249,7 @@ cache. This only works for the <code>cBioDataPack</code> function. To remove the
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

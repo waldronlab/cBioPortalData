@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">cBioPortalData</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.8.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.10.1</span>
       </span>
     </div>
 
@@ -59,7 +59,7 @@
       <a href="../articles/cBioPortalRClient.html">cBioPortalData: API Reference Guide for Devs</a>
     </li>
     <li>
-      <a href="../articles/cgdsrMigration.html">Migrating from cgdsr to cBioPortalData</a>
+      <a href="../articles/cgdsrMigration.html">cgdsr to cBioPortalData: Migration Tutorial</a>
     </li>
   </ul>
 </li>
@@ -91,7 +91,7 @@
                         <h4 data-toc-skip class="author">Marcel Ramos
 &amp; Levi Waldron</h4>
             
-            <h4 data-toc-skip class="date">June 15, 2022</h4>
+            <h4 data-toc-skip class="date">November 29, 2022</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/waldronlab/cBioPortalData/blob/HEAD/vignettes/cBioPortalDataErrors.Rmd" class="external-link"><code>vignettes/cBioPortalDataErrors.Rmd</code></a></small>
       <div class="hidden name"><code>cBioPortalDataErrors.Rmd</code></div>
@@ -104,8 +104,8 @@
 <h2 id="loading">Loading<a class="anchor" aria-label="anchor" href="#loading"></a>
 </h2>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">cBioPortalData</span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">AnVIL</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">cBioPortalData</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">AnVIL</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
@@ -121,35 +121,35 @@ utility functions to provide a MultiAssayExperiment data
 representation.</p>
 <p>First, we load the error <code>Rda</code> dataset.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">api_errs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span>
-    <span class="st">"extdata"</span>, <span class="st">"api"</span>, <span class="st">"err_api_info.rda"</span>,
-    package <span class="op">=</span> <span class="st">"cBioPortalData"</span>, mustWork <span class="op">=</span> <span class="cn">TRUE</span>
-<span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/load.html" class="external-link">load</a></span><span class="op">(</span><span class="va">api_errs</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">api_errs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span></span>
+<span>    <span class="st">"extdata"</span>, <span class="st">"api"</span>, <span class="st">"err_api_info.rda"</span>,</span>
+<span>    package <span class="op">=</span> <span class="st">"cBioPortalData"</span>, mustWork <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/load.html" class="external-link">load</a></span><span class="op">(</span><span class="va">api_errs</span><span class="op">)</span></span></code></pre></div>
 <p>We can now inspect the contents of the data:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">err_api_info</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## [1] "list"</span></code></pre>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">err_api_info</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] "list"</span></span></code></pre>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">err_api_info</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## [1] 4</span></code></pre>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">err_api_info</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] 4</span></span></code></pre>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/lengths.html" class="external-link">lengths</a></span><span class="op">(</span><span class="va">err_api_info</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">##                         Barcodes must start with 'TCGA' </span>
-<span class="co">##                                                       2 </span>
-<span class="co">##                                 Empty reply from server </span>
-<span class="co">##                                                       1 </span>
-<span class="co">## Frequency of NA values higher than the cutoff tolerance </span>
-<span class="co">##                                                       1 </span>
-<span class="co">##                             replacement has length zero </span>
-<span class="co">##                                                       1</span></code></pre>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/lengths.html" class="external-link">lengths</a></span><span class="op">(</span><span class="va">err_api_info</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">##                         Barcodes must start with 'TCGA' </span></span>
+<span><span class="co">##                                                       2 </span></span>
+<span><span class="co">##                                 Empty reply from server </span></span>
+<span><span class="co">##                                                       1 </span></span>
+<span><span class="co">## Frequency of NA values higher than the cutoff tolerance </span></span>
+<span><span class="co">##                                                       1 </span></span>
+<span><span class="co">##                             replacement has length zero </span></span>
+<span><span class="co">##                                                       1</span></span></code></pre>
 <p>There were about 4 unique errors during the last build run.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">err_api_info</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## [1] "Barcodes must start with 'TCGA'"                        </span>
-<span class="co">## [2] "Empty reply from server"                                </span>
-<span class="co">## [3] "Frequency of NA values higher than the cutoff tolerance"</span>
-<span class="co">## [4] "replacement has length zero"</span></code></pre>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">err_api_info</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] "Barcodes must start with 'TCGA'"                        </span></span>
+<span><span class="co">## [2] "Empty reply from server"                                </span></span>
+<span><span class="co">## [3] "Frequency of NA values higher than the cutoff tolerance"</span></span>
+<span><span class="co">## [4] "replacement has length zero"</span></span></code></pre>
 <p>The most common error was
 <code>Inconsistent build numbers found</code>. This is due to
 annotations from different build numbers that were not able to be
@@ -157,22 +157,22 @@ resolved.</p>
 <p>To see what datasets (<code>cancer_study_id</code> s) have that error
 we can use:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">err_api_info</span><span class="op">[[</span><span class="st">'Inconsistent build numbers found'</span><span class="op">]</span><span class="op">]</span></code></pre></div>
-<pre><code><span class="co">## NULL</span></code></pre>
+<code class="sourceCode R"><span><span class="va">err_api_info</span><span class="op">[[</span><span class="st">'Inconsistent build numbers found'</span><span class="op">]</span><span class="op">]</span></span></code></pre></div>
+<pre><code><span><span class="co">## NULL</span></span></code></pre>
 <p>We can also have a look at the entirety of the dataset.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">err_api_info</span></code></pre></div>
-<pre><code><span class="co">## $`Barcodes must start with 'TCGA'`</span>
-<span class="co">## [1] "nsclc_tcga_broad_2016" "blca_msk_tcga_2020"   </span>
-<span class="co">## </span>
-<span class="co">## $`Empty reply from server`</span>
-<span class="co">## [1] "ccle_broad_2019"</span>
-<span class="co">## </span>
-<span class="co">## $`Frequency of NA values higher than the cutoff tolerance`</span>
-<span class="co">## [1] "mixed_msk_tcga_2021"</span>
-<span class="co">## </span>
-<span class="co">## $`replacement has length zero`</span>
-<span class="co">## [1] "glioma_msk_2018"</span></code></pre>
+<code class="sourceCode R"><span><span class="va">err_api_info</span></span></code></pre></div>
+<pre><code><span><span class="co">## $`Barcodes must start with 'TCGA'`</span></span>
+<span><span class="co">## [1] "nsclc_tcga_broad_2016" "blca_msk_tcga_2020"   </span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $`Empty reply from server`</span></span>
+<span><span class="co">## [1] "ccle_broad_2019"</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $`Frequency of NA values higher than the cutoff tolerance`</span></span>
+<span><span class="co">## [1] "mixed_msk_tcga_2021"</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $`replacement has length zero`</span></span>
+<span><span class="co">## [1] "glioma_msk_2018"</span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="packaged-data-from-cbiodatapack">Packaged data from <code>cBioDataPack()</code><a class="anchor" aria-label="anchor" href="#packaged-data-from-cbiodatapack"></a>
@@ -180,383 +180,387 @@ we can use:</p>
 <p>Now let’s look at the errors in the packaged datasets that are used
 for <code>cBioDataPack</code>:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">pack_errs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span>
-    <span class="st">"extdata"</span>, <span class="st">"pack"</span>, <span class="st">"err_pack_info.rda"</span>,
-    package <span class="op">=</span> <span class="st">"cBioPortalData"</span>, mustWork <span class="op">=</span> <span class="cn">TRUE</span>
-<span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/load.html" class="external-link">load</a></span><span class="op">(</span><span class="va">pack_errs</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">pack_errs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span></span>
+<span>    <span class="st">"extdata"</span>, <span class="st">"pack"</span>, <span class="st">"err_pack_info.rda"</span>,</span>
+<span>    package <span class="op">=</span> <span class="st">"cBioPortalData"</span>, mustWork <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/load.html" class="external-link">load</a></span><span class="op">(</span><span class="va">pack_errs</span><span class="op">)</span></span></code></pre></div>
 <p>We can do the same for this data:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">err_pack_info</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## [1] 42</span></code></pre>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">err_pack_info</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] 42</span></span></code></pre>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/lengths.html" class="external-link">lengths</a></span><span class="op">(</span><span class="va">err_pack_info</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">##                    failed to create directory '/tmp/RtmpzXtVhu/3249cd7a0f6245_laml_tcga' </span>
-<span class="co">##                                                                                        1 </span>
-<span class="co">##                                                              no lines available in input </span>
-<span class="co">##                                                                                       12 </span>
-<span class="co">##                    failed to create directory '/tmp/RtmpzXtVhu/3249dc7a0f6245_cesc_tcga' </span>
-<span class="co">##                                                                                        1 </span>
-<span class="co">##                    failed to create directory '/tmp/RtmpzXtVhu/3249dd7a0f6245_chol_tcga' </span>
-<span class="co">##                                                                                        1 </span>
-<span class="co">##                    failed to create directory '/tmp/RtmpzXtVhu/3249f02adae78d_kich_tcga' </span>
-<span class="co">##                                                                                        1 </span>
-<span class="co">##                failed to create directory '/tmp/RtmpzXtVhu/3249e0108540f3_coadread_tcga' </span>
-<span class="co">##                                                                                        1 </span>
-<span class="co">##                    failed to create directory '/tmp/RtmpzXtVhu/3249f77ab68a7d_dlbc_tcga' </span>
-<span class="co">##                                                                                        1 </span>
-<span class="co">##                     failed to create directory '/tmp/RtmpzXtVhu/3249d62adae78d_lgg_tcga' </span>
-<span class="co">##                                                                                        1 </span>
-<span class="co">##                                                              object 'clindata' not found </span>
-<span class="co">##                                                                                        7 </span>
-<span class="co">##                     attempt to set 'colnames' on an object with less than two dimensions </span>
-<span class="co">##                                                                                        8 </span>
-<span class="co">##                               cannot coerce type 'closure' to vector of type 'character' </span>
-<span class="co">##                                                                                       19 </span>
-<span class="co">##                                                                   non-character argument </span>
-<span class="co">##                                                                                        2 </span>
-<span class="co">##      failed to create directory '/tmp/RtmpzXtVhu/3249d4108540f3_blca_dfarber_mskcc_2014' </span>
-<span class="co">##                                                                                        1 </span>
-<span class="co">##                  failed to create directory '/tmp/RtmpzXtVhu/3249d9108540f3_brca_sanger' </span>
-<span class="co">##                                                                                        1 </span>
-<span class="co">##                                                           more columns than column names </span>
-<span class="co">##                                                                                        2 </span>
-<span class="co">##                   failed to create directory '/tmp/RtmpzXtVhu/3249e57a0f6245_esca_broad' </span>
-<span class="co">##                                                                                        1 </span>
-<span class="co">##                   failed to create directory '/tmp/RtmpzXtVhu/3249f37a0f6245_lihc_riken' </span>
-<span class="co">##                                                                                        1 </span>
-<span class="co">##              failed to create directory '/tmp/RtmpzXtVhu/3249f47ab68a7d_luad_mskcc_2015' </span>
-<span class="co">##                                                                                        1 </span>
-<span class="co">##                failed to create directory '/tmp/RtmpzXtVhu/3249cc2adae78d_paac_jhu_2014' </span>
-<span class="co">##                                                                                        1 </span>
-<span class="co">##                                                        replacement has 1 row, data has 0 </span>
-<span class="co">##                                                                                        1 </span>
-<span class="co">##                   invalid class "ExperimentList" object: \n    Non-unique names provided </span>
-<span class="co">##                                                                                        1 </span>
-<span class="co">##                failed to create directory '/tmp/RtmpzXtVhu/324a037ab68a7d_nepc_wcm_2016' </span>
-<span class="co">##                                                                                        1 </span>
-<span class="co">##              failed to create directory '/tmp/RtmpzXtVhu/3249de2adae78d_lcll_broad_2013' </span>
-<span class="co">##                                                                                        1 </span>
-<span class="co">##             failed to create directory '/tmp/RtmpzXtVhu/3249f8108540f3_mixed_allen_2018' </span>
-<span class="co">##                                                                                        1 </span>
-<span class="co">##              failed to create directory '/tmp/RtmpzXtVhu/324a142adae78d_rectal_msk_2019' </span>
-<span class="co">##                                                                                        1 </span>
-<span class="co">##        failed to create directory '/tmp/RtmpzXtVhu/324a007a0f6245_prad_mcspc_mskcc_2020' </span>
-<span class="co">##                                                                                        1 </span>
-<span class="co">##                failed to create directory '/tmp/RtmpzXtVhu/3249d82adae78d_brca_smc_2018' </span>
-<span class="co">##                                                                                        1 </span>
-<span class="co">##         failed to create directory '/tmp/RtmpzXtVhu/324a007ab68a7d_mixed_cfdna_msk_2020' </span>
-<span class="co">##                                                                                        1 </span>
-<span class="co">##                failed to create directory '/tmp/RtmpzXtVhu/3249f6108540f3_lung_smc_2016' </span>
-<span class="co">##                                                                                        1 </span>
-<span class="co">##               failed to create directory '/tmp/RtmpzXtVhu/324a017a0f6245_mds_tokyo_2011' </span>
-<span class="co">##                                                                                        1 </span>
-<span class="co">##                failed to create directory '/tmp/RtmpzXtVhu/3249e27ab68a7d_pact_jhu_2011' </span>
-<span class="co">##                                                                                        1 </span>
-<span class="co">##               failed to create directory '/tmp/RtmpzXtVhu/176b15456c3cf_utuc_mskcc_2015' </span>
-<span class="co">##                                                                                        1 </span>
-<span class="co">##               failed to create directory '/tmp/RtmpzXtVhu/324a037a0f6245_nbl_broad_2013' </span>
-<span class="co">##                                                                                        1 </span>
-<span class="co">##                 failed to create directory '/tmp/RtmpzXtVhu/3249fd108540f3_egc_msk_2017' </span>
-<span class="co">##                                                                                        1 </span>
-<span class="co">##                 failed to create directory '/tmp/RtmpzXtVhu/3249fd7a0f6245_crc_msk_2017' </span>
-<span class="co">##                                                                                        1 </span>
-<span class="co">##                failed to create directory '/tmp/RtmpzXtVhu/3249fe108540f3_mel_ucla_2016' </span>
-<span class="co">##                                                                                        1 </span>
-<span class="co">## failed to create directory '/tmp/RtmpzXtVhu/3249e47a0f6245_dlbc_tcga_pan_can_atlas_2018' </span>
-<span class="co">##                                                                                        1 </span>
-<span class="co">##            failed to create directory '/tmp/RtmpzXtVhu/3249d8108540f3_bfn_duke_nus_2015' </span>
-<span class="co">##                                                                                        1 </span>
-<span class="co">##            failed to create directory '/tmp/RtmpzXtVhu/3249eb7a0f6245_glioma_mskcc_2019' </span>
-<span class="co">##                                                                                        1 </span>
-<span class="co">##                  failed to create directory '/tmp/RtmpzXtVhu/1769344c0b9fb_vsc_cuk_2018' </span>
-<span class="co">##                                                                                        1 </span>
-<span class="co">##                   failed to create directory '/tmp/RtmpzXtVhu/7a1a5a6a8099_lung_msk_pdx' </span>
-<span class="co">##                                                                                        1 </span>
-<span class="co">##  failed to create directory '/tmp/RtmpzXtVhu/3249ee2adae78d_histiocytosis_cobi_msk_2019' </span>
-<span class="co">##                                                                                        1</span></code></pre>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/lengths.html" class="external-link">lengths</a></span><span class="op">(</span><span class="va">err_pack_info</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">##                    failed to create directory '/tmp/RtmpzXtVhu/3249cd7a0f6245_laml_tcga' </span></span>
+<span><span class="co">##                                                                                        1 </span></span>
+<span><span class="co">##                                                              no lines available in input </span></span>
+<span><span class="co">##                                                                                       12 </span></span>
+<span><span class="co">##                    failed to create directory '/tmp/RtmpzXtVhu/3249dc7a0f6245_cesc_tcga' </span></span>
+<span><span class="co">##                                                                                        1 </span></span>
+<span><span class="co">##                    failed to create directory '/tmp/RtmpzXtVhu/3249dd7a0f6245_chol_tcga' </span></span>
+<span><span class="co">##                                                                                        1 </span></span>
+<span><span class="co">##                    failed to create directory '/tmp/RtmpzXtVhu/3249f02adae78d_kich_tcga' </span></span>
+<span><span class="co">##                                                                                        1 </span></span>
+<span><span class="co">##                failed to create directory '/tmp/RtmpzXtVhu/3249e0108540f3_coadread_tcga' </span></span>
+<span><span class="co">##                                                                                        1 </span></span>
+<span><span class="co">##                    failed to create directory '/tmp/RtmpzXtVhu/3249f77ab68a7d_dlbc_tcga' </span></span>
+<span><span class="co">##                                                                                        1 </span></span>
+<span><span class="co">##                     failed to create directory '/tmp/RtmpzXtVhu/3249d62adae78d_lgg_tcga' </span></span>
+<span><span class="co">##                                                                                        1 </span></span>
+<span><span class="co">##                                                              object 'clindata' not found </span></span>
+<span><span class="co">##                                                                                        7 </span></span>
+<span><span class="co">##                     attempt to set 'colnames' on an object with less than two dimensions </span></span>
+<span><span class="co">##                                                                                        8 </span></span>
+<span><span class="co">##                               cannot coerce type 'closure' to vector of type 'character' </span></span>
+<span><span class="co">##                                                                                       19 </span></span>
+<span><span class="co">##                                                                   non-character argument </span></span>
+<span><span class="co">##                                                                                        2 </span></span>
+<span><span class="co">##      failed to create directory '/tmp/RtmpzXtVhu/3249d4108540f3_blca_dfarber_mskcc_2014' </span></span>
+<span><span class="co">##                                                                                        1 </span></span>
+<span><span class="co">##                  failed to create directory '/tmp/RtmpzXtVhu/3249d9108540f3_brca_sanger' </span></span>
+<span><span class="co">##                                                                                        1 </span></span>
+<span><span class="co">##                                                           more columns than column names </span></span>
+<span><span class="co">##                                                                                        2 </span></span>
+<span><span class="co">##                   failed to create directory '/tmp/RtmpzXtVhu/3249e57a0f6245_esca_broad' </span></span>
+<span><span class="co">##                                                                                        1 </span></span>
+<span><span class="co">##                   failed to create directory '/tmp/RtmpzXtVhu/3249f37a0f6245_lihc_riken' </span></span>
+<span><span class="co">##                                                                                        1 </span></span>
+<span><span class="co">##              failed to create directory '/tmp/RtmpzXtVhu/3249f47ab68a7d_luad_mskcc_2015' </span></span>
+<span><span class="co">##                                                                                        1 </span></span>
+<span><span class="co">##                failed to create directory '/tmp/RtmpzXtVhu/3249cc2adae78d_paac_jhu_2014' </span></span>
+<span><span class="co">##                                                                                        1 </span></span>
+<span><span class="co">##                                                        replacement has 1 row, data has 0 </span></span>
+<span><span class="co">##                                                                                        1 </span></span>
+<span><span class="co">##                   invalid class "ExperimentList" object: \n    Non-unique names provided </span></span>
+<span><span class="co">##                                                                                        1 </span></span>
+<span><span class="co">##                failed to create directory '/tmp/RtmpzXtVhu/324a037ab68a7d_nepc_wcm_2016' </span></span>
+<span><span class="co">##                                                                                        1 </span></span>
+<span><span class="co">##              failed to create directory '/tmp/RtmpzXtVhu/3249de2adae78d_lcll_broad_2013' </span></span>
+<span><span class="co">##                                                                                        1 </span></span>
+<span><span class="co">##             failed to create directory '/tmp/RtmpzXtVhu/3249f8108540f3_mixed_allen_2018' </span></span>
+<span><span class="co">##                                                                                        1 </span></span>
+<span><span class="co">##              failed to create directory '/tmp/RtmpzXtVhu/324a142adae78d_rectal_msk_2019' </span></span>
+<span><span class="co">##                                                                                        1 </span></span>
+<span><span class="co">##        failed to create directory '/tmp/RtmpzXtVhu/324a007a0f6245_prad_mcspc_mskcc_2020' </span></span>
+<span><span class="co">##                                                                                        1 </span></span>
+<span><span class="co">##                failed to create directory '/tmp/RtmpzXtVhu/3249d82adae78d_brca_smc_2018' </span></span>
+<span><span class="co">##                                                                                        1 </span></span>
+<span><span class="co">##         failed to create directory '/tmp/RtmpzXtVhu/324a007ab68a7d_mixed_cfdna_msk_2020' </span></span>
+<span><span class="co">##                                                                                        1 </span></span>
+<span><span class="co">##                failed to create directory '/tmp/RtmpzXtVhu/3249f6108540f3_lung_smc_2016' </span></span>
+<span><span class="co">##                                                                                        1 </span></span>
+<span><span class="co">##               failed to create directory '/tmp/RtmpzXtVhu/324a017a0f6245_mds_tokyo_2011' </span></span>
+<span><span class="co">##                                                                                        1 </span></span>
+<span><span class="co">##                failed to create directory '/tmp/RtmpzXtVhu/3249e27ab68a7d_pact_jhu_2011' </span></span>
+<span><span class="co">##                                                                                        1 </span></span>
+<span><span class="co">##               failed to create directory '/tmp/RtmpzXtVhu/176b15456c3cf_utuc_mskcc_2015' </span></span>
+<span><span class="co">##                                                                                        1 </span></span>
+<span><span class="co">##               failed to create directory '/tmp/RtmpzXtVhu/324a037a0f6245_nbl_broad_2013' </span></span>
+<span><span class="co">##                                                                                        1 </span></span>
+<span><span class="co">##                 failed to create directory '/tmp/RtmpzXtVhu/3249fd108540f3_egc_msk_2017' </span></span>
+<span><span class="co">##                                                                                        1 </span></span>
+<span><span class="co">##                 failed to create directory '/tmp/RtmpzXtVhu/3249fd7a0f6245_crc_msk_2017' </span></span>
+<span><span class="co">##                                                                                        1 </span></span>
+<span><span class="co">##                failed to create directory '/tmp/RtmpzXtVhu/3249fe108540f3_mel_ucla_2016' </span></span>
+<span><span class="co">##                                                                                        1 </span></span>
+<span><span class="co">## failed to create directory '/tmp/RtmpzXtVhu/3249e47a0f6245_dlbc_tcga_pan_can_atlas_2018' </span></span>
+<span><span class="co">##                                                                                        1 </span></span>
+<span><span class="co">##            failed to create directory '/tmp/RtmpzXtVhu/3249d8108540f3_bfn_duke_nus_2015' </span></span>
+<span><span class="co">##                                                                                        1 </span></span>
+<span><span class="co">##            failed to create directory '/tmp/RtmpzXtVhu/3249eb7a0f6245_glioma_mskcc_2019' </span></span>
+<span><span class="co">##                                                                                        1 </span></span>
+<span><span class="co">##                  failed to create directory '/tmp/RtmpzXtVhu/1769344c0b9fb_vsc_cuk_2018' </span></span>
+<span><span class="co">##                                                                                        1 </span></span>
+<span><span class="co">##                   failed to create directory '/tmp/RtmpzXtVhu/7a1a5a6a8099_lung_msk_pdx' </span></span>
+<span><span class="co">##                                                                                        1 </span></span>
+<span><span class="co">##  failed to create directory '/tmp/RtmpzXtVhu/3249ee2adae78d_histiocytosis_cobi_msk_2019' </span></span>
+<span><span class="co">##                                                                                        1</span></span></code></pre>
 <p>We can get a list of all the errors present:</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">err_pack_info</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">##  [1] "failed to create directory '/tmp/RtmpzXtVhu/3249cd7a0f6245_laml_tcga'"                   </span>
-<span class="co">##  [2] "no lines available in input"                                                             </span>
-<span class="co">##  [3] "failed to create directory '/tmp/RtmpzXtVhu/3249dc7a0f6245_cesc_tcga'"                   </span>
-<span class="co">##  [4] "failed to create directory '/tmp/RtmpzXtVhu/3249dd7a0f6245_chol_tcga'"                   </span>
-<span class="co">##  [5] "failed to create directory '/tmp/RtmpzXtVhu/3249f02adae78d_kich_tcga'"                   </span>
-<span class="co">##  [6] "failed to create directory '/tmp/RtmpzXtVhu/3249e0108540f3_coadread_tcga'"               </span>
-<span class="co">##  [7] "failed to create directory '/tmp/RtmpzXtVhu/3249f77ab68a7d_dlbc_tcga'"                   </span>
-<span class="co">##  [8] "failed to create directory '/tmp/RtmpzXtVhu/3249d62adae78d_lgg_tcga'"                    </span>
-<span class="co">##  [9] "object 'clindata' not found"                                                             </span>
-<span class="co">## [10] "attempt to set 'colnames' on an object with less than two dimensions"                    </span>
-<span class="co">## [11] "cannot coerce type 'closure' to vector of type 'character'"                              </span>
-<span class="co">## [12] "non-character argument"                                                                  </span>
-<span class="co">## [13] "failed to create directory '/tmp/RtmpzXtVhu/3249d4108540f3_blca_dfarber_mskcc_2014'"     </span>
-<span class="co">## [14] "failed to create directory '/tmp/RtmpzXtVhu/3249d9108540f3_brca_sanger'"                 </span>
-<span class="co">## [15] "more columns than column names"                                                          </span>
-<span class="co">## [16] "failed to create directory '/tmp/RtmpzXtVhu/3249e57a0f6245_esca_broad'"                  </span>
-<span class="co">## [17] "failed to create directory '/tmp/RtmpzXtVhu/3249f37a0f6245_lihc_riken'"                  </span>
-<span class="co">## [18] "failed to create directory '/tmp/RtmpzXtVhu/3249f47ab68a7d_luad_mskcc_2015'"             </span>
-<span class="co">## [19] "failed to create directory '/tmp/RtmpzXtVhu/3249cc2adae78d_paac_jhu_2014'"               </span>
-<span class="co">## [20] "replacement has 1 row, data has 0"                                                       </span>
-<span class="co">## [21] "invalid class \"ExperimentList\" object: \n    Non-unique names provided"                </span>
-<span class="co">## [22] "failed to create directory '/tmp/RtmpzXtVhu/324a037ab68a7d_nepc_wcm_2016'"               </span>
-<span class="co">## [23] "failed to create directory '/tmp/RtmpzXtVhu/3249de2adae78d_lcll_broad_2013'"             </span>
-<span class="co">## [24] "failed to create directory '/tmp/RtmpzXtVhu/3249f8108540f3_mixed_allen_2018'"            </span>
-<span class="co">## [25] "failed to create directory '/tmp/RtmpzXtVhu/324a142adae78d_rectal_msk_2019'"             </span>
-<span class="co">## [26] "failed to create directory '/tmp/RtmpzXtVhu/324a007a0f6245_prad_mcspc_mskcc_2020'"       </span>
-<span class="co">## [27] "failed to create directory '/tmp/RtmpzXtVhu/3249d82adae78d_brca_smc_2018'"               </span>
-<span class="co">## [28] "failed to create directory '/tmp/RtmpzXtVhu/324a007ab68a7d_mixed_cfdna_msk_2020'"        </span>
-<span class="co">## [29] "failed to create directory '/tmp/RtmpzXtVhu/3249f6108540f3_lung_smc_2016'"               </span>
-<span class="co">## [30] "failed to create directory '/tmp/RtmpzXtVhu/324a017a0f6245_mds_tokyo_2011'"              </span>
-<span class="co">## [31] "failed to create directory '/tmp/RtmpzXtVhu/3249e27ab68a7d_pact_jhu_2011'"               </span>
-<span class="co">## [32] "failed to create directory '/tmp/RtmpzXtVhu/176b15456c3cf_utuc_mskcc_2015'"              </span>
-<span class="co">## [33] "failed to create directory '/tmp/RtmpzXtVhu/324a037a0f6245_nbl_broad_2013'"              </span>
-<span class="co">## [34] "failed to create directory '/tmp/RtmpzXtVhu/3249fd108540f3_egc_msk_2017'"                </span>
-<span class="co">## [35] "failed to create directory '/tmp/RtmpzXtVhu/3249fd7a0f6245_crc_msk_2017'"                </span>
-<span class="co">## [36] "failed to create directory '/tmp/RtmpzXtVhu/3249fe108540f3_mel_ucla_2016'"               </span>
-<span class="co">## [37] "failed to create directory '/tmp/RtmpzXtVhu/3249e47a0f6245_dlbc_tcga_pan_can_atlas_2018'"</span>
-<span class="co">## [38] "failed to create directory '/tmp/RtmpzXtVhu/3249d8108540f3_bfn_duke_nus_2015'"           </span>
-<span class="co">## [39] "failed to create directory '/tmp/RtmpzXtVhu/3249eb7a0f6245_glioma_mskcc_2019'"           </span>
-<span class="co">## [40] "failed to create directory '/tmp/RtmpzXtVhu/1769344c0b9fb_vsc_cuk_2018'"                 </span>
-<span class="co">## [41] "failed to create directory '/tmp/RtmpzXtVhu/7a1a5a6a8099_lung_msk_pdx'"                  </span>
-<span class="co">## [42] "failed to create directory '/tmp/RtmpzXtVhu/3249ee2adae78d_histiocytosis_cobi_msk_2019'"</span></code></pre>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">err_pack_info</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">##  [1] "failed to create directory '/tmp/RtmpzXtVhu/3249cd7a0f6245_laml_tcga'"                   </span></span>
+<span><span class="co">##  [2] "no lines available in input"                                                             </span></span>
+<span><span class="co">##  [3] "failed to create directory '/tmp/RtmpzXtVhu/3249dc7a0f6245_cesc_tcga'"                   </span></span>
+<span><span class="co">##  [4] "failed to create directory '/tmp/RtmpzXtVhu/3249dd7a0f6245_chol_tcga'"                   </span></span>
+<span><span class="co">##  [5] "failed to create directory '/tmp/RtmpzXtVhu/3249f02adae78d_kich_tcga'"                   </span></span>
+<span><span class="co">##  [6] "failed to create directory '/tmp/RtmpzXtVhu/3249e0108540f3_coadread_tcga'"               </span></span>
+<span><span class="co">##  [7] "failed to create directory '/tmp/RtmpzXtVhu/3249f77ab68a7d_dlbc_tcga'"                   </span></span>
+<span><span class="co">##  [8] "failed to create directory '/tmp/RtmpzXtVhu/3249d62adae78d_lgg_tcga'"                    </span></span>
+<span><span class="co">##  [9] "object 'clindata' not found"                                                             </span></span>
+<span><span class="co">## [10] "attempt to set 'colnames' on an object with less than two dimensions"                    </span></span>
+<span><span class="co">## [11] "cannot coerce type 'closure' to vector of type 'character'"                              </span></span>
+<span><span class="co">## [12] "non-character argument"                                                                  </span></span>
+<span><span class="co">## [13] "failed to create directory '/tmp/RtmpzXtVhu/3249d4108540f3_blca_dfarber_mskcc_2014'"     </span></span>
+<span><span class="co">## [14] "failed to create directory '/tmp/RtmpzXtVhu/3249d9108540f3_brca_sanger'"                 </span></span>
+<span><span class="co">## [15] "more columns than column names"                                                          </span></span>
+<span><span class="co">## [16] "failed to create directory '/tmp/RtmpzXtVhu/3249e57a0f6245_esca_broad'"                  </span></span>
+<span><span class="co">## [17] "failed to create directory '/tmp/RtmpzXtVhu/3249f37a0f6245_lihc_riken'"                  </span></span>
+<span><span class="co">## [18] "failed to create directory '/tmp/RtmpzXtVhu/3249f47ab68a7d_luad_mskcc_2015'"             </span></span>
+<span><span class="co">## [19] "failed to create directory '/tmp/RtmpzXtVhu/3249cc2adae78d_paac_jhu_2014'"               </span></span>
+<span><span class="co">## [20] "replacement has 1 row, data has 0"                                                       </span></span>
+<span><span class="co">## [21] "invalid class \"ExperimentList\" object: \n    Non-unique names provided"                </span></span>
+<span><span class="co">## [22] "failed to create directory '/tmp/RtmpzXtVhu/324a037ab68a7d_nepc_wcm_2016'"               </span></span>
+<span><span class="co">## [23] "failed to create directory '/tmp/RtmpzXtVhu/3249de2adae78d_lcll_broad_2013'"             </span></span>
+<span><span class="co">## [24] "failed to create directory '/tmp/RtmpzXtVhu/3249f8108540f3_mixed_allen_2018'"            </span></span>
+<span><span class="co">## [25] "failed to create directory '/tmp/RtmpzXtVhu/324a142adae78d_rectal_msk_2019'"             </span></span>
+<span><span class="co">## [26] "failed to create directory '/tmp/RtmpzXtVhu/324a007a0f6245_prad_mcspc_mskcc_2020'"       </span></span>
+<span><span class="co">## [27] "failed to create directory '/tmp/RtmpzXtVhu/3249d82adae78d_brca_smc_2018'"               </span></span>
+<span><span class="co">## [28] "failed to create directory '/tmp/RtmpzXtVhu/324a007ab68a7d_mixed_cfdna_msk_2020'"        </span></span>
+<span><span class="co">## [29] "failed to create directory '/tmp/RtmpzXtVhu/3249f6108540f3_lung_smc_2016'"               </span></span>
+<span><span class="co">## [30] "failed to create directory '/tmp/RtmpzXtVhu/324a017a0f6245_mds_tokyo_2011'"              </span></span>
+<span><span class="co">## [31] "failed to create directory '/tmp/RtmpzXtVhu/3249e27ab68a7d_pact_jhu_2011'"               </span></span>
+<span><span class="co">## [32] "failed to create directory '/tmp/RtmpzXtVhu/176b15456c3cf_utuc_mskcc_2015'"              </span></span>
+<span><span class="co">## [33] "failed to create directory '/tmp/RtmpzXtVhu/324a037a0f6245_nbl_broad_2013'"              </span></span>
+<span><span class="co">## [34] "failed to create directory '/tmp/RtmpzXtVhu/3249fd108540f3_egc_msk_2017'"                </span></span>
+<span><span class="co">## [35] "failed to create directory '/tmp/RtmpzXtVhu/3249fd7a0f6245_crc_msk_2017'"                </span></span>
+<span><span class="co">## [36] "failed to create directory '/tmp/RtmpzXtVhu/3249fe108540f3_mel_ucla_2016'"               </span></span>
+<span><span class="co">## [37] "failed to create directory '/tmp/RtmpzXtVhu/3249e47a0f6245_dlbc_tcga_pan_can_atlas_2018'"</span></span>
+<span><span class="co">## [38] "failed to create directory '/tmp/RtmpzXtVhu/3249d8108540f3_bfn_duke_nus_2015'"           </span></span>
+<span><span class="co">## [39] "failed to create directory '/tmp/RtmpzXtVhu/3249eb7a0f6245_glioma_mskcc_2019'"           </span></span>
+<span><span class="co">## [40] "failed to create directory '/tmp/RtmpzXtVhu/1769344c0b9fb_vsc_cuk_2018'"                 </span></span>
+<span><span class="co">## [41] "failed to create directory '/tmp/RtmpzXtVhu/7a1a5a6a8099_lung_msk_pdx'"                  </span></span>
+<span><span class="co">## [42] "failed to create directory '/tmp/RtmpzXtVhu/3249ee2adae78d_histiocytosis_cobi_msk_2019'"</span></span></code></pre>
 <p>And finally the full list of errors:</p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">err_pack_info</span></code></pre></div>
-<pre><code><span class="co">## $`failed to create directory '/tmp/RtmpzXtVhu/3249cd7a0f6245_laml_tcga'`</span>
-<span class="co">## [1] "laml_tcga"</span>
-<span class="co">## </span>
-<span class="co">## $`no lines available in input`</span>
-<span class="co">##  [1] "blca_tcga"                    "brca_tcga"                   </span>
-<span class="co">##  [3] "skcm_tcga"                    "prad_tcga"                   </span>
-<span class="co">##  [5] "laml_tcga_pub"                "lgggbm_tcga_pub"             </span>
-<span class="co">##  [7] "luad_tcga_pub"                "brca_metabric"               </span>
-<span class="co">##  [9] "lihc_tcga_pan_can_atlas_2018" "brca_mbcproject_wagle_2017"  </span>
-<span class="co">## [11] "angs_painter_2020"            "paad_qcmg_uq_2016"           </span>
-<span class="co">## </span>
-<span class="co">## $`failed to create directory '/tmp/RtmpzXtVhu/3249dc7a0f6245_cesc_tcga'`</span>
-<span class="co">## [1] "cesc_tcga"</span>
-<span class="co">## </span>
-<span class="co">## $`failed to create directory '/tmp/RtmpzXtVhu/3249dd7a0f6245_chol_tcga'`</span>
-<span class="co">## [1] "chol_tcga"</span>
-<span class="co">## </span>
-<span class="co">## $`failed to create directory '/tmp/RtmpzXtVhu/3249f02adae78d_kich_tcga'`</span>
-<span class="co">## [1] "kich_tcga"</span>
-<span class="co">## </span>
-<span class="co">## $`failed to create directory '/tmp/RtmpzXtVhu/3249e0108540f3_coadread_tcga'`</span>
-<span class="co">## [1] "coadread_tcga"</span>
-<span class="co">## </span>
-<span class="co">## $`failed to create directory '/tmp/RtmpzXtVhu/3249f77ab68a7d_dlbc_tcga'`</span>
-<span class="co">## [1] "dlbc_tcga"</span>
-<span class="co">## </span>
-<span class="co">## $`failed to create directory '/tmp/RtmpzXtVhu/3249d62adae78d_lgg_tcga'`</span>
-<span class="co">## [1] "lgg_tcga"</span>
-<span class="co">## </span>
-<span class="co">## $`object 'clindata' not found`</span>
-<span class="co">## [1] "luad_tcga"           "hnsc_tcga_pub"       "luad_broad"         </span>
-<span class="co">## [4] "thca_tcga_pub"       "msk_impact_2017"     "nbl_target_2018_pub"</span>
-<span class="co">## [7] "skcm_dfci_2015"     </span>
-<span class="co">## </span>
-<span class="co">## $`attempt to set 'colnames' on an object with less than two dimensions`</span>
-<span class="co">## [1] "lusc_tcga"                    "ampca_bcm_2016"              </span>
-<span class="co">## [3] "skcm_tcga_pub_2015"           "thym_tcga_pan_can_atlas_2018"</span>
-<span class="co">## [5] "msk_ch_2020"                  "cll_broad_2015"              </span>
-<span class="co">## [7] "cscc_hgsc_bcm_2014"           "ucs_tcga_pan_can_atlas_2018" </span>
-<span class="co">## </span>
-<span class="co">## $`cannot coerce type 'closure' to vector of type 'character'`</span>
-<span class="co">##  [1] "bcc_unige_2016"            "brca_bccrc_xenograft_2014"</span>
-<span class="co">##  [3] "chol_jhu_2013"             "luad_tsp"                 </span>
-<span class="co">##  [5] "mbl_broad_2012"            "sarc_mskcc"               </span>
-<span class="co">##  [7] "ctcl_columbia_2015"        "mds_mskcc_2020"           </span>
-<span class="co">##  [9] "rbl_cfdna_msk_2020"        "mcl_idibips_2013"         </span>
-<span class="co">## [11] "cllsll_icgc_2011"          "nsclc_unito_2016"         </span>
-<span class="co">## [13] "hcc_msk_venturaa_2018"     "mpn_cimr_2013"            </span>
-<span class="co">## [15] "brca_jup_msk_2020"         "utuc_igbmc_2021"          </span>
-<span class="co">## [17] "dlbc_broad_2012"           "mixed_msk_tcga_2021"      </span>
-<span class="co">## [19] "ihch_mskcc_2020"          </span>
-<span class="co">## </span>
-<span class="co">## $`non-character argument`</span>
-<span class="co">## [1] "prad_fhcrc"     "mbn_mdacc_2013"</span>
-<span class="co">## </span>
-<span class="co">## $`failed to create directory '/tmp/RtmpzXtVhu/3249d4108540f3_blca_dfarber_mskcc_2014'`</span>
-<span class="co">## [1] "blca_dfarber_mskcc_2014"</span>
-<span class="co">## </span>
-<span class="co">## $`failed to create directory '/tmp/RtmpzXtVhu/3249d9108540f3_brca_sanger'`</span>
-<span class="co">## [1] "brca_sanger"</span>
-<span class="co">## </span>
-<span class="co">## $`more columns than column names`</span>
-<span class="co">## [1] "ccrcc_utokyo_2013" "acyc_fmi_2014"    </span>
-<span class="co">## </span>
-<span class="co">## $`failed to create directory '/tmp/RtmpzXtVhu/3249e57a0f6245_esca_broad'`</span>
-<span class="co">## [1] "esca_broad"</span>
-<span class="co">## </span>
-<span class="co">## $`failed to create directory '/tmp/RtmpzXtVhu/3249f37a0f6245_lihc_riken'`</span>
-<span class="co">## [1] "lihc_riken"</span>
-<span class="co">## </span>
-<span class="co">## $`failed to create directory '/tmp/RtmpzXtVhu/3249f47ab68a7d_luad_mskcc_2015'`</span>
-<span class="co">## [1] "luad_mskcc_2015"</span>
-<span class="co">## </span>
-<span class="co">## $`failed to create directory '/tmp/RtmpzXtVhu/3249cc2adae78d_paac_jhu_2014'`</span>
-<span class="co">## [1] "paac_jhu_2014"</span>
-<span class="co">## </span>
-<span class="co">## $`replacement has 1 row, data has 0`</span>
-<span class="co">## [1] "prad_su2c_2015"</span>
-<span class="co">## </span>
-<span class="co">## $`invalid class "ExperimentList" object: \n    Non-unique names provided`</span>
-<span class="co">## [1] "stad_tcga_pub"</span>
-<span class="co">## </span>
-<span class="co">## $`failed to create directory '/tmp/RtmpzXtVhu/324a037ab68a7d_nepc_wcm_2016'`</span>
-<span class="co">## [1] "nepc_wcm_2016"</span>
-<span class="co">## </span>
-<span class="co">## $`failed to create directory '/tmp/RtmpzXtVhu/3249de2adae78d_lcll_broad_2013'`</span>
-<span class="co">## [1] "lcll_broad_2013"</span>
-<span class="co">## </span>
-<span class="co">## $`failed to create directory '/tmp/RtmpzXtVhu/3249f8108540f3_mixed_allen_2018'`</span>
-<span class="co">## [1] "mixed_allen_2018"</span>
-<span class="co">## </span>
-<span class="co">## $`failed to create directory '/tmp/RtmpzXtVhu/324a142adae78d_rectal_msk_2019'`</span>
-<span class="co">## [1] "rectal_msk_2019"</span>
-<span class="co">## </span>
-<span class="co">## $`failed to create directory '/tmp/RtmpzXtVhu/324a007a0f6245_prad_mcspc_mskcc_2020'`</span>
-<span class="co">## [1] "prad_mcspc_mskcc_2020"</span>
-<span class="co">## </span>
-<span class="co">## $`failed to create directory '/tmp/RtmpzXtVhu/3249d82adae78d_brca_smc_2018'`</span>
-<span class="co">## [1] "brca_smc_2018"</span>
-<span class="co">## </span>
-<span class="co">## $`failed to create directory '/tmp/RtmpzXtVhu/324a007ab68a7d_mixed_cfdna_msk_2020'`</span>
-<span class="co">## [1] "mixed_cfdna_msk_2020"</span>
-<span class="co">## </span>
-<span class="co">## $`failed to create directory '/tmp/RtmpzXtVhu/3249f6108540f3_lung_smc_2016'`</span>
-<span class="co">## [1] "lung_smc_2016"</span>
-<span class="co">## </span>
-<span class="co">## $`failed to create directory '/tmp/RtmpzXtVhu/324a017a0f6245_mds_tokyo_2011'`</span>
-<span class="co">## [1] "mds_tokyo_2011"</span>
-<span class="co">## </span>
-<span class="co">## $`failed to create directory '/tmp/RtmpzXtVhu/3249e27ab68a7d_pact_jhu_2011'`</span>
-<span class="co">## [1] "pact_jhu_2011"</span>
-<span class="co">## </span>
-<span class="co">## $`failed to create directory '/tmp/RtmpzXtVhu/176b15456c3cf_utuc_mskcc_2015'`</span>
-<span class="co">## [1] "utuc_mskcc_2015"</span>
-<span class="co">## </span>
-<span class="co">## $`failed to create directory '/tmp/RtmpzXtVhu/324a037a0f6245_nbl_broad_2013'`</span>
-<span class="co">## [1] "nbl_broad_2013"</span>
-<span class="co">## </span>
-<span class="co">## $`failed to create directory '/tmp/RtmpzXtVhu/3249fd108540f3_egc_msk_2017'`</span>
-<span class="co">## [1] "egc_msk_2017"</span>
-<span class="co">## </span>
-<span class="co">## $`failed to create directory '/tmp/RtmpzXtVhu/3249fd7a0f6245_crc_msk_2017'`</span>
-<span class="co">## [1] "crc_msk_2017"</span>
-<span class="co">## </span>
-<span class="co">## $`failed to create directory '/tmp/RtmpzXtVhu/3249fe108540f3_mel_ucla_2016'`</span>
-<span class="co">## [1] "mel_ucla_2016"</span>
-<span class="co">## </span>
-<span class="co">## $`failed to create directory '/tmp/RtmpzXtVhu/3249e47a0f6245_dlbc_tcga_pan_can_atlas_2018'`</span>
-<span class="co">## [1] "dlbc_tcga_pan_can_atlas_2018"</span>
-<span class="co">## </span>
-<span class="co">## $`failed to create directory '/tmp/RtmpzXtVhu/3249d8108540f3_bfn_duke_nus_2015'`</span>
-<span class="co">## [1] "bfn_duke_nus_2015"</span>
-<span class="co">## </span>
-<span class="co">## $`failed to create directory '/tmp/RtmpzXtVhu/3249eb7a0f6245_glioma_mskcc_2019'`</span>
-<span class="co">## [1] "glioma_mskcc_2019"</span>
-<span class="co">## </span>
-<span class="co">## $`failed to create directory '/tmp/RtmpzXtVhu/1769344c0b9fb_vsc_cuk_2018'`</span>
-<span class="co">## [1] "vsc_cuk_2018"</span>
-<span class="co">## </span>
-<span class="co">## $`failed to create directory '/tmp/RtmpzXtVhu/7a1a5a6a8099_lung_msk_pdx'`</span>
-<span class="co">## [1] "lung_msk_pdx"</span>
-<span class="co">## </span>
-<span class="co">## $`failed to create directory '/tmp/RtmpzXtVhu/3249ee2adae78d_histiocytosis_cobi_msk_2019'`</span>
-<span class="co">## [1] "histiocytosis_cobi_msk_2019"</span></code></pre>
+<code class="sourceCode R"><span><span class="va">err_pack_info</span></span></code></pre></div>
+<pre><code><span><span class="co">## $`failed to create directory '/tmp/RtmpzXtVhu/3249cd7a0f6245_laml_tcga'`</span></span>
+<span><span class="co">## [1] "laml_tcga"</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $`no lines available in input`</span></span>
+<span><span class="co">##  [1] "blca_tcga"                    "brca_tcga"                   </span></span>
+<span><span class="co">##  [3] "skcm_tcga"                    "prad_tcga"                   </span></span>
+<span><span class="co">##  [5] "laml_tcga_pub"                "lgggbm_tcga_pub"             </span></span>
+<span><span class="co">##  [7] "luad_tcga_pub"                "brca_metabric"               </span></span>
+<span><span class="co">##  [9] "lihc_tcga_pan_can_atlas_2018" "brca_mbcproject_wagle_2017"  </span></span>
+<span><span class="co">## [11] "angs_painter_2020"            "paad_qcmg_uq_2016"           </span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $`failed to create directory '/tmp/RtmpzXtVhu/3249dc7a0f6245_cesc_tcga'`</span></span>
+<span><span class="co">## [1] "cesc_tcga"</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $`failed to create directory '/tmp/RtmpzXtVhu/3249dd7a0f6245_chol_tcga'`</span></span>
+<span><span class="co">## [1] "chol_tcga"</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $`failed to create directory '/tmp/RtmpzXtVhu/3249f02adae78d_kich_tcga'`</span></span>
+<span><span class="co">## [1] "kich_tcga"</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $`failed to create directory '/tmp/RtmpzXtVhu/3249e0108540f3_coadread_tcga'`</span></span>
+<span><span class="co">## [1] "coadread_tcga"</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $`failed to create directory '/tmp/RtmpzXtVhu/3249f77ab68a7d_dlbc_tcga'`</span></span>
+<span><span class="co">## [1] "dlbc_tcga"</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $`failed to create directory '/tmp/RtmpzXtVhu/3249d62adae78d_lgg_tcga'`</span></span>
+<span><span class="co">## [1] "lgg_tcga"</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $`object 'clindata' not found`</span></span>
+<span><span class="co">## [1] "luad_tcga"           "hnsc_tcga_pub"       "luad_broad"         </span></span>
+<span><span class="co">## [4] "thca_tcga_pub"       "msk_impact_2017"     "nbl_target_2018_pub"</span></span>
+<span><span class="co">## [7] "skcm_dfci_2015"     </span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $`attempt to set 'colnames' on an object with less than two dimensions`</span></span>
+<span><span class="co">## [1] "lusc_tcga"                    "ampca_bcm_2016"              </span></span>
+<span><span class="co">## [3] "skcm_tcga_pub_2015"           "thym_tcga_pan_can_atlas_2018"</span></span>
+<span><span class="co">## [5] "msk_ch_2020"                  "cll_broad_2015"              </span></span>
+<span><span class="co">## [7] "cscc_hgsc_bcm_2014"           "ucs_tcga_pan_can_atlas_2018" </span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $`cannot coerce type 'closure' to vector of type 'character'`</span></span>
+<span><span class="co">##  [1] "bcc_unige_2016"            "brca_bccrc_xenograft_2014"</span></span>
+<span><span class="co">##  [3] "chol_jhu_2013"             "luad_tsp"                 </span></span>
+<span><span class="co">##  [5] "mbl_broad_2012"            "sarc_mskcc"               </span></span>
+<span><span class="co">##  [7] "ctcl_columbia_2015"        "mds_mskcc_2020"           </span></span>
+<span><span class="co">##  [9] "rbl_cfdna_msk_2020"        "mcl_idibips_2013"         </span></span>
+<span><span class="co">## [11] "cllsll_icgc_2011"          "nsclc_unito_2016"         </span></span>
+<span><span class="co">## [13] "hcc_msk_venturaa_2018"     "mpn_cimr_2013"            </span></span>
+<span><span class="co">## [15] "brca_jup_msk_2020"         "utuc_igbmc_2021"          </span></span>
+<span><span class="co">## [17] "dlbc_broad_2012"           "mixed_msk_tcga_2021"      </span></span>
+<span><span class="co">## [19] "ihch_mskcc_2020"          </span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $`non-character argument`</span></span>
+<span><span class="co">## [1] "prad_fhcrc"     "mbn_mdacc_2013"</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $`failed to create directory '/tmp/RtmpzXtVhu/3249d4108540f3_blca_dfarber_mskcc_2014'`</span></span>
+<span><span class="co">## [1] "blca_dfarber_mskcc_2014"</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $`failed to create directory '/tmp/RtmpzXtVhu/3249d9108540f3_brca_sanger'`</span></span>
+<span><span class="co">## [1] "brca_sanger"</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $`more columns than column names`</span></span>
+<span><span class="co">## [1] "ccrcc_utokyo_2013" "acyc_fmi_2014"    </span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $`failed to create directory '/tmp/RtmpzXtVhu/3249e57a0f6245_esca_broad'`</span></span>
+<span><span class="co">## [1] "esca_broad"</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $`failed to create directory '/tmp/RtmpzXtVhu/3249f37a0f6245_lihc_riken'`</span></span>
+<span><span class="co">## [1] "lihc_riken"</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $`failed to create directory '/tmp/RtmpzXtVhu/3249f47ab68a7d_luad_mskcc_2015'`</span></span>
+<span><span class="co">## [1] "luad_mskcc_2015"</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $`failed to create directory '/tmp/RtmpzXtVhu/3249cc2adae78d_paac_jhu_2014'`</span></span>
+<span><span class="co">## [1] "paac_jhu_2014"</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $`replacement has 1 row, data has 0`</span></span>
+<span><span class="co">## [1] "prad_su2c_2015"</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $`invalid class "ExperimentList" object: \n    Non-unique names provided`</span></span>
+<span><span class="co">## [1] "stad_tcga_pub"</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $`failed to create directory '/tmp/RtmpzXtVhu/324a037ab68a7d_nepc_wcm_2016'`</span></span>
+<span><span class="co">## [1] "nepc_wcm_2016"</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $`failed to create directory '/tmp/RtmpzXtVhu/3249de2adae78d_lcll_broad_2013'`</span></span>
+<span><span class="co">## [1] "lcll_broad_2013"</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $`failed to create directory '/tmp/RtmpzXtVhu/3249f8108540f3_mixed_allen_2018'`</span></span>
+<span><span class="co">## [1] "mixed_allen_2018"</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $`failed to create directory '/tmp/RtmpzXtVhu/324a142adae78d_rectal_msk_2019'`</span></span>
+<span><span class="co">## [1] "rectal_msk_2019"</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $`failed to create directory '/tmp/RtmpzXtVhu/324a007a0f6245_prad_mcspc_mskcc_2020'`</span></span>
+<span><span class="co">## [1] "prad_mcspc_mskcc_2020"</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $`failed to create directory '/tmp/RtmpzXtVhu/3249d82adae78d_brca_smc_2018'`</span></span>
+<span><span class="co">## [1] "brca_smc_2018"</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $`failed to create directory '/tmp/RtmpzXtVhu/324a007ab68a7d_mixed_cfdna_msk_2020'`</span></span>
+<span><span class="co">## [1] "mixed_cfdna_msk_2020"</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $`failed to create directory '/tmp/RtmpzXtVhu/3249f6108540f3_lung_smc_2016'`</span></span>
+<span><span class="co">## [1] "lung_smc_2016"</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $`failed to create directory '/tmp/RtmpzXtVhu/324a017a0f6245_mds_tokyo_2011'`</span></span>
+<span><span class="co">## [1] "mds_tokyo_2011"</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $`failed to create directory '/tmp/RtmpzXtVhu/3249e27ab68a7d_pact_jhu_2011'`</span></span>
+<span><span class="co">## [1] "pact_jhu_2011"</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $`failed to create directory '/tmp/RtmpzXtVhu/176b15456c3cf_utuc_mskcc_2015'`</span></span>
+<span><span class="co">## [1] "utuc_mskcc_2015"</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $`failed to create directory '/tmp/RtmpzXtVhu/324a037a0f6245_nbl_broad_2013'`</span></span>
+<span><span class="co">## [1] "nbl_broad_2013"</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $`failed to create directory '/tmp/RtmpzXtVhu/3249fd108540f3_egc_msk_2017'`</span></span>
+<span><span class="co">## [1] "egc_msk_2017"</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $`failed to create directory '/tmp/RtmpzXtVhu/3249fd7a0f6245_crc_msk_2017'`</span></span>
+<span><span class="co">## [1] "crc_msk_2017"</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $`failed to create directory '/tmp/RtmpzXtVhu/3249fe108540f3_mel_ucla_2016'`</span></span>
+<span><span class="co">## [1] "mel_ucla_2016"</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $`failed to create directory '/tmp/RtmpzXtVhu/3249e47a0f6245_dlbc_tcga_pan_can_atlas_2018'`</span></span>
+<span><span class="co">## [1] "dlbc_tcga_pan_can_atlas_2018"</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $`failed to create directory '/tmp/RtmpzXtVhu/3249d8108540f3_bfn_duke_nus_2015'`</span></span>
+<span><span class="co">## [1] "bfn_duke_nus_2015"</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $`failed to create directory '/tmp/RtmpzXtVhu/3249eb7a0f6245_glioma_mskcc_2019'`</span></span>
+<span><span class="co">## [1] "glioma_mskcc_2019"</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $`failed to create directory '/tmp/RtmpzXtVhu/1769344c0b9fb_vsc_cuk_2018'`</span></span>
+<span><span class="co">## [1] "vsc_cuk_2018"</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $`failed to create directory '/tmp/RtmpzXtVhu/7a1a5a6a8099_lung_msk_pdx'`</span></span>
+<span><span class="co">## [1] "lung_msk_pdx"</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $`failed to create directory '/tmp/RtmpzXtVhu/3249ee2adae78d_histiocytosis_cobi_msk_2019'`</span></span>
+<span><span class="co">## [1] "histiocytosis_cobi_msk_2019"</span></span></code></pre>
 </div>
 </div>
 <div class="section level2">
 <h2 id="sessioninfo">sessionInfo<a class="anchor" aria-label="anchor" href="#sessioninfo"></a>
 </h2>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html" class="external-link">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## R version 4.2.0 (2022-04-22)</span>
-<span class="co">## Platform: x86_64-pc-linux-gnu (64-bit)</span>
-<span class="co">## Running under: Ubuntu 20.04.4 LTS</span>
-<span class="co">## </span>
-<span class="co">## Matrix products: default</span>
-<span class="co">## BLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3</span>
-<span class="co">## LAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/liblapack.so.3</span>
-<span class="co">## </span>
-<span class="co">## locale:</span>
-<span class="co">##  [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              </span>
-<span class="co">##  [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    </span>
-<span class="co">##  [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   </span>
-<span class="co">##  [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 </span>
-<span class="co">##  [9] LC_ADDRESS=C               LC_TELEPHONE=C            </span>
-<span class="co">## [11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       </span>
-<span class="co">## </span>
-<span class="co">## attached base packages:</span>
-<span class="co">## [1] stats4    stats     graphics  grDevices utils     datasets  methods  </span>
-<span class="co">## [8] base     </span>
-<span class="co">## </span>
-<span class="co">## other attached packages:</span>
-<span class="co">##  [1] cBioPortalData_2.8.2        MultiAssayExperiment_1.22.0</span>
-<span class="co">##  [3] SummarizedExperiment_1.26.1 Biobase_2.56.0             </span>
-<span class="co">##  [5] GenomicRanges_1.48.0        GenomeInfoDb_1.32.2        </span>
-<span class="co">##  [7] IRanges_2.30.0              S4Vectors_0.34.0           </span>
-<span class="co">##  [9] BiocGenerics_0.42.0         MatrixGenerics_1.8.0       </span>
-<span class="co">## [11] matrixStats_0.62.0          AnVIL_1.8.2                </span>
-<span class="co">## [13] dplyr_1.0.9                 BiocStyle_2.24.0           </span>
-<span class="co">## </span>
-<span class="co">## loaded via a namespace (and not attached):</span>
-<span class="co">##   [1] bitops_1.0-7              fs_1.5.2                 </span>
-<span class="co">##   [3] bit64_4.0.5               progress_1.2.2           </span>
-<span class="co">##   [5] filelock_1.0.2            httr_1.4.3               </span>
-<span class="co">##   [7] GenomicDataCommons_1.20.1 rprojroot_2.0.3          </span>
-<span class="co">##   [9] tools_4.2.0               bslib_0.3.1              </span>
-<span class="co">##  [11] utf8_1.2.2                R6_2.5.1                 </span>
-<span class="co">##  [13] DBI_1.1.2                 prettyunits_1.1.1        </span>
-<span class="co">##  [15] TCGAutils_1.16.0          tidyselect_1.1.2         </span>
-<span class="co">##  [17] bit_4.0.4                 curl_4.3.2               </span>
-<span class="co">##  [19] compiler_4.2.0            rvest_1.0.2              </span>
-<span class="co">##  [21] textshaping_0.3.6         cli_3.3.0                </span>
-<span class="co">##  [23] formatR_1.12              xml2_1.3.3               </span>
-<span class="co">##  [25] desc_1.4.1                DelayedArray_0.22.0      </span>
-<span class="co">##  [27] rtracklayer_1.56.0        bookdown_0.27            </span>
-<span class="co">##  [29] sass_0.4.1                readr_2.1.2              </span>
-<span class="co">##  [31] rappdirs_0.3.3            pkgdown_2.0.4            </span>
-<span class="co">##  [33] rapiclient_0.1.3          RCircos_1.2.2            </span>
-<span class="co">##  [35] Rsamtools_2.12.0          systemfonts_1.0.4        </span>
-<span class="co">##  [37] stringr_1.4.0             digest_0.6.29            </span>
-<span class="co">##  [39] rmarkdown_2.14            XVector_0.36.0           </span>
-<span class="co">##  [41] pkgconfig_2.0.3           htmltools_0.5.2          </span>
-<span class="co">##  [43] dbplyr_2.2.0              fastmap_1.1.0            </span>
-<span class="co">##  [45] limma_3.52.1              rlang_1.0.2              </span>
-<span class="co">##  [47] RSQLite_2.2.14            BiocIO_1.6.0             </span>
-<span class="co">##  [49] jquerylib_0.1.4           generics_0.1.2           </span>
-<span class="co">##  [51] jsonlite_1.8.0            BiocParallel_1.30.3      </span>
-<span class="co">##  [53] RCurl_1.98-1.7            magrittr_2.0.3           </span>
-<span class="co">##  [55] GenomeInfoDbData_1.2.8    futile.logger_1.4.3      </span>
-<span class="co">##  [57] Matrix_1.4-1              Rcpp_1.0.8.3             </span>
-<span class="co">##  [59] fansi_1.0.3               lifecycle_1.0.1          </span>
-<span class="co">##  [61] stringi_1.7.6             yaml_2.3.5               </span>
-<span class="co">##  [63] RaggedExperiment_1.20.0   RJSONIO_1.3-1.6          </span>
-<span class="co">##  [65] zlibbioc_1.42.0           BiocFileCache_2.4.0      </span>
-<span class="co">##  [67] grid_4.2.0                blob_1.2.3               </span>
-<span class="co">##  [69] parallel_4.2.0            crayon_1.5.1             </span>
-<span class="co">##  [71] lattice_0.20-45           Biostrings_2.64.0        </span>
-<span class="co">##  [73] splines_4.2.0             GenomicFeatures_1.48.3   </span>
-<span class="co">##  [75] KEGGREST_1.36.2           hms_1.1.1                </span>
-<span class="co">##  [77] knitr_1.39                pillar_1.7.0             </span>
-<span class="co">##  [79] rjson_0.2.21              codetools_0.2-18         </span>
-<span class="co">##  [81] biomaRt_2.52.0            futile.options_1.0.1     </span>
-<span class="co">##  [83] XML_3.99-0.10             glue_1.6.2               </span>
-<span class="co">##  [85] evaluate_0.15             lambda.r_1.2.4           </span>
-<span class="co">##  [87] data.table_1.14.2         BiocManager_1.30.18      </span>
-<span class="co">##  [89] png_0.1-7                 tzdb_0.3.0               </span>
-<span class="co">##  [91] vctrs_0.4.1               purrr_0.3.4              </span>
-<span class="co">##  [93] tidyr_1.2.0               assertthat_0.2.1         </span>
-<span class="co">##  [95] cachem_1.0.6              xfun_0.31                </span>
-<span class="co">##  [97] restfulr_0.0.14           ragg_1.2.2               </span>
-<span class="co">##  [99] survival_3.3-1            tibble_3.1.7             </span>
-<span class="co">## [101] RTCGAToolbox_2.26.0       GenomicAlignments_1.32.0 </span>
-<span class="co">## [103] AnnotationDbi_1.58.0      memoise_2.0.1            </span>
-<span class="co">## [105] ellipsis_0.3.2</span></code></pre>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html" class="external-link">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## R version 4.2.2 (2022-10-31)</span></span>
+<span><span class="co">## Platform: x86_64-pc-linux-gnu (64-bit)</span></span>
+<span><span class="co">## Running under: Ubuntu 22.04.1 LTS</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Matrix products: default</span></span>
+<span><span class="co">## BLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3</span></span>
+<span><span class="co">## LAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblasp-r0.3.20.so</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## locale:</span></span>
+<span><span class="co">##  [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              </span></span>
+<span><span class="co">##  [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    </span></span>
+<span><span class="co">##  [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   </span></span>
+<span><span class="co">##  [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 </span></span>
+<span><span class="co">##  [9] LC_ADDRESS=C               LC_TELEPHONE=C            </span></span>
+<span><span class="co">## [11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       </span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## attached base packages:</span></span>
+<span><span class="co">## [1] stats4    stats     graphics  grDevices utils     datasets  methods  </span></span>
+<span><span class="co">## [8] base     </span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## other attached packages:</span></span>
+<span><span class="co">##  [1] cBioPortalData_2.10.1       MultiAssayExperiment_1.24.0</span></span>
+<span><span class="co">##  [3] SummarizedExperiment_1.28.0 Biobase_2.58.0             </span></span>
+<span><span class="co">##  [5] GenomicRanges_1.50.1        GenomeInfoDb_1.34.3        </span></span>
+<span><span class="co">##  [7] IRanges_2.32.0              S4Vectors_0.36.0           </span></span>
+<span><span class="co">##  [9] BiocGenerics_0.44.0         MatrixGenerics_1.10.0      </span></span>
+<span><span class="co">## [11] matrixStats_0.63.0          AnVIL_1.10.1               </span></span>
+<span><span class="co">## [13] dplyr_1.0.10                BiocStyle_2.26.0           </span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## loaded via a namespace (and not attached):</span></span>
+<span><span class="co">##   [1] rjson_0.2.21              ellipsis_0.3.2           </span></span>
+<span><span class="co">##   [3] rprojroot_2.0.3           futile.logger_1.4.3      </span></span>
+<span><span class="co">##   [5] XVector_0.38.0            fs_1.5.2                 </span></span>
+<span><span class="co">##   [7] DT_0.26                   bit64_4.0.5              </span></span>
+<span><span class="co">##   [9] AnnotationDbi_1.60.0      fansi_1.0.3              </span></span>
+<span><span class="co">##  [11] xml2_1.3.3                codetools_0.2-18         </span></span>
+<span><span class="co">##  [13] splines_4.2.2             cachem_1.0.6             </span></span>
+<span><span class="co">##  [15] knitr_1.41                jsonlite_1.8.3           </span></span>
+<span><span class="co">##  [17] Rsamtools_2.14.0          dbplyr_2.2.1             </span></span>
+<span><span class="co">##  [19] png_0.1-7                 shiny_1.7.3              </span></span>
+<span><span class="co">##  [21] BiocManager_1.30.19.1     readr_2.1.3              </span></span>
+<span><span class="co">##  [23] compiler_4.2.2            httr_1.4.4               </span></span>
+<span><span class="co">##  [25] assertthat_0.2.1          Matrix_1.5-3             </span></span>
+<span><span class="co">##  [27] fastmap_1.1.0             limma_3.54.0             </span></span>
+<span><span class="co">##  [29] cli_3.4.1                 later_1.3.0              </span></span>
+<span><span class="co">##  [31] formatR_1.12              htmltools_0.5.3          </span></span>
+<span><span class="co">##  [33] prettyunits_1.1.1         tools_4.2.2              </span></span>
+<span><span class="co">##  [35] glue_1.6.2                GenomeInfoDbData_1.2.9   </span></span>
+<span><span class="co">##  [37] rappdirs_0.3.3            Rcpp_1.0.9               </span></span>
+<span><span class="co">##  [39] rapiclient_0.1.3          jquerylib_0.1.4          </span></span>
+<span><span class="co">##  [41] pkgdown_2.0.6             vctrs_0.5.1              </span></span>
+<span><span class="co">##  [43] Biostrings_2.66.0         RJSONIO_1.3-1.6          </span></span>
+<span><span class="co">##  [45] RaggedExperiment_1.22.0   rtracklayer_1.58.0       </span></span>
+<span><span class="co">##  [47] xfun_0.35                 stringr_1.4.1            </span></span>
+<span><span class="co">##  [49] rvest_1.0.3               RTCGAToolbox_2.28.0      </span></span>
+<span><span class="co">##  [51] mime_0.12                 miniUI_0.1.1.1           </span></span>
+<span><span class="co">##  [53] lifecycle_1.0.3           restfulr_0.0.15          </span></span>
+<span><span class="co">##  [55] XML_3.99-0.12             zlibbioc_1.44.0          </span></span>
+<span><span class="co">##  [57] RCircos_1.2.2             ragg_1.2.4               </span></span>
+<span><span class="co">##  [59] hms_1.1.2                 promises_1.2.0.1         </span></span>
+<span><span class="co">##  [61] parallel_4.2.2            lambda.r_1.2.4           </span></span>
+<span><span class="co">##  [63] yaml_2.3.6                curl_4.3.3               </span></span>
+<span><span class="co">##  [65] memoise_2.0.1             sass_0.4.4               </span></span>
+<span><span class="co">##  [67] biomaRt_2.54.0            stringi_1.7.8            </span></span>
+<span><span class="co">##  [69] RSQLite_2.2.19            BiocIO_1.8.0             </span></span>
+<span><span class="co">##  [71] desc_1.4.2                GenomicDataCommons_1.22.0</span></span>
+<span><span class="co">##  [73] GenomicFeatures_1.50.2    filelock_1.0.2           </span></span>
+<span><span class="co">##  [75] BiocParallel_1.32.3       rlang_1.0.6              </span></span>
+<span><span class="co">##  [77] pkgconfig_2.0.3           systemfonts_1.0.4        </span></span>
+<span><span class="co">##  [79] bitops_1.0-7              evaluate_0.18            </span></span>
+<span><span class="co">##  [81] lattice_0.20-45           purrr_0.3.5              </span></span>
+<span><span class="co">##  [83] GenomicAlignments_1.34.0  htmlwidgets_1.5.4        </span></span>
+<span><span class="co">##  [85] bit_4.0.5                 tidyselect_1.2.0         </span></span>
+<span><span class="co">##  [87] magrittr_2.0.3            bookdown_0.30            </span></span>
+<span><span class="co">##  [89] R6_2.5.1                  generics_0.1.3           </span></span>
+<span><span class="co">##  [91] DelayedArray_0.24.0       DBI_1.1.3                </span></span>
+<span><span class="co">##  [93] pillar_1.8.1              survival_3.4-0           </span></span>
+<span><span class="co">##  [95] KEGGREST_1.38.0           RCurl_1.98-1.9           </span></span>
+<span><span class="co">##  [97] tibble_3.1.8              crayon_1.5.2             </span></span>
+<span><span class="co">##  [99] futile.options_1.0.1      utf8_1.2.2               </span></span>
+<span><span class="co">## [101] BiocFileCache_2.6.0       tzdb_0.3.0               </span></span>
+<span><span class="co">## [103] rmarkdown_2.18            progress_1.2.2           </span></span>
+<span><span class="co">## [105] grid_4.2.2                data.table_1.14.6        </span></span>
+<span><span class="co">## [107] blob_1.2.3                digest_0.6.30            </span></span>
+<span><span class="co">## [109] xtable_1.8-4              tidyr_1.2.1              </span></span>
+<span><span class="co">## [111] httpuv_1.6.6              textshaping_0.3.6        </span></span>
+<span><span class="co">## [113] TCGAutils_1.18.0          bslib_0.4.1</span></span></code></pre>
 </div>
   </div>
 
@@ -577,7 +581,7 @@ for <code>cBioDataPack</code>:</p>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer>

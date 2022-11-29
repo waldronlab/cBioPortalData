@@ -20,7 +20,7 @@ AnVIL package."><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/l
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">cBioPortalData</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.8.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.10.1</span>
       </span>
     </div>
 
@@ -44,7 +44,7 @@ AnVIL package."><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/l
       <a href="../articles/cBioPortalRClient.html">cBioPortalData: API Reference Guide for Devs</a>
     </li>
     <li>
-      <a href="../articles/cgdsrMigration.html">Migrating from cgdsr to cBioPortalData</a>
+      <a href="../articles/cgdsrMigration.html">cgdsr to cBioPortalData: Migration Tutorial</a>
     </li>
   </ul></li>
 <li>
@@ -78,8 +78,8 @@ API protocol that directly inherits from the <code>Service</code> class in the
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="co"># S4 method for cBioPortal</span>
-<span class="fu"><a href="https://rdrr.io/pkg/AnVIL/man/Services.html" class="external-link">operations</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span>, .deprecated <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="co"># S4 method for cBioPortal</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/AnVIL/man/Services.html" class="external-link">operations</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span>, .deprecated <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -91,7 +91,7 @@ given by the <a href="cBioPortal.html">cBioPortal</a> function.</p></dd>
 
 <dt>...</dt>
 <dd><p>additional arguments passed to methods or, for
-`operations,Service-method`, to the internal `get_operation()`
+<code>operations,Service-method</code>, to the internal <code>get_operation()</code>
 function.</p></dd>
 
 
@@ -99,6 +99,12 @@ function.</p></dd>
 <dd><p>optional logical(1) include deprecated operations?</p></dd>
 
 </dl></div>
+    <div id="value">
+    <h2>Value</h2>
+    
+
+<p>A <code>cBioPortal</code> class instance</p>
+    </div>
     <div id="details">
     <h2>Details</h2>
     <p>This class takes the static API as provided at
@@ -113,7 +119,7 @@ to the functionality provided by the rest of the package.</p>
     <div id="functions">
     <h2>Functions</h2>
     
-<ul><li><p><code>operations,cBioPortal-method</code>:</p></li>
+<ul><li><p><code>operations(cBioPortal)</code>:</p></li>
 </ul></div>
     <div id="see-also">
     <h2>See also</h2>
@@ -122,11 +128,11 @@ to the functionality provided by the rest of the package.</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"></span>
-<span class="r-in"><span class="fu"><a href="cBioPortal.html">cBioPortal</a></span><span class="op">(</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="cBioPortal.html">cBioPortal</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> service: cBioPortal</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> tags(); use cbioportal$&lt;tab completion&gt;:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 61 × 3</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 65 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    tag                 operation                                  summary       </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> Cancer Types        getAllCancerTypesUsingGET                  Get all cance…</span>
@@ -139,19 +145,19 @@ to the functionality provided by the rest of the package.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> Clinical Data       fetchClinicalDataUsingPOST                 Fetch clinica…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> Clinical Data       getAllClinicalDataInStudyUsingGET          Get all clini…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> Clinical Data       getAllClinicalDataOfPatientInStudyUsingGET Get all clini…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 51 more rows</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 55 more rows</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> tag values:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Cancer Types, Clinical Attributes, Clinical Data, Copy Number</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Segments, Discrete Copy Number Alterations, Gene Panels, Generic</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Assays, Genes, Molecular Data, Molecular Profiles, Mutations,</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Patients, Sample Lists, Samples, Structural Variants, Studies,</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Treatments</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Segments, Discrete Copy Number Alterations, Gene Panel Data, Gene</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Panels, Generic Assay Data, Generic Assays, Genes, Info, Molecular</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Data, Molecular Profiles, Mutations, Patients, Sample Lists, Samples,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Server running status, Studies, Treatments</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> schemas():</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   AlleleSpecificCopyNumber, AlterationFilter,</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   AndedPatientTreatmentFilters, AndedSampleTreatmentFilters,</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   CancerStudy</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   # ... with 58 more elements</span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -166,7 +172,7 @@ to the functionality provided by the rest of the package.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

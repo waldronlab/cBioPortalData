@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">cBioPortalData</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.8.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.10.1</span>
       </span>
     </div>
 
@@ -59,7 +59,7 @@
       <a href="../articles/cBioPortalRClient.html">cBioPortalData: API Reference Guide for Devs</a>
     </li>
     <li>
-      <a href="../articles/cgdsrMigration.html">Migrating from cgdsr to cBioPortalData</a>
+      <a href="../articles/cgdsrMigration.html">cgdsr to cBioPortalData: Migration Tutorial</a>
     </li>
   </ul>
 </li>
@@ -92,7 +92,7 @@ Devs</h1>
                         <h4 data-toc-skip class="author">Marcel Ramos
 &amp; Levi Waldron</h4>
             
-            <h4 data-toc-skip class="date">June 15, 2022</h4>
+            <h4 data-toc-skip class="date">November 29, 2022</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/waldronlab/cBioPortalData/blob/HEAD/vignettes/cBioPortalRClient.Rmd" class="external-link"><code>vignettes/cBioPortalRClient.Rmd</code></a></small>
       <div class="hidden name"><code>cBioPortalRClient.Rmd</code></div>
@@ -107,8 +107,8 @@ Devs</h1>
 <p>Please use the devel version of the <code>AnVIL</code> Bioconductor
 package.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">cBioPortalData</span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">AnVIL</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">cBioPortalData</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">AnVIL</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
@@ -150,170 +150,167 @@ enter either a set of genes of interest or a gene panel identifier.</p>
 </h2>
 <p>Obtaining the cBioPortal API representation object</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="op">(</span><span class="va">cbio</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cBioPortal.html">cBioPortal</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## Warning in .service_validate_md5sum(api_reference_url, api_reference_md5sum, : service version differs from validated version</span>
-<span class="co">##     service url: https://www.cbioportal.org/api/api-docs</span>
-<span class="co">##     observed md5sum: 456be3b7a6b5871a1b41f1233ecbae85</span>
-<span class="co">##     expected md5sum: 1615443badbeaada68463859c34f15f8</span></code></pre>
-<pre><code><span class="co">## service: cBioPortal</span>
-<span class="co">## tags(); use cbioportal$&lt;tab completion&gt;:</span>
-<span class="co">## <span style="color: #949494;"># A tibble: 61 × 3</span></span>
-<span class="co">##    tag                 operation                                  summary       </span>
-<span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         </span>
-<span class="co">## <span style="color: #BCBCBC;"> 1</span> Cancer Types        getAllCancerTypesUsingGET                  Get all cance…</span>
-<span class="co">## <span style="color: #BCBCBC;"> 2</span> Cancer Types        getCancerTypeUsingGET                      Get a cancer …</span>
-<span class="co">## <span style="color: #BCBCBC;"> 3</span> Clinical Attributes fetchClinicalAttributesUsingPOST           Fetch clinica…</span>
-<span class="co">## <span style="color: #BCBCBC;"> 4</span> Clinical Attributes getAllClinicalAttributesInStudyUsingGET    Get all clini…</span>
-<span class="co">## <span style="color: #BCBCBC;"> 5</span> Clinical Attributes getAllClinicalAttributesUsingGET           Get all clini…</span>
-<span class="co">## <span style="color: #BCBCBC;"> 6</span> Clinical Attributes getClinicalAttributeInStudyUsingGET        Get specified…</span>
-<span class="co">## <span style="color: #BCBCBC;"> 7</span> Clinical Data       fetchAllClinicalDataInStudyUsingPOST       Fetch clinica…</span>
-<span class="co">## <span style="color: #BCBCBC;"> 8</span> Clinical Data       fetchClinicalDataUsingPOST                 Fetch clinica…</span>
-<span class="co">## <span style="color: #BCBCBC;"> 9</span> Clinical Data       getAllClinicalDataInStudyUsingGET          Get all clini…</span>
-<span class="co">## <span style="color: #BCBCBC;">10</span> Clinical Data       getAllClinicalDataOfPatientInStudyUsingGET Get all clini…</span>
-<span class="co">## <span style="color: #949494;"># … with 51 more rows</span></span>
-<span class="co">## tag values:</span>
-<span class="co">##   Cancer Types, Clinical Attributes, Clinical Data, Copy Number</span>
-<span class="co">##   Segments, Discrete Copy Number Alterations, Gene Panels, Generic</span>
-<span class="co">##   Assays, Genes, Molecular Data, Molecular Profiles, Mutations,</span>
-<span class="co">##   Patients, Sample Lists, Samples, Structural Variants, Studies,</span>
-<span class="co">##   Treatments</span>
-<span class="co">## schemas():</span>
-<span class="co">##   AlleleSpecificCopyNumber, AlterationFilter,</span>
-<span class="co">##   AndedPatientTreatmentFilters, AndedSampleTreatmentFilters,</span>
-<span class="co">##   CancerStudy</span>
-<span class="co">##   # ... with 58 more elements</span></code></pre>
+<code class="sourceCode R"><span><span class="op">(</span><span class="va">cbio</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cBioPortal.html">cBioPortal</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## service: cBioPortal</span></span>
+<span><span class="co">## tags(); use cbioportal$&lt;tab completion&gt;:</span></span>
+<span><span class="co">## <span style="color: #949494;"># A tibble: 65 × 3</span></span></span>
+<span><span class="co">##    tag                 operation                                  summary       </span></span>
+<span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> Cancer Types        getAllCancerTypesUsingGET                  Get all cance…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span> Cancer Types        getCancerTypeUsingGET                      Get a cancer …</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span> Clinical Attributes fetchClinicalAttributesUsingPOST           Fetch clinica…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> Clinical Attributes getAllClinicalAttributesInStudyUsingGET    Get all clini…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> Clinical Attributes getAllClinicalAttributesUsingGET           Get all clini…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> Clinical Attributes getClinicalAttributeInStudyUsingGET        Get specified…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 7</span> Clinical Data       fetchAllClinicalDataInStudyUsingPOST       Fetch clinica…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> Clinical Data       fetchClinicalDataUsingPOST                 Fetch clinica…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> Clinical Data       getAllClinicalDataInStudyUsingGET          Get all clini…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span> Clinical Data       getAllClinicalDataOfPatientInStudyUsingGET Get all clini…</span></span>
+<span><span class="co">## <span style="color: #949494;"># … with 55 more rows</span></span></span>
+<span><span class="co">## tag values:</span></span>
+<span><span class="co">##   Cancer Types, Clinical Attributes, Clinical Data, Copy Number</span></span>
+<span><span class="co">##   Segments, Discrete Copy Number Alterations, Gene Panel Data, Gene</span></span>
+<span><span class="co">##   Panels, Generic Assay Data, Generic Assays, Genes, Info, Molecular</span></span>
+<span><span class="co">##   Data, Molecular Profiles, Mutations, Patients, Sample Lists, Samples,</span></span>
+<span><span class="co">##   Server running status, Studies, Treatments</span></span>
+<span><span class="co">## schemas():</span></span>
+<span><span class="co">##   AlleleSpecificCopyNumber, AlterationFilter,</span></span>
+<span><span class="co">##   AndedPatientTreatmentFilters, AndedSampleTreatmentFilters,</span></span>
+<span><span class="co">##   CancerStudy</span></span>
+<span><span class="co">##   # ... with 58 more elements</span></span></code></pre>
 <div class="section level3">
 <h3 id="operations">Operations<a class="anchor" aria-label="anchor" href="#operations"></a>
 </h3>
 <p>Check available tags, operations, and descriptions as a
 <code>tibble</code>:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/AnVIL/man/Services.html" class="external-link">tags</a></span><span class="op">(</span><span class="va">cbio</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## <span style="color: #949494;"># A tibble: 61 × 3</span></span>
-<span class="co">##    tag                 operation                                  summary       </span>
-<span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         </span>
-<span class="co">## <span style="color: #BCBCBC;"> 1</span> Cancer Types        getAllCancerTypesUsingGET                  Get all cance…</span>
-<span class="co">## <span style="color: #BCBCBC;"> 2</span> Cancer Types        getCancerTypeUsingGET                      Get a cancer …</span>
-<span class="co">## <span style="color: #BCBCBC;"> 3</span> Clinical Attributes fetchClinicalAttributesUsingPOST           Fetch clinica…</span>
-<span class="co">## <span style="color: #BCBCBC;"> 4</span> Clinical Attributes getAllClinicalAttributesInStudyUsingGET    Get all clini…</span>
-<span class="co">## <span style="color: #BCBCBC;"> 5</span> Clinical Attributes getAllClinicalAttributesUsingGET           Get all clini…</span>
-<span class="co">## <span style="color: #BCBCBC;"> 6</span> Clinical Attributes getClinicalAttributeInStudyUsingGET        Get specified…</span>
-<span class="co">## <span style="color: #BCBCBC;"> 7</span> Clinical Data       fetchAllClinicalDataInStudyUsingPOST       Fetch clinica…</span>
-<span class="co">## <span style="color: #BCBCBC;"> 8</span> Clinical Data       fetchClinicalDataUsingPOST                 Fetch clinica…</span>
-<span class="co">## <span style="color: #BCBCBC;"> 9</span> Clinical Data       getAllClinicalDataInStudyUsingGET          Get all clini…</span>
-<span class="co">## <span style="color: #BCBCBC;">10</span> Clinical Data       getAllClinicalDataOfPatientInStudyUsingGET Get all clini…</span>
-<span class="co">## <span style="color: #949494;"># … with 51 more rows</span></span></code></pre>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/AnVIL/man/Services.html" class="external-link">tags</a></span><span class="op">(</span><span class="va">cbio</span><span class="op">)</span><span class="op">$</span><span class="va">operation</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## [1] "getAllCancerTypesUsingGET"              </span>
-<span class="co">## [2] "getCancerTypeUsingGET"                  </span>
-<span class="co">## [3] "fetchClinicalAttributesUsingPOST"       </span>
-<span class="co">## [4] "getAllClinicalAttributesInStudyUsingGET"</span>
-<span class="co">## [5] "getAllClinicalAttributesUsingGET"       </span>
-<span class="co">## [6] "getClinicalAttributeInStudyUsingGET"</span></code></pre>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/AnVIL/man/Services.html" class="external-link">tags</a></span><span class="op">(</span><span class="va">cbio</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 65 × 3</span></span></span>
+<span><span class="co">##    tag                 operation                                  summary       </span></span>
+<span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> Cancer Types        getAllCancerTypesUsingGET                  Get all cance…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span> Cancer Types        getCancerTypeUsingGET                      Get a cancer …</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span> Clinical Attributes fetchClinicalAttributesUsingPOST           Fetch clinica…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> Clinical Attributes getAllClinicalAttributesInStudyUsingGET    Get all clini…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> Clinical Attributes getAllClinicalAttributesUsingGET           Get all clini…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> Clinical Attributes getClinicalAttributeInStudyUsingGET        Get specified…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 7</span> Clinical Data       fetchAllClinicalDataInStudyUsingPOST       Fetch clinica…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> Clinical Data       fetchClinicalDataUsingPOST                 Fetch clinica…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> Clinical Data       getAllClinicalDataInStudyUsingGET          Get all clini…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span> Clinical Data       getAllClinicalDataOfPatientInStudyUsingGET Get all clini…</span></span>
+<span><span class="co">## <span style="color: #949494;"># … with 55 more rows</span></span></span></code></pre>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/AnVIL/man/Services.html" class="external-link">tags</a></span><span class="op">(</span><span class="va">cbio</span><span class="op">)</span><span class="op">$</span><span class="va">operation</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] "getAllCancerTypesUsingGET"              </span></span>
+<span><span class="co">## [2] "getCancerTypeUsingGET"                  </span></span>
+<span><span class="co">## [3] "fetchClinicalAttributesUsingPOST"       </span></span>
+<span><span class="co">## [4] "getAllClinicalAttributesInStudyUsingGET"</span></span>
+<span><span class="co">## [5] "getAllClinicalAttributesUsingGET"       </span></span>
+<span><span class="co">## [6] "getClinicalAttributeInStudyUsingGET"</span></span></code></pre>
 <div class="section level4">
 <h4 id="searching-through-the-api">Searching through the API<a class="anchor" aria-label="anchor" href="#searching-through-the-api"></a>
 </h4>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/cBioPortal.html">searchOps</a></span><span class="op">(</span><span class="va">cbio</span>, <span class="st">"clinical"</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## [1] "getAllClinicalAttributesUsingGET"          </span>
-<span class="co">## [2] "fetchClinicalAttributesUsingPOST"          </span>
-<span class="co">## [3] "fetchClinicalDataUsingPOST"                </span>
-<span class="co">## [4] "getAllClinicalAttributesInStudyUsingGET"   </span>
-<span class="co">## [5] "getClinicalAttributeInStudyUsingGET"       </span>
-<span class="co">## [6] "getAllClinicalDataInStudyUsingGET"         </span>
-<span class="co">## [7] "fetchAllClinicalDataInStudyUsingPOST"      </span>
-<span class="co">## [8] "getAllClinicalDataOfPatientInStudyUsingGET"</span>
-<span class="co">## [9] "getAllClinicalDataOfSampleInStudyUsingGET"</span></code></pre>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/cBioPortal.html">searchOps</a></span><span class="op">(</span><span class="va">cbio</span>, <span class="st">"clinical"</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] "getAllClinicalAttributesUsingGET"          </span></span>
+<span><span class="co">## [2] "fetchClinicalAttributesUsingPOST"          </span></span>
+<span><span class="co">## [3] "fetchClinicalDataUsingPOST"                </span></span>
+<span><span class="co">## [4] "getAllClinicalAttributesInStudyUsingGET"   </span></span>
+<span><span class="co">## [5] "getClinicalAttributeInStudyUsingGET"       </span></span>
+<span><span class="co">## [6] "getAllClinicalDataInStudyUsingGET"         </span></span>
+<span><span class="co">## [7] "fetchAllClinicalDataInStudyUsingPOST"      </span></span>
+<span><span class="co">## [8] "getAllClinicalDataOfPatientInStudyUsingGET"</span></span>
+<span><span class="co">## [9] "getAllClinicalDataOfSampleInStudyUsingGET"</span></span></code></pre>
 </div>
 </div>
 <div class="section level3">
 <h3 id="studies">Studies<a class="anchor" aria-label="anchor" href="#studies"></a>
 </h3>
 <p>Get the list of studies available:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/cBioPortal.html">getStudies</a></span><span class="op">(</span><span class="va">cbio</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## <span style="color: #949494;"># A tibble: 344 × 13</span></span>
-<span class="co">##    name          description publicStudy groups status importDate allSampleCount</span>
-<span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
-<span class="co">## <span style="color: #BCBCBC;"> 1</span> Adrenocortic… <span style="color: #949494;">"</span>TCGA Adre… TRUE        <span style="color: #949494;">"</span>PUBL…      0 2022-03-0…             92</span>
-<span class="co">## <span style="color: #BCBCBC;"> 2</span> Bladder Canc… <span style="color: #949494;">"</span>Whole exo… TRUE        <span style="color: #949494;">""</span>          0 2022-03-0…             34</span>
-<span class="co">## <span style="color: #BCBCBC;"> 3</span> Basal Cell C… <span style="color: #949494;">"</span>Whole-exo… TRUE        <span style="color: #949494;">"</span>PUBL…      0 2022-03-0…            293</span>
-<span class="co">## <span style="color: #BCBCBC;"> 4</span> Acute Lympho… <span style="color: #949494;">"</span>Comprehen… TRUE        <span style="color: #949494;">"</span>PUBL…      0 2022-03-0…             93</span>
-<span class="co">## <span style="color: #BCBCBC;"> 5</span> Ampullary Ca… <span style="color: #949494;">"</span>Exome seq… TRUE        <span style="color: #949494;">"</span>PUBL…      0 2022-03-0…            160</span>
-<span class="co">## <span style="color: #BCBCBC;"> 6</span> Bladder Urot… <span style="color: #949494;">"</span>Whole exo… TRUE        <span style="color: #949494;">"</span>PUBL…      0 2022-03-0…             50</span>
-<span class="co">## <span style="color: #BCBCBC;"> 7</span> Bladder Canc… <span style="color: #949494;">"</span>Comprehen… TRUE        <span style="color: #949494;">"</span>PUBL…      0 2022-03-0…             97</span>
-<span class="co">## <span style="color: #BCBCBC;"> 8</span> Bladder Urot… <span style="color: #949494;">"</span>Whole-exo… TRUE        <span style="color: #949494;">"</span>PUBL…      0 2022-03-0…             99</span>
-<span class="co">## <span style="color: #BCBCBC;"> 9</span> Bladder Canc… <span style="color: #949494;">"</span>Genomic P… TRUE        <span style="color: #949494;">"</span>PUBL…      0 2022-03-0…            109</span>
-<span class="co">## <span style="color: #BCBCBC;">10</span> Hypodiploid … <span style="color: #949494;">"</span>Whole gen… TRUE        <span style="color: #949494;">""</span>          0 2022-03-0…             44</span>
-<span class="co">## <span style="color: #949494;"># … with 334 more rows, and 6 more variables: readPermission &lt;lgl&gt;,</span></span>
-<span class="co">## <span style="color: #949494;">#   studyId &lt;chr&gt;, cancerTypeId &lt;chr&gt;, referenceGenome &lt;chr&gt;, pmid &lt;chr&gt;,</span></span>
-<span class="co">## <span style="color: #949494;">#   citation &lt;chr&gt;</span></span></code></pre>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/cBioPortal.html">getStudies</a></span><span class="op">(</span><span class="va">cbio</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 363 × 13</span></span></span>
+<span><span class="co">##    name    descr…¹ publi…² groups status impor…³ allSa…⁴ readP…⁵ studyId cance…⁶</span></span>
+<span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> Adreno… <span style="color: #949494;">"</span>TCGA … TRUE    <span style="color: #949494;">"</span>PUBL…      0 2022-1…      92 TRUE    acc_tc… acc    </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span> Acute … <span style="color: #949494;">"</span>Compr… TRUE    <span style="color: #949494;">"</span>PUBL…      0 2022-1…      93 TRUE    all_st… bll    </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span> Hypodi… <span style="color: #949494;">"</span>Whole… TRUE    <span style="color: #949494;">""</span>          0 2022-1…      44 TRUE    all_st… myeloid</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> Adenoi… <span style="color: #949494;">"</span>Whole… TRUE    <span style="color: #949494;">"</span>ACYC…      0 2022-1…      12 TRUE    acbc_m… acbc   </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> Adenoi… <span style="color: #949494;">"</span>Targe… TRUE    <span style="color: #949494;">"</span>ACYC…      0 2022-1…      28 TRUE    acyc_f… acyc   </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> Adenoi… <span style="color: #949494;">"</span>Whole… TRUE    <span style="color: #949494;">"</span>ACYC…      0 2022-1…      25 TRUE    acyc_j… acyc   </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 7</span> Adenoi… <span style="color: #949494;">"</span>WGS o… TRUE    <span style="color: #949494;">"</span>ACYC…      0 2022-1…     102 TRUE    acyc_m… acyc   </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> Adenoi… <span style="color: #949494;">"</span>Whole… TRUE    <span style="color: #949494;">"</span>ACYC<span style="color: #949494;">"</span>      0 2022-1…      10 TRUE    acyc_m… acyc   </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> Adenoi… <span style="color: #949494;">"</span>Whole… TRUE    <span style="color: #949494;">"</span>ACYC…      0 2022-1…      24 TRUE    acyc_s… acyc   </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span> Acute … <span style="color: #949494;">"</span>Whole… TRUE    <span style="color: #949494;">"</span>PUBL…      0 2022-1…      73 TRUE    all_st… bll    </span></span>
+<span><span class="co">## <span style="color: #949494;"># … with 353 more rows, 3 more variables: referenceGenome &lt;chr&gt;, pmid &lt;chr&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   citation &lt;chr&gt;, and abbreviated variable names ¹​description, ²​publicStudy,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   ³​importDate, ⁴​allSampleCount, ⁵​readPermission, ⁶​cancerTypeId</span></span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="clinical-data">Clinical Data<a class="anchor" aria-label="anchor" href="#clinical-data"></a>
 </h3>
 <p>Obtain the clinical data for a particular study:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/cBioPortal.html">clinicalData</a></span><span class="op">(</span><span class="va">cbio</span>, <span class="st">"acc_tcga"</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## <span style="color: #949494;"># A tibble: 92 × 85</span></span>
-<span class="co">##    patientId    AGE   AJCC_PATHOLOGIC_TUMOR_S… ATYPICAL_MITOTI… CAPSULAR_INVASI…</span>
-<span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           </span>
-<span class="co">## <span style="color: #BCBCBC;"> 1</span> TCGA-OR-A5J1 58    Stage II                 Atypical Mitoti… Invasion of Tum…</span>
-<span class="co">## <span style="color: #BCBCBC;"> 2</span> TCGA-OR-A5J2 44    Stage IV                 Atypical Mitoti… Invasion of Tum…</span>
-<span class="co">## <span style="color: #BCBCBC;"> 3</span> TCGA-OR-A5J3 23    Stage III                Atypical Mitoti… Invasion of Tum…</span>
-<span class="co">## <span style="color: #BCBCBC;"> 4</span> TCGA-OR-A5J4 23    Stage IV                 Atypical Mitoti… Invasion of Tum…</span>
-<span class="co">## <span style="color: #BCBCBC;"> 5</span> TCGA-OR-A5J5 30    Stage III                Atypical Mitoti… Invasion of Tum…</span>
-<span class="co">## <span style="color: #BCBCBC;"> 6</span> TCGA-OR-A5J6 29    Stage II                 Atypical Mitoti… Invasion of Tum…</span>
-<span class="co">## <span style="color: #BCBCBC;"> 7</span> TCGA-OR-A5J7 30    Stage III                Atypical Mitoti… Invasion of Tum…</span>
-<span class="co">## <span style="color: #BCBCBC;"> 8</span> TCGA-OR-A5J8 66    Stage III                Atypical Mitoti… Invasion of Tum…</span>
-<span class="co">## <span style="color: #BCBCBC;"> 9</span> TCGA-OR-A5J9 22    Stage II                 Atypical Mitoti… Invasion of Tum…</span>
-<span class="co">## <span style="color: #BCBCBC;">10</span> TCGA-OR-A5JA 53    Stage IV                 Atypical Mitoti… Invasion of Tum…</span>
-<span class="co">## <span style="color: #949494;"># … with 82 more rows, and 80 more variables: CLIN_M_STAGE &lt;chr&gt;,</span></span>
-<span class="co">## <span style="color: #949494;">#   CT_SCAN_PREOP_RESULTS &lt;chr&gt;,</span></span>
-<span class="co">## <span style="color: #949494;">#   CYTOPLASM_PRESENCE_LESS_THAN_EQUAL_25_PERCENT &lt;chr&gt;,</span></span>
-<span class="co">## <span style="color: #949494;">#   DAYS_TO_INITIAL_PATHOLOGIC_DIAGNOSIS &lt;chr&gt;, DFS_MONTHS &lt;chr&gt;,</span></span>
-<span class="co">## <span style="color: #949494;">#   DFS_STATUS &lt;chr&gt;, DIFFUSE_ARCHITECTURE &lt;chr&gt;, ETHNICITY &lt;chr&gt;,</span></span>
-<span class="co">## <span style="color: #949494;">#   FORM_COMPLETION_DATE &lt;chr&gt;, HISTOLOGICAL_DIAGNOSIS &lt;chr&gt;,</span></span>
-<span class="co">## <span style="color: #949494;">#   HISTORY_ADRENAL_HORMONE_EXCESS &lt;chr&gt;, …</span></span></code></pre>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/cBioPortal.html">clinicalData</a></span><span class="op">(</span><span class="va">cbio</span>, <span class="st">"acc_tcga"</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 92 × 85</span></span></span>
+<span><span class="co">##    patie…¹ AGE   AJCC_…² ATYPI…³ CAPSU…⁴ CLIN_…⁵ CT_SC…⁶ CYTOP…⁷ DAYS_…⁸ DFS_M…⁹</span></span>
+<span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> TCGA-O… 58    Stage … Atypic… Invasi… M0      [Unkno… Cytopl… 0       24.77  </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span> TCGA-O… 44    Stage … Atypic… Invasi… M1      YES     Cytopl… 0       9.49   </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span> TCGA-O… 23    Stage … Atypic… Invasi… M0      YES     Cytopl… 0       37.75  </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> TCGA-O… 23    Stage … Atypic… Invasi… M1      YES     Cytopl… 0       4.14   </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> TCGA-O… 30    Stage … Atypic… Invasi… M0      YES     Cytopl… 0       1.64   </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> TCGA-O… 29    Stage … Atypic… Invasi… M0      YES     Cytopl… 0       88.80  </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 7</span> TCGA-O… 30    Stage … Atypic… Invasi… M0      YES     Cytopl… 0       5.32   </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> TCGA-O… 66    Stage … Atypic… Invasi… M0      YES     Cytopl… 0       17.41  </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> TCGA-O… 22    Stage … Atypic… Invasi… M0      YES     Cytopl… 0       13.60  </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span> TCGA-O… 53    Stage … Atypic… Invasi… M1      YES     Cytopl… 0       <span style="color: #BB0000;">NA</span>     </span></span>
+<span><span class="co">## <span style="color: #949494;"># … with 82 more rows, 75 more variables: DFS_STATUS &lt;chr&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   DIFFUSE_ARCHITECTURE &lt;chr&gt;, ETHNICITY &lt;chr&gt;, FORM_COMPLETION_DATE &lt;chr&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   HISTOLOGICAL_DIAGNOSIS &lt;chr&gt;, HISTORY_ADRENAL_HORMONE_EXCESS &lt;chr&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   HISTORY_BASIS_ADRENAL_HORMONE_DX &lt;chr&gt;, HISTORY_NEOADJUVANT_TRTYN &lt;chr&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   HISTORY_OTHER_MALIGNANCY &lt;chr&gt;, ICD_10 &lt;chr&gt;, ICD_O_3_HISTOLOGY &lt;chr&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   ICD_O_3_SITE &lt;chr&gt;, INFORMED_CONSENT_VERIFIED &lt;chr&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   INITIAL_PATHOLOGIC_DX_YEAR &lt;chr&gt;, LATERALITY &lt;chr&gt;, …</span></span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="molecular-profiles">Molecular Profiles<a class="anchor" aria-label="anchor" href="#molecular-profiles"></a>
 </h3>
 <p>A table of molecular profiles for a particular study can be obtained
 by running the following:</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">mols</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cBioPortal.html">molecularProfiles</a></span><span class="op">(</span><span class="va">cbio</span>, <span class="st">"acc_tcga"</span><span class="op">)</span>
-<span class="va">mols</span><span class="op">[[</span><span class="st">"molecularProfileId"</span><span class="op">]</span><span class="op">]</span></code></pre></div>
-<pre><code><span class="co">## [1] "acc_tcga_rppa"                                     </span>
-<span class="co">## [2] "acc_tcga_rppa_Zscores"                             </span>
-<span class="co">## [3] "acc_tcga_gistic"                                   </span>
-<span class="co">## [4] "acc_tcga_linear_CNA"                               </span>
-<span class="co">## [5] "acc_tcga_mutations"                                </span>
-<span class="co">## [6] "acc_tcga_methylation_hm450"                        </span>
-<span class="co">## [7] "acc_tcga_rna_seq_v2_mrna"                          </span>
-<span class="co">## [8] "acc_tcga_rna_seq_v2_mrna_median_Zscores"           </span>
-<span class="co">## [9] "acc_tcga_rna_seq_v2_mrna_median_all_sample_Zscores"</span></code></pre>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">mols</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cBioPortal.html">molecularProfiles</a></span><span class="op">(</span><span class="va">cbio</span>, <span class="st">"acc_tcga"</span><span class="op">)</span></span>
+<span><span class="va">mols</span><span class="op">[[</span><span class="st">"molecularProfileId"</span><span class="op">]</span><span class="op">]</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] "acc_tcga_rppa"                                     </span></span>
+<span><span class="co">## [2] "acc_tcga_rppa_Zscores"                             </span></span>
+<span><span class="co">## [3] "acc_tcga_gistic"                                   </span></span>
+<span><span class="co">## [4] "acc_tcga_linear_CNA"                               </span></span>
+<span><span class="co">## [5] "acc_tcga_mutations"                                </span></span>
+<span><span class="co">## [6] "acc_tcga_methylation_hm450"                        </span></span>
+<span><span class="co">## [7] "acc_tcga_rna_seq_v2_mrna"                          </span></span>
+<span><span class="co">## [8] "acc_tcga_rna_seq_v2_mrna_median_Zscores"           </span></span>
+<span><span class="co">## [9] "acc_tcga_rna_seq_v2_mrna_median_all_sample_Zscores"</span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="molecular-profile-data">Molecular Profile Data<a class="anchor" aria-label="anchor" href="#molecular-profile-data"></a>
 </h3>
 <p>The data for a molecular profile can be obtained with prior knowledge
 of available <code>entrezGeneIds</code>:</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/cBioPortal.html">molecularData</a></span><span class="op">(</span><span class="va">cbio</span>, molecularProfileId <span class="op">=</span> <span class="st">"acc_tcga_rna_seq_v2_mrna"</span>,
-    entrezGeneIds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span>,
-    sampleIds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"TCGA-OR-A5J1-01"</span>,  <span class="st">"TCGA-OR-A5J2-01"</span><span class="op">)</span>
-<span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## $acc_tcga_rna_seq_v2_mrna</span>
-<span class="co">## <span style="color: #949494;"># A tibble: 4 × 8</span></span>
-<span class="co">##   uniqueSampleKey        uniquePatientKey entrezGeneId molecularProfil… sampleId</span>
-<span class="co">##   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   </span>
-<span class="co">## <span style="color: #BCBCBC;">1</span> VENHQS1PUi1BNUoxLTAxO… VENHQS1PUi1BNUo…            1 acc_tcga_rna_se… TCGA-OR…</span>
-<span class="co">## <span style="color: #BCBCBC;">2</span> VENHQS1PUi1BNUoxLTAxO… VENHQS1PUi1BNUo…            2 acc_tcga_rna_se… TCGA-OR…</span>
-<span class="co">## <span style="color: #BCBCBC;">3</span> VENHQS1PUi1BNUoyLTAxO… VENHQS1PUi1BNUo…            1 acc_tcga_rna_se… TCGA-OR…</span>
-<span class="co">## <span style="color: #BCBCBC;">4</span> VENHQS1PUi1BNUoyLTAxO… VENHQS1PUi1BNUo…            2 acc_tcga_rna_se… TCGA-OR…</span>
-<span class="co">## <span style="color: #949494;"># … with 3 more variables: patientId &lt;chr&gt;, studyId &lt;chr&gt;, value &lt;dbl&gt;</span></span></code></pre>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/cBioPortal.html">molecularData</a></span><span class="op">(</span><span class="va">cbio</span>, molecularProfileId <span class="op">=</span> <span class="st">"acc_tcga_rna_seq_v2_mrna"</span>,</span>
+<span>    entrezGeneIds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span>,</span>
+<span>    sampleIds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"TCGA-OR-A5J1-01"</span>,  <span class="st">"TCGA-OR-A5J2-01"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## $acc_tcga_rna_seq_v2_mrna</span></span>
+<span><span class="co">## <span style="color: #949494;"># A tibble: 4 × 8</span></span></span>
+<span><span class="co">##   uniqueSampleKey         uniqu…¹ entre…² molec…³ sampl…⁴ patie…⁵ studyId  value</span></span>
+<span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span> VENHQS1PUi1BNUoxLTAxOm… VENHQS…       1 acc_tc… TCGA-O… TCGA-O… acc_tc… 1.63<span style="color: #949494;">e</span>1</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">2</span> VENHQS1PUi1BNUoxLTAxOm… VENHQS…       2 acc_tc… TCGA-O… TCGA-O… acc_tc… 1.04<span style="color: #949494;">e</span>4</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">3</span> VENHQS1PUi1BNUoyLTAxOm… VENHQS…       1 acc_tc… TCGA-O… TCGA-O… acc_tc… 9.60<span style="color: #949494;">e</span>0</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">4</span> VENHQS1PUi1BNUoyLTAxOm… VENHQS…       2 acc_tc… TCGA-O… TCGA-O… acc_tc… 9.84<span style="color: #949494;">e</span>3</span></span>
+<span><span class="co">## <span style="color: #949494;"># … with abbreviated variable names ¹​uniquePatientKey, ²​entrezGeneId,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   ³​molecularProfileId, ⁴​sampleId, ⁵​patientId</span></span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="genes">Genes<a class="anchor" aria-label="anchor" href="#genes"></a>
@@ -324,58 +321,58 @@ of available <code>entrezGeneIds</code>:</p>
 <p>A list of all the genes provided by the API service including hugo
 symbols, and entrez gene IDs can be obtained by using the
 <code>geneTable</code> function:</p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/cBioPortal.html">geneTable</a></span><span class="op">(</span><span class="va">cbio</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## <span style="color: #949494;"># A tibble: 1,000 × 3</span></span>
-<span class="co">##    entrezGeneId hugoGeneSymbol  type </span>
-<span class="co">##           <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
-<span class="co">## <span style="color: #BCBCBC;"> 1</span>        -<span style="color: #BB0000; text-decoration: underline;">3</span><span style="color: #BB0000;">624</span> MIR-10A/10A     miRNA</span>
-<span class="co">## <span style="color: #BCBCBC;"> 2</span>        -<span style="color: #BB0000; text-decoration: underline;">3</span><span style="color: #BB0000;">712</span> MIR-559/559     miRNA</span>
-<span class="co">## <span style="color: #BCBCBC;"> 3</span>        -<span style="color: #BB0000; text-decoration: underline;">3</span><span style="color: #BB0000;">042</span> MIR-4315-2/4315 miRNA</span>
-<span class="co">## <span style="color: #BCBCBC;"> 4</span>        -<span style="color: #BB0000; text-decoration: underline;">3</span><span style="color: #BB0000;">204</span> MIR-4535/4535   miRNA</span>
-<span class="co">## <span style="color: #BCBCBC;"> 5</span>        -<span style="color: #BB0000; text-decoration: underline;">3</span><span style="color: #BB0000;">763</span> MIR-607/607     miRNA</span>
-<span class="co">## <span style="color: #BCBCBC;"> 6</span>        -<span style="color: #BB0000; text-decoration: underline;">3</span><span style="color: #BB0000;">457</span> MIR-1269A/1269A miRNA</span>
-<span class="co">## <span style="color: #BCBCBC;"> 7</span>        -<span style="color: #BB0000; text-decoration: underline;">3</span><span style="color: #BB0000;">286</span> MIR-4679-1/4679 miRNA</span>
-<span class="co">## <span style="color: #BCBCBC;"> 8</span>        -<span style="color: #BB0000; text-decoration: underline;">3</span><span style="color: #BB0000;">295</span> MIR-4686/4686   miRNA</span>
-<span class="co">## <span style="color: #BCBCBC;"> 9</span>        -<span style="color: #BB0000; text-decoration: underline;">3</span><span style="color: #BB0000;">054</span> MIR-4325/4325   miRNA</span>
-<span class="co">## <span style="color: #BCBCBC;">10</span>        -<span style="color: #BB0000; text-decoration: underline;">3</span><span style="color: #BB0000;">510</span> MIR-124A-1/5P   miRNA</span>
-<span class="co">## <span style="color: #949494;"># … with 990 more rows</span></span></code></pre>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/cBioPortal.html">geneTable</a></span><span class="op">(</span><span class="va">cbio</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 1,000 × 3</span></span></span>
+<span><span class="co">##    entrezGeneId hugoGeneSymbol  type </span></span>
+<span><span class="co">##           <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 1</span>        -<span style="color: #BB0000; text-decoration: underline;">3</span><span style="color: #BB0000;">624</span> MIR-10A/10A     miRNA</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span>        -<span style="color: #BB0000; text-decoration: underline;">3</span><span style="color: #BB0000;">712</span> MIR-559/559     miRNA</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span>        -<span style="color: #BB0000; text-decoration: underline;">3</span><span style="color: #BB0000;">042</span> MIR-4315-2/4315 miRNA</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span>        -<span style="color: #BB0000; text-decoration: underline;">3</span><span style="color: #BB0000;">204</span> MIR-4535/4535   miRNA</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 5</span>        -<span style="color: #BB0000; text-decoration: underline;">3</span><span style="color: #BB0000;">763</span> MIR-607/607     miRNA</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span>        -<span style="color: #BB0000; text-decoration: underline;">3</span><span style="color: #BB0000;">457</span> MIR-1269A/1269A miRNA</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 7</span>        -<span style="color: #BB0000; text-decoration: underline;">3</span><span style="color: #BB0000;">286</span> MIR-4679-1/4679 miRNA</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 8</span>        -<span style="color: #BB0000; text-decoration: underline;">3</span><span style="color: #BB0000;">295</span> MIR-4686/4686   miRNA</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 9</span>        -<span style="color: #BB0000; text-decoration: underline;">3</span><span style="color: #BB0000;">054</span> MIR-4325/4325   miRNA</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span>        -<span style="color: #BB0000; text-decoration: underline;">3</span><span style="color: #BB0000;">510</span> MIR-124A-1/5P   miRNA</span></span>
+<span><span class="co">## <span style="color: #949494;"># … with 990 more rows</span></span></span></code></pre>
 </div>
 <div class="section level4">
 <h4 id="gene-panels">Gene Panels<a class="anchor" aria-label="anchor" href="#gene-panels"></a>
 </h4>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/cBioPortal.html">genePanels</a></span><span class="op">(</span><span class="va">cbio</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## <span style="color: #949494;"># A tibble: 53 × 2</span></span>
-<span class="co">##    description                                                       genePanelId</span>
-<span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                                             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      </span>
-<span class="co">## <span style="color: #BCBCBC;"> 1</span> Targeted (27 cancer genes) sequencing of adenoid cystic carcinom… ACYC_FMI_27</span>
-<span class="co">## <span style="color: #BCBCBC;"> 2</span> Targeted panel of 232 genes.                                      Agilent    </span>
-<span class="co">## <span style="color: #BCBCBC;"> 3</span> Targeted panel of 8 genes.                                        AmpliSeq   </span>
-<span class="co">## <span style="color: #BCBCBC;"> 4</span> ARCHER-HEME gene panel (199 genes)                                ARCHER-HEM…</span>
-<span class="co">## <span style="color: #BCBCBC;"> 5</span> ARCHER-SOLID Gene Panel (62 genes)                                ARCHER-SOL…</span>
-<span class="co">## <span style="color: #BCBCBC;"> 6</span> Targeted sequencing of various tumor types via bait v3.           bait_v3    </span>
-<span class="co">## <span style="color: #BCBCBC;"> 7</span> Targeted sequencing of various tumor types via bait v5.           bait_v5    </span>
-<span class="co">## <span style="color: #BCBCBC;"> 8</span> Targeted panel of 387 cancer-related genes.                       bcc_unige_…</span>
-<span class="co">## <span style="color: #BCBCBC;"> 9</span> Research (CMO) IMPACT-Heme gene panel version 3.                  HemePACT_v3</span>
-<span class="co">## <span style="color: #BCBCBC;">10</span> Targeted sequencing of 503 cancer-associated genes on Illumina H… DFCI_504   </span>
-<span class="co">## <span style="color: #949494;"># … with 43 more rows</span></span></code></pre>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/cBioPortal.html">getGenePanel</a></span><span class="op">(</span><span class="va">cbio</span>, <span class="st">"IMPACT341"</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## <span style="color: #949494;"># A tibble: 341 × 2</span></span>
-<span class="co">##    entrezGeneId hugoGeneSymbol</span>
-<span class="co">##           <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         </span>
-<span class="co">## <span style="color: #BCBCBC;"> 1</span>           25 ABL1          </span>
-<span class="co">## <span style="color: #BCBCBC;"> 2</span>        <span style="text-decoration: underline;">84</span>142 ABRAXAS1      </span>
-<span class="co">## <span style="color: #BCBCBC;"> 3</span>          207 AKT1          </span>
-<span class="co">## <span style="color: #BCBCBC;"> 4</span>          208 AKT2          </span>
-<span class="co">## <span style="color: #BCBCBC;"> 5</span>        <span style="text-decoration: underline;">10</span>000 AKT3          </span>
-<span class="co">## <span style="color: #BCBCBC;"> 6</span>          238 ALK           </span>
-<span class="co">## <span style="color: #BCBCBC;"> 7</span>          242 ALOX12B       </span>
-<span class="co">## <span style="color: #BCBCBC;"> 8</span>       <span style="text-decoration: underline;">139</span>285 AMER1         </span>
-<span class="co">## <span style="color: #BCBCBC;"> 9</span>          324 APC           </span>
-<span class="co">## <span style="color: #BCBCBC;">10</span>          367 AR            </span>
-<span class="co">## <span style="color: #949494;"># … with 331 more rows</span></span></code></pre>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/cBioPortal.html">genePanels</a></span><span class="op">(</span><span class="va">cbio</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 55 × 2</span></span></span>
+<span><span class="co">##    description                                                           geneP…¹</span></span>
+<span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                                                 <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> Targeted (27 cancer genes) sequencing of adenoid cystic carcinomas o… ACYC_F…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span> Targeted panel of 232 genes.                                          Agilent</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span> Targeted panel of 8 genes.                                            AmpliS…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> ARCHER-HEME gene panel (199 genes)                                    ARCHER…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> ARCHER-SOLID Gene Panel (62 genes)                                    ARCHER…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> Targeted sequencing of various tumor types via bait v3.               bait_v3</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 7</span> Targeted sequencing of various tumor types via bait v4.               bait_v4</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> Targeted sequencing of various tumor types via bait v5.               bait_v5</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> Targeted panel of 387 cancer-related genes.                           bcc_un…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span> Research (CMO) IMPACT-Heme gene panel version 3.                      HemePA…</span></span>
+<span><span class="co">## <span style="color: #949494;"># … with 45 more rows, and abbreviated variable name ¹​genePanelId</span></span></span></code></pre>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/cBioPortal.html">getGenePanel</a></span><span class="op">(</span><span class="va">cbio</span>, <span class="st">"IMPACT341"</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 341 × 2</span></span></span>
+<span><span class="co">##    entrezGeneId hugoGeneSymbol</span></span>
+<span><span class="co">##           <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 1</span>           25 ABL1          </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span>        <span style="text-decoration: underline;">84</span>142 ABRAXAS1      </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span>          207 AKT1          </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span>          208 AKT2          </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 5</span>        <span style="text-decoration: underline;">10</span>000 AKT3          </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span>          238 ALK           </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 7</span>          242 ALOX12B       </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 8</span>       <span style="text-decoration: underline;">139</span>285 AMER1         </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 9</span>          324 APC           </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span>          367 AR            </span></span>
+<span><span class="co">## <span style="color: #949494;"># … with 331 more rows</span></span></span></code></pre>
 </div>
 </div>
 <div class="section level3">
@@ -384,71 +381,74 @@ symbols, and entrez gene IDs can be obtained by using the
 <div class="section level4">
 <h4 id="genepanelmolecular">genePanelMolecular<a class="anchor" aria-label="anchor" href="#genepanelmolecular"></a>
 </h4>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">gprppa</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cBioPortal.html">genePanelMolecular</a></span><span class="op">(</span><span class="va">cbio</span>,
-    molecularProfileId <span class="op">=</span> <span class="st">"acc_tcga_rppa"</span>,
-    sampleListId <span class="op">=</span> <span class="st">"acc_tcga_all"</span><span class="op">)</span>
-<span class="va">gprppa</span></code></pre></div>
-<pre><code><span class="co">## <span style="color: #949494;"># A tibble: 92 × 7</span></span>
-<span class="co">##    uniqueSampleKey  uniquePatientKey molecularProfil… sampleId patientId studyId</span>
-<span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span>
-<span class="co">## <span style="color: #BCBCBC;"> 1</span> VENHQS1PUi1BNUo… VENHQS1PUi1BNUo… acc_tcga_rppa    TCGA-OR… TCGA-OR-… acc_tc…</span>
-<span class="co">## <span style="color: #BCBCBC;"> 2</span> VENHQS1PUi1BNUo… VENHQS1PUi1BNUo… acc_tcga_rppa    TCGA-OR… TCGA-OR-… acc_tc…</span>
-<span class="co">## <span style="color: #BCBCBC;"> 3</span> VENHQS1PUi1BNUo… VENHQS1PUi1BNUo… acc_tcga_rppa    TCGA-OR… TCGA-OR-… acc_tc…</span>
-<span class="co">## <span style="color: #BCBCBC;"> 4</span> VENHQS1PUi1BNUo… VENHQS1PUi1BNUo… acc_tcga_rppa    TCGA-OR… TCGA-OR-… acc_tc…</span>
-<span class="co">## <span style="color: #BCBCBC;"> 5</span> VENHQS1PUi1BNUo… VENHQS1PUi1BNUo… acc_tcga_rppa    TCGA-OR… TCGA-OR-… acc_tc…</span>
-<span class="co">## <span style="color: #BCBCBC;"> 6</span> VENHQS1PUi1BNUo… VENHQS1PUi1BNUo… acc_tcga_rppa    TCGA-OR… TCGA-OR-… acc_tc…</span>
-<span class="co">## <span style="color: #BCBCBC;"> 7</span> VENHQS1PUi1BNUo… VENHQS1PUi1BNUo… acc_tcga_rppa    TCGA-OR… TCGA-OR-… acc_tc…</span>
-<span class="co">## <span style="color: #BCBCBC;"> 8</span> VENHQS1PUi1BNUo… VENHQS1PUi1BNUo… acc_tcga_rppa    TCGA-OR… TCGA-OR-… acc_tc…</span>
-<span class="co">## <span style="color: #BCBCBC;"> 9</span> VENHQS1PUi1BNUo… VENHQS1PUi1BNUo… acc_tcga_rppa    TCGA-OR… TCGA-OR-… acc_tc…</span>
-<span class="co">## <span style="color: #BCBCBC;">10</span> VENHQS1PUi1BNUp… VENHQS1PUi1BNUp… acc_tcga_rppa    TCGA-OR… TCGA-OR-… acc_tc…</span>
-<span class="co">## <span style="color: #949494;"># … with 82 more rows, and 1 more variable: profiled &lt;lgl&gt;</span></span></code></pre>
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">gprppa</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cBioPortal.html">genePanelMolecular</a></span><span class="op">(</span><span class="va">cbio</span>,</span>
+<span>    molecularProfileId <span class="op">=</span> <span class="st">"acc_tcga_rppa"</span>,</span>
+<span>    sampleListId <span class="op">=</span> <span class="st">"acc_tcga_all"</span><span class="op">)</span></span>
+<span><span class="va">gprppa</span></span></code></pre></div>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 92 × 7</span></span></span>
+<span><span class="co">##    uniqueSampleKey               uniqu…¹ molec…² sampl…³ patie…⁴ studyId profi…⁵</span></span>
+<span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>  </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> VENHQS1PUi1BNUoxLTAxOmFjY190… VENHQS… acc_tc… TCGA-O… TCGA-O… acc_tc… FALSE  </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span> VENHQS1PUi1BNUoyLTAxOmFjY190… VENHQS… acc_tc… TCGA-O… TCGA-O… acc_tc… TRUE   </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span> VENHQS1PUi1BNUozLTAxOmFjY190… VENHQS… acc_tc… TCGA-O… TCGA-O… acc_tc… TRUE   </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> VENHQS1PUi1BNUo0LTAxOmFjY190… VENHQS… acc_tc… TCGA-O… TCGA-O… acc_tc… FALSE  </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> VENHQS1PUi1BNUo1LTAxOmFjY190… VENHQS… acc_tc… TCGA-O… TCGA-O… acc_tc… FALSE  </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> VENHQS1PUi1BNUo2LTAxOmFjY190… VENHQS… acc_tc… TCGA-O… TCGA-O… acc_tc… TRUE   </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 7</span> VENHQS1PUi1BNUo3LTAxOmFjY190… VENHQS… acc_tc… TCGA-O… TCGA-O… acc_tc… TRUE   </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> VENHQS1PUi1BNUo4LTAxOmFjY190… VENHQS… acc_tc… TCGA-O… TCGA-O… acc_tc… TRUE   </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> VENHQS1PUi1BNUo5LTAxOmFjY190… VENHQS… acc_tc… TCGA-O… TCGA-O… acc_tc… TRUE   </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span> VENHQS1PUi1BNUpBLTAxOmFjY190… VENHQS… acc_tc… TCGA-O… TCGA-O… acc_tc… TRUE   </span></span>
+<span><span class="co">## <span style="color: #949494;"># … with 82 more rows, and abbreviated variable names ¹​uniquePatientKey,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   ²​molecularProfileId, ³​sampleId, ⁴​patientId, ⁵​profiled</span></span></span></code></pre>
 </div>
 <div class="section level4">
 <h4 id="getgenepanelmolecular">getGenePanelMolecular<a class="anchor" aria-label="anchor" href="#getgenepanelmolecular"></a>
 </h4>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/cBioPortal.html">getGenePanelMolecular</a></span><span class="op">(</span><span class="va">cbio</span>,
-    molecularProfileIds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"acc_tcga_rppa"</span>, <span class="st">"acc_tcga_gistic"</span><span class="op">)</span>,
-    sampleIds <span class="op">=</span> <span class="fu"><a href="../reference/cBioPortal.html">allSamples</a></span><span class="op">(</span><span class="va">cbio</span>, <span class="st">"acc_tcga"</span><span class="op">)</span><span class="op">$</span><span class="va">sampleId</span>
-<span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## <span style="color: #949494;"># A tibble: 184 × 7</span></span>
-<span class="co">##    uniqueSampleKey  uniquePatientKey molecularProfil… sampleId patientId studyId</span>
-<span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span>
-<span class="co">## <span style="color: #BCBCBC;"> 1</span> VENHQS1PUi1BNUo… VENHQS1PUi1BNUo… acc_tcga_gistic  TCGA-OR… TCGA-OR-… acc_tc…</span>
-<span class="co">## <span style="color: #BCBCBC;"> 2</span> VENHQS1PUi1BNUo… VENHQS1PUi1BNUo… acc_tcga_gistic  TCGA-OR… TCGA-OR-… acc_tc…</span>
-<span class="co">## <span style="color: #BCBCBC;"> 3</span> VENHQS1PUi1BNUo… VENHQS1PUi1BNUo… acc_tcga_gistic  TCGA-OR… TCGA-OR-… acc_tc…</span>
-<span class="co">## <span style="color: #BCBCBC;"> 4</span> VENHQS1PUi1BNUo… VENHQS1PUi1BNUo… acc_tcga_gistic  TCGA-OR… TCGA-OR-… acc_tc…</span>
-<span class="co">## <span style="color: #BCBCBC;"> 5</span> VENHQS1PUi1BNUo… VENHQS1PUi1BNUo… acc_tcga_gistic  TCGA-OR… TCGA-OR-… acc_tc…</span>
-<span class="co">## <span style="color: #BCBCBC;"> 6</span> VENHQS1PUi1BNUo… VENHQS1PUi1BNUo… acc_tcga_gistic  TCGA-OR… TCGA-OR-… acc_tc…</span>
-<span class="co">## <span style="color: #BCBCBC;"> 7</span> VENHQS1PUi1BNUo… VENHQS1PUi1BNUo… acc_tcga_gistic  TCGA-OR… TCGA-OR-… acc_tc…</span>
-<span class="co">## <span style="color: #BCBCBC;"> 8</span> VENHQS1PUi1BNUo… VENHQS1PUi1BNUo… acc_tcga_gistic  TCGA-OR… TCGA-OR-… acc_tc…</span>
-<span class="co">## <span style="color: #BCBCBC;"> 9</span> VENHQS1PUi1BNUo… VENHQS1PUi1BNUo… acc_tcga_gistic  TCGA-OR… TCGA-OR-… acc_tc…</span>
-<span class="co">## <span style="color: #BCBCBC;">10</span> VENHQS1PUi1BNUp… VENHQS1PUi1BNUp… acc_tcga_gistic  TCGA-OR… TCGA-OR-… acc_tc…</span>
-<span class="co">## <span style="color: #949494;"># … with 174 more rows, and 1 more variable: profiled &lt;lgl&gt;</span></span></code></pre>
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/cBioPortal.html">getGenePanelMolecular</a></span><span class="op">(</span><span class="va">cbio</span>,</span>
+<span>    molecularProfileIds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"acc_tcga_rppa"</span>, <span class="st">"acc_tcga_gistic"</span><span class="op">)</span>,</span>
+<span>    sampleIds <span class="op">=</span> <span class="fu"><a href="../reference/cBioPortal.html">allSamples</a></span><span class="op">(</span><span class="va">cbio</span>, <span class="st">"acc_tcga"</span><span class="op">)</span><span class="op">$</span><span class="va">sampleId</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 184 × 7</span></span></span>
+<span><span class="co">##    uniqueSampleKey               uniqu…¹ molec…² sampl…³ patie…⁴ studyId profi…⁵</span></span>
+<span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>  </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> VENHQS1PUi1BNUoxLTAxOmFjY190… VENHQS… acc_tc… TCGA-O… TCGA-O… acc_tc… TRUE   </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span> VENHQS1PUi1BNUoyLTAxOmFjY190… VENHQS… acc_tc… TCGA-O… TCGA-O… acc_tc… TRUE   </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span> VENHQS1PUi1BNUozLTAxOmFjY190… VENHQS… acc_tc… TCGA-O… TCGA-O… acc_tc… TRUE   </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> VENHQS1PUi1BNUo0LTAxOmFjY190… VENHQS… acc_tc… TCGA-O… TCGA-O… acc_tc… TRUE   </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> VENHQS1PUi1BNUo1LTAxOmFjY190… VENHQS… acc_tc… TCGA-O… TCGA-O… acc_tc… TRUE   </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> VENHQS1PUi1BNUo2LTAxOmFjY190… VENHQS… acc_tc… TCGA-O… TCGA-O… acc_tc… TRUE   </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 7</span> VENHQS1PUi1BNUo3LTAxOmFjY190… VENHQS… acc_tc… TCGA-O… TCGA-O… acc_tc… TRUE   </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> VENHQS1PUi1BNUo4LTAxOmFjY190… VENHQS… acc_tc… TCGA-O… TCGA-O… acc_tc… TRUE   </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> VENHQS1PUi1BNUo5LTAxOmFjY190… VENHQS… acc_tc… TCGA-O… TCGA-O… acc_tc… TRUE   </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span> VENHQS1PUi1BNUpBLTAxOmFjY190… VENHQS… acc_tc… TCGA-O… TCGA-O… acc_tc… TRUE   </span></span>
+<span><span class="co">## <span style="color: #949494;"># … with 174 more rows, and abbreviated variable names ¹​uniquePatientKey,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   ²​molecularProfileId, ³​sampleId, ⁴​patientId, ⁵​profiled</span></span></span></code></pre>
 </div>
 <div class="section level4">
 <h4 id="getdatabygenes">getDataByGenes<a class="anchor" aria-label="anchor" href="#getdatabygenes"></a>
 </h4>
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/cBioPortal.html">getDataByGenes</a></span><span class="op">(</span><span class="va">cbio</span>, <span class="st">"acc_tcga"</span>, genePanelId <span class="op">=</span> <span class="st">"IMPACT341"</span>,
-    molecularProfileId <span class="op">=</span> <span class="st">"acc_tcga_rppa"</span>, sampleListId <span class="op">=</span> <span class="st">"acc_tcga_rppa"</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## $acc_tcga_rppa</span>
-<span class="co">## <span style="color: #949494;"># A tibble: 2,622 × 9</span></span>
-<span class="co">##    uniqueSampleKey       uniquePatientKey entrezGeneId molecularProfil… sampleId</span>
-<span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                 <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   </span>
-<span class="co">## <span style="color: #BCBCBC;"> 1</span> VENHQS1PUi1BNUoyLTAx… VENHQS1PUi1BNUo…         <span style="text-decoration: underline;">5</span>728 acc_tcga_rppa    TCGA-OR…</span>
-<span class="co">## <span style="color: #BCBCBC;"> 2</span> VENHQS1PUi1BNUoyLTAx… VENHQS1PUi1BNUo…          595 acc_tcga_rppa    TCGA-OR…</span>
-<span class="co">## <span style="color: #BCBCBC;"> 3</span> VENHQS1PUi1BNUoyLTAx… VENHQS1PUi1BNUo…          596 acc_tcga_rppa    TCGA-OR…</span>
-<span class="co">## <span style="color: #BCBCBC;"> 4</span> VENHQS1PUi1BNUoyLTAx… VENHQS1PUi1BNUo…        <span style="text-decoration: underline;">10</span>413 acc_tcga_rppa    TCGA-OR…</span>
-<span class="co">## <span style="color: #BCBCBC;"> 5</span> VENHQS1PUi1BNUoyLTAx… VENHQS1PUi1BNUo…         <span style="text-decoration: underline;">3</span>791 acc_tcga_rppa    TCGA-OR…</span>
-<span class="co">## <span style="color: #BCBCBC;"> 6</span> VENHQS1PUi1BNUoyLTAx… VENHQS1PUi1BNUo…         <span style="text-decoration: underline;">7</span>157 acc_tcga_rppa    TCGA-OR…</span>
-<span class="co">## <span style="color: #BCBCBC;"> 7</span> VENHQS1PUi1BNUoyLTAx… VENHQS1PUi1BNUo…          207 acc_tcga_rppa    TCGA-OR…</span>
-<span class="co">## <span style="color: #BCBCBC;"> 8</span> VENHQS1PUi1BNUoyLTAx… VENHQS1PUi1BNUo…          208 acc_tcga_rppa    TCGA-OR…</span>
-<span class="co">## <span style="color: #BCBCBC;"> 9</span> VENHQS1PUi1BNUoyLTAx… VENHQS1PUi1BNUo…        <span style="text-decoration: underline;">57</span>521 acc_tcga_rppa    TCGA-OR…</span>
-<span class="co">## <span style="color: #BCBCBC;">10</span> VENHQS1PUi1BNUoyLTAx… VENHQS1PUi1BNUo…         <span style="text-decoration: underline;">2</span>064 acc_tcga_rppa    TCGA-OR…</span>
-<span class="co">## <span style="color: #949494;"># … with 2,612 more rows, and 4 more variables: patientId &lt;chr&gt;, studyId &lt;chr&gt;,</span></span>
-<span class="co">## <span style="color: #949494;">#   value &lt;dbl&gt;, hugoGeneSymbol &lt;chr&gt;</span></span></code></pre>
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/cBioPortal.html">getDataByGenes</a></span><span class="op">(</span><span class="va">cbio</span>, <span class="st">"acc_tcga"</span>, genePanelId <span class="op">=</span> <span class="st">"IMPACT341"</span>,</span>
+<span>    molecularProfileId <span class="op">=</span> <span class="st">"acc_tcga_rppa"</span>, sampleListId <span class="op">=</span> <span class="st">"acc_tcga_rppa"</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## $acc_tcga_rppa</span></span>
+<span><span class="co">## <span style="color: #949494;"># A tibble: 2,622 × 9</span></span></span>
+<span><span class="co">##    uniqueSampl…¹ uniqu…² entre…³ molec…⁴ sampl…⁵ patie…⁶ studyId   value hugoG…⁷</span></span>
+<span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> VENHQS1PUi1B… VENHQS…    <span style="text-decoration: underline;">5</span>728 acc_tc… TCGA-O… TCGA-O… acc_tc…  0.303  PTEN   </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span> VENHQS1PUi1B… VENHQS…     595 acc_tc… TCGA-O… TCGA-O… acc_tc…  0.151  CCND1  </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span> VENHQS1PUi1B… VENHQS…     596 acc_tc… TCGA-O… TCGA-O… acc_tc…  0.099<span style="text-decoration: underline;">4</span> BCL2   </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> VENHQS1PUi1B… VENHQS…   <span style="text-decoration: underline;">10</span>413 acc_tc… TCGA-O… TCGA-O… acc_tc…  0.147  YAP1   </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> VENHQS1PUi1B… VENHQS…    <span style="text-decoration: underline;">3</span>791 acc_tc… TCGA-O… TCGA-O… acc_tc… -<span style="color: #BB0000;">0.268</span>  KDR    </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> VENHQS1PUi1B… VENHQS…    <span style="text-decoration: underline;">7</span>157 acc_tc… TCGA-O… TCGA-O… acc_tc…  0.016<span style="text-decoration: underline;">1</span> TP53   </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 7</span> VENHQS1PUi1B… VENHQS…     207 acc_tc… TCGA-O… TCGA-O… acc_tc… -<span style="color: #BB0000;">0.580</span>  AKT1   </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> VENHQS1PUi1B… VENHQS…     208 acc_tc… TCGA-O… TCGA-O… acc_tc… -<span style="color: #BB0000;">0.580</span>  AKT2   </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> VENHQS1PUi1B… VENHQS…   <span style="text-decoration: underline;">57</span>521 acc_tc… TCGA-O… TCGA-O… acc_tc…  0.025<span style="text-decoration: underline;">8</span> RPTOR  </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span> VENHQS1PUi1B… VENHQS…    <span style="text-decoration: underline;">2</span>064 acc_tc… TCGA-O… TCGA-O… acc_tc…  0.130  ERBB2  </span></span>
+<span><span class="co">## <span style="color: #949494;"># … with 2,612 more rows, and abbreviated variable names ¹​uniqueSampleKey,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   ²​uniquePatientKey, ³​entrezGeneId, ⁴​molecularProfileId, ⁵​sampleId,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   ⁶​patientId, ⁷​hugoGeneSymbol</span></span></span></code></pre>
 <p>It uses the <code>getAllGenesUsingGET</code> function from the
 API.</p>
 </div>
@@ -461,20 +461,21 @@ API.</p>
 </h4>
 <p>To display all available sample list identifiers for a particular
 study ID, one can use the <code>sampleLists</code> function:</p>
-<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/cBioPortal.html">sampleLists</a></span><span class="op">(</span><span class="va">cbio</span>, <span class="st">"acc_tcga"</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## <span style="color: #949494;"># A tibble: 9 × 5</span></span>
-<span class="co">##   category                                name  description sampleListId studyId</span>
-<span class="co">##   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span>
-<span class="co">## <span style="color: #BCBCBC;">1</span> all_cases_with_mrna_rnaseq_data         Samp… Samples wi… acc_tcga_rn… acc_tc…</span>
-<span class="co">## <span style="color: #BCBCBC;">2</span> all_cases_in_study                      All … All sample… acc_tcga_all acc_tc…</span>
-<span class="co">## <span style="color: #BCBCBC;">3</span> all_cases_with_cna_data                 Samp… Samples wi… acc_tcga_cna acc_tc…</span>
-<span class="co">## <span style="color: #BCBCBC;">4</span> all_cases_with_mutation_and_cna_data    Samp… Samples wi… acc_tcga_cn… acc_tc…</span>
-<span class="co">## <span style="color: #BCBCBC;">5</span> all_cases_with_mutation_and_cna_and_mr… Comp… Samples wi… acc_tcga_3w… acc_tc…</span>
-<span class="co">## <span style="color: #BCBCBC;">6</span> all_cases_with_methylation_data         Samp… Samples wi… acc_tcga_me… acc_tc…</span>
-<span class="co">## <span style="color: #BCBCBC;">7</span> all_cases_with_methylation_data         Samp… Samples wi… acc_tcga_me… acc_tc…</span>
-<span class="co">## <span style="color: #BCBCBC;">8</span> all_cases_with_rppa_data                Samp… Samples pr… acc_tcga_rp… acc_tc…</span>
-<span class="co">## <span style="color: #BCBCBC;">9</span> all_cases_with_mutation_data            Samp… Samples wi… acc_tcga_se… acc_tc…</span></code></pre>
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/cBioPortal.html">sampleLists</a></span><span class="op">(</span><span class="va">cbio</span>, <span class="st">"acc_tcga"</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 9 × 5</span></span></span>
+<span><span class="co">##   category                                      name     descr…¹ sampl…² studyId</span></span>
+<span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span> all_cases_with_mrna_rnaseq_data               Samples… Sample… acc_tc… acc_tc…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">2</span> all_cases_in_study                            All sam… All sa… acc_tc… acc_tc…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">3</span> all_cases_with_cna_data                       Samples… Sample… acc_tc… acc_tc…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">4</span> all_cases_with_mutation_and_cna_data          Samples… Sample… acc_tc… acc_tc…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">5</span> all_cases_with_mutation_and_cna_and_mrna_data Complet… Sample… acc_tc… acc_tc…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">6</span> all_cases_with_methylation_data               Samples… Sample… acc_tc… acc_tc…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">7</span> all_cases_with_methylation_data               Samples… Sample… acc_tc… acc_tc…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">8</span> all_cases_with_rppa_data                      Samples… Sample… acc_tc… acc_tc…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">9</span> all_cases_with_mutation_data                  Samples… Sample… acc_tc… acc_tc…</span></span>
+<span><span class="co">## <span style="color: #949494;"># … with abbreviated variable names ¹​description, ²​sampleListId</span></span></span></code></pre>
 </div>
 <div class="section level4">
 <h4 id="sample-identifiers">Sample Identifiers<a class="anchor" aria-label="anchor" href="#sample-identifiers"></a>
@@ -482,48 +483,49 @@ study ID, one can use the <code>sampleLists</code> function:</p>
 <p>One can obtain the barcodes / identifiers for each sample using a
 specific sample list identifier, in this case we want all the copy
 number alteration samples:</p>
-<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/cBioPortal.html">samplesInSampleLists</a></span><span class="op">(</span><span class="va">cbio</span>, <span class="st">"acc_tcga_cna"</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## CharacterList of length 1</span>
-<span class="co">## [["acc_tcga_cna"]] TCGA-OR-A5J1-01 TCGA-OR-A5J2-01 ... TCGA-PK-A5HC-01</span></code></pre>
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/cBioPortal.html">samplesInSampleLists</a></span><span class="op">(</span><span class="va">cbio</span>, <span class="st">"acc_tcga_cna"</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## CharacterList of length 1</span></span>
+<span><span class="co">## [["acc_tcga_cna"]] TCGA-OR-A5J1-01 TCGA-OR-A5J2-01 ... TCGA-PK-A5HC-01</span></span></code></pre>
 <p>This returns a <code>CharacterList</code> of all identifiers for each
 sample list identifier input:</p>
-<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/cBioPortal.html">samplesInSampleLists</a></span><span class="op">(</span><span class="va">cbio</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"acc_tcga_cna"</span>, <span class="st">"acc_tcga_cnaseq"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## CharacterList of length 2</span>
-<span class="co">## [["acc_tcga_cna"]] TCGA-OR-A5J1-01 TCGA-OR-A5J2-01 ... TCGA-PK-A5HC-01</span>
-<span class="co">## [["acc_tcga_cnaseq"]] TCGA-OR-A5J1-01 TCGA-OR-A5J2-01 ... TCGA-PK-A5HC-01</span></code></pre>
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/cBioPortal.html">samplesInSampleLists</a></span><span class="op">(</span><span class="va">cbio</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"acc_tcga_cna"</span>, <span class="st">"acc_tcga_cnaseq"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## CharacterList of length 2</span></span>
+<span><span class="co">## [["acc_tcga_cna"]] TCGA-OR-A5J1-01 TCGA-OR-A5J2-01 ... TCGA-PK-A5HC-01</span></span>
+<span><span class="co">## [["acc_tcga_cnaseq"]] TCGA-OR-A5J1-01 TCGA-OR-A5J2-01 ... TCGA-PK-A5HC-01</span></span></code></pre>
 </div>
 <div class="section level4">
 <h4 id="all-samples-within-a-study-id">All samples within a study ID<a class="anchor" aria-label="anchor" href="#all-samples-within-a-study-id"></a>
 </h4>
-<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/cBioPortal.html">allSamples</a></span><span class="op">(</span><span class="va">cbio</span>, <span class="st">"acc_tcga"</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## <span style="color: #949494;"># A tibble: 92 × 6</span></span>
-<span class="co">##    uniqueSampleKey        uniquePatientKey sampleType sampleId patientId studyId</span>
-<span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span>
-<span class="co">## <span style="color: #BCBCBC;"> 1</span> VENHQS1PUi1BNUoxLTAxO… VENHQS1PUi1BNUo… Primary S… TCGA-OR… TCGA-OR-… acc_tc…</span>
-<span class="co">## <span style="color: #BCBCBC;"> 2</span> VENHQS1PUi1BNUoyLTAxO… VENHQS1PUi1BNUo… Primary S… TCGA-OR… TCGA-OR-… acc_tc…</span>
-<span class="co">## <span style="color: #BCBCBC;"> 3</span> VENHQS1PUi1BNUozLTAxO… VENHQS1PUi1BNUo… Primary S… TCGA-OR… TCGA-OR-… acc_tc…</span>
-<span class="co">## <span style="color: #BCBCBC;"> 4</span> VENHQS1PUi1BNUo0LTAxO… VENHQS1PUi1BNUo… Primary S… TCGA-OR… TCGA-OR-… acc_tc…</span>
-<span class="co">## <span style="color: #BCBCBC;"> 5</span> VENHQS1PUi1BNUo1LTAxO… VENHQS1PUi1BNUo… Primary S… TCGA-OR… TCGA-OR-… acc_tc…</span>
-<span class="co">## <span style="color: #BCBCBC;"> 6</span> VENHQS1PUi1BNUo2LTAxO… VENHQS1PUi1BNUo… Primary S… TCGA-OR… TCGA-OR-… acc_tc…</span>
-<span class="co">## <span style="color: #BCBCBC;"> 7</span> VENHQS1PUi1BNUo3LTAxO… VENHQS1PUi1BNUo… Primary S… TCGA-OR… TCGA-OR-… acc_tc…</span>
-<span class="co">## <span style="color: #BCBCBC;"> 8</span> VENHQS1PUi1BNUo4LTAxO… VENHQS1PUi1BNUo… Primary S… TCGA-OR… TCGA-OR-… acc_tc…</span>
-<span class="co">## <span style="color: #BCBCBC;"> 9</span> VENHQS1PUi1BNUo5LTAxO… VENHQS1PUi1BNUo… Primary S… TCGA-OR… TCGA-OR-… acc_tc…</span>
-<span class="co">## <span style="color: #BCBCBC;">10</span> VENHQS1PUi1BNUpBLTAxO… VENHQS1PUi1BNUp… Primary S… TCGA-OR… TCGA-OR-… acc_tc…</span>
-<span class="co">## <span style="color: #949494;"># … with 82 more rows</span></span></code></pre>
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/cBioPortal.html">allSamples</a></span><span class="op">(</span><span class="va">cbio</span>, <span class="st">"acc_tcga"</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 92 × 6</span></span></span>
+<span><span class="co">##    uniqueSampleKey                  uniquePati…¹ sampl…² sampl…³ patie…⁴ studyId</span></span>
+<span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> VENHQS1PUi1BNUoxLTAxOmFjY190Y2dh VENHQS1PUi1… Primar… TCGA-O… TCGA-O… acc_tc…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span> VENHQS1PUi1BNUoyLTAxOmFjY190Y2dh VENHQS1PUi1… Primar… TCGA-O… TCGA-O… acc_tc…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span> VENHQS1PUi1BNUozLTAxOmFjY190Y2dh VENHQS1PUi1… Primar… TCGA-O… TCGA-O… acc_tc…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> VENHQS1PUi1BNUo0LTAxOmFjY190Y2dh VENHQS1PUi1… Primar… TCGA-O… TCGA-O… acc_tc…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> VENHQS1PUi1BNUo1LTAxOmFjY190Y2dh VENHQS1PUi1… Primar… TCGA-O… TCGA-O… acc_tc…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> VENHQS1PUi1BNUo2LTAxOmFjY190Y2dh VENHQS1PUi1… Primar… TCGA-O… TCGA-O… acc_tc…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 7</span> VENHQS1PUi1BNUo3LTAxOmFjY190Y2dh VENHQS1PUi1… Primar… TCGA-O… TCGA-O… acc_tc…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> VENHQS1PUi1BNUo4LTAxOmFjY190Y2dh VENHQS1PUi1… Primar… TCGA-O… TCGA-O… acc_tc…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> VENHQS1PUi1BNUo5LTAxOmFjY190Y2dh VENHQS1PUi1… Primar… TCGA-O… TCGA-O… acc_tc…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span> VENHQS1PUi1BNUpBLTAxOmFjY190Y2dh VENHQS1PUi1… Primar… TCGA-O… TCGA-O… acc_tc…</span></span>
+<span><span class="co">## <span style="color: #949494;"># … with 82 more rows, and abbreviated variable names ¹​uniquePatientKey,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   ²​sampleType, ³​sampleId, ⁴​patientId</span></span></span></code></pre>
 </div>
 <div class="section level4">
 <h4 id="info-on-samples">Info on Samples<a class="anchor" aria-label="anchor" href="#info-on-samples"></a>
 </h4>
-<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/cBioPortal.html">getSampleInfo</a></span><span class="op">(</span><span class="va">cbio</span>, studyId <span class="op">=</span> <span class="st">"acc_tcga"</span>,
-    sampleListIds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"acc_tcga_rppa"</span>, <span class="st">"acc_tcga_gistic"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## <span style="color: #949494;"># A tibble: 1 × 1</span></span>
-<span class="co">##   message                               </span>
-<span class="co">##   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                 </span>
-<span class="co">## <span style="color: #BCBCBC;">1</span> Sample list not found: acc_tcga_gistic</span></code></pre>
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/cBioPortal.html">getSampleInfo</a></span><span class="op">(</span><span class="va">cbio</span>, studyId <span class="op">=</span> <span class="st">"acc_tcga"</span>,</span>
+<span>    sampleListIds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"acc_tcga_rppa"</span>, <span class="st">"acc_tcga_gistic"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 1 × 1</span></span></span>
+<span><span class="co">##   message                               </span></span>
+<span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                 </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span> Sample list not found: acc_tcga_gistic</span></span></code></pre>
 </div>
 </div>
 </div>
@@ -536,131 +538,136 @@ the endpoints provided by the API specification should use the dollar
 sign <code>$</code> function to access the endpoints.</p>
 <p>First the user should see the input for a particular endpoint as
 detailed in the API:</p>
-<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">cbio</span><span class="op">$</span><span class="va">getGeneUsingGET</span></code></pre></div>
-<pre><code><span class="co">## getGeneUsingGET </span>
-<span class="co">## Get a gene </span>
-<span class="co">## </span>
-<span class="co">## Parameters:</span>
-<span class="co">##   geneId (string)</span>
-<span class="co">##     Entrez Gene ID or Hugo Gene Symbol e.g. 1 or A1BG</span></code></pre>
+<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">cbio</span><span class="op">$</span><span class="va">getGeneUsingGET</span></span></code></pre></div>
+<pre><code><span><span class="co">## getGeneUsingGET </span></span>
+<span><span class="co">## Get a gene </span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Parameters:</span></span>
+<span><span class="co">##   geneId (string)</span></span>
+<span><span class="co">##     Entrez Gene ID or Hugo Gene Symbol e.g. 1 or A1BG</span></span></code></pre>
 <p>Then the user can provide such input:</p>
-<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="op">(</span><span class="va">resp</span> <span class="op">&lt;-</span> <span class="va">cbio</span><span class="op">$</span><span class="fu">getGeneUsingGET</span><span class="op">(</span><span class="st">"BRCA1"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## Response [https://www.cbioportal.org/api/genes/BRCA1]</span>
-<span class="co">##   Date: 2022-06-15 16:35</span>
-<span class="co">##   Status: 200</span>
-<span class="co">##   Content-Type: application/json</span>
-<span class="co">##   Size: 69 B</span></code></pre>
+<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="op">(</span><span class="va">resp</span> <span class="op">&lt;-</span> <span class="va">cbio</span><span class="op">$</span><span class="fu">getGeneUsingGET</span><span class="op">(</span><span class="st">"BRCA1"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Response [https://www.cbioportal.org/api/genes/BRCA1]</span></span>
+<span><span class="co">##   Date: 2022-11-29 21:59</span></span>
+<span><span class="co">##   Status: 200</span></span>
+<span><span class="co">##   Content-Type: application/json</span></span>
+<span><span class="co">##   Size: 69 B</span></span></code></pre>
 <p>which will require the user to ‘translate’ the response using
 <code><a href="https://httr.r-lib.org/reference/content.html" class="external-link">httr::content</a></code>:</p>
-<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">httr</span><span class="fu">::</span><span class="fu"><a href="https://httr.r-lib.org/reference/content.html" class="external-link">content</a></span><span class="op">(</span><span class="va">resp</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## $entrezGeneId</span>
-<span class="co">## [1] 672</span>
-<span class="co">## </span>
-<span class="co">## $hugoGeneSymbol</span>
-<span class="co">## [1] "BRCA1"</span>
-<span class="co">## </span>
-<span class="co">## $type</span>
-<span class="co">## [1] "protein-coding"</span></code></pre>
+<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">httr</span><span class="fu">::</span><span class="fu"><a href="https://httr.r-lib.org/reference/content.html" class="external-link">content</a></span><span class="op">(</span><span class="va">resp</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## $entrezGeneId</span></span>
+<span><span class="co">## [1] 672</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $hugoGeneSymbol</span></span>
+<span><span class="co">## [1] "BRCA1"</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $type</span></span>
+<span><span class="co">## [1] "protein-coding"</span></span></code></pre>
 <div class="section level3">
 <h3 id="clearing-the-cache">Clearing the cache<a class="anchor" aria-label="anchor" href="#clearing-the-cache"></a>
 </h3>
 <p>For users who wish to clear the entire <code>cBioPortalData</code>
 cache, it is recommended that they use:</p>
-<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/unlink.html" class="external-link">unlink</a></span><span class="op">(</span><span class="st">"~/.cache/cBioPortalData/"</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/unlink.html" class="external-link">unlink</a></span><span class="op">(</span><span class="st">"~/.cache/cBioPortalData/"</span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
 <h2 id="sessioninfo">sessionInfo<a class="anchor" aria-label="anchor" href="#sessioninfo"></a>
 </h2>
-<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html" class="external-link">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## R version 4.2.0 (2022-04-22)</span>
-<span class="co">## Platform: x86_64-pc-linux-gnu (64-bit)</span>
-<span class="co">## Running under: Ubuntu 20.04.4 LTS</span>
-<span class="co">## </span>
-<span class="co">## Matrix products: default</span>
-<span class="co">## BLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3</span>
-<span class="co">## LAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/liblapack.so.3</span>
-<span class="co">## </span>
-<span class="co">## locale:</span>
-<span class="co">##  [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              </span>
-<span class="co">##  [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    </span>
-<span class="co">##  [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   </span>
-<span class="co">##  [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 </span>
-<span class="co">##  [9] LC_ADDRESS=C               LC_TELEPHONE=C            </span>
-<span class="co">## [11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       </span>
-<span class="co">## </span>
-<span class="co">## attached base packages:</span>
-<span class="co">## [1] stats4    stats     graphics  grDevices utils     datasets  methods  </span>
-<span class="co">## [8] base     </span>
-<span class="co">## </span>
-<span class="co">## other attached packages:</span>
-<span class="co">##  [1] cBioPortalData_2.8.2        MultiAssayExperiment_1.22.0</span>
-<span class="co">##  [3] SummarizedExperiment_1.26.1 Biobase_2.56.0             </span>
-<span class="co">##  [5] GenomicRanges_1.48.0        GenomeInfoDb_1.32.2        </span>
-<span class="co">##  [7] IRanges_2.30.0              S4Vectors_0.34.0           </span>
-<span class="co">##  [9] BiocGenerics_0.42.0         MatrixGenerics_1.8.0       </span>
-<span class="co">## [11] matrixStats_0.62.0          AnVIL_1.8.2                </span>
-<span class="co">## [13] dplyr_1.0.9                 BiocStyle_2.24.0           </span>
-<span class="co">## </span>
-<span class="co">## loaded via a namespace (and not attached):</span>
-<span class="co">##   [1] bitops_1.0-7              fs_1.5.2                 </span>
-<span class="co">##   [3] bit64_4.0.5               progress_1.2.2           </span>
-<span class="co">##   [5] filelock_1.0.2            httr_1.4.3               </span>
-<span class="co">##   [7] GenomicDataCommons_1.20.1 rprojroot_2.0.3          </span>
-<span class="co">##   [9] tools_4.2.0               bslib_0.3.1              </span>
-<span class="co">##  [11] utf8_1.2.2                R6_2.5.1                 </span>
-<span class="co">##  [13] DBI_1.1.2                 prettyunits_1.1.1        </span>
-<span class="co">##  [15] TCGAutils_1.16.0          tidyselect_1.1.2         </span>
-<span class="co">##  [17] bit_4.0.4                 curl_4.3.2               </span>
-<span class="co">##  [19] compiler_4.2.0            rvest_1.0.2              </span>
-<span class="co">##  [21] textshaping_0.3.6         cli_3.3.0                </span>
-<span class="co">##  [23] formatR_1.12              xml2_1.3.3               </span>
-<span class="co">##  [25] desc_1.4.1                DelayedArray_0.22.0      </span>
-<span class="co">##  [27] rtracklayer_1.56.0        bookdown_0.27            </span>
-<span class="co">##  [29] sass_0.4.1                readr_2.1.2              </span>
-<span class="co">##  [31] rappdirs_0.3.3            pkgdown_2.0.4            </span>
-<span class="co">##  [33] rapiclient_0.1.3          RCircos_1.2.2            </span>
-<span class="co">##  [35] Rsamtools_2.12.0          systemfonts_1.0.4        </span>
-<span class="co">##  [37] stringr_1.4.0             digest_0.6.29            </span>
-<span class="co">##  [39] rmarkdown_2.14            XVector_0.36.0           </span>
-<span class="co">##  [41] pkgconfig_2.0.3           htmltools_0.5.2          </span>
-<span class="co">##  [43] dbplyr_2.2.0              fastmap_1.1.0            </span>
-<span class="co">##  [45] limma_3.52.1              rlang_1.0.2              </span>
-<span class="co">##  [47] RSQLite_2.2.14            BiocIO_1.6.0             </span>
-<span class="co">##  [49] jquerylib_0.1.4           generics_0.1.2           </span>
-<span class="co">##  [51] jsonlite_1.8.0            BiocParallel_1.30.3      </span>
-<span class="co">##  [53] RCurl_1.98-1.7            magrittr_2.0.3           </span>
-<span class="co">##  [55] GenomeInfoDbData_1.2.8    futile.logger_1.4.3      </span>
-<span class="co">##  [57] Matrix_1.4-1              Rcpp_1.0.8.3             </span>
-<span class="co">##  [59] fansi_1.0.3               lifecycle_1.0.1          </span>
-<span class="co">##  [61] stringi_1.7.6             yaml_2.3.5               </span>
-<span class="co">##  [63] RaggedExperiment_1.20.0   RJSONIO_1.3-1.6          </span>
-<span class="co">##  [65] zlibbioc_1.42.0           BiocFileCache_2.4.0      </span>
-<span class="co">##  [67] grid_4.2.0                blob_1.2.3               </span>
-<span class="co">##  [69] parallel_4.2.0            crayon_1.5.1             </span>
-<span class="co">##  [71] lattice_0.20-45           Biostrings_2.64.0        </span>
-<span class="co">##  [73] splines_4.2.0             GenomicFeatures_1.48.3   </span>
-<span class="co">##  [75] KEGGREST_1.36.2           hms_1.1.1                </span>
-<span class="co">##  [77] knitr_1.39                pillar_1.7.0             </span>
-<span class="co">##  [79] rjson_0.2.21              codetools_0.2-18         </span>
-<span class="co">##  [81] biomaRt_2.52.0            futile.options_1.0.1     </span>
-<span class="co">##  [83] XML_3.99-0.10             glue_1.6.2               </span>
-<span class="co">##  [85] evaluate_0.15             lambda.r_1.2.4           </span>
-<span class="co">##  [87] data.table_1.14.2         BiocManager_1.30.18      </span>
-<span class="co">##  [89] png_0.1-7                 tzdb_0.3.0               </span>
-<span class="co">##  [91] vctrs_0.4.1               purrr_0.3.4              </span>
-<span class="co">##  [93] tidyr_1.2.0               assertthat_0.2.1         </span>
-<span class="co">##  [95] cachem_1.0.6              xfun_0.31                </span>
-<span class="co">##  [97] restfulr_0.0.14           ragg_1.2.2               </span>
-<span class="co">##  [99] survival_3.3-1            tibble_3.1.7             </span>
-<span class="co">## [101] RTCGAToolbox_2.26.0       GenomicAlignments_1.32.0 </span>
-<span class="co">## [103] AnnotationDbi_1.58.0      memoise_2.0.1            </span>
-<span class="co">## [105] ellipsis_0.3.2</span></code></pre>
+<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html" class="external-link">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## R version 4.2.2 (2022-10-31)</span></span>
+<span><span class="co">## Platform: x86_64-pc-linux-gnu (64-bit)</span></span>
+<span><span class="co">## Running under: Ubuntu 22.04.1 LTS</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Matrix products: default</span></span>
+<span><span class="co">## BLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3</span></span>
+<span><span class="co">## LAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblasp-r0.3.20.so</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## locale:</span></span>
+<span><span class="co">##  [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              </span></span>
+<span><span class="co">##  [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    </span></span>
+<span><span class="co">##  [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   </span></span>
+<span><span class="co">##  [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 </span></span>
+<span><span class="co">##  [9] LC_ADDRESS=C               LC_TELEPHONE=C            </span></span>
+<span><span class="co">## [11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       </span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## attached base packages:</span></span>
+<span><span class="co">## [1] stats4    stats     graphics  grDevices utils     datasets  methods  </span></span>
+<span><span class="co">## [8] base     </span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## other attached packages:</span></span>
+<span><span class="co">##  [1] cBioPortalData_2.10.1       MultiAssayExperiment_1.24.0</span></span>
+<span><span class="co">##  [3] SummarizedExperiment_1.28.0 Biobase_2.58.0             </span></span>
+<span><span class="co">##  [5] GenomicRanges_1.50.1        GenomeInfoDb_1.34.3        </span></span>
+<span><span class="co">##  [7] IRanges_2.32.0              S4Vectors_0.36.0           </span></span>
+<span><span class="co">##  [9] BiocGenerics_0.44.0         MatrixGenerics_1.10.0      </span></span>
+<span><span class="co">## [11] matrixStats_0.63.0          AnVIL_1.10.1               </span></span>
+<span><span class="co">## [13] dplyr_1.0.10                BiocStyle_2.26.0           </span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## loaded via a namespace (and not attached):</span></span>
+<span><span class="co">##   [1] rjson_0.2.21              ellipsis_0.3.2           </span></span>
+<span><span class="co">##   [3] rprojroot_2.0.3           futile.logger_1.4.3      </span></span>
+<span><span class="co">##   [5] XVector_0.38.0            fs_1.5.2                 </span></span>
+<span><span class="co">##   [7] DT_0.26                   bit64_4.0.5              </span></span>
+<span><span class="co">##   [9] AnnotationDbi_1.60.0      fansi_1.0.3              </span></span>
+<span><span class="co">##  [11] xml2_1.3.3                codetools_0.2-18         </span></span>
+<span><span class="co">##  [13] splines_4.2.2             cachem_1.0.6             </span></span>
+<span><span class="co">##  [15] knitr_1.41                jsonlite_1.8.3           </span></span>
+<span><span class="co">##  [17] Rsamtools_2.14.0          dbplyr_2.2.1             </span></span>
+<span><span class="co">##  [19] png_0.1-7                 shiny_1.7.3              </span></span>
+<span><span class="co">##  [21] BiocManager_1.30.19.1     readr_2.1.3              </span></span>
+<span><span class="co">##  [23] compiler_4.2.2            httr_1.4.4               </span></span>
+<span><span class="co">##  [25] assertthat_0.2.1          Matrix_1.5-3             </span></span>
+<span><span class="co">##  [27] fastmap_1.1.0             limma_3.54.0             </span></span>
+<span><span class="co">##  [29] cli_3.4.1                 later_1.3.0              </span></span>
+<span><span class="co">##  [31] formatR_1.12              htmltools_0.5.3          </span></span>
+<span><span class="co">##  [33] prettyunits_1.1.1         tools_4.2.2              </span></span>
+<span><span class="co">##  [35] glue_1.6.2                GenomeInfoDbData_1.2.9   </span></span>
+<span><span class="co">##  [37] rappdirs_0.3.3            Rcpp_1.0.9               </span></span>
+<span><span class="co">##  [39] rapiclient_0.1.3          jquerylib_0.1.4          </span></span>
+<span><span class="co">##  [41] pkgdown_2.0.6             vctrs_0.5.1              </span></span>
+<span><span class="co">##  [43] Biostrings_2.66.0         RJSONIO_1.3-1.6          </span></span>
+<span><span class="co">##  [45] RaggedExperiment_1.22.0   rtracklayer_1.58.0       </span></span>
+<span><span class="co">##  [47] xfun_0.35                 stringr_1.4.1            </span></span>
+<span><span class="co">##  [49] rvest_1.0.3               RTCGAToolbox_2.28.0      </span></span>
+<span><span class="co">##  [51] mime_0.12                 miniUI_0.1.1.1           </span></span>
+<span><span class="co">##  [53] lifecycle_1.0.3           restfulr_0.0.15          </span></span>
+<span><span class="co">##  [55] XML_3.99-0.12             zlibbioc_1.44.0          </span></span>
+<span><span class="co">##  [57] RCircos_1.2.2             ragg_1.2.4               </span></span>
+<span><span class="co">##  [59] hms_1.1.2                 promises_1.2.0.1         </span></span>
+<span><span class="co">##  [61] parallel_4.2.2            lambda.r_1.2.4           </span></span>
+<span><span class="co">##  [63] yaml_2.3.6                curl_4.3.3               </span></span>
+<span><span class="co">##  [65] memoise_2.0.1             sass_0.4.4               </span></span>
+<span><span class="co">##  [67] biomaRt_2.54.0            stringi_1.7.8            </span></span>
+<span><span class="co">##  [69] RSQLite_2.2.19            BiocIO_1.8.0             </span></span>
+<span><span class="co">##  [71] desc_1.4.2                GenomicDataCommons_1.22.0</span></span>
+<span><span class="co">##  [73] GenomicFeatures_1.50.2    filelock_1.0.2           </span></span>
+<span><span class="co">##  [75] BiocParallel_1.32.3       rlang_1.0.6              </span></span>
+<span><span class="co">##  [77] pkgconfig_2.0.3           systemfonts_1.0.4        </span></span>
+<span><span class="co">##  [79] bitops_1.0-7              evaluate_0.18            </span></span>
+<span><span class="co">##  [81] lattice_0.20-45           purrr_0.3.5              </span></span>
+<span><span class="co">##  [83] GenomicAlignments_1.34.0  htmlwidgets_1.5.4        </span></span>
+<span><span class="co">##  [85] bit_4.0.5                 tidyselect_1.2.0         </span></span>
+<span><span class="co">##  [87] magrittr_2.0.3            bookdown_0.30            </span></span>
+<span><span class="co">##  [89] R6_2.5.1                  generics_0.1.3           </span></span>
+<span><span class="co">##  [91] DelayedArray_0.24.0       DBI_1.1.3                </span></span>
+<span><span class="co">##  [93] withr_2.5.0               pillar_1.8.1             </span></span>
+<span><span class="co">##  [95] survival_3.4-0            KEGGREST_1.38.0          </span></span>
+<span><span class="co">##  [97] RCurl_1.98-1.9            tibble_3.1.8             </span></span>
+<span><span class="co">##  [99] crayon_1.5.2              futile.options_1.0.1     </span></span>
+<span><span class="co">## [101] utf8_1.2.2                BiocFileCache_2.6.0      </span></span>
+<span><span class="co">## [103] tzdb_0.3.0                rmarkdown_2.18           </span></span>
+<span><span class="co">## [105] progress_1.2.2            grid_4.2.2               </span></span>
+<span><span class="co">## [107] data.table_1.14.6         blob_1.2.3               </span></span>
+<span><span class="co">## [109] digest_0.6.30             xtable_1.8-4             </span></span>
+<span><span class="co">## [111] tidyr_1.2.1               httpuv_1.6.6             </span></span>
+<span><span class="co">## [113] textshaping_0.3.6         TCGAutils_1.18.0         </span></span>
+<span><span class="co">## [115] bslib_0.4.1</span></span></code></pre>
 </div>
   </div>
 
@@ -681,7 +688,7 @@ cache, it is recommended that they use:</p>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer>

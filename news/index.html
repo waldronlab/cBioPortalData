@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">cBioPortalData</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.8.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.10.1</span>
       </span>
     </div>
 
@@ -41,7 +41,7 @@
       <a href="../articles/cBioPortalRClient.html">cBioPortalData: API Reference Guide for Devs</a>
     </li>
     <li>
-      <a href="../articles/cgdsrMigration.html">Migrating from cgdsr to cBioPortalData</a>
+      <a href="../articles/cgdsrMigration.html">cgdsr to cBioPortalData: Migration Tutorial</a>
     </li>
   </ul></li>
 <li>
@@ -66,6 +66,27 @@
       <small>Source: <a href="https://github.com/waldronlab/cBioPortalData/blob/HEAD/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="2.10.0" id="changes-in-version-2100">Changes in version 2.10.0<a class="anchor" aria-label="anchor" href="#changes-in-version-2100"></a></h2>
+<div class="section level3">
+<h3 id="new-features-2-10-0">New features<a class="anchor" aria-label="anchor" href="#new-features-2-10-0"></a></h3>
+<ul><li>Add <code>cgdsr</code> to <code>cBioPortalData</code> migration vignette (<a href="https://github.com/kmezhoud" class="external-link">@kmezhoud</a>, <a href="https://github.com/waldronlab/cBioPortalData/issues/54" class="external-link">#54</a>)</li>
+<li>Unmapped experiments are now added to the metadata in <code>cBioDataPack</code>
+</li>
+<li>Set default <code>api. = api/v2/api-docs</code> in <code>cBioPortal</code> to access the API protocol’s new location</li>
+<li>The <code>fetchData</code> developer function added to handle both <code>molecularData</code> and <code>mutationData</code> requests as deduced from the <code>molecularProfileIds</code> vector</li>
+</ul></div>
+<div class="section level3">
+<h3 id="bug-fixes-and-minor-improvements-2-10-0">Bug fixes and minor improvements<a class="anchor" aria-label="anchor" href="#bug-fixes-and-minor-improvements-2-10-0"></a></h3>
+<ul><li>Check for valid <code>studyId</code>s with <code>getStudies</code> in <code>cBioDataPack</code>
+</li>
+<li>
+<code>ask</code> argument correctly passed down to caching mechanism in <code>cBioDataPack</code>
+</li>
+<li>
+<code>check_build</code> option available in <code>cBioDataPack</code> particularly for new studies that have not been checked against.</li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="2.8.0" id="changes-in-version-280">Changes in version 2.8.0<a class="anchor" aria-label="anchor" href="#changes-in-version-280"></a></h2>
 <div class="section level3">
@@ -204,7 +225,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>
