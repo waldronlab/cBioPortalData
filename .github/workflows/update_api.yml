@@ -20,6 +20,9 @@ jobs:
       - name: Install Dependencies
         run: Rscript -e "install.packages('digest')"
 
+      - name: Add safe directory
+        run: git config --global --add safe.directory /__w/cBioPortalData/cBioPortalData
+
       - name: Download API and write MD5
         run: Rscript -e "source('./inst/scripts/update_api-docs.R')"
 
