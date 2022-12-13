@@ -7,10 +7,10 @@ test_that("cBioDataPack works on at least 70% of studies", {
 
     for (stud in studies) {
         message("Working on: ", stud)
-        isMAE[[stud]] <- tryCatch({
+        result <- try({
             study <- cBioDataPack(cancer_study_id = stud)
-            is(study, "MultiAssayExperiment")
-        }, error = function(e) conditionMessage(e))
+        })
+        isMAE[stud] <- is(result, "MultiAssayExperiment")
         removePackCache(cancer_study_id = stud, dry.run = FALSE)
     }
 
