@@ -25,10 +25,9 @@ jobs:
 
       - name: Commit changes
         if: ${{ success() }}
-        run: |
-          git config --global user.email ${{ secrets.EMAIL }}
-          git config --global user.name ${{ secrets.USERNAME }}
-          git commit -am "Update to API"
+        uses: EndBug/add-and-commit@v9
+        with:
+          message: 'Update API'
 
       - name: Push action
         uses: ad-m/github-push-action@master
