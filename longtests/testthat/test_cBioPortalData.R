@@ -3,18 +3,16 @@ test_that("cBioPortal API is working with most studies", {
     cbio <- cBioPortal()
     studies <- getStudies(cbio)[["studyId"]]
 
-    isMAE <- structure(vector("list", length(studies)), .Names = studies)
+    isMAE <- structure(vector("logical", length(studies)), .Names = studies)
 
     for (api_stud in studies) {
         message("Working on: ", api_stud)
-        isMAE[[api_stud]] <- is(
-            tryCatch({
-                cBioPortalData(
-                    cbio, studyId = api_stud, genePanelId = "IMPACT341"
-                )
-            }, error = function(e) conditionMessage(e)),
-            "MultiAssayExperiment"
-        )
+        result <- try({
+            cBioPortalData(
+                cbio, studyId = api_stud, genePanelId = "IMPACT341"
+            )
+        })
+        isMAE[api_stud] <- is(result, "MultiAssayExperiment")
         removeDataCache(
             cbio, studyId = api_stud, genePanelId = "IMPACT341", dry.run = FALSE
         )
