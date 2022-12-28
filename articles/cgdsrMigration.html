@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">cBioPortalData</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.10.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.10.2</span>
       </span>
     </div>
 
@@ -91,7 +91,7 @@
                         <h4 data-toc-skip class="author">Karim Mezhoud
 &amp; Marcel Ramos</h4>
             
-            <h4 data-toc-skip class="date">November 29, 2022</h4>
+            <h4 data-toc-skip class="date">December 28, 2022</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/waldronlab/cBioPortalData/blob/HEAD/vignettes/cgdsrMigration.Rmd" class="external-link"><code>vignettes/cgdsrMigration.Rmd</code></a></small>
       <div class="hidden name"><code>cgdsrMigration.Rmd</code></div>
@@ -131,7 +131,7 @@ clarity.</p>
 <span>    api. <span class="op">=</span> <span class="st">"/api/api-docs"</span></span>
 <span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/cBioPortal.html">getStudies</a></span><span class="op">(</span><span class="va">cbio</span><span class="op">)</span></span></code></pre></div>
-<pre><code>FALSE  [38;5;246m# A tibble: 363 × 13 [39m
+<pre><code>FALSE  [38;5;246m# A tibble: 365 × 13 [39m
 FALSE    name    descr…¹ publi…² groups status impor…³ allSa…⁴ readP…⁵ studyId cance…⁶
 FALSE     [3m [38;5;246m&lt;chr&gt; [39m [23m    [3m [38;5;246m&lt;chr&gt; [39m [23m    [3m [38;5;246m&lt;lgl&gt; [39m [23m    [3m [38;5;246m&lt;chr&gt; [39m [23m    [3m [38;5;246m&lt;int&gt; [39m [23m  [3m [38;5;246m&lt;chr&gt; [39m [23m      [3m [38;5;246m&lt;int&gt; [39m [23m  [3m [38;5;246m&lt;lgl&gt; [39m [23m    [3m [38;5;246m&lt;chr&gt; [39m [23m    [3m [38;5;246m&lt;chr&gt; [39m [23m  
 FALSE  [38;5;250m 1 [39m Adreno…  [38;5;246m" [39mTCGA … TRUE     [38;5;246m" [39mPUBL…      0 2022-1…      92 TRUE    acc_tc… acc    
@@ -144,7 +144,7 @@ FALSE  [38;5;250m 7 [39m Adenoi…  [38;5;246m" [39mWGS o… TRUE     
 FALSE  [38;5;250m 8 [39m Adenoi…  [38;5;246m" [39mWhole… TRUE     [38;5;246m" [39mACYC [38;5;246m" [39m      0 2022-1…      10 TRUE    acyc_m… acyc   
 FALSE  [38;5;250m 9 [39m Adenoi…  [38;5;246m" [39mWhole… TRUE     [38;5;246m" [39mACYC…      0 2022-1…      24 TRUE    acyc_s… acyc   
 FALSE  [38;5;250m10 [39m Acute …  [38;5;246m" [39mWhole… TRUE     [38;5;246m" [39mPUBL…      0 2022-1…      73 TRUE    all_st… bll    
-FALSE  [38;5;246m# … with 353 more rows, 3 more variables: referenceGenome &lt;chr&gt;, pmid &lt;chr&gt;, [39m
+FALSE  [38;5;246m# … with 355 more rows, 3 more variables: referenceGenome &lt;chr&gt;, pmid &lt;chr&gt;, [39m
 FALSE  [38;5;246m#   citation &lt;chr&gt;, and abbreviated variable names ¹​description, ²​publicStudy, [39m
 FALSE  [38;5;246m#   ³​importDate, ⁴​allSampleCount, ⁵​readPermission, ⁶​cancerTypeId [39m</code></pre>
 <p>Note that the <code>studyId</code> column is important for further
@@ -341,7 +341,7 @@ data.</p>
 <span>    sampleId <span class="op">=</span> <span class="va">onesample</span>, studyId <span class="op">=</span> <span class="st">"gbm_tcga_pub"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Response [https://www.cbioportal.org/api/studies/gbm_tcga_pub/samples/TCGA-02-0001-01/clinical-data]</span></span>
-<span><span class="co">##   Date: 2022-11-29 21:59</span></span>
+<span><span class="co">##   Date: 2022-12-28 20:25</span></span>
 <span><span class="co">##   Status: 200</span></span>
 <span><span class="co">##   Content-Type: application/json</span></span>
 <span><span class="co">##   Size: 3.31 kB</span></span></code></pre>
@@ -838,10 +838,10 @@ function.</p>
 <span><span class="co">## [8] base     </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## other attached packages:</span></span>
-<span><span class="co">##  [1] cBioPortalData_2.10.1       MultiAssayExperiment_1.24.0</span></span>
+<span><span class="co">##  [1] cBioPortalData_2.10.2       MultiAssayExperiment_1.24.0</span></span>
 <span><span class="co">##  [3] SummarizedExperiment_1.28.0 Biobase_2.58.0             </span></span>
-<span><span class="co">##  [5] GenomicRanges_1.50.1        GenomeInfoDb_1.34.3        </span></span>
-<span><span class="co">##  [7] IRanges_2.32.0              S4Vectors_0.36.0           </span></span>
+<span><span class="co">##  [5] GenomicRanges_1.50.2        GenomeInfoDb_1.34.4        </span></span>
+<span><span class="co">##  [7] IRanges_2.32.0              S4Vectors_0.36.1           </span></span>
 <span><span class="co">##  [9] BiocGenerics_0.44.0         MatrixGenerics_1.10.0      </span></span>
 <span><span class="co">## [11] matrixStats_0.63.0          AnVIL_1.10.1               </span></span>
 <span><span class="co">## [13] dplyr_1.0.10                BiocStyle_2.26.0           </span></span>
@@ -854,43 +854,43 @@ function.</p>
 <span><span class="co">##   [9] AnnotationDbi_1.60.0      fansi_1.0.3              </span></span>
 <span><span class="co">##  [11] xml2_1.3.3                codetools_0.2-18         </span></span>
 <span><span class="co">##  [13] splines_4.2.2             cachem_1.0.6             </span></span>
-<span><span class="co">##  [15] knitr_1.41                jsonlite_1.8.3           </span></span>
+<span><span class="co">##  [15] knitr_1.41                jsonlite_1.8.4           </span></span>
 <span><span class="co">##  [17] Rsamtools_2.14.0          dbplyr_2.2.1             </span></span>
-<span><span class="co">##  [19] png_0.1-7                 shiny_1.7.3              </span></span>
+<span><span class="co">##  [19] png_0.1-8                 shiny_1.7.4              </span></span>
 <span><span class="co">##  [21] BiocManager_1.30.19.1     readr_2.1.3              </span></span>
 <span><span class="co">##  [23] compiler_4.2.2            httr_1.4.4               </span></span>
 <span><span class="co">##  [25] assertthat_0.2.1          Matrix_1.5-3             </span></span>
 <span><span class="co">##  [27] fastmap_1.1.0             limma_3.54.0             </span></span>
-<span><span class="co">##  [29] cli_3.4.1                 later_1.3.0              </span></span>
-<span><span class="co">##  [31] formatR_1.12              htmltools_0.5.3          </span></span>
+<span><span class="co">##  [29] cli_3.5.0                 later_1.3.0              </span></span>
+<span><span class="co">##  [31] formatR_1.13              htmltools_0.5.4          </span></span>
 <span><span class="co">##  [33] prettyunits_1.1.1         tools_4.2.2              </span></span>
 <span><span class="co">##  [35] glue_1.6.2                GenomeInfoDbData_1.2.9   </span></span>
 <span><span class="co">##  [37] rappdirs_0.3.3            Rcpp_1.0.9               </span></span>
 <span><span class="co">##  [39] rapiclient_0.1.3          jquerylib_0.1.4          </span></span>
-<span><span class="co">##  [41] pkgdown_2.0.6             vctrs_0.5.1              </span></span>
+<span><span class="co">##  [41] pkgdown_2.0.7             vctrs_0.5.1              </span></span>
 <span><span class="co">##  [43] Biostrings_2.66.0         RJSONIO_1.3-1.6          </span></span>
 <span><span class="co">##  [45] RaggedExperiment_1.22.0   rtracklayer_1.58.0       </span></span>
-<span><span class="co">##  [47] xfun_0.35                 stringr_1.4.1            </span></span>
+<span><span class="co">##  [47] xfun_0.36                 stringr_1.5.0            </span></span>
 <span><span class="co">##  [49] rvest_1.0.3               RTCGAToolbox_2.28.0      </span></span>
 <span><span class="co">##  [51] mime_0.12                 miniUI_0.1.1.1           </span></span>
 <span><span class="co">##  [53] lifecycle_1.0.3           restfulr_0.0.15          </span></span>
-<span><span class="co">##  [55] XML_3.99-0.12             zlibbioc_1.44.0          </span></span>
+<span><span class="co">##  [55] XML_3.99-0.13             zlibbioc_1.44.0          </span></span>
 <span><span class="co">##  [57] RCircos_1.2.2             ragg_1.2.4               </span></span>
 <span><span class="co">##  [59] hms_1.1.2                 promises_1.2.0.1         </span></span>
 <span><span class="co">##  [61] parallel_4.2.2            lambda.r_1.2.4           </span></span>
 <span><span class="co">##  [63] yaml_2.3.6                curl_4.3.3               </span></span>
 <span><span class="co">##  [65] memoise_2.0.1             sass_0.4.4               </span></span>
 <span><span class="co">##  [67] biomaRt_2.54.0            stringi_1.7.8            </span></span>
-<span><span class="co">##  [69] RSQLite_2.2.19            BiocIO_1.8.0             </span></span>
+<span><span class="co">##  [69] RSQLite_2.2.20            BiocIO_1.8.0             </span></span>
 <span><span class="co">##  [71] desc_1.4.2                GenomicDataCommons_1.22.0</span></span>
-<span><span class="co">##  [73] GenomicFeatures_1.50.2    filelock_1.0.2           </span></span>
-<span><span class="co">##  [75] BiocParallel_1.32.3       rlang_1.0.6              </span></span>
+<span><span class="co">##  [73] GenomicFeatures_1.50.3    filelock_1.0.2           </span></span>
+<span><span class="co">##  [75] BiocParallel_1.32.5       rlang_1.0.6              </span></span>
 <span><span class="co">##  [77] pkgconfig_2.0.3           systemfonts_1.0.4        </span></span>
-<span><span class="co">##  [79] bitops_1.0-7              evaluate_0.18            </span></span>
-<span><span class="co">##  [81] lattice_0.20-45           purrr_0.3.5              </span></span>
-<span><span class="co">##  [83] GenomicAlignments_1.34.0  htmlwidgets_1.5.4        </span></span>
+<span><span class="co">##  [79] bitops_1.0-7              evaluate_0.19            </span></span>
+<span><span class="co">##  [81] lattice_0.20-45           purrr_1.0.0              </span></span>
+<span><span class="co">##  [83] GenomicAlignments_1.34.0  htmlwidgets_1.6.0        </span></span>
 <span><span class="co">##  [85] bit_4.0.5                 tidyselect_1.2.0         </span></span>
-<span><span class="co">##  [87] magrittr_2.0.3            bookdown_0.30            </span></span>
+<span><span class="co">##  [87] magrittr_2.0.3            bookdown_0.31            </span></span>
 <span><span class="co">##  [89] R6_2.5.1                  generics_0.1.3           </span></span>
 <span><span class="co">##  [91] DelayedArray_0.24.0       DBI_1.1.3                </span></span>
 <span><span class="co">##  [93] withr_2.5.0               pillar_1.8.1             </span></span>
@@ -898,13 +898,13 @@ function.</p>
 <span><span class="co">##  [97] RCurl_1.98-1.9            tibble_3.1.8             </span></span>
 <span><span class="co">##  [99] crayon_1.5.2              futile.options_1.0.1     </span></span>
 <span><span class="co">## [101] utf8_1.2.2                BiocFileCache_2.6.0      </span></span>
-<span><span class="co">## [103] tzdb_0.3.0                rmarkdown_2.18           </span></span>
+<span><span class="co">## [103] tzdb_0.3.0                rmarkdown_2.19           </span></span>
 <span><span class="co">## [105] progress_1.2.2            grid_4.2.2               </span></span>
 <span><span class="co">## [107] data.table_1.14.6         blob_1.2.3               </span></span>
-<span><span class="co">## [109] digest_0.6.30             xtable_1.8-4             </span></span>
-<span><span class="co">## [111] tidyr_1.2.1               httpuv_1.6.6             </span></span>
+<span><span class="co">## [109] digest_0.6.31             xtable_1.8-4             </span></span>
+<span><span class="co">## [111] tidyr_1.2.1               httpuv_1.6.7             </span></span>
 <span><span class="co">## [113] textshaping_0.3.6         TCGAutils_1.18.0         </span></span>
-<span><span class="co">## [115] bslib_0.4.1</span></span></code></pre>
+<span><span class="co">## [115] bslib_0.4.2</span></span></code></pre>
 </div>
   </div>
 
@@ -925,7 +925,7 @@ function.</p>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer>

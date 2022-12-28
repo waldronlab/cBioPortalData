@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">cBioPortalData</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.10.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.10.2</span>
       </span>
     </div>
 
@@ -92,7 +92,7 @@ Devs</h1>
                         <h4 data-toc-skip class="author">Marcel Ramos
 &amp; Levi Waldron</h4>
             
-            <h4 data-toc-skip class="date">November 29, 2022</h4>
+            <h4 data-toc-skip class="date">December 28, 2022</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/waldronlab/cBioPortalData/blob/HEAD/vignettes/cBioPortalRClient.Rmd" class="external-link"><code>vignettes/cBioPortalRClient.Rmd</code></a></small>
       <div class="hidden name"><code>cBioPortalRClient.Rmd</code></div>
@@ -151,6 +151,10 @@ enter either a set of genes of interest or a gene panel identifier.</p>
 <p>Obtaining the cBioPortal API representation object</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="op">(</span><span class="va">cbio</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cBioPortal.html">cBioPortal</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Warning in .service_validate_md5sum(api_reference_url, api_reference_md5sum, : service version differs from validated version</span></span>
+<span><span class="co">##     service url: https://www.cbioportal.org/api/v2/api-docs</span></span>
+<span><span class="co">##     observed md5sum: 07ceb76cc5afcf54a9cf2e1a689b18f7</span></span>
+<span><span class="co">##     expected md5sum: 4188a76d21595ffbf4d7749d60f24898</span></span></code></pre>
 <pre><code><span><span class="co">## service: cBioPortal</span></span>
 <span><span class="co">## tags(); use cbioportal$&lt;tab completion&gt;:</span></span>
 <span><span class="co">## <span style="color: #949494;"># A tibble: 65 × 3</span></span></span>
@@ -183,7 +187,7 @@ enter either a set of genes of interest or a gene panel identifier.</p>
 </h3>
 <p>Check available tags, operations, and descriptions as a
 <code>tibble</code>:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/AnVIL/man/Services.html" class="external-link">tags</a></span><span class="op">(</span><span class="va">cbio</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 65 × 3</span></span></span>
 <span><span class="co">##    tag                 operation                                  summary       </span></span>
@@ -199,7 +203,7 @@ enter either a set of genes of interest or a gene panel identifier.</p>
 <span><span class="co">## <span style="color: #BCBCBC;"> 9</span> Clinical Data       getAllClinicalDataInStudyUsingGET          Get all clini…</span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">10</span> Clinical Data       getAllClinicalDataOfPatientInStudyUsingGET Get all clini…</span></span>
 <span><span class="co">## <span style="color: #949494;"># … with 55 more rows</span></span></span></code></pre>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/AnVIL/man/Services.html" class="external-link">tags</a></span><span class="op">(</span><span class="va">cbio</span><span class="op">)</span><span class="op">$</span><span class="va">operation</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] "getAllCancerTypesUsingGET"              </span></span>
 <span><span class="co">## [2] "getCancerTypeUsingGET"                  </span></span>
@@ -210,7 +214,7 @@ enter either a set of genes of interest or a gene panel identifier.</p>
 <div class="section level4">
 <h4 id="searching-through-the-api">Searching through the API<a class="anchor" aria-label="anchor" href="#searching-through-the-api"></a>
 </h4>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/cBioPortal.html">searchOps</a></span><span class="op">(</span><span class="va">cbio</span>, <span class="st">"clinical"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] "getAllClinicalAttributesUsingGET"          </span></span>
 <span><span class="co">## [2] "fetchClinicalAttributesUsingPOST"          </span></span>
@@ -227,9 +231,9 @@ enter either a set of genes of interest or a gene panel identifier.</p>
 <h3 id="studies">Studies<a class="anchor" aria-label="anchor" href="#studies"></a>
 </h3>
 <p>Get the list of studies available:</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/cBioPortal.html">getStudies</a></span><span class="op">(</span><span class="va">cbio</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 363 × 13</span></span></span>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 365 × 13</span></span></span>
 <span><span class="co">##    name    descr…¹ publi…² groups status impor…³ allSa…⁴ readP…⁵ studyId cance…⁶</span></span>
 <span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span></span>
 <span><span class="co">## <span style="color: #BCBCBC;"> 1</span> Adreno… <span style="color: #949494;">"</span>TCGA … TRUE    <span style="color: #949494;">"</span>PUBL…      0 2022-1…      92 TRUE    acc_tc… acc    </span></span>
@@ -242,7 +246,7 @@ enter either a set of genes of interest or a gene panel identifier.</p>
 <span><span class="co">## <span style="color: #BCBCBC;"> 8</span> Adenoi… <span style="color: #949494;">"</span>Whole… TRUE    <span style="color: #949494;">"</span>ACYC<span style="color: #949494;">"</span>      0 2022-1…      10 TRUE    acyc_m… acyc   </span></span>
 <span><span class="co">## <span style="color: #BCBCBC;"> 9</span> Adenoi… <span style="color: #949494;">"</span>Whole… TRUE    <span style="color: #949494;">"</span>ACYC…      0 2022-1…      24 TRUE    acyc_s… acyc   </span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">10</span> Acute … <span style="color: #949494;">"</span>Whole… TRUE    <span style="color: #949494;">"</span>PUBL…      0 2022-1…      73 TRUE    all_st… bll    </span></span>
-<span><span class="co">## <span style="color: #949494;"># … with 353 more rows, 3 more variables: referenceGenome &lt;chr&gt;, pmid &lt;chr&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;"># … with 355 more rows, 3 more variables: referenceGenome &lt;chr&gt;, pmid &lt;chr&gt;,</span></span></span>
 <span><span class="co">## <span style="color: #949494;">#   citation &lt;chr&gt;, and abbreviated variable names ¹​description, ²​publicStudy,</span></span></span>
 <span><span class="co">## <span style="color: #949494;">#   ³​importDate, ⁴​allSampleCount, ⁵​readPermission, ⁶​cancerTypeId</span></span></span></code></pre>
 </div>
@@ -250,7 +254,7 @@ enter either a set of genes of interest or a gene panel identifier.</p>
 <h3 id="clinical-data">Clinical Data<a class="anchor" aria-label="anchor" href="#clinical-data"></a>
 </h3>
 <p>Obtain the clinical data for a particular study:</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/cBioPortal.html">clinicalData</a></span><span class="op">(</span><span class="va">cbio</span>, <span class="st">"acc_tcga"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 92 × 85</span></span></span>
 <span><span class="co">##    patie…¹ AGE   AJCC_…² ATYPI…³ CAPSU…⁴ CLIN_…⁵ CT_SC…⁶ CYTOP…⁷ DAYS_…⁸ DFS_M…⁹</span></span>
@@ -278,7 +282,7 @@ enter either a set of genes of interest or a gene panel identifier.</p>
 </h3>
 <p>A table of molecular profiles for a particular study can be obtained
 by running the following:</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mols</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cBioPortal.html">molecularProfiles</a></span><span class="op">(</span><span class="va">cbio</span>, <span class="st">"acc_tcga"</span><span class="op">)</span></span>
 <span><span class="va">mols</span><span class="op">[[</span><span class="st">"molecularProfileId"</span><span class="op">]</span><span class="op">]</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] "acc_tcga_rppa"                                     </span></span>
@@ -296,7 +300,7 @@ by running the following:</p>
 </h3>
 <p>The data for a molecular profile can be obtained with prior knowledge
 of available <code>entrezGeneIds</code>:</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/cBioPortal.html">molecularData</a></span><span class="op">(</span><span class="va">cbio</span>, molecularProfileId <span class="op">=</span> <span class="st">"acc_tcga_rna_seq_v2_mrna"</span>,</span>
 <span>    entrezGeneIds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span>,</span>
 <span>    sampleIds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"TCGA-OR-A5J1-01"</span>,  <span class="st">"TCGA-OR-A5J2-01"</span><span class="op">)</span></span>
@@ -321,7 +325,7 @@ of available <code>entrezGeneIds</code>:</p>
 <p>A list of all the genes provided by the API service including hugo
 symbols, and entrez gene IDs can be obtained by using the
 <code>geneTable</code> function:</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/cBioPortal.html">geneTable</a></span><span class="op">(</span><span class="va">cbio</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 1,000 × 3</span></span></span>
 <span><span class="co">##    entrezGeneId hugoGeneSymbol  type </span></span>
@@ -341,7 +345,7 @@ symbols, and entrez gene IDs can be obtained by using the
 <div class="section level4">
 <h4 id="gene-panels">Gene Panels<a class="anchor" aria-label="anchor" href="#gene-panels"></a>
 </h4>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/cBioPortal.html">genePanels</a></span><span class="op">(</span><span class="va">cbio</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 55 × 2</span></span></span>
 <span><span class="co">##    description                                                           geneP…¹</span></span>
@@ -357,7 +361,7 @@ symbols, and entrez gene IDs can be obtained by using the
 <span><span class="co">## <span style="color: #BCBCBC;"> 9</span> Targeted panel of 387 cancer-related genes.                           bcc_un…</span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">10</span> Research (CMO) IMPACT-Heme gene panel version 3.                      HemePA…</span></span>
 <span><span class="co">## <span style="color: #949494;"># … with 45 more rows, and abbreviated variable name ¹​genePanelId</span></span></span></code></pre>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/cBioPortal.html">getGenePanel</a></span><span class="op">(</span><span class="va">cbio</span>, <span class="st">"IMPACT341"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 341 × 2</span></span></span>
 <span><span class="co">##    entrezGeneId hugoGeneSymbol</span></span>
@@ -381,7 +385,7 @@ symbols, and entrez gene IDs can be obtained by using the
 <div class="section level4">
 <h4 id="genepanelmolecular">genePanelMolecular<a class="anchor" aria-label="anchor" href="#genepanelmolecular"></a>
 </h4>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">gprppa</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cBioPortal.html">genePanelMolecular</a></span><span class="op">(</span><span class="va">cbio</span>,</span>
 <span>    molecularProfileId <span class="op">=</span> <span class="st">"acc_tcga_rppa"</span>,</span>
 <span>    sampleListId <span class="op">=</span> <span class="st">"acc_tcga_all"</span><span class="op">)</span></span>
@@ -405,7 +409,7 @@ symbols, and entrez gene IDs can be obtained by using the
 <div class="section level4">
 <h4 id="getgenepanelmolecular">getGenePanelMolecular<a class="anchor" aria-label="anchor" href="#getgenepanelmolecular"></a>
 </h4>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/cBioPortal.html">getGenePanelMolecular</a></span><span class="op">(</span><span class="va">cbio</span>,</span>
 <span>    molecularProfileIds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"acc_tcga_rppa"</span>, <span class="st">"acc_tcga_gistic"</span><span class="op">)</span>,</span>
 <span>    sampleIds <span class="op">=</span> <span class="fu"><a href="../reference/cBioPortal.html">allSamples</a></span><span class="op">(</span><span class="va">cbio</span>, <span class="st">"acc_tcga"</span><span class="op">)</span><span class="op">$</span><span class="va">sampleId</span></span>
@@ -429,7 +433,7 @@ symbols, and entrez gene IDs can be obtained by using the
 <div class="section level4">
 <h4 id="getdatabygenes">getDataByGenes<a class="anchor" aria-label="anchor" href="#getdatabygenes"></a>
 </h4>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/cBioPortal.html">getDataByGenes</a></span><span class="op">(</span><span class="va">cbio</span>, <span class="st">"acc_tcga"</span>, genePanelId <span class="op">=</span> <span class="st">"IMPACT341"</span>,</span>
 <span>    molecularProfileId <span class="op">=</span> <span class="st">"acc_tcga_rppa"</span>, sampleListId <span class="op">=</span> <span class="st">"acc_tcga_rppa"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## $acc_tcga_rppa</span></span>
@@ -461,7 +465,7 @@ API.</p>
 </h4>
 <p>To display all available sample list identifiers for a particular
 study ID, one can use the <code>sampleLists</code> function:</p>
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/cBioPortal.html">sampleLists</a></span><span class="op">(</span><span class="va">cbio</span>, <span class="st">"acc_tcga"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 9 × 5</span></span></span>
 <span><span class="co">##   category                                      name     descr…¹ sampl…² studyId</span></span>
@@ -483,13 +487,13 @@ study ID, one can use the <code>sampleLists</code> function:</p>
 <p>One can obtain the barcodes / identifiers for each sample using a
 specific sample list identifier, in this case we want all the copy
 number alteration samples:</p>
-<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/cBioPortal.html">samplesInSampleLists</a></span><span class="op">(</span><span class="va">cbio</span>, <span class="st">"acc_tcga_cna"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## CharacterList of length 1</span></span>
 <span><span class="co">## [["acc_tcga_cna"]] TCGA-OR-A5J1-01 TCGA-OR-A5J2-01 ... TCGA-PK-A5HC-01</span></span></code></pre>
 <p>This returns a <code>CharacterList</code> of all identifiers for each
 sample list identifier input:</p>
-<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/cBioPortal.html">samplesInSampleLists</a></span><span class="op">(</span><span class="va">cbio</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"acc_tcga_cna"</span>, <span class="st">"acc_tcga_cnaseq"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## CharacterList of length 2</span></span>
 <span><span class="co">## [["acc_tcga_cna"]] TCGA-OR-A5J1-01 TCGA-OR-A5J2-01 ... TCGA-PK-A5HC-01</span></span>
@@ -498,7 +502,7 @@ sample list identifier input:</p>
 <div class="section level4">
 <h4 id="all-samples-within-a-study-id">All samples within a study ID<a class="anchor" aria-label="anchor" href="#all-samples-within-a-study-id"></a>
 </h4>
-<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/cBioPortal.html">allSamples</a></span><span class="op">(</span><span class="va">cbio</span>, <span class="st">"acc_tcga"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 92 × 6</span></span></span>
 <span><span class="co">##    uniqueSampleKey                  uniquePati…¹ sampl…² sampl…³ patie…⁴ studyId</span></span>
@@ -519,7 +523,7 @@ sample list identifier input:</p>
 <div class="section level4">
 <h4 id="info-on-samples">Info on Samples<a class="anchor" aria-label="anchor" href="#info-on-samples"></a>
 </h4>
-<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/cBioPortal.html">getSampleInfo</a></span><span class="op">(</span><span class="va">cbio</span>, studyId <span class="op">=</span> <span class="st">"acc_tcga"</span>,</span>
 <span>    sampleListIds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"acc_tcga_rppa"</span>, <span class="st">"acc_tcga_gistic"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 1 × 1</span></span></span>
@@ -538,7 +542,7 @@ the endpoints provided by the API specification should use the dollar
 sign <code>$</code> function to access the endpoints.</p>
 <p>First the user should see the input for a particular endpoint as
 detailed in the API:</p>
-<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">cbio</span><span class="op">$</span><span class="va">getGeneUsingGET</span></span></code></pre></div>
 <pre><code><span><span class="co">## getGeneUsingGET </span></span>
 <span><span class="co">## Get a gene </span></span>
@@ -547,16 +551,16 @@ detailed in the API:</p>
 <span><span class="co">##   geneId (string)</span></span>
 <span><span class="co">##     Entrez Gene ID or Hugo Gene Symbol e.g. 1 or A1BG</span></span></code></pre>
 <p>Then the user can provide such input:</p>
-<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="op">(</span><span class="va">resp</span> <span class="op">&lt;-</span> <span class="va">cbio</span><span class="op">$</span><span class="fu">getGeneUsingGET</span><span class="op">(</span><span class="st">"BRCA1"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Response [https://www.cbioportal.org/api/genes/BRCA1]</span></span>
-<span><span class="co">##   Date: 2022-11-29 21:59</span></span>
+<span><span class="co">##   Date: 2022-12-28 20:24</span></span>
 <span><span class="co">##   Status: 200</span></span>
 <span><span class="co">##   Content-Type: application/json</span></span>
 <span><span class="co">##   Size: 69 B</span></span></code></pre>
 <p>which will require the user to ‘translate’ the response using
 <code><a href="https://httr.r-lib.org/reference/content.html" class="external-link">httr::content</a></code>:</p>
-<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">httr</span><span class="fu">::</span><span class="fu"><a href="https://httr.r-lib.org/reference/content.html" class="external-link">content</a></span><span class="op">(</span><span class="va">resp</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## $entrezGeneId</span></span>
 <span><span class="co">## [1] 672</span></span>
@@ -571,14 +575,14 @@ detailed in the API:</p>
 </h3>
 <p>For users who wish to clear the entire <code>cBioPortalData</code>
 cache, it is recommended that they use:</p>
-<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/unlink.html" class="external-link">unlink</a></span><span class="op">(</span><span class="st">"~/.cache/cBioPortalData/"</span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
 <h2 id="sessioninfo">sessionInfo<a class="anchor" aria-label="anchor" href="#sessioninfo"></a>
 </h2>
-<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html" class="external-link">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## R version 4.2.2 (2022-10-31)</span></span>
 <span><span class="co">## Platform: x86_64-pc-linux-gnu (64-bit)</span></span>
@@ -601,10 +605,10 @@ cache, it is recommended that they use:</p>
 <span><span class="co">## [8] base     </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## other attached packages:</span></span>
-<span><span class="co">##  [1] cBioPortalData_2.10.1       MultiAssayExperiment_1.24.0</span></span>
+<span><span class="co">##  [1] cBioPortalData_2.10.2       MultiAssayExperiment_1.24.0</span></span>
 <span><span class="co">##  [3] SummarizedExperiment_1.28.0 Biobase_2.58.0             </span></span>
-<span><span class="co">##  [5] GenomicRanges_1.50.1        GenomeInfoDb_1.34.3        </span></span>
-<span><span class="co">##  [7] IRanges_2.32.0              S4Vectors_0.36.0           </span></span>
+<span><span class="co">##  [5] GenomicRanges_1.50.2        GenomeInfoDb_1.34.4        </span></span>
+<span><span class="co">##  [7] IRanges_2.32.0              S4Vectors_0.36.1           </span></span>
 <span><span class="co">##  [9] BiocGenerics_0.44.0         MatrixGenerics_1.10.0      </span></span>
 <span><span class="co">## [11] matrixStats_0.63.0          AnVIL_1.10.1               </span></span>
 <span><span class="co">## [13] dplyr_1.0.10                BiocStyle_2.26.0           </span></span>
@@ -617,43 +621,43 @@ cache, it is recommended that they use:</p>
 <span><span class="co">##   [9] AnnotationDbi_1.60.0      fansi_1.0.3              </span></span>
 <span><span class="co">##  [11] xml2_1.3.3                codetools_0.2-18         </span></span>
 <span><span class="co">##  [13] splines_4.2.2             cachem_1.0.6             </span></span>
-<span><span class="co">##  [15] knitr_1.41                jsonlite_1.8.3           </span></span>
+<span><span class="co">##  [15] knitr_1.41                jsonlite_1.8.4           </span></span>
 <span><span class="co">##  [17] Rsamtools_2.14.0          dbplyr_2.2.1             </span></span>
-<span><span class="co">##  [19] png_0.1-7                 shiny_1.7.3              </span></span>
+<span><span class="co">##  [19] png_0.1-8                 shiny_1.7.4              </span></span>
 <span><span class="co">##  [21] BiocManager_1.30.19.1     readr_2.1.3              </span></span>
 <span><span class="co">##  [23] compiler_4.2.2            httr_1.4.4               </span></span>
 <span><span class="co">##  [25] assertthat_0.2.1          Matrix_1.5-3             </span></span>
 <span><span class="co">##  [27] fastmap_1.1.0             limma_3.54.0             </span></span>
-<span><span class="co">##  [29] cli_3.4.1                 later_1.3.0              </span></span>
-<span><span class="co">##  [31] formatR_1.12              htmltools_0.5.3          </span></span>
+<span><span class="co">##  [29] cli_3.5.0                 later_1.3.0              </span></span>
+<span><span class="co">##  [31] formatR_1.13              htmltools_0.5.4          </span></span>
 <span><span class="co">##  [33] prettyunits_1.1.1         tools_4.2.2              </span></span>
 <span><span class="co">##  [35] glue_1.6.2                GenomeInfoDbData_1.2.9   </span></span>
 <span><span class="co">##  [37] rappdirs_0.3.3            Rcpp_1.0.9               </span></span>
 <span><span class="co">##  [39] rapiclient_0.1.3          jquerylib_0.1.4          </span></span>
-<span><span class="co">##  [41] pkgdown_2.0.6             vctrs_0.5.1              </span></span>
+<span><span class="co">##  [41] pkgdown_2.0.7             vctrs_0.5.1              </span></span>
 <span><span class="co">##  [43] Biostrings_2.66.0         RJSONIO_1.3-1.6          </span></span>
 <span><span class="co">##  [45] RaggedExperiment_1.22.0   rtracklayer_1.58.0       </span></span>
-<span><span class="co">##  [47] xfun_0.35                 stringr_1.4.1            </span></span>
+<span><span class="co">##  [47] xfun_0.36                 stringr_1.5.0            </span></span>
 <span><span class="co">##  [49] rvest_1.0.3               RTCGAToolbox_2.28.0      </span></span>
 <span><span class="co">##  [51] mime_0.12                 miniUI_0.1.1.1           </span></span>
 <span><span class="co">##  [53] lifecycle_1.0.3           restfulr_0.0.15          </span></span>
-<span><span class="co">##  [55] XML_3.99-0.12             zlibbioc_1.44.0          </span></span>
+<span><span class="co">##  [55] XML_3.99-0.13             zlibbioc_1.44.0          </span></span>
 <span><span class="co">##  [57] RCircos_1.2.2             ragg_1.2.4               </span></span>
 <span><span class="co">##  [59] hms_1.1.2                 promises_1.2.0.1         </span></span>
 <span><span class="co">##  [61] parallel_4.2.2            lambda.r_1.2.4           </span></span>
 <span><span class="co">##  [63] yaml_2.3.6                curl_4.3.3               </span></span>
 <span><span class="co">##  [65] memoise_2.0.1             sass_0.4.4               </span></span>
 <span><span class="co">##  [67] biomaRt_2.54.0            stringi_1.7.8            </span></span>
-<span><span class="co">##  [69] RSQLite_2.2.19            BiocIO_1.8.0             </span></span>
+<span><span class="co">##  [69] RSQLite_2.2.20            BiocIO_1.8.0             </span></span>
 <span><span class="co">##  [71] desc_1.4.2                GenomicDataCommons_1.22.0</span></span>
-<span><span class="co">##  [73] GenomicFeatures_1.50.2    filelock_1.0.2           </span></span>
-<span><span class="co">##  [75] BiocParallel_1.32.3       rlang_1.0.6              </span></span>
+<span><span class="co">##  [73] GenomicFeatures_1.50.3    filelock_1.0.2           </span></span>
+<span><span class="co">##  [75] BiocParallel_1.32.5       rlang_1.0.6              </span></span>
 <span><span class="co">##  [77] pkgconfig_2.0.3           systemfonts_1.0.4        </span></span>
-<span><span class="co">##  [79] bitops_1.0-7              evaluate_0.18            </span></span>
-<span><span class="co">##  [81] lattice_0.20-45           purrr_0.3.5              </span></span>
-<span><span class="co">##  [83] GenomicAlignments_1.34.0  htmlwidgets_1.5.4        </span></span>
+<span><span class="co">##  [79] bitops_1.0-7              evaluate_0.19            </span></span>
+<span><span class="co">##  [81] lattice_0.20-45           purrr_1.0.0              </span></span>
+<span><span class="co">##  [83] GenomicAlignments_1.34.0  htmlwidgets_1.6.0        </span></span>
 <span><span class="co">##  [85] bit_4.0.5                 tidyselect_1.2.0         </span></span>
-<span><span class="co">##  [87] magrittr_2.0.3            bookdown_0.30            </span></span>
+<span><span class="co">##  [87] magrittr_2.0.3            bookdown_0.31            </span></span>
 <span><span class="co">##  [89] R6_2.5.1                  generics_0.1.3           </span></span>
 <span><span class="co">##  [91] DelayedArray_0.24.0       DBI_1.1.3                </span></span>
 <span><span class="co">##  [93] withr_2.5.0               pillar_1.8.1             </span></span>
@@ -661,13 +665,13 @@ cache, it is recommended that they use:</p>
 <span><span class="co">##  [97] RCurl_1.98-1.9            tibble_3.1.8             </span></span>
 <span><span class="co">##  [99] crayon_1.5.2              futile.options_1.0.1     </span></span>
 <span><span class="co">## [101] utf8_1.2.2                BiocFileCache_2.6.0      </span></span>
-<span><span class="co">## [103] tzdb_0.3.0                rmarkdown_2.18           </span></span>
+<span><span class="co">## [103] tzdb_0.3.0                rmarkdown_2.19           </span></span>
 <span><span class="co">## [105] progress_1.2.2            grid_4.2.2               </span></span>
 <span><span class="co">## [107] data.table_1.14.6         blob_1.2.3               </span></span>
-<span><span class="co">## [109] digest_0.6.30             xtable_1.8-4             </span></span>
-<span><span class="co">## [111] tidyr_1.2.1               httpuv_1.6.6             </span></span>
+<span><span class="co">## [109] digest_0.6.31             xtable_1.8-4             </span></span>
+<span><span class="co">## [111] tidyr_1.2.1               httpuv_1.6.7             </span></span>
 <span><span class="co">## [113] textshaping_0.3.6         TCGAutils_1.18.0         </span></span>
-<span><span class="co">## [115] bslib_0.4.1</span></span></code></pre>
+<span><span class="co">## [115] bslib_0.4.2</span></span></code></pre>
 </div>
   </div>
 
@@ -688,7 +692,7 @@ cache, it is recommended that they use:</p>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer>

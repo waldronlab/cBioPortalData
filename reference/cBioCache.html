@@ -19,7 +19,7 @@ BiocFileCache system."><!-- mathjax --><script src="https://cdnjs.cloudflare.com
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">cBioPortalData</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.10.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.10.2</span>
       </span>
     </div>
 
@@ -210,11 +210,15 @@ cache. This only works for the <code>cBioDataPack</code> function. To remove the
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 10</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   rid   rname    create_time     acces…¹ rpath rtype fpath last_…² etag  expires</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> BFC16 acc_tcga 2022-11-29 21:… 2022-1… /git… web   http… 2022-0… e181…      <span style="color: #BB0000;">NA</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> BFC16 acc_tcga 2022-12-28 20:… 2022-1… /git… web   http… 2022-0… e181…      <span style="color: #BB0000;">NA</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with abbreviated variable names ¹​access_time, ²​last_modified_time</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">cbio</span> <span class="op">&lt;-</span> <span class="fu"><a href="cBioPortal.html">cBioPortal</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>service version differs from validated version</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span>     service url: https://www.cbioportal.org/api/v2/api-docs</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span>     observed md5sum: 07ceb76cc5afcf54a9cf2e1a689b18f7</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span>     expected md5sum: 4188a76d21595ffbf4d7749d60f24898</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="cBioPortalData.html">cBioPortalData</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>    <span class="va">cbio</span>, by <span class="op">=</span> <span class="st">"hugoGeneSymbol"</span>,</span></span>
@@ -249,7 +253,7 @@ cache. This only works for the <code>cBioDataPack</code> function. To remove the
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>
