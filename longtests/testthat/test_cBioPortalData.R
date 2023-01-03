@@ -9,12 +9,18 @@ test_that("cBioPortal API is working with most studies", {
         message("Working on: ", api_stud)
         result <- try({
             cBioPortalData(
-                cbio, studyId = api_stud, genePanelId = "IMPACT341"
+                api = cbio,
+                studyId = api_stud,
+                genePanelId = "IMPACT341",
+                check_build = FALSE
             )
         })
         isMAE[api_stud] <- is(result, "MultiAssayExperiment")
         removeDataCache(
-            cbio, studyId = api_stud, genePanelId = "IMPACT341", dry.run = FALSE
+            api = cbio,
+            studyId = api_stud,
+            genePanelId = "IMPACT341",
+            dry.run = FALSE
         )
     }
 
