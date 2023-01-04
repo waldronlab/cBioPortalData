@@ -16,6 +16,7 @@ jobs:
     env:
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      CRAN: https://packagemanager.rstudio.com/cran/__linux__/jammy/latest
 
     steps:
       - name: Checkout Repository
@@ -23,7 +24,7 @@ jobs:
 
       - name: Query dependencies
         run: |
-          BiocManager::install(c("remotes", "covr"))
+          BiocManager::install("covr")
           saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
         shell: Rscript {0}
 
@@ -37,7 +38,6 @@ jobs:
 
       - name: Install Dependencies
         run: |
-          options(repos = c(CRAN = "https://packagemanager.rstudio.com/cran/__linux__/jammy/latest"))
           remotes::install_deps(dependencies = TRUE, repos = BiocManager::repositories())
           BiocManager::install(ask = FALSE, update = TRUE)
         shell: Rscript {0}
@@ -82,4 +82,6 @@ jobs:
           context: .
           file: ./inst/docker/pkg/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/cbioportaldata:latest
+          tags: >
+            ${{ secrets.DOCKERHUB_USERNAME }}/cbioportaldata:latest,
+            ${{ secrets.DOCKERHUB_USERNAME }}/cbioportaldata:devel
