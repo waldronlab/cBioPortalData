@@ -2,7 +2,9 @@ name: Devel R CMD check and Docker
 
 on:
   push:
-    paths: ['DESCRIPTION']
+    paths: 
+      - 'DESCRIPTION'
+      - '**.yml'
     branches:
       - devel
 
