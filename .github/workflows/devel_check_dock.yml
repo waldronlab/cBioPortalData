@@ -21,7 +21,7 @@ jobs:
 
       - name: Query dependencies
         run: |
-          BiocManager::install(c("remotes", "covr", "Bioconductor/BiocManager"))
+          BiocManager::install(c("remotes", "covr"))
           saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
         shell: Rscript {0}
 
