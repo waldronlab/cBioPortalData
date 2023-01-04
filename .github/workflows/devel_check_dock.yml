@@ -59,14 +59,18 @@ jobs:
           )
         shell: Rscript {0}
 
-      - name: Build and Push Docker container
+      - name: Login to Docker Hub
         if: ${{ success() }}
-        uses: docker/build-push-action@v1
+        uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-          repository: ${{ secrets.DOCKERHUB_USERNAME }}/cbioportaldata
-          dockerfile: inst/docker/pkg/Dockerfile
-          tag_with_ref: true
-          tag_with_sha: true
-          tags: latest
+
+      - name: Build and Push Docker container
+        if: ${{ success() }}
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          file: {context}/inst/docker/pkg/Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/cbioportaldata:latest
