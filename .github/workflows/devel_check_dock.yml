@@ -71,6 +71,6 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: .
-          file: {context}/inst/docker/pkg/Dockerfile
+          file: inst/docker/pkg/Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/cbioportaldata:latest
