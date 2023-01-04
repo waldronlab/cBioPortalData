@@ -10,7 +10,7 @@ on:
 
 jobs:
   checkDock:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     container: bioconductor/bioconductor_docker:devel
 
     env:
@@ -61,6 +61,10 @@ jobs:
           )
         shell: Rscript {0}
 
+      - name: Set up Docker Buildx
+        if: ${{ success() }}
+        uses: docker/setup-buildx-action@v2
+    
       - name: Login to Docker Hub
         if: ${{ success() }}
         uses: docker/login-action@v2
