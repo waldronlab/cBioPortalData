@@ -24,7 +24,7 @@ jobs:
 
       - name: Query dependencies
         run: |
-          BiocManager::install("covr")
+          BiocManager::install(c("covr", "BiocCheck"))
           saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
         shell: Rscript {0}
 
