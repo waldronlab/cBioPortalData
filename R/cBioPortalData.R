@@ -141,16 +141,17 @@ eval.args <- function(args) {
     toeval <- !names(args) %in% c("api", "idConvert", "studyId")
     evalargs <- lapply(args[toeval], eval)
     stud <- dynGet("studyId")
-    args["studyId"] <- stud
+    args[["studyId"]] <- stud
+    api <- dynGet("api")
+    args[["api"]] <- api
     args[toeval] <- evalargs
     args
 }
 
 update.args <- function(args) {
     molecularProfileIds <- args[["molecularProfileIds"]]
-    api <- eval(args[["api"]])
-    args[["api"]] <- api
     studyId <- args[["studyId"]]
+    api <- args[["api"]]
     if (is.null(molecularProfileIds)) {
         molProfs <- molecularProfiles(api, studyId)
         ## data type not working yet
