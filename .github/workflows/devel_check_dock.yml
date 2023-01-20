@@ -22,10 +22,6 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
         
-      - name: Register repo name
-        run: |
-          echo CONT_IMG_NAME=$(echo ${{ github.event.repository.name }} | tr '[:upper:]' '[:lower:]') >> $GITHUB_ENV
-
       - name: Query dependencies
         run: |
           BiocManager::install(c("covr", "BiocCheck"))
@@ -72,6 +68,11 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
+        
+      - name: Register repo name
+        id: reg_repo_name
+        run: |
+          echo CONT_IMG_NAME=$(echo ${{ github.event.repository.name }} | tr '[:upper:]' '[:lower:]') >> $GITHUB_ENV
 
       - name: Login to Docker Hub
         uses: docker/login-action@v2
