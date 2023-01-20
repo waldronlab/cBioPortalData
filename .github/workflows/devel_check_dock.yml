@@ -21,6 +21,10 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
+        
+      - name: Register repo name
+        run: |
+          echo CONT_IMG_NAME=$(echo ${{ github.event.repository.name }} | tr '[:upper:]' '[:lower:]') >> $GITHUB_ENV
 
       - name: Query dependencies
         run: |
@@ -83,5 +87,5 @@ jobs:
           file: ./inst/docker/pkg/Dockerfile
           push: true
           tags: >
-            ${{ secrets.DOCKERHUB_USERNAME }}/cbioportaldata:latest,
-            ${{ secrets.DOCKERHUB_USERNAME }}/cbioportaldata:devel
+            ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.CONT_IMG_NAME }}:latest,
+            ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.CONT_IMG_NAME }}:devel
