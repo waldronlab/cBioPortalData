@@ -2,7 +2,7 @@ name: Devel R CMD check and Docker
 
 on:
   push:
-    paths: 
+    paths:
       - 'DESCRIPTION'
       - '**.yml'
     branches:
@@ -21,7 +21,7 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
-        
+
       - name: Query dependencies
         run: |
           BiocManager::install(c("covr", "BiocCheck"))
@@ -62,13 +62,13 @@ jobs:
           )
         shell: Rscript {0}
 
-  dock: 
+  dock:
     runs-on: ubuntu-22.04
     needs: check
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
-        
+
       - name: Register repo name
         id: reg_repo_name
         run: |
@@ -82,7 +82,7 @@ jobs:
 
       - name: Build and Push Docker
         if: ${{ success() }}
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v4
         with:
           context: .
           file: ./inst/docker/pkg/Dockerfile
