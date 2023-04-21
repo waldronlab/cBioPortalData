@@ -1,3 +1,9 @@
+## Changes in version 2.12.0
+
+### Bug fixes and minor improvements
+
+* Update `successrate` thresholds and fix long tests
+
 ## Changes in version 2.10.0
 
 ### New features
