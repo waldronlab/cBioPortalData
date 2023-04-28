@@ -13,11 +13,13 @@ jobs:
     env:
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
-      version-name: RELEASE_3_16
+      version-name: RELEASE_3_17
 
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
+        with:
+          ref: RELEASE_3_17
 
       - name: Query dependencies
         run: |
