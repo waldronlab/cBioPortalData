@@ -19,7 +19,7 @@ BiocFileCache system."><!-- mathjax --><script src="https://cdnjs.cloudflare.com
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">cBioPortalData</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.10.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.13.0</span>
       </span>
     </div>
 
@@ -208,17 +208,17 @@ cache. This only works for the <code>cBioDataPack</code> function. To remove the
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">removePackCache</span><span class="op">(</span><span class="st">"acc_tcga"</span>, dry.run <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 10</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   rid   rname    create_time     acces…¹ rpath rtype fpath last_…² etag  expires</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> BFC16 acc_tcga 2023-01-03 23:… 2023-0… /git… web   http… 2022-0… e181…      <span style="color: #BB0000;">NA</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with abbreviated variable names ¹​access_time, ²​last_modified_time</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   rid   rname create_time access_time rpath rtype fpath last_modified_time etag </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> BFC16 acc_… 2023-04-28… 2023-04-28… /git… web   http… 2023-01-10 21:37:… 8b98…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 1 more variable: expires &lt;dbl&gt;</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">cbio</span> <span class="op">&lt;-</span> <span class="fu"><a href="cBioPortal.html">cBioPortal</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>service version differs from validated version</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span>     service url: https://www.cbioportal.org/api/v2/api-docs</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>     observed md5sum: 07ceb76cc5afcf54a9cf2e1a689b18f7</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>     expected md5sum: 4188a76d21595ffbf4d7749d60f24898</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span>     observed md5sum: 008be96361f24a5c8d1cfb7f10ae9c97</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span>     expected md5sum: 07ceb76cc5afcf54a9cf2e1a689b18f7</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="cBioPortalData.html">cBioPortalData</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>    <span class="va">cbio</span>, by <span class="op">=</span> <span class="st">"hugoGeneSymbol"</span>,</span></span>
@@ -227,7 +227,22 @@ cache. This only works for the <code>cBioDataPack</code> function. To remove the
 <span class="r-in"><span>    molecularProfileIds <span class="op">=</span></span></span>
 <span class="r-in"><span>        <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"acc_tcga_rppa"</span>, <span class="st">"acc_tcga_linear_CNA"</span>, <span class="st">"acc_tcga_mutations"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(args[["api"]]):</span> object 'cbio' not found</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> harmonizing input:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   removing 1 colData rownames not in sampleMap 'primary'</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> A MultiAssayExperiment object of 3 listed</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  experiments with user-defined names and respective classes.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Containing an ExperimentList class object of length 3:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] acc_tcga_mutations: RangedSummarizedExperiment with 25 rows and 20 columns</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [2] acc_tcga_linear_CNA: SummarizedExperiment with 8 rows and 90 columns</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [3] acc_tcga_rppa: SummarizedExperiment with 1 rows and 46 columns</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Functionality:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  experiments() - obtain the ExperimentList instance</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  colData() - the primary/phenotype DataFrame</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  sampleMap() - the sample coordination DataFrame</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  `$`, `[`, `[[` - extract colData columns, subset, or experiment</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  *Format() - convert into a long or wide DataFrame</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  assays() - convert ExperimentList to a SimpleList of matrices</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  exportClass() - save data to flat files</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">removeDataCache</span><span class="op">(</span></span></span>
 <span class="r-in"><span>    <span class="va">cbio</span>, by <span class="op">=</span> <span class="st">"hugoGeneSymbol"</span>,</span></span>
@@ -237,7 +252,10 @@ cache. This only works for the <code>cBioDataPack</code> function. To remove the
 <span class="r-in"><span>        <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"acc_tcga_rppa"</span>, <span class="st">"acc_tcga_linear_CNA"</span>, <span class="st">"acc_tcga_mutations"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>    dry.run <span class="op">=</span> <span class="cn">TRUE</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(args[["api"]]):</span> object 'cbio' not found</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                               experiment_cache.BFC15 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> "/github/home/.cache/R/cBioPortalData/2027416a7a49_2027416a7a49.rda" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                  clinical_cache.BFC3 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> "/github/home/.cache/R/cBioPortalData/1dc1479a1b44_1dc1479a1b44.rda" </span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
