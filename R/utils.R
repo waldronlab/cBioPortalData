@@ -51,7 +51,7 @@
 }
 
 .getMixedData <- function(x, name.field) {
-    samplesAsCols <- .samplesAsCols(x)
+    samplesAsCols <- .TCGAsamplesAsCols(x)
     if (!length(x)) { return(x) }
     if (!any(samplesAsCols)) { return(.getcbiodata(x, name.field)) }
 
@@ -172,7 +172,7 @@
     }
 }
 
-.samplesAsCols <- function(x) {
+.TCGAsamplesAsCols <- function(x) {
     startsWith(names(x), "TCGA")
 }
 
