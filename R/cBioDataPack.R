@@ -226,9 +226,10 @@ cbioportal2clinicaldf <- function(files) {
 #'
 #' @param names.field character() Possible column names for the
 #' column that will used to label ranges for data such as mutations or copy
-#' number (default: `c("Hugo_Symbol", "Entrez_Gene_Id", "Gene")`). Values are
-#' cycled through and eliminated when no data present, or duplicates are found.
-#' Values in the corresponding column must be unique in each row.
+#' number (default:
+#' `c("Hugo_Symbol", "Entrez_Gene_Id", "Gene", "Composite.Element.REF")`).
+#' Values are cycled through and eliminated when no data present, or duplicates
+#' are found. Values in the corresponding column must be unique in each row.
 #'
 #' @param cancer_study_file character(1) indicates the on-disk location
 #' of the downloaded tarball
@@ -331,7 +332,11 @@ untarStudy <- function(cancer_study_file, exdir = tempdir()) {
     names.field <- .findMinDupField(dat, names.field)
 
     tryCatch({
-        if (!RTCGAToolbox:::.hasExperimentData(dat, ptIDs))
+        if (
+            !RTCGAToolbox:::.hasExperimentData(
+                dat, c("Hugo", "Entrez", "Composite.")
+            )
+        )
             dat
         else if (grepl("meth", exp_name, ignore.case = TRUE))
             .getMixedData(dat, names.field)
@@ -401,7 +406,8 @@ untarStudy <- function(cancer_study_file, exdir = tempdir()) {
 #' @export
 loadStudy <- function(
     filepath,
-    names.field = c("Hugo_Symbol", "Entrez_Gene_Id", "Gene"),
+    names.field =
+        c("Hugo_Symbol", "Entrez_Gene_Id", "Gene", "Composite.Element.REF"),
     cleanup = TRUE
 ) {
     if (cleanup)

@@ -24,9 +24,10 @@ not be re-downloaded. A path can also be provided to data cache location.}
 
 \item{names.field}{character() Possible column names for the
 column that will used to label ranges for data such as mutations or copy
-number (default: \code{c("Hugo_Symbol", "Entrez_Gene_Id", "Gene")}). Values are
-cycled through and eliminated when no data present, or duplicates are found.
-Values in the corresponding column must be unique in each row.}
+number (default:
+\code{c("Hugo_Symbol", "Entrez_Gene_Id", "Gene", "Composite.Element.REF")}).
+Values are cycled through and eliminated when no data present, or duplicates
+are found. Values in the corresponding column must be unique in each row.}
 
 \item{cleanup}{logical(1) whether to delete the \code{untar}-red contents from
 the \code{exdir} folder (default TRUE)}
