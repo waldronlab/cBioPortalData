@@ -30,7 +30,7 @@ if (identical(tolower(Sys.getenv("IS_BIOC_BUILD_MACHINE")), "true")) {
         removePackCache(cancer_study_id = pack_stud, dry.run = FALSE)
     }
 
-} else if (identical("IS_SUPERMICRO_MACHINE", "TRUE")) {
+} else if (identical(Sys.getenv("IS_SUPERMICRO_MACHINE"), "TRUE")) {
 
     library(BiocParallel)
     params <- MulticoreParam(
