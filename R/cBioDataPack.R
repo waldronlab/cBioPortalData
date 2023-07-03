@@ -453,18 +453,23 @@ loadStudy <- function(
     )
 }
 
-.check_study_id_building <-
+.get_build_result <- function(
+    cancer_study_id, build_type = c("pack_build", "api_build")
+) {
+    build_type <- match.arg(build_type)
+    denv <- .loadReportData()
+    results <- denv[[build_type]]
+    results[match(cancer_study_id, results[["studyId"]]), build_type]
+}
+
+.is_study_id_building <-
     function(
         cancer_study_id, build_type = c("pack_build", "api_build"), ask
     )
 {
-    build_type <- match.arg(build_type)
-    denv <- .loadReportData()
-    results <- denv[[build_type]]
-    builds <- results[
-        match(cancer_study_id, results[["studyId"]]), build_type
-    ]
-
+    builds <- .get_build_result(
+        cancer_study_id = cancer_study_id, build_type = build_type
+    )
     if (is.na(builds)) {
         qtxt <- sprintf(
             paste0(
@@ -547,7 +552,7 @@ cBioDataPack <- function(cancer_study_id, use_cache = TRUE,
     cleanup = TRUE, ask = interactive(), check_build = TRUE)
 {
     if (check_build)
-        .check_study_id_building(cancer_study_id, "pack_build", ask = ask)
+        .is_study_id_building(cancer_study_id, "pack_build", ask = ask)
 
     cancer_study_file <- downloadStudy(
         cancer_study_id, use_cache = use_cache, ask = ask

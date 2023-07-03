@@ -247,7 +247,7 @@ cBioPortalData <-
     exargs <- update.args(exargs)
 
     if (check_build)
-        .check_study_id_building(exargs[["studyId"]], "api_build")
+        .is_study_id_building(exargs[["studyId"]], "api_build")
 
     lists <- do.call(.portalExperiments, exargs)
 
