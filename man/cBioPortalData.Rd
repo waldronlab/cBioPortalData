@@ -13,7 +13,8 @@ cBioPortalData(
   sampleListId = NULL,
   sampleIds = NULL,
   by = c("entrezGeneId", "hugoGeneSymbol"),
-  check_build = TRUE
+  check_build = TRUE,
+  ask = interactive()
 )
 }
 \arguments{
@@ -45,6 +46,13 @@ metadata (default: 'entrezGeneId')}
 \code{studyId} using an internal dataset. This argument should be set to
 \code{FALSE} if using alternative \code{hostnames}, e.g.,
 'pedcbioportal.kidsfirstdrc.org'}
+
+\item{ask}{logical(1) Whether to prompt the the user before downloading and
+loading study \code{MultiAssayExperiment} that is not currently building based
+on previous testing. Set to \code{interactive()} by default. In a
+non-interactive session, data download will be attempted; equivalent to
+\code{ask = FALSE}. The argument will also be used when a cache directory needs
+to be created when using \code{downloadStudy}.}
 }
 \value{
 A \linkS4class{MultiAssayExperiment} object

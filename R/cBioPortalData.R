@@ -197,6 +197,13 @@ update.args <- function(args) {
 #'     `FALSE` if using alternative `hostnames`, e.g.,
 #'     'pedcbioportal.kidsfirstdrc.org'
 #'
+#' @param ask logical(1) Whether to prompt the the user before downloading and
+#'   loading study `MultiAssayExperiment` that is not currently building based
+#'   on previous testing. Set to `interactive()` by default. In a
+#'   non-interactive session, data download will be attempted; equivalent to
+#'   `ask = FALSE`. The argument will also be used when a cache directory needs
+#'   to be created when using `downloadStudy`.
+#'
 #' @md
 #'
 #' @examples
@@ -231,7 +238,8 @@ cBioPortalData <-
         sampleListId = NULL,
         sampleIds = NULL,
         by = c("entrezGeneId", "hugoGeneSymbol"),
-        check_build = TRUE
+        check_build = TRUE,
+        ask = interactive()
     )
 {
     if (missing(api))
@@ -247,7 +255,7 @@ cBioPortalData <-
     exargs <- update.args(exargs)
 
     if (check_build)
-        .is_study_id_building(exargs[["studyId"]], "api_build")
+        .is_study_id_building(exargs[["studyId"]], "api_build", ask = ask)
 
     lists <- do.call(.portalExperiments, exargs)
 
