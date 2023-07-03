@@ -1,3 +1,9 @@
+## Changes in version 2.14.0
+
+### Bug fixes and minor improvements
+
+* Remove error when `studyId` build success is unknown (@vlaufer, #69)
+
 ## Changes in version 2.12.0
 
 ### Bug fixes and minor improvements
