@@ -465,15 +465,22 @@ loadStudy <- function(
         match(cancer_study_id, results[["studyId"]]), build_type
     ]
 
-    if (is.na(builds))
-        stop("'studyId', ", cancer_study_id, ", not found.",
-            " See 'getStudies()'.")
-
-    if (!builds) {
+    if (is.na(builds)) {
         qtxt <- sprintf(
             paste0(
-                "'getStudies' reports that '%s' is not currently building.\n",
-                "  Use 'downloadStudy()' to obtain the study data.\n",
+                "The build status for '%s' is unknown.\n",
+                "  Use 'downloadStudy()' to manually obtain the data.\n",
+                "  Proceed anyway? [y/n]: "
+            ),
+            cancer_study_id
+        )
+        if (ask && .getAnswer(qtxt, allowed = c("y", "Y", "n", "N")) == "n")
+            stop("'", cancer_study_id, "' build has not been tested.")
+    } else if (!builds) {
+        qtxt <- sprintf(
+            paste0(
+                "Our testing shows that '%s' is not currently building.\n",
+                "  Use 'downloadStudy()' to manually obtain the data.\n",
                 "  Proceed anyway? [y/n]: "
             ),
             cancer_study_id
@@ -481,7 +488,7 @@ loadStudy <- function(
         if (ask && .getAnswer(qtxt, allowed = c("y", "Y", "n", "N")) == "n")
             stop("'", cancer_study_id, "' is not yet supported.")
     }
-
+    TRUE
 }
 
 #' @name cBioDataPack
