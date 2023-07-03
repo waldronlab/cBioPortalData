@@ -313,7 +313,7 @@ untarStudy <- function(cancer_study_file, exdir = tempdir()) {
     exdir
 }
 
-.preprocess_data <- function(file, exp_name, names.field, ptIDs) {
+.preprocess_data <- function(file, exp_name, names.field, ptIDs, colIDs) {
     if (is.null(exp_name))
         stop("<internal> 'exp_name' is NULL")
 
@@ -330,6 +330,9 @@ untarStudy <- function(cancer_study_file, exdir = tempdir()) {
     names.field <- .findValidNames(dat, names.field)
     names.field <- .findUniqueField(dat, names.field)
     names.field <- .findMinDupField(dat, names.field)
+
+    if (!is.null(colIDs))
+        ptIDs <- .findColnames(dat, ptIDs, colIDs)
 
     tryCatch({
         if (
@@ -363,7 +366,7 @@ untarStudy <- function(cancer_study_file, exdir = tempdir()) {
         function(x, y) {
             .preprocess_data(
                 file = x, exp_name = y, names.field = names.field,
-                ptIDs = colData[["PATIENT_ID"]]
+                ptIDs = colData[["PATIENT_ID"]], colIDs = colData[["SAMPLE_ID"]]
             )
         },
         y = expnames, x = exptfiles

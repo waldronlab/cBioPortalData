@@ -176,6 +176,16 @@
     startsWith(names(x), "TCGA")
 }
 
+.findColnames <- function(x, patients, columns) {
+    dnames <- names(x)
+    ptid_as_colnames <- dnames[dnames %in% patients]
+    sampid_as_colnames <- dnames[dnames %in% columns]
+    if (length(ptid_as_colnames))
+        ptid_as_colnames
+    else
+        sampid_as_colnames
+}
+
 .TCGAcols <- function(df) {
     apply(df, 2L, function(col) {
         all(grepl("^TCGA", col, ignore.case = TRUE))
