@@ -1,6 +1,15 @@
+.parse_token <- function(token_file) {
+    token <- try({
+        as.character(read.dcf(token_file, fields = "token"))
+    })
+    if (is(token, "try-error"))
+        token <- readLines(token_file)
+    token
+}
+
 .handle_token <- function(token) {
     if (file.exists(token))
-        token <- readLines(token)
+        token <- .parse_token(token)
     else if (grepl(.Platform$file.sep, token, fixed = TRUE))
         stop("The token filepath is not valid")
     token <- gsub("token: ", "", token)
