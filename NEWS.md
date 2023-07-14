@@ -3,6 +3,7 @@
 ### Bug fixes and minor improvements
 
 * Remove error when `studyId` build success is unknown (@vlaufer, #69)
+* Parse tokens with different formats, e.g. genie token (@ZWael, #70)
 
 ## Changes in version 2.12.0
 
