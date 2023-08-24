@@ -10,7 +10,8 @@
         if (length(x)) {
             smap <- x[, c("molecularProfileId", "patientId", "sampleId")]
             names(smap) <- c("assay", "primary", "colname")
-            smap
+            smap[["assay"]] <- factor(smap[["assay"]])
+            smap[!duplicated(smap), ]
         } else {
             tibble::tibble(assay = character(0L), primary = character(0L),
                 colname = character(0L))
