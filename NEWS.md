@@ -5,6 +5,7 @@
 * Remove error when `studyId` build success is unknown (@vlaufer, #69)
 * Parse tokens with different formats, e.g. genie token (@ZWael, #70)
 * Clean up duplicate rows created in the `sampleMap` generated from the data
+* Fixed warning trigger when empty `molecularProfileId` datasets are found
 
 ## Changes in version 2.12.0
 
