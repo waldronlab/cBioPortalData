@@ -294,10 +294,11 @@ molecularProfiles <- function(api, studyId = NA_character_,
             }
         }
     }
-    empty <- vapply(datalist, function(len) !length(len), logical(1L))
-    enames <- paste(datanames[empty], collapse = ", ")
-    if (length(empty))
+    empty <- vapply(datalist, function(adat) !length(adat), logical(1L))
+    if (any(empty)) {
+        enames <- paste(datanames[empty], collapse = ", ")
         warning("No data found for molecularProfileId: ", enames, call. = FALSE)
+    }
     ## remove empty responses (e.g., in ov_tcga_pub_mirna)
     Filter(length, datalist)
 }
