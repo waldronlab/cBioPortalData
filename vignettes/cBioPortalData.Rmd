@@ -67,7 +67,6 @@ genomic location data, meaning that the measurements per sample vary.
 For more information, please see the `RaggedExperiment` and
 `SummarizedExperiment` vignettes.
 
-
 ### Identifying available studies
 
 As we work through the data, there are some datasest that cannot be represented
@@ -117,7 +116,7 @@ laml
 ### cBioPortalData: Obtain data from the cBioPortal API
 
 This function provides a more flexible and granular way to request a
-MultiAssayExperiment object from a study ID, molecular profile, gene panel,
+`MultiAssayExperiment` object from a study ID, molecular profile, gene panel,
 sample list.
 
 ```{r,warning=FALSE}
@@ -131,6 +130,46 @@ acc
 Note. To avoid overloading the API service, the API was designed to only query
 a part of the study data. Therefore, the user is required to enter either a set
 of genes of interest or a gene panel identifier.
+
+## Considerations
+
+Note that `cBioPortalData` and `cBioDataPack` obtain data diligently curated
+by the cBio Portal data team. The original data and curation lies in the
+<https://github.com/cBioPortal/cBioPortal> GitHub repository. However, despite
+the curation efforts there may be some inconsistencies in identifiers
+in the data. This causes our software to not work as intended though we have
+made efforts to represent all the data from both API and tarball formats.
+
+### metadata
+
+You may notice that the `metadata()` may have some additional data that was
+not able to be integrated in the `MultiAssayExperiment`.
+
+```{r}
+metadata(acc)
+```
+
+### Build prompts
+
+You will also get a message for `studyId`s whose data has not been fully
+integrated into a `MultiAssayExperiment`.
+
+```{r,echo=FALSE}
+cat(
+    "Our testing shows that '%s' is not currently building.\n",
+    "  Use 'downloadStudy()' to manually obtain the data.\n",
+    "  Proceed anyway? [y/n]: y"
+)
+```
+
+### Manual downloads
+
+For this reason, we have also provided the `downloadStudy`, `untarStudy`, and
+`loadStudy` functions to allow researchers to simply download the data and
+potentially, manually curate it. Generally, we advise researchers to report
+inconsistencies in the data in the [cBioPortal][1] data repository.
+
+[1]: https://github.com/cBioPortal/cBioPortal
 
 ## Clearing the cache
 
@@ -196,9 +235,11 @@ ggsurvplot(fit, data = colData(laml), risk.table = TRUE)
 ### Data update requests
 
 If you are interested in a particular study dataset that is not currently
-building, please open an issue at our GitHub repository
-[location](https://github.com/waldronlab/cBioPortalData/issues) and we will
-do our best to resolve the issues with either the data or the code.
+building, please open an issue at our [GitHub repository][2] and we will do our
+best to resolve the issues with the code base. Data issues can be opened at
+the cBioPortal [data repository][1].
+  
+[2]: https://github.com/waldronlab/cBioPortalData/issues
 
 We appreciate your feedback!
 
