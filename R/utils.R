@@ -247,7 +247,9 @@ endpoint_map <- data.frame(
     if (use_cache) {
         .dollarCache(list(api, name), ...)
     } else {
-        do.call(`$`, list(api, name))(...)
+        res <- do.call(`$`, list(api, name))(...)
+        httr::stop_for_status(res)
+        res
     }
 }
 
