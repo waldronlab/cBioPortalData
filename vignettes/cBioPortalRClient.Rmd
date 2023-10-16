@@ -121,7 +121,7 @@ The data for a molecular profile can be obtained with prior knowledge of
 available `entrezGeneIds`:
 
 ```{r}
-molecularData(cbio, molecularProfileId = "acc_tcga_rna_seq_v2_mrna",
+molecularData(cbio, molecularProfileIds = "acc_tcga_rna_seq_v2_mrna",
     entrezGeneIds = c(1, 2),
     sampleIds = c("TCGA-OR-A5J1-01",  "TCGA-OR-A5J2-01")
 )
@@ -169,7 +169,7 @@ getGenePanelMolecular(cbio,
 
 ```{r}
 getDataByGenes(cbio, "acc_tcga", genePanelId = "IMPACT341",
-    molecularProfileId = "acc_tcga_rppa", sampleListId = "acc_tcga_rppa")
+    molecularProfileIds = "acc_tcga_rppa", sampleListId = "acc_tcga_rppa")
 ```
 
 
