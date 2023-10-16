@@ -213,7 +213,7 @@ allSamples(cbio, "acc_tcga")
 
 ```{r}
 getSampleInfo(cbio, studyId = "acc_tcga",
-    sampleListIds = c("acc_tcga_rppa", "acc_tcga_gistic"))
+    sampleListIds = c("acc_tcga_rppa", "acc_tcga_cna"))
 ```
 
 # Advanced Usage
