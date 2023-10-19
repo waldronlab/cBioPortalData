@@ -39,6 +39,7 @@ cbioportal2metadata <- function(meta_file, lic_file) {
 
 .silentRead <- function(file, comm = "#", mxlines = Inf, ...) {
     suppressMessages({
+        readr::local_edition(1)
         readr::read_tsv(
             file, comment = comm, n_max = mxlines, progress = FALSE, ...
         )
