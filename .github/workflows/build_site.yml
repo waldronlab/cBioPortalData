@@ -13,7 +13,7 @@ jobs:
     env:
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
-      CRAN: https://packagemanager.rstudio.com/cran/__linux__/jammy/latest
+      CRAN: https://packagemanager.posit.co/cran/__linux__/jammy/latest
       version-name: RELEASE_3_18
 
     steps:
