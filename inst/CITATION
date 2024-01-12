@@ -3,18 +3,18 @@ citHeader("To cite cBioPortalData in publications, use:")
 bibentry(
     bibtype = "Article",
     title = "Multiomic Integration of Public Oncology Databases in Bioconductor",
-    author = personList(
-        as.person("Marcel Ramos"),
-        as.person("Ludwig Geistlinger"),
-        as.person("Sehyun Oh"),
-        as.person("Lucas Schiffer"),
-        as.person("Rimsha Azhar"),
-        as.person("Hanish Kodali"),
-        as.person("Ino de Bruijn"),
-        as.person("Jianjiong Gao"),
-        as.person("Vincent J. Carey"),
-        as.person("Martin Morgan"),
-        as.person("Levi Waldron")
+    author = c(
+        person("Marcel", "Ramos"),
+        person("Ludwig", "Geistlinger"),
+        person("Sehyun", "Oh"),
+        person("Lucas", "Schiffer"),
+        person("Rimsha", "Azhar"),
+        person("Hanish", "Kodali"),
+        person("Ino", "de Bruijn"),
+        person("Jianjiong", "Gao"),
+        person("Vincent J.", "Carey"),
+        person("Martin", "Morgan"),
+        person("Levi", "Waldron")
     ),
     journal = "JCO Clinical Cancer Informatics",
     number = "4",
