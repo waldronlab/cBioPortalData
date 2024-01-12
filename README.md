@@ -14,7 +14,7 @@ status](http://www.bioconductor.org/shields/build/release/bioc/cBioPortalData.sv
 ### Overview
 
 The `cBioPortalData` R package aims to import cBioPortal datasets as
-[MultiAssayExperiment](http://bioconductor.org/packages/MultiAssayExperiment/)
+*[MultiAssayExperiment](https://bioconductor.org/packages/3.19/MultiAssayExperiment)*
 objects into Bioconductor. Some of the features of the package include:
 
 1.  The use of the `MultiAssayExperiment` integrative container for
@@ -28,7 +28,7 @@ objects into Bioconductor. Some of the features of the package include:
 4.  The package provides datasets from both the API and the saved
     packaged data.
 5.  It also provides automatic local caching, thanks to
-    [BiocFileCache](https://bioconductor.org/packages/BiocFileCache/).
+    *[BiocFileCache](https://bioconductor.org/packages/3.19/BiocFileCache)*
 
 ## MultiAssayExperiment Cheatsheet
 
@@ -51,11 +51,14 @@ if (!require("BiocManager", quietly = TRUE))
 BiocManager::install("cBioPortalData")
 ```
 
-To install from GitHub (for bleeding-edge, not generally necessary
-because changes here are also pushed to
-[bioc-devel](https://www.bioconductor.org/developers/how-to/useDevel/).
-Installing the development version and generally requires running
-[bioc-devel](https://www.bioconductor.org/developers/how-to/useDevel/))
+Developers may want to install from GitHub for bleeding-edge updates
+(although this is generally not necessary because changes here are also
+pushed to
+[bioc-devel](https://contributions.bioconductor.org/use-devel.html)).
+Note that developers must be working with the development version of
+Bioconductor; see
+[bioc-devel](https://contributions.bioconductor.org/use-devel.html) for
+details.
 
 ``` r
 if (!require("cBioPortalData", quietly = TRUE))
@@ -74,8 +77,8 @@ library(cBioPortalData)
 and cBioPortal API specification. Users can view the
 `data(studiesTable)` dataset to get an overview of the studies that are
 available and currently building as `MultiAssayExperiment`
-representations. About 98 % of the studies via the API (`api_build`) and
-73 % of the package studies (`pack_build`) are building, these include
+representations. About 89 % of the studies via the API (`api_build`) and
+93 % of the package studies (`pack_build`) are building, these include
 additional datasets that were not previously available. Feel free to
 file an issue to request prioritization of fixing any of the remaining
 datasets.
@@ -89,12 +92,12 @@ studies <- getStudies(cbio, buildReport = TRUE)
 table(studies$api_build)
 #> 
 #> FALSE  TRUE 
-#>     5   308
+#>    40   340
 
 table(studies$pack_build)
 #> 
 #> FALSE  TRUE 
-#>    86   227
+#>    28   352
 ```
 
 ### API Service
@@ -116,8 +119,8 @@ gbm
 #> A MultiAssayExperiment object of 2 listed
 #>  experiments with user-defined names and respective classes.
 #>  Containing an ExperimentList class object of length 2:
-#>  [1] gbm_tcga_rppa: SummarizedExperiment with 67 rows and 244 columns
-#>  [2] gbm_tcga_mrna: SummarizedExperiment with 336 rows and 401 columns
+#>  [1] gbm_tcga_mrna: SummarizedExperiment with 336 rows and 401 columns
+#>  [2] gbm_tcga_rppa: SummarizedExperiment with 67 rows and 244 columns
 #> Functionality:
 #>  experiments() - obtain the ExperimentList instance
 #>  colData() - the primary/phenotype DataFrame
@@ -141,20 +144,19 @@ acc <- cBioDataPack("acc_tcga")
 
 ``` r
 acc
-#> A MultiAssayExperiment object of 11 listed
+#> A MultiAssayExperiment object of 10 listed
 #>  experiments with user-defined names and respective classes.
-#>  Containing an ExperimentList class object of length 11:
+#>  Containing an ExperimentList class object of length 10:
 #>  [1] cna_hg19.seg: RaggedExperiment with 16080 rows and 90 columns
-#>  [2] CNA: SummarizedExperiment with 24776 rows and 90 columns
-#>  [3] linear_CNA: SummarizedExperiment with 24776 rows and 90 columns
-#>  [4] methylation_hm450: SummarizedExperiment with 15755 rows and 80 columns
-#>  [5] mutations_extended: RaggedExperiment with 20166 rows and 90 columns
-#>  [6] mutations_mskcc: RaggedExperiment with 20166 rows and 90 columns
-#>  [7] RNA_Seq_v2_expression_median: SummarizedExperiment with 20531 rows and 79 columns
-#>  [8] RNA_Seq_v2_mRNA_median_all_sample_Zscores: SummarizedExperiment with 20531 rows and 79 columns
-#>  [9] RNA_Seq_v2_mRNA_median_Zscores: SummarizedExperiment with 20440 rows and 79 columns
-#>  [10] rppa_Zscores: SummarizedExperiment with 191 rows and 46 columns
-#>  [11] rppa: SummarizedExperiment with 192 rows and 46 columns
+#>  [2] cna: SummarizedExperiment with 24776 rows and 90 columns
+#>  [3] linear_cna: SummarizedExperiment with 24776 rows and 90 columns
+#>  [4] methylation_hm450: SummarizedExperiment with 15754 rows and 80 columns
+#>  [5] mrna_seq_v2_rsem_zscores_ref_all_samples: SummarizedExperiment with 20531 rows and 79 columns
+#>  [6] mrna_seq_v2_rsem_zscores_ref_diploid_samples: SummarizedExperiment with 20440 rows and 79 columns
+#>  [7] mrna_seq_v2_rsem: SummarizedExperiment with 20531 rows and 79 columns
+#>  [8] mutations: RaggedExperiment with 20166 rows and 90 columns
+#>  [9] rppa_zscores: SummarizedExperiment with 191 rows and 46 columns
+#>  [10] rppa: SummarizedExperiment with 192 rows and 46 columns
 #> Functionality:
 #>  experiments() - obtain the ExperimentList instance
 #>  colData() - the primary/phenotype DataFrame

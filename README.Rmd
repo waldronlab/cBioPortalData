@@ -10,6 +10,7 @@ knitr::opts_chunk$set(
   out.width = "100%"
 )
 options(tibble.print_min = 5, tibble.print_max = 5)
+library(BiocStyle)
 ```
 
 # cBioPortalData
@@ -25,21 +26,20 @@ options(tibble.print_min = 5, tibble.print_max = 5)
 ### Overview
 
 The `cBioPortalData` R package aims to import cBioPortal datasets as
-[MultiAssayExperiment][1] objects into Bioconductor. Some of the features of
-the package include:
+`r Biocpkg("MultiAssayExperiment")` objects into Bioconductor. Some of the
+features of the package include:
 
 1. The use of the `MultiAssayExperiment` integrative container for coordinating
 and representing the data.
 2. The data container explicitly links all assays to the patient
 clinical/pathological data.
-3. With a [flexible API][2], `MultiAssayExperiment` provides harmonized
+3. With a [flexible API][1], `MultiAssayExperiment` provides harmonized
 subsetting and reshaping into convenient wide and long formats.
 4. The package provides datasets from both the API and the saved packaged data.
-5. It also provides automatic local caching, thanks to [BiocFileCache][3].
+5. It also provides automatic local caching, thanks to
+`r Biocpkg("BiocFileCache")`
 
-[1]: http://bioconductor.org/packages/MultiAssayExperiment/
-[2]: https://github.com/waldronlab/MultiAssayExperiment/wiki/MultiAssayExperiment-API
-[3]: https://bioconductor.org/packages/BiocFileCache/
+[1]: https://github.com/waldronlab/MultiAssayExperiment/wiki/MultiAssayExperiment-API
 
 ## MultiAssayExperiment Cheatsheet
 
@@ -61,11 +61,12 @@ if (!require("BiocManager", quietly = TRUE))
 BiocManager::install("cBioPortalData")
 ```
 
-To install from GitHub (for bleeding-edge, not generally necessary because
-changes here are also pushed to
-[bioc-devel](https://www.bioconductor.org/developers/how-to/useDevel/).
-Installing the development version and generally requires running
-[bioc-devel](https://www.bioconductor.org/developers/how-to/useDevel/))
+Developers may want to install from GitHub for bleeding-edge updates (although
+this is generally not necessary because changes here are also pushed to
+[bioc-devel][2]). Note that developers must be working with the development
+version of Bioconductor; see [bioc-devel][2] for details.
+
+[2]: https://contributions.bioconductor.org/use-devel.html
 
 ```{r,eval=FALSE}
 if (!require("cBioPortalData", quietly = TRUE))
