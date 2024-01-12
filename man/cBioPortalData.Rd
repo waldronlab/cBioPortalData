@@ -64,7 +64,7 @@ Obtain a \code{MultiAssayExperiment} object for a particular gene panel,
 data. This option is best for users who wish to obtain a section of the
 study data that pertains to a specific molecular profile and gene panel
 combination. For users looking to download the entire study data as provided
-by the \url{https://cbioportal.org/datasets}, refer to \code{cBioDataPack}.
+by the \url{https://www.cbioportal.org/datasets}, refer to \code{cBioDataPack}.
 }
 \details{
 We are able to succesfully represent 98 percent of the study

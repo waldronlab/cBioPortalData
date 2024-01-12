@@ -30,7 +30,7 @@ API protocol that directly inherits from the \code{Service} class in the
 }
 \details{
 This class takes the static API as provided at
-\url{https://www.cbioportal.org/api/api-docs} and creates an R object
+\url{https://www.cbioportal.org/api/v2/api-docs} and creates an R object
 with the help from underlying infrastructure (i.e.,
 \link[rapiclient:rapiclient-package]{rapiclient} and
 \link[AnVIL:Service]{AnVIL}) to give the user a unified representation

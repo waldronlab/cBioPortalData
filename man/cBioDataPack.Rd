@@ -16,7 +16,7 @@ cBioDataPack(
 }
 \arguments{
 \item{cancer_study_id}{character(1) The study identifier from cBioPortal as
-in \url{https://cbioportal.org/webAPI}}
+seen in the dataset links at \url{https://www.cbioportal.org/datasets}}
 
 \item{use_cache}{logical(1) (default TRUE) create the default cache location
 and use it to track downloaded data. If data found in the cache, data will
