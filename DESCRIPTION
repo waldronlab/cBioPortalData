@@ -1,5 +1,5 @@
 Package: cBioPortalData
-Title: Exposes and makes available data from the cBioPortal web resources
+Title: Exposes and Makes Available Data from the cBioPortal Web Resources
 Version: 2.15.0
 Authors@R: c(
     person("Levi", "Waldron", , "lwaldron.research@gmail.com", "aut"),
@@ -43,6 +43,7 @@ Suggests:
     survminer,
     rmarkdown,
     testthat
+Date: 2024-01-12
 License: AGPL-3
 Encoding: UTF-8
 VignetteBuilder: knitr
