@@ -11,7 +11,7 @@ output:
     number_sections: no
     toc: yes
     toc_depth: 4
-bibliograph: REFERENCES.bib
+bibliography: ../inst/REFERENCES.bib
 ---
 
 ```{r, setup, include=FALSE}
@@ -41,18 +41,39 @@ It downloads study data from the cBioPortal API (the full API specification can
 be found here https://cbioportal.org/api) and uses Bioconductor infrastructure
 to cache and represent the data.
 
-We use the [`MultiAssayExperiment`][1] (@Ramos2017-er) package to integrate,
-represent, and coordinate multiple experiments for the studies availble in the
+We demonstrate common use cases of `cBioPortalData` and `curatedTCGAData`
+during Bioconductor conference
+[workshops](https://waldronlab.io/MultiAssayWorkshop/).
+
+We use the [MultiAssayExperiment][1] (@Ramos2017-er) package to integrate,
+represent, and coordinate multiple experiments for the studies available in the
 cBioPortal. This package in conjunction with `curatedTCGAData` give access to
 a large trove of publicly available bioinformatic data. Please see our
-publication [here][2] (@Ramos2020-ya).
+JCO Clinical Cancer Informatics publication [here][2] (@Ramos2020-ya).
 
 [1]: https://dx.doi.org/10.1158/0008-5472.CAN-17-0344
 [2]: https://dx.doi.org/10.1200/CCI.19.00119
 
-We demonstrate common use cases of `cBioPortalData` and `curatedTCGAData`
-during Bioconductor conference
-[workshops](https://waldronlab.io/MultiAssayWorkshop/).
+# Citations
+
+We really appreciate your use and citation of our work. When using
+`cBioPortalData`, please cite the following publications:
+
+```{r, include=FALSE}
+citation("MultiAssayExperiment")
+```
+
+```{r, include=FALSE}
+citation("cBioPortalData")
+```
+
+You may also want to refer to the `REFERENCES.bib` file in the package:
+
+```{r}
+system.file(
+    package = "cBioPortalData", "REFERENCES.bib", mustWork = TRUE
+)
+```
 
 ## Overview
 
@@ -167,9 +188,9 @@ cat(
 For this reason, we have also provided the `downloadStudy`, `untarStudy`, and
 `loadStudy` functions to allow researchers to simply download the data and
 potentially, manually curate it. Generally, we advise researchers to report
-inconsistencies in the data in the [cBioPortal][1] data repository.
+inconsistencies in the data in the [cBioPortal][3] data repository.
 
-[1]: https://github.com/cBioPortal/cBioPortal
+[3]: https://github.com/cbioportal/datahub
 
 ## Clearing the cache
 
@@ -235,11 +256,11 @@ ggsurvplot(fit, data = colData(laml), risk.table = TRUE)
 ### Data update requests
 
 If you are interested in a particular study dataset that is not currently
-building, please open an issue at our [GitHub repository][2] and we will do our
+building, please open an issue at our [GitHub repository][4] and we will do our
 best to resolve the issues with the code base. Data issues can be opened at
-the cBioPortal [data repository][1].
+the cBioPortal [data repository][3].
   
-[2]: https://github.com/waldronlab/cBioPortalData/issues
+[4]: https://github.com/waldronlab/cBioPortalData/issues
 
 We appreciate your feedback!
 
