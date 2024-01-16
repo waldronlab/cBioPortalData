@@ -22,7 +22,7 @@ representation to faciliate analysis and data management operations."><!-- mathj
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">cBioPortalData</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.12.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.14.1</span>
       </span>
     </div>
 
@@ -107,9 +107,10 @@ not be re-downloaded. A path can also be provided to data cache location.</p></d
 <dt>names.field</dt>
 <dd><p>character() Possible column names for the
 column that will used to label ranges for data such as mutations or copy
-number (default: <code>c("Hugo_Symbol", "Entrez_Gene_Id", "Gene")</code>). Values are
-cycled through and eliminated when no data present, or duplicates are found.
-Values in the corresponding column must be unique in each row.</p></dd>
+number (default:
+<code>c("Hugo_Symbol", "Entrez_Gene_Id", "Gene", "Composite.Element.REF")</code>).
+Values are cycled through and eliminated when no data present, or duplicates
+are found. Values in the corresponding column must be unique in each row.</p></dd>
 
 
 <dt>cleanup</dt>
@@ -179,22 +180,21 @@ function.</p>
 <span class="r-in"><span><span class="va">cbio</span> <span class="op">&lt;-</span> <span class="fu"><a href="cBioPortal.html">cBioPortal</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="cBioPortal.html">getStudies</a></span><span class="op">(</span><span class="va">cbio</span><span class="op">)</span><span class="op">[[</span><span class="st">"studyId"</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "acc_tcga"        "all_stjude_2015" "all_stjude_2013" "acbc_mskcc_2015"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5] "acyc_fmi_2014"   "acyc_jhu_2016"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "acc_tcga"  "laml_tcga" "blca_tcga" "kirc_tcga" "cesc_tcga" "chol_tcga"</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">mae</span> <span class="op">&lt;-</span> <span class="fu">cBioDataPack</span><span class="op">(</span><span class="st">"acc_tcga"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Study file in cache: acc_tcga</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: /tmp/RtmpooLXq5/40e1758ad07_acc_tcga/acc_tcga/data_cna.txt</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: /tmp/RtmpooLXq5/40e1758ad07_acc_tcga/acc_tcga/data_cna_hg19.seg</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: /tmp/RtmpooLXq5/40e1758ad07_acc_tcga/acc_tcga/data_linear_cna.txt</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: /tmp/RtmpooLXq5/40e1758ad07_acc_tcga/acc_tcga/data_methylation_hm450.txt</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: /tmp/RtmpooLXq5/40e1758ad07_acc_tcga/acc_tcga/data_mrna_seq_v2_rsem.txt</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: /tmp/RtmpooLXq5/40e1758ad07_acc_tcga/acc_tcga/data_mrna_seq_v2_rsem_zscores_ref_all_samples.txt</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: /tmp/RtmpooLXq5/40e1758ad07_acc_tcga/acc_tcga/data_mrna_seq_v2_rsem_zscores_ref_diploid_samples.txt</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: /tmp/RtmpooLXq5/40e1758ad07_acc_tcga/acc_tcga/data_mutations.txt</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: /tmp/RtmpooLXq5/40e1758ad07_acc_tcga/acc_tcga/data_mutsig.txt</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: /tmp/RtmpooLXq5/40e1758ad07_acc_tcga/acc_tcga/data_rppa.txt</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: /tmp/RtmpooLXq5/40e1758ad07_acc_tcga/acc_tcga/data_rppa_zscores.txt</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: /tmp/RtmpNCOXD5/1012192c03c7_acc_tcga/acc_tcga/data_cna.txt</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: /tmp/RtmpNCOXD5/1012192c03c7_acc_tcga/acc_tcga/data_cna_hg19.seg</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: /tmp/RtmpNCOXD5/1012192c03c7_acc_tcga/acc_tcga/data_linear_cna.txt</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: /tmp/RtmpNCOXD5/1012192c03c7_acc_tcga/acc_tcga/data_methylation_hm450.txt</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: /tmp/RtmpNCOXD5/1012192c03c7_acc_tcga/acc_tcga/data_mrna_seq_v2_rsem.txt</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: /tmp/RtmpNCOXD5/1012192c03c7_acc_tcga/acc_tcga/data_mrna_seq_v2_rsem_zscores_ref_all_samples.txt</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: /tmp/RtmpNCOXD5/1012192c03c7_acc_tcga/acc_tcga/data_mrna_seq_v2_rsem_zscores_ref_diploid_samples.txt</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: /tmp/RtmpNCOXD5/1012192c03c7_acc_tcga/acc_tcga/data_mutations.txt</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: /tmp/RtmpNCOXD5/1012192c03c7_acc_tcga/acc_tcga/data_mutsig.txt</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: /tmp/RtmpNCOXD5/1012192c03c7_acc_tcga/acc_tcga/data_rppa.txt</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: /tmp/RtmpNCOXD5/1012192c03c7_acc_tcga/acc_tcga/data_rppa_zscores.txt</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span> Multiple prefixes found, using keyword 'region' or taking first one</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span> Multiple prefixes found, using keyword 'region' or taking first one</span>
 <span class="r-in"><span></span></span>

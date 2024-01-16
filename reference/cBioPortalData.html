@@ -23,7 +23,7 @@ by the https://cbioportal.org/datasets, refer to cBioDataPack."><!-- mathjax -->
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">cBioPortalData</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.12.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.14.1</span>
       </span>
     </div>
 
@@ -93,7 +93,8 @@ by the <a href="https://cbioportal.org/datasets" class="external-link">https://c
 <span>  sampleListId <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  sampleIds <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"entrezGeneId"</span>, <span class="st">"hugoGeneSymbol"</span><span class="op">)</span>,</span>
-<span>  check_build <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span>  check_build <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  ask <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -144,6 +145,15 @@ metadata (default: 'entrezGeneId')</p></dd>
 <code>studyId</code> using an internal dataset. This argument should be set to
 <code>FALSE</code> if using alternative <code>hostnames</code>, e.g.,
 'pedcbioportal.kidsfirstdrc.org'</p></dd>
+
+
+<dt>ask</dt>
+<dd><p>logical(1) Whether to prompt the the user before downloading and
+loading study <code>MultiAssayExperiment</code> that is not currently building based
+on previous testing. Set to <code><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive()</a></code> by default. In a
+non-interactive session, data download will be attempted; equivalent to
+<code>ask = FALSE</code>. The argument will also be used when a cache directory needs
+to be created when using <code>downloadStudy</code>.</p></dd>
 
 </dl></div>
     <div id="value">

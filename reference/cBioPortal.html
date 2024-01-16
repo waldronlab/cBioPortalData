@@ -24,7 +24,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">cBioPortalData</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.12.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.14.1</span>
       </span>
     </div>
 
@@ -375,20 +375,20 @@ given to Entrez IDs due to faster query responses.</p></dd>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">cbio</span> <span class="op">&lt;-</span> <span class="fu">cBioPortal</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">getStudies</span><span class="op">(</span>api <span class="op">=</span> <span class="va">cbio</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 373 × 13</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 397 × 13</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    name          description publicStudy groups status importDate allSampleCount</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> Adrenocortic… <span style="color: #949494;">"</span>TCGA Adre… TRUE        <span style="color: #949494;">"</span>PUBL…      0 2022-10-2…             92</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> Acute Lympho… <span style="color: #949494;">"</span>Comprehen… TRUE        <span style="color: #949494;">"</span>PUBL…      0 2022-10-2…             93</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> Hypodiploid … <span style="color: #949494;">"</span>Whole gen… TRUE        <span style="color: #949494;">""</span>          0 2022-10-2…             44</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> Adenoid Cyst… <span style="color: #949494;">"</span>Whole exo… TRUE        <span style="color: #949494;">"</span>ACYC…      0 2022-10-2…             12</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> Adenoid Cyst… <span style="color: #949494;">"</span>Targeted … TRUE        <span style="color: #949494;">"</span>ACYC…      0 2022-10-2…             28</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> Adenoid Cyst… <span style="color: #949494;">"</span>Whole-gen… TRUE        <span style="color: #949494;">"</span>ACYC…      0 2022-10-2…             25</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> Adenoid Cyst… <span style="color: #949494;">"</span>WGS of 21… TRUE        <span style="color: #949494;">"</span>ACYC…      0 2022-10-2…            102</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> Adenoid Cyst… <span style="color: #949494;">"</span>Whole exo… TRUE        <span style="color: #949494;">"</span>ACYC…      0 2022-10-2…             24</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> Acute Lympho… <span style="color: #949494;">"</span>Whole-gen… TRUE        <span style="color: #949494;">"</span>PUBL…      0 2022-10-2…             73</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> Pediatric Ac… <span style="color: #949494;">"</span>Whole gen… TRUE        <span style="color: #949494;">"</span>NCI-…      0 2022-10-2…           <span style="text-decoration: underline;">1</span>978</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 363 more rows</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> Adrenocortic… <span style="color: #949494;">"</span>TCGA Adre… TRUE        PUBLIC      0 2023-06-1…             92</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> Acute Myeloi… <span style="color: #949494;">"</span>TCGA Acut… TRUE        PUBLIC      0 2023-06-1…            200</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> Bladder Urot… <span style="color: #949494;">"</span>TCGA Blad… TRUE        PUBLIC      0 2023-06-1…            413</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> Kidney Renal… <span style="color: #949494;">"</span>TCGA Kidn… TRUE        PUBLIC      0 2023-06-1…            538</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> Cervical Squ… <span style="color: #949494;">"</span>TCGA Cerv… TRUE        PUBLIC      0 2023-06-1…            310</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> Cholangiocar… <span style="color: #949494;">"</span>TCGA Chol… TRUE        PUBLIC      0 2023-06-1…             51</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> Kidney Chrom… <span style="color: #949494;">"</span>TCGA Kidn… TRUE        PUBLIC      0 2023-06-1…            113</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> Colorectal A… <span style="color: #949494;">"</span>TCGA Colo… TRUE        PUBLIC      0 2023-06-1…            640</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> Lymphoid Neo… <span style="color: #949494;">"</span>TCGA Lymp… TRUE        PUBLIC      0 2023-06-1…             48</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> Esophageal C… <span style="color: #949494;">"</span>TCGA Esop… TRUE        PUBLIC      0 2023-06-1…            186</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 387 more rows</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 6 more variables: readPermission &lt;lgl&gt;, studyId &lt;chr&gt;, cancerTypeId &lt;chr&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   referenceGenome &lt;chr&gt;, pmid &lt;chr&gt;, citation &lt;chr&gt;</span></span>
 <span class="r-in"><span></span></span>
@@ -452,7 +452,7 @@ given to Entrez IDs due to faster query responses.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   studyId &lt;chr&gt;</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">genePanels</span><span class="op">(</span><span class="va">cbio</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 55 × 2</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 58 × 2</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    description                                                       genePanelId</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                                             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> Targeted (27 cancer genes) sequencing of adenoid cystic carcinom… ACYC_FMI_27</span>
@@ -465,7 +465,7 @@ given to Entrez IDs due to faster query responses.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> Targeted sequencing of various tumor types via bait v5.           bait_v5    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> Targeted panel of 387 cancer-related genes.                       bcc_unige_…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> Research (CMO) IMPACT-Heme gene panel version 3.                  HemePACT_v3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 45 more rows</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 48 more rows</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="op">(</span><span class="va">gp</span> <span class="op">&lt;-</span> <span class="fu">getGenePanel</span><span class="op">(</span><span class="va">cbio</span>, <span class="st">"AmpliSeq"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 8 × 2</span></span>
@@ -516,7 +516,7 @@ given to Entrez IDs due to faster query responses.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [["acc_tcga_rppa"]] TCGA-OR-A5J2-01 TCGA-OR-A5J3-01 ... TCGA-PK-A5HA-01</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">genePanels</span><span class="op">(</span>api <span class="op">=</span> <span class="va">cbio</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 55 × 2</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 58 × 2</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    description                                                       genePanelId</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                                             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> Targeted (27 cancer genes) sequencing of adenoid cystic carcinom… ACYC_FMI_27</span>
@@ -529,7 +529,7 @@ given to Entrez IDs due to faster query responses.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> Targeted sequencing of various tumor types via bait v5.           bait_v5    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> Targeted panel of 387 cancer-related genes.                       bcc_unige_…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> Research (CMO) IMPACT-Heme gene panel version 3.                  HemePACT_v3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 45 more rows</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 48 more rows</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">getGenePanel</span><span class="op">(</span>api <span class="op">=</span> <span class="va">cbio</span>, genePanelId <span class="op">=</span> <span class="st">"IMPACT341"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 341 × 2</span></span>

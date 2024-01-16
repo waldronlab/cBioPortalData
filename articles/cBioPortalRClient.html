@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">cBioPortalData</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.12.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.14.1</span>
       </span>
     </div>
 
@@ -92,7 +92,7 @@ Devs</h1>
                         <h4 data-toc-skip class="author">Marcel Ramos
 &amp; Levi Waldron</h4>
             
-            <h4 data-toc-skip class="date">April 28, 2023</h4>
+            <h4 data-toc-skip class="date">January 16, 2024</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/waldronlab/cBioPortalData/blob/HEAD/vignettes/cBioPortalRClient.Rmd" class="external-link"><code>vignettes/cBioPortalRClient.Rmd</code></a></small>
       <div class="hidden name"><code>cBioPortalRClient.Rmd</code></div>
@@ -153,8 +153,8 @@ enter either a set of genes of interest or a gene panel identifier.</p>
 <code class="sourceCode R"><span><span class="op">(</span><span class="va">cbio</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cBioPortal.html">cBioPortal</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Warning in .service_validate_md5sum(api_reference_url, api_reference_md5sum, : service version differs from validated version</span></span>
 <span><span class="co">##     service url: https://www.cbioportal.org/api/v2/api-docs</span></span>
-<span><span class="co">##     observed md5sum: 008be96361f24a5c8d1cfb7f10ae9c97</span></span>
-<span><span class="co">##     expected md5sum: 07ceb76cc5afcf54a9cf2e1a689b18f7</span></span></code></pre>
+<span><span class="co">##     observed md5sum: 5e7cacecb3bbb0bd789da4d92ddb12ec</span></span>
+<span><span class="co">##     expected md5sum: 7314de5c5e8056e4e07b411b3e5a0cb9</span></span></code></pre>
 <pre><code><span><span class="co">## service: cBioPortal</span></span>
 <span><span class="co">## tags(); use cbioportal$&lt;tab completion&gt;:</span></span>
 <span><span class="co">## <span style="color: #949494;"># A tibble: 65 × 3</span></span></span>
@@ -181,7 +181,7 @@ enter either a set of genes of interest or a gene panel identifier.</p>
 <span><span class="co">##   AlleleSpecificCopyNumber, AlterationFilter,</span></span>
 <span><span class="co">##   AndedPatientTreatmentFilters, AndedSampleTreatmentFilters,</span></span>
 <span><span class="co">##   CancerStudy</span></span>
-<span><span class="co">##   # ... with 58 more elements</span></span></code></pre>
+<span><span class="co">##   # ... with 62 more elements</span></span></code></pre>
 <div class="section level3">
 <h3 id="operations">Operations<a class="anchor" aria-label="anchor" href="#operations"></a>
 </h3>
@@ -233,20 +233,20 @@ enter either a set of genes of interest or a gene panel identifier.</p>
 <p>Get the list of studies available:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/cBioPortal.html">getStudies</a></span><span class="op">(</span><span class="va">cbio</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 373 × 13</span></span></span>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 397 × 13</span></span></span>
 <span><span class="co">##    name          description publicStudy groups status importDate allSampleCount</span></span>
 <span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> Adrenocortic… <span style="color: #949494;">"</span>TCGA Adre… TRUE        <span style="color: #949494;">"</span>PUBL…      0 2022-10-2…             92</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 2</span> Acute Lympho… <span style="color: #949494;">"</span>Comprehen… TRUE        <span style="color: #949494;">"</span>PUBL…      0 2022-10-2…             93</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 3</span> Hypodiploid … <span style="color: #949494;">"</span>Whole gen… TRUE        <span style="color: #949494;">""</span>          0 2022-10-2…             44</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> Adenoid Cyst… <span style="color: #949494;">"</span>Whole exo… TRUE        <span style="color: #949494;">"</span>ACYC…      0 2022-10-2…             12</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> Adenoid Cyst… <span style="color: #949494;">"</span>Targeted … TRUE        <span style="color: #949494;">"</span>ACYC…      0 2022-10-2…             28</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> Adenoid Cyst… <span style="color: #949494;">"</span>Whole-gen… TRUE        <span style="color: #949494;">"</span>ACYC…      0 2022-10-2…             25</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 7</span> Adenoid Cyst… <span style="color: #949494;">"</span>WGS of 21… TRUE        <span style="color: #949494;">"</span>ACYC…      0 2022-10-2…            102</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> Adenoid Cyst… <span style="color: #949494;">"</span>Whole exo… TRUE        <span style="color: #949494;">"</span>ACYC…      0 2022-10-2…             24</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> Acute Lympho… <span style="color: #949494;">"</span>Whole-gen… TRUE        <span style="color: #949494;">"</span>PUBL…      0 2022-10-2…             73</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">10</span> Pediatric Ac… <span style="color: #949494;">"</span>Whole gen… TRUE        <span style="color: #949494;">"</span>NCI-…      0 2022-10-2…           <span style="text-decoration: underline;">1</span>978</span></span>
-<span><span class="co">## <span style="color: #949494;"># ℹ 363 more rows</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> Adrenocortic… <span style="color: #949494;">"</span>TCGA Adre… TRUE        PUBLIC      0 2023-06-1…             92</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span> Acute Myeloi… <span style="color: #949494;">"</span>TCGA Acut… TRUE        PUBLIC      0 2023-06-1…            200</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span> Bladder Urot… <span style="color: #949494;">"</span>TCGA Blad… TRUE        PUBLIC      0 2023-06-1…            413</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> Kidney Renal… <span style="color: #949494;">"</span>TCGA Kidn… TRUE        PUBLIC      0 2023-06-1…            538</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> Cervical Squ… <span style="color: #949494;">"</span>TCGA Cerv… TRUE        PUBLIC      0 2023-06-1…            310</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> Cholangiocar… <span style="color: #949494;">"</span>TCGA Chol… TRUE        PUBLIC      0 2023-06-1…             51</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 7</span> Kidney Chrom… <span style="color: #949494;">"</span>TCGA Kidn… TRUE        PUBLIC      0 2023-06-1…            113</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> Colorectal A… <span style="color: #949494;">"</span>TCGA Colo… TRUE        PUBLIC      0 2023-06-1…            640</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> Lymphoid Neo… <span style="color: #949494;">"</span>TCGA Lymp… TRUE        PUBLIC      0 2023-06-1…             48</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span> Esophageal C… <span style="color: #949494;">"</span>TCGA Esop… TRUE        PUBLIC      0 2023-06-1…            186</span></span>
+<span><span class="co">## <span style="color: #949494;"># ℹ 387 more rows</span></span></span>
 <span><span class="co">## <span style="color: #949494;"># ℹ 6 more variables: readPermission &lt;lgl&gt;, studyId &lt;chr&gt;, cancerTypeId &lt;chr&gt;,</span></span></span>
 <span><span class="co">## <span style="color: #949494;">#   referenceGenome &lt;chr&gt;, pmid &lt;chr&gt;, citation &lt;chr&gt;</span></span></span></code></pre>
 </div>
@@ -301,7 +301,7 @@ by running the following:</p>
 <p>The data for a molecular profile can be obtained with prior knowledge
 of available <code>entrezGeneIds</code>:</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/cBioPortal.html">molecularData</a></span><span class="op">(</span><span class="va">cbio</span>, molecularProfileId <span class="op">=</span> <span class="st">"acc_tcga_rna_seq_v2_mrna"</span>,</span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/cBioPortal.html">molecularData</a></span><span class="op">(</span><span class="va">cbio</span>, molecularProfileIds <span class="op">=</span> <span class="st">"acc_tcga_rna_seq_v2_mrna"</span>,</span>
 <span>    entrezGeneIds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span>,</span>
 <span>    sampleIds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"TCGA-OR-A5J1-01"</span>,  <span class="st">"TCGA-OR-A5J2-01"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -346,7 +346,7 @@ symbols, and entrez gene IDs can be obtained by using the
 </h4>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/cBioPortal.html">genePanels</a></span><span class="op">(</span><span class="va">cbio</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 55 × 2</span></span></span>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 58 × 2</span></span></span>
 <span><span class="co">##    description                                                       genePanelId</span></span>
 <span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                                             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      </span></span>
 <span><span class="co">## <span style="color: #BCBCBC;"> 1</span> Targeted (27 cancer genes) sequencing of adenoid cystic carcinom… ACYC_FMI_27</span></span>
@@ -359,7 +359,7 @@ symbols, and entrez gene IDs can be obtained by using the
 <span><span class="co">## <span style="color: #BCBCBC;"> 8</span> Targeted sequencing of various tumor types via bait v5.           bait_v5    </span></span>
 <span><span class="co">## <span style="color: #BCBCBC;"> 9</span> Targeted panel of 387 cancer-related genes.                       bcc_unige_…</span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">10</span> Research (CMO) IMPACT-Heme gene panel version 3.                  HemePACT_v3</span></span>
-<span><span class="co">## <span style="color: #949494;"># ℹ 45 more rows</span></span></span></code></pre>
+<span><span class="co">## <span style="color: #949494;"># ℹ 48 more rows</span></span></span></code></pre>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/cBioPortal.html">getGenePanel</a></span><span class="op">(</span><span class="va">cbio</span>, <span class="st">"IMPACT341"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 341 × 2</span></span></span>
@@ -434,7 +434,7 @@ symbols, and entrez gene IDs can be obtained by using the
 </h4>
 <div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/cBioPortal.html">getDataByGenes</a></span><span class="op">(</span><span class="va">cbio</span>, <span class="st">"acc_tcga"</span>, genePanelId <span class="op">=</span> <span class="st">"IMPACT341"</span>,</span>
-<span>    molecularProfileId <span class="op">=</span> <span class="st">"acc_tcga_rppa"</span>, sampleListId <span class="op">=</span> <span class="st">"acc_tcga_rppa"</span><span class="op">)</span></span></code></pre></div>
+<span>    molecularProfileIds <span class="op">=</span> <span class="st">"acc_tcga_rppa"</span>, sampleListId <span class="op">=</span> <span class="st">"acc_tcga_rppa"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## $acc_tcga_rppa</span></span>
 <span><span class="co">## <span style="color: #949494;"># A tibble: 2,622 × 9</span></span></span>
 <span><span class="co">##    uniqueSampleKey     uniquePatientKey entrezGeneId molecularProfileId sampleId</span></span>
@@ -522,11 +522,21 @@ sample list identifier input:</p>
 </h4>
 <div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/cBioPortal.html">getSampleInfo</a></span><span class="op">(</span><span class="va">cbio</span>, studyId <span class="op">=</span> <span class="st">"acc_tcga"</span>,</span>
-<span>    sampleListIds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"acc_tcga_rppa"</span>, <span class="st">"acc_tcga_gistic"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 1 × 1</span></span></span>
-<span><span class="co">##   message                               </span></span>
-<span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                 </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">1</span> Sample list not found: acc_tcga_gistic</span></span></code></pre>
+<span>    sampleListIds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"acc_tcga_rppa"</span>, <span class="st">"acc_tcga_cna"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 136 × 6</span></span></span>
+<span><span class="co">##    uniqueSampleKey        uniquePatientKey sampleType sampleId patientId studyId</span></span>
+<span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> VENHQS1PUi1BNUoyLTAxO… VENHQS1PUi1BNUo… Primary S… TCGA-OR… TCGA-OR-… acc_tc…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span> VENHQS1PUi1BNUozLTAxO… VENHQS1PUi1BNUo… Primary S… TCGA-OR… TCGA-OR-… acc_tc…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span> VENHQS1PUi1BNUo2LTAxO… VENHQS1PUi1BNUo… Primary S… TCGA-OR… TCGA-OR-… acc_tc…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> VENHQS1PUi1BNUo3LTAxO… VENHQS1PUi1BNUo… Primary S… TCGA-OR… TCGA-OR-… acc_tc…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> VENHQS1PUi1BNUo4LTAxO… VENHQS1PUi1BNUo… Primary S… TCGA-OR… TCGA-OR-… acc_tc…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> VENHQS1PUi1BNUo5LTAxO… VENHQS1PUi1BNUo… Primary S… TCGA-OR… TCGA-OR-… acc_tc…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 7</span> VENHQS1PUi1BNUpBLTAxO… VENHQS1PUi1BNUp… Primary S… TCGA-OR… TCGA-OR-… acc_tc…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> VENHQS1PUi1BNUpQLTAxO… VENHQS1PUi1BNUp… Primary S… TCGA-OR… TCGA-OR-… acc_tc…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> VENHQS1PUi1BNUpSLTAxO… VENHQS1PUi1BNUp… Primary S… TCGA-OR… TCGA-OR-… acc_tc…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span> VENHQS1PUi1BNUpTLTAxO… VENHQS1PUi1BNUp… Primary S… TCGA-OR… TCGA-OR-… acc_tc…</span></span>
+<span><span class="co">## <span style="color: #949494;"># ℹ 126 more rows</span></span></span></code></pre>
 </div>
 </div>
 </div>
@@ -551,7 +561,7 @@ detailed in the API:</p>
 <div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="op">(</span><span class="va">resp</span> <span class="op">&lt;-</span> <span class="va">cbio</span><span class="op">$</span><span class="fu">getGeneUsingGET</span><span class="op">(</span><span class="st">"BRCA1"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Response [https://www.cbioportal.org/api/genes/BRCA1]</span></span>
-<span><span class="co">##   Date: 2023-04-28 19:49</span></span>
+<span><span class="co">##   Date: 2024-01-16 20:42</span></span>
 <span><span class="co">##   Status: 200</span></span>
 <span><span class="co">##   Content-Type: application/json</span></span>
 <span><span class="co">##   Size: 69 B</span></span></code></pre>
@@ -581,9 +591,9 @@ cache, it is recommended that they use:</p>
 </h2>
 <div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html" class="external-link">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## R version 4.3.0 (2023-04-21)</span></span>
+<pre><code><span><span class="co">## R version 4.3.2 (2023-10-31)</span></span>
 <span><span class="co">## Platform: x86_64-pc-linux-gnu (64-bit)</span></span>
-<span><span class="co">## Running under: Ubuntu 22.04.2 LTS</span></span>
+<span><span class="co">## Running under: Ubuntu 22.04.3 LTS</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Matrix products: default</span></span>
 <span><span class="co">## BLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3 </span></span>
@@ -605,71 +615,71 @@ cache, it is recommended that they use:</p>
 <span><span class="co">## [8] base     </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## other attached packages:</span></span>
-<span><span class="co">##  [1] cBioPortalData_2.12.0       MultiAssayExperiment_1.26.0</span></span>
-<span><span class="co">##  [3] SummarizedExperiment_1.30.0 Biobase_2.60.0             </span></span>
-<span><span class="co">##  [5] GenomicRanges_1.52.0        GenomeInfoDb_1.36.0        </span></span>
-<span><span class="co">##  [7] IRanges_2.34.0              S4Vectors_0.38.0           </span></span>
-<span><span class="co">##  [9] BiocGenerics_0.46.0         MatrixGenerics_1.12.0      </span></span>
-<span><span class="co">## [11] matrixStats_0.63.0          AnVIL_1.12.0               </span></span>
-<span><span class="co">## [13] dplyr_1.1.2                 BiocStyle_2.28.0           </span></span>
+<span><span class="co">##  [1] cBioPortalData_2.14.1       MultiAssayExperiment_1.28.0</span></span>
+<span><span class="co">##  [3] SummarizedExperiment_1.32.0 Biobase_2.62.0             </span></span>
+<span><span class="co">##  [5] GenomicRanges_1.54.1        GenomeInfoDb_1.38.5        </span></span>
+<span><span class="co">##  [7] IRanges_2.36.0              S4Vectors_0.40.2           </span></span>
+<span><span class="co">##  [9] BiocGenerics_0.48.1         MatrixGenerics_1.14.0      </span></span>
+<span><span class="co">## [11] matrixStats_1.2.0           AnVIL_1.14.1               </span></span>
+<span><span class="co">## [13] dplyr_1.1.4                 BiocStyle_2.30.0           </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## loaded via a namespace (and not attached):</span></span>
-<span><span class="co">##   [1] DBI_1.1.3                 bitops_1.0-7             </span></span>
-<span><span class="co">##   [3] formatR_1.14              biomaRt_2.56.0           </span></span>
-<span><span class="co">##   [5] rlang_1.1.0               magrittr_2.0.3           </span></span>
-<span><span class="co">##   [7] compiler_4.3.0            RSQLite_2.3.1            </span></span>
-<span><span class="co">##   [9] GenomicFeatures_1.52.0    png_0.1-8                </span></span>
-<span><span class="co">##  [11] systemfonts_1.0.4         vctrs_0.6.2              </span></span>
-<span><span class="co">##  [13] rvest_1.0.3               stringr_1.5.0            </span></span>
-<span><span class="co">##  [15] crayon_1.5.2              pkgconfig_2.0.3          </span></span>
-<span><span class="co">##  [17] fastmap_1.1.1             dbplyr_2.3.2             </span></span>
-<span><span class="co">##  [19] XVector_0.40.0            ellipsis_0.3.2           </span></span>
-<span><span class="co">##  [21] utf8_1.2.3                Rsamtools_2.16.0         </span></span>
-<span><span class="co">##  [23] promises_1.2.0.1          rmarkdown_2.21           </span></span>
-<span><span class="co">##  [25] tzdb_0.3.0                ragg_1.2.5               </span></span>
-<span><span class="co">##  [27] purrr_1.0.1               bit_4.0.5                </span></span>
-<span><span class="co">##  [29] xfun_0.39                 zlibbioc_1.46.0          </span></span>
-<span><span class="co">##  [31] cachem_1.0.7              jsonlite_1.8.4           </span></span>
-<span><span class="co">##  [33] progress_1.2.2            blob_1.2.4               </span></span>
-<span><span class="co">##  [35] later_1.3.0               DelayedArray_0.25.0      </span></span>
-<span><span class="co">##  [37] BiocParallel_1.34.0       prettyunits_1.1.1        </span></span>
-<span><span class="co">##  [39] parallel_4.3.0            R6_2.5.1                 </span></span>
-<span><span class="co">##  [41] bslib_0.4.2               stringi_1.7.12           </span></span>
-<span><span class="co">##  [43] rtracklayer_1.60.0        jquerylib_0.1.4          </span></span>
-<span><span class="co">##  [45] Rcpp_1.0.10               bookdown_0.33            </span></span>
-<span><span class="co">##  [47] knitr_1.42                readr_2.1.4              </span></span>
-<span><span class="co">##  [49] httpuv_1.6.9              Matrix_1.5-4             </span></span>
-<span><span class="co">##  [51] tidyselect_1.2.0          yaml_2.3.7               </span></span>
-<span><span class="co">##  [53] codetools_0.2-19          miniUI_0.1.1.1           </span></span>
-<span><span class="co">##  [55] curl_5.0.0                lattice_0.21-8           </span></span>
-<span><span class="co">##  [57] tibble_3.2.1              withr_2.5.0              </span></span>
-<span><span class="co">##  [59] KEGGREST_1.40.0           shiny_1.7.4              </span></span>
-<span><span class="co">##  [61] evaluate_0.20             desc_1.4.2               </span></span>
-<span><span class="co">##  [63] lambda.r_1.2.4            futile.logger_1.4.3      </span></span>
-<span><span class="co">##  [65] BiocFileCache_2.8.0       xml2_1.3.4               </span></span>
-<span><span class="co">##  [67] Biostrings_2.68.0         pillar_1.9.0             </span></span>
-<span><span class="co">##  [69] BiocManager_1.30.20.1     filelock_1.0.2           </span></span>
-<span><span class="co">##  [71] DT_0.27                   TCGAutils_1.20.0         </span></span>
-<span><span class="co">##  [73] RCircos_1.2.2             generics_0.1.3           </span></span>
-<span><span class="co">##  [75] rprojroot_2.0.3           RCurl_1.98-1.12          </span></span>
-<span><span class="co">##  [77] hms_1.1.3                 xtable_1.8-4             </span></span>
-<span><span class="co">##  [79] RTCGAToolbox_2.30.0       glue_1.6.2               </span></span>
-<span><span class="co">##  [81] tools_4.3.0               BiocIO_1.10.0            </span></span>
-<span><span class="co">##  [83] data.table_1.14.8         GenomicAlignments_1.36.0 </span></span>
-<span><span class="co">##  [85] rapiclient_0.1.3          XML_3.99-0.14            </span></span>
-<span><span class="co">##  [87] fs_1.6.2                  grid_4.3.0               </span></span>
-<span><span class="co">##  [89] tidyr_1.3.0               AnnotationDbi_1.62.0     </span></span>
-<span><span class="co">##  [91] GenomeInfoDbData_1.2.10   RaggedExperiment_1.24.0  </span></span>
-<span><span class="co">##  [93] RJSONIO_1.3-1.8           restfulr_0.0.15          </span></span>
-<span><span class="co">##  [95] cli_3.6.1                 rappdirs_0.3.3           </span></span>
-<span><span class="co">##  [97] textshaping_0.3.6         futile.options_1.0.1     </span></span>
-<span><span class="co">##  [99] fansi_1.0.4               GenomicDataCommons_1.24.0</span></span>
-<span><span class="co">## [101] sass_0.4.5                digest_0.6.31            </span></span>
-<span><span class="co">## [103] rjson_0.2.21              htmlwidgets_1.6.2        </span></span>
-<span><span class="co">## [105] memoise_2.0.1             htmltools_0.5.5          </span></span>
-<span><span class="co">## [107] pkgdown_2.0.7             lifecycle_1.0.3          </span></span>
-<span><span class="co">## [109] httr_1.4.5                mime_0.12                </span></span>
-<span><span class="co">## [111] bit64_4.0.5</span></span></code></pre>
+<span><span class="co">##   [1] jsonlite_1.8.8            magrittr_2.0.3           </span></span>
+<span><span class="co">##   [3] GenomicFeatures_1.54.1    rmarkdown_2.25           </span></span>
+<span><span class="co">##   [5] fs_1.6.3                  BiocIO_1.12.0            </span></span>
+<span><span class="co">##   [7] zlibbioc_1.48.0           ragg_1.2.7               </span></span>
+<span><span class="co">##   [9] vctrs_0.6.5               memoise_2.0.1            </span></span>
+<span><span class="co">##  [11] Rsamtools_2.18.0          RCurl_1.98-1.14          </span></span>
+<span><span class="co">##  [13] htmltools_0.5.7           S4Arrays_1.2.0           </span></span>
+<span><span class="co">##  [15] progress_1.2.3            lambda.r_1.2.4           </span></span>
+<span><span class="co">##  [17] curl_5.2.0                SparseArray_1.2.3        </span></span>
+<span><span class="co">##  [19] sass_0.4.8                bslib_0.6.1              </span></span>
+<span><span class="co">##  [21] htmlwidgets_1.6.4         desc_1.4.3               </span></span>
+<span><span class="co">##  [23] futile.options_1.0.1      cachem_1.0.8             </span></span>
+<span><span class="co">##  [25] GenomicAlignments_1.38.1  mime_0.12                </span></span>
+<span><span class="co">##  [27] lifecycle_1.0.4           pkgconfig_2.0.3          </span></span>
+<span><span class="co">##  [29] Matrix_1.6-5              R6_2.5.1                 </span></span>
+<span><span class="co">##  [31] fastmap_1.1.1             GenomeInfoDbData_1.2.11  </span></span>
+<span><span class="co">##  [33] shiny_1.8.0               digest_0.6.34            </span></span>
+<span><span class="co">##  [35] RaggedExperiment_1.26.0   AnnotationDbi_1.64.1     </span></span>
+<span><span class="co">##  [37] textshaping_0.3.7         RSQLite_2.3.4            </span></span>
+<span><span class="co">##  [39] filelock_1.0.3            RTCGAToolbox_2.32.1      </span></span>
+<span><span class="co">##  [41] fansi_1.0.6               RJSONIO_1.3-1.9          </span></span>
+<span><span class="co">##  [43] httr_1.4.7                abind_1.4-5              </span></span>
+<span><span class="co">##  [45] compiler_4.3.2            bit64_4.0.5              </span></span>
+<span><span class="co">##  [47] withr_2.5.2               BiocParallel_1.36.0      </span></span>
+<span><span class="co">##  [49] DBI_1.2.1                 biomaRt_2.58.0           </span></span>
+<span><span class="co">##  [51] rappdirs_0.3.3            DelayedArray_0.28.0      </span></span>
+<span><span class="co">##  [53] rjson_0.2.21              tools_4.3.2              </span></span>
+<span><span class="co">##  [55] httpuv_1.6.13             glue_1.7.0               </span></span>
+<span><span class="co">##  [57] restfulr_0.0.15           promises_1.2.1           </span></span>
+<span><span class="co">##  [59] grid_4.3.2                generics_0.1.3           </span></span>
+<span><span class="co">##  [61] tzdb_0.4.0                tidyr_1.3.0              </span></span>
+<span><span class="co">##  [63] data.table_1.14.10        hms_1.1.3                </span></span>
+<span><span class="co">##  [65] xml2_1.3.6                utf8_1.2.4               </span></span>
+<span><span class="co">##  [67] XVector_0.42.0            pillar_1.9.0             </span></span>
+<span><span class="co">##  [69] stringr_1.5.1             later_1.3.2              </span></span>
+<span><span class="co">##  [71] BiocFileCache_2.10.1      lattice_0.22-5           </span></span>
+<span><span class="co">##  [73] rtracklayer_1.62.0        bit_4.0.5                </span></span>
+<span><span class="co">##  [75] tidyselect_1.2.0          Biostrings_2.70.1        </span></span>
+<span><span class="co">##  [77] miniUI_0.1.1.1            knitr_1.45               </span></span>
+<span><span class="co">##  [79] bookdown_0.37             futile.logger_1.4.3      </span></span>
+<span><span class="co">##  [81] xfun_0.41                 DT_0.31                  </span></span>
+<span><span class="co">##  [83] stringi_1.8.3             yaml_2.3.8               </span></span>
+<span><span class="co">##  [85] evaluate_0.23             codetools_0.2-19         </span></span>
+<span><span class="co">##  [87] tibble_3.2.1              BiocManager_1.30.22.4    </span></span>
+<span><span class="co">##  [89] cli_3.6.2                 xtable_1.8-4             </span></span>
+<span><span class="co">##  [91] systemfonts_1.0.5         jquerylib_0.1.4          </span></span>
+<span><span class="co">##  [93] Rcpp_1.0.12               GenomicDataCommons_1.26.0</span></span>
+<span><span class="co">##  [95] dbplyr_2.4.0              png_0.1-8                </span></span>
+<span><span class="co">##  [97] XML_3.99-0.16             rapiclient_0.1.3         </span></span>
+<span><span class="co">##  [99] parallel_4.3.2            TCGAutils_1.22.2         </span></span>
+<span><span class="co">## [101] ellipsis_0.3.2            pkgdown_2.0.7            </span></span>
+<span><span class="co">## [103] readr_2.1.5               blob_1.2.4               </span></span>
+<span><span class="co">## [105] prettyunits_1.2.0         bitops_1.0-7             </span></span>
+<span><span class="co">## [107] purrr_1.0.2               crayon_1.5.2             </span></span>
+<span><span class="co">## [109] rlang_1.1.3               KEGGREST_1.42.0          </span></span>
+<span><span class="co">## [111] rvest_1.0.3               formatR_1.14</span></span></code></pre>
 </div>
   </div>
 
