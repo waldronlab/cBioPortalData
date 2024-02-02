@@ -22,7 +22,7 @@ representation to faciliate analysis and data management operations."><!-- mathj
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">cBioPortalData</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.14.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.14.2</span>
       </span>
     </div>
 
@@ -180,21 +180,22 @@ function.</p>
 <span class="r-in"><span><span class="va">cbio</span> <span class="op">&lt;-</span> <span class="fu"><a href="cBioPortal.html">cBioPortal</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="cBioPortal.html">getStudies</a></span><span class="op">(</span><span class="va">cbio</span><span class="op">)</span><span class="op">[[</span><span class="st">"studyId"</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "acc_tcga"  "laml_tcga" "blca_tcga" "kirc_tcga" "cesc_tcga" "chol_tcga"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "acbc_mskcc_2015" "acyc_mskcc_2013" "acyc_fmi_2014"   "acyc_jhu_2016"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5] "acyc_mda_2015"   "acyc_mgh_2016"  </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">mae</span> <span class="op">&lt;-</span> <span class="fu">cBioDataPack</span><span class="op">(</span><span class="st">"acc_tcga"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Study file in cache: acc_tcga</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: /tmp/RtmpNCOXD5/1012192c03c7_acc_tcga/acc_tcga/data_cna.txt</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: /tmp/RtmpNCOXD5/1012192c03c7_acc_tcga/acc_tcga/data_cna_hg19.seg</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: /tmp/RtmpNCOXD5/1012192c03c7_acc_tcga/acc_tcga/data_linear_cna.txt</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: /tmp/RtmpNCOXD5/1012192c03c7_acc_tcga/acc_tcga/data_methylation_hm450.txt</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: /tmp/RtmpNCOXD5/1012192c03c7_acc_tcga/acc_tcga/data_mrna_seq_v2_rsem.txt</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: /tmp/RtmpNCOXD5/1012192c03c7_acc_tcga/acc_tcga/data_mrna_seq_v2_rsem_zscores_ref_all_samples.txt</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: /tmp/RtmpNCOXD5/1012192c03c7_acc_tcga/acc_tcga/data_mrna_seq_v2_rsem_zscores_ref_diploid_samples.txt</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: /tmp/RtmpNCOXD5/1012192c03c7_acc_tcga/acc_tcga/data_mutations.txt</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: /tmp/RtmpNCOXD5/1012192c03c7_acc_tcga/acc_tcga/data_mutsig.txt</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: /tmp/RtmpNCOXD5/1012192c03c7_acc_tcga/acc_tcga/data_rppa.txt</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: /tmp/RtmpNCOXD5/1012192c03c7_acc_tcga/acc_tcga/data_rppa_zscores.txt</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: /tmp/RtmpN4OlPL/135067caa697_acc_tcga/acc_tcga/data_cna.txt</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: /tmp/RtmpN4OlPL/135067caa697_acc_tcga/acc_tcga/data_cna_hg19.seg</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: /tmp/RtmpN4OlPL/135067caa697_acc_tcga/acc_tcga/data_linear_cna.txt</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: /tmp/RtmpN4OlPL/135067caa697_acc_tcga/acc_tcga/data_methylation_hm450.txt</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: /tmp/RtmpN4OlPL/135067caa697_acc_tcga/acc_tcga/data_mrna_seq_v2_rsem.txt</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: /tmp/RtmpN4OlPL/135067caa697_acc_tcga/acc_tcga/data_mrna_seq_v2_rsem_zscores_ref_all_samples.txt</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: /tmp/RtmpN4OlPL/135067caa697_acc_tcga/acc_tcga/data_mrna_seq_v2_rsem_zscores_ref_diploid_samples.txt</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: /tmp/RtmpN4OlPL/135067caa697_acc_tcga/acc_tcga/data_mutations.txt</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: /tmp/RtmpN4OlPL/135067caa697_acc_tcga/acc_tcga/data_mutsig.txt</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: /tmp/RtmpN4OlPL/135067caa697_acc_tcga/acc_tcga/data_rppa.txt</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Working on: /tmp/RtmpN4OlPL/135067caa697_acc_tcga/acc_tcga/data_rppa_zscores.txt</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span> Multiple prefixes found, using keyword 'region' or taking first one</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span> Multiple prefixes found, using keyword 'region' or taking first one</span>
 <span class="r-in"><span></span></span>
