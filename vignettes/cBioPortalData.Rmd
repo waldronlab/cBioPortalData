@@ -45,7 +45,7 @@ We demonstrate common use cases of `cBioPortalData` and `curatedTCGAData`
 during Bioconductor conference
 [workshops](https://waldronlab.io/MultiAssayWorkshop/).
 
-We use the [MultiAssayExperiment][1] (@Ramos2017-er) package to integrate,
+We use the [MultiAssayExperiment][1] (@Ramos2017-og) package to integrate,
 represent, and coordinate multiple experiments for the studies available in the
 cBioPortal. This package in conjunction with `curatedTCGAData` give access to
 a large trove of publicly available bioinformatic data. Please see our
@@ -56,23 +56,12 @@ JCO Clinical Cancer Informatics publication [here][2] (@Ramos2020-ya).
 
 # Citations
 
-We really appreciate your use and citation of our work. When using
+Our free and open source project depends on citations for funding. When using
 `cBioPortalData`, please cite the following publications:
 
-```{r, include=FALSE}
+```{r, eval=FALSE}
 citation("MultiAssayExperiment")
-```
-
-```{r, include=FALSE}
 citation("cBioPortalData")
-```
-
-You may also want to refer to the `REFERENCES.bib` file in the package:
-
-```{r}
-system.file(
-    package = "cBioPortalData", "REFERENCES.bib", mustWork = TRUE
-)
 ```
 
 ## Overview
@@ -266,8 +255,12 @@ We appreciate your feedback!
 
 # sessionInfo
 
+<details> <summary> Click to see session info </summary>
+
 ```{r}
 sessionInfo()
 ```
+
+</details>
 
 # References
