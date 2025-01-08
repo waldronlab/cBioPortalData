@@ -7,7 +7,7 @@ on:
 
 jobs:
   checkPR:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     container: bioconductor/bioconductor_docker:devel
 
     env:
@@ -16,7 +16,7 @@ jobs:
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Query dependencies
         run: |
@@ -26,7 +26,7 @@ jobs:
 
       - name: Cache R packages
         if: runner.os != 'Windows'
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: /usr/local/lib/R/site-library
           key: ${{ runner.os }}-r-1-${{ hashFiles('.github/depends.Rds') }}
@@ -41,5 +41,5 @@ jobs:
       - name: Check Package
         env:
           _R_CHECK_CRAN_INCOMING_REMOTE_: false
-        run: rcmdcheck::rcmdcheck(args = c("--no-manual"), error_on = "error", check_dir = "check")
+        run: rcmdcheck::rcmdcheck(args = "--no-manual", error_on = "error", check_dir = "check")
         shell: Rscript {0}
