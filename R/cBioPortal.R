@@ -136,7 +136,7 @@ cBioPortal <- function(
         token <- .handle_token(token)
 
     apiUrl <- paste0(protocol, "://", hostname, api.)
-    .cBioPortal(
+    service <- withCallingHandlers({
         Service(
             service = "cBioPortal",
             host = hostname,
@@ -149,8 +149,14 @@ cBioPortal <- function(
             api_reference_headers = token,
             package = "cBioPortalData",
             schemes = protocol
-        ),
-        api_header = token
+        )
+    }, warning = function(w) {
+        if (!grepl("incomplete final line", w))
+            warning(w)
+        invokeRestart("muffleWarning")
+    })
+    .cBioPortal(
+        service, api_header = token
     )
 }
 
