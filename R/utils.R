@@ -230,6 +230,9 @@ endpoint_map <- data.frame(
     if (!is(api, "cBioPortal"))
         stop("Provide a 'cBioPortal' class API object")
     res <- do.call(`$`, list(api, name))(...)
+    msg <- httr::content(res)[["message"]]
+    if (length(msg))
+        message(msg)
     httr::stop_for_status(res)
     res
 }
