@@ -40,7 +40,8 @@ to the functionality provided by the rest of the package.
 }
 \section{Functions}{
 \itemize{
-\item \code{operations(cBioPortal)}: 
+\item \code{operations(cBioPortal)}: List all the \code{operations} available with the
+cBioPortal API object, e.g., \code{api$operation}
 
 }}
 \examples{

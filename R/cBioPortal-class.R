@@ -35,7 +35,8 @@
     slots = c(api_header = "character")
 )
 
-#' @describeIn cBioPortal-class
+#' @describeIn cBioPortal-class List all the `operations` available with the
+#'   cBioPortal API object, e.g., `api$operation`
 #'
 #' @importFrom AnVIL operations
 #' @importFrom methods callNextMethod
@@ -45,7 +46,7 @@
 #'
 #' @inheritParams AnVIL::operations
 #'
-#' @export
+#' @exportMethod operations
 setMethod(
     "operations", "cBioPortal",
     function(x, ..., .deprecated = FALSE)
