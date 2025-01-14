@@ -14,8 +14,8 @@ Description: The cBioPortalData R package accesses study datasets from the
     recently implemented by the cBioPortal Data Team. The package can provide
     data in either tabular format or with MultiAssayExperiment object that uses
     familiar Bioconductor data representations.
-Depends: R (>= 4.4.0),
-    AnVIL (>= 1.7.1),
+Depends: R (>= 4.5.0),
+    AnVIL (>= 1.19.5),
     MultiAssayExperiment
 Imports:
     BiocBaseUtils,

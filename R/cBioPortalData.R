@@ -177,6 +177,8 @@ update.args <- function(args) {
     args
 }
 
+.host <- function(x) x@host
+
 #' Download data from the cBioPortal API
 #'
 #' Obtain a `MultiAssayExperiment` object for a particular gene panel,
@@ -255,7 +257,8 @@ cBioPortalData <-
 
     by <- match.arg(by)
 
-    if (check_build)
+    is_cbio <- identical(.host(api), "www.cbioportal.org")
+    if (check_build && is_cbio)
         .is_study_id_building(cancer_study_id = studyId, "api_build", ask = ask)
 
     lists <- .portalExperiments(
