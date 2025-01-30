@@ -1,6 +1,6 @@
 Package: cBioPortalData
 Title: Exposes and Makes Available Data from the cBioPortal Web Resources
-Version: 2.19.9
+Version: 2.19.10
 Authors@R: c(
     person("Levi", "Waldron", , "lwaldron.research@gmail.com", "aut"),
     person("Marcel", "Ramos", , "marcel.ramos@sph.cuny.edu",
@@ -45,7 +45,7 @@ Suggests:
     survminer,
     rmarkdown,
     testthat
-Date: 2025-01-14
+Date: 2025-01-30
 License: AGPL-3
 Encoding: UTF-8
 VignetteBuilder: knitr
@@ -62,3 +62,4 @@ Collate:
     'cBioPortalData-pkg.R'
     'cBioPortalData.R'
     'cache.R'
+    'genie.R'
