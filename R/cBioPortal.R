@@ -429,6 +429,56 @@ molecularData <- function(api, molecularProfileIds = NA_character_,
         split(byGene, byGene[["molecularProfileId"]])
 }
 
+#' @rdname cBioPortal
+#' 
+#' @section Copy Number Data:
+#'   * copyNumberData - Produce a dataset of copy number data based on
+#'   `molecularProfileId`, `sampleListId`, `discreteCopyNumberEventType`, and
+#'   `projection`
+#' 
+#' @param discreteCopyNumberEventType `character(1)` The copy number event type
+#'   to filter on. Must be one of "HOMDEL_AND_AMP" (default), "HOMDEL", "AMP",
+#'   "GAIN", "HETLOSS", "DIPLOID", or "ALL"
+#'
+#' @examples
+#' copyNumberData(
+#'     api = cbio,
+#'     molecularProfileId = "acc_tcga_gistic",
+#'     entrezGeneIds = 25,
+#'     sampleListId = "acc_tcga_all"
+#' )
+#'
+#' @export
+copyNumberData <- function(
+    api, molecularProfileId = NA_character_,
+    entrezGeneIds = NULL,
+    sampleIds = NULL, sampleListId = NULL,
+    discreteCopyNumberEventType = c(
+        "HOMDEL_AND_AMP", "HOMDEL", "AMP", "GAIN", "HETLOSS", "DIPLOID", "ALL"
+    ),
+    projection = c("SUMMARY", "ID", "DETAILED", "META")
+) {
+    discreteCopyNumberEventType <- match.arg(discreteCopyNumberEventType)
+    projection <- match.arg(projection)
+    if (missing(api))
+        stop("Provide a valid 'api' from 'cBioPortal()'")
+    if (is.null(entrezGeneIds))
+        stop("Provide a character vector of 'entrezGeneIds'")
+    if (is.null(sampleListId) && is.null(sampleIds))
+        stop("Provide either a 'sampleListId' or 'sampleIds'")
+    
+    endpoint <- "fetchDiscreteCopyNumbersInMolecularProfileUsingPOST"
+    .invoke_bind(
+        api, endpoint,
+        molecularProfileId = molecularProfileId,
+        entrezGeneIds = sort(entrezGeneIds),
+        sampleListId = sampleListId,
+        sampleIds = sort(sampleIds),
+        discreteCopyNumberEventType = discreteCopyNumberEventType,
+        projection = projection
+    )
+}
+
 #' @name cBioPortal
 #'
 #' @section API Metadata:

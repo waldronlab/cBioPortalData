@@ -8,6 +8,7 @@
 \alias{fetchData}
 \alias{mutationData}
 \alias{molecularData}
+\alias{copyNumberData}
 \alias{searchOps}
 \alias{samplesInSampleLists}
 \alias{sampleLists}
@@ -58,6 +59,17 @@ molecularData(
   molecularProfileIds = NA_character_,
   entrezGeneIds = NULL,
   sampleIds = NULL
+)
+
+copyNumberData(
+  api,
+  molecularProfileId = NA_character_,
+  entrezGeneIds = NULL,
+  sampleIds = NULL,
+  sampleListId = NULL,
+  discreteCopyNumberEventType = c("HOMDEL_AND_AMP", "HOMDEL", "AMP", "GAIN", "HETLOSS",
+    "DIPLOID", "ALL"),
+  projection = c("SUMMARY", "ID", "DETAILED", "META")
 )
 
 searchOps(api, keyword)
@@ -139,6 +151,10 @@ type for data retrieval for details see API documentation}
 \item{entrezGeneIds}{numeric() A vector indicating entrez gene IDs}
 
 \item{sampleIds}{character() Sample identifiers}
+
+\item{discreteCopyNumberEventType}{\code{character(1)} The copy number event type
+to filter on. Must be one of "HOMDEL_AND_AMP" (default), "HOMDEL", "AMP",
+"GAIN", "HETLOSS", "DIPLOID", or "ALL"}
 
 \item{keyword}{character(1) Keyword or pattern for searching through
 available operations}
@@ -243,6 +259,15 @@ molecular data with \code{molecularProfileId}, \code{entrezGeneIds}, and
 \code{molecularProfileId}, \code{entrezGeneIds}, and \code{sampleIds}
 }
 
+\section{Copy Number Data}{
+
+\itemize{
+\item copyNumberData - Produce a dataset of copy number data based on
+\code{molecularProfileId}, \code{sampleListId}, \code{discreteCopyNumberEventType}, and
+\code{projection}
+}
+}
+
 \section{Sample Data}{
 
 * samplesInSampleLists - get all samples associated with a 'sampleListId'
@@ -314,6 +339,12 @@ genePanels(api = cbio)
 getGenePanel(api = cbio, genePanelId = "IMPACT341")
 
 queryGeneTable(api = cbio, by = "entrezGeneId", genes = 7157)
+copyNumberData(
+    api = cbio,
+    molecularProfileId = "acc_tcga_gistic",
+    entrezGeneIds = 25,
+    sampleListId = "acc_tcga_all"
+)
 
 clinicalData(cbio, "acc_tcga")
 
