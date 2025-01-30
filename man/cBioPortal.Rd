@@ -122,87 +122,86 @@ getDataByGenes(
 )
 }
 \arguments{
-\item{hostname}{character(1) The internet location of the service
-(default: 'www.cbioportal.org')}
+\item{hostname}{\code{character(1)} The internet location of the service (default:
+'www.cbioportal.org')}
 
-\item{protocol}{character(1) The internet protocol used to access the
+\item{protocol}{\code{character(1)} The internet protocol used to access the
 hostname (default: 'https')}
 
-\item{api.}{character(1) The directory location of the API protocol within
+\item{api.}{\code{character(1)} The directory location of the API protocol within
 the hostname (default: '/api/v2/api-docs')}
 
-\item{token}{character(1) The Authorization Bearer token e.g.,
+\item{token}{\code{character(1)} The Authorization Bearer token e.g.,
 "63eba81c-2591-4e15-9d1c-fb6e8e51e35d" or a path to text file.}
 
-\item{api}{An API object of class \code{cBioPortal} from the \code{cBioPortal}
-function}
+\item{api}{An API object of class \code{cBioPortal} from the \code{cBioPortal} function}
 
-\item{buildReport}{logical(1) Indicates whether to append the build
+\item{buildReport}{\code{logical(1)} Indicates whether to append the build
 information to the \code{getStudies()} table (default FALSE)}
 
-\item{studyId}{character(1) Indicates the "studyId" as taken from
+\item{studyId}{\code{character(1)} Indicates the "studyId" as taken from
 \code{getStudies}}
 
-\item{projection}{character(default: "SUMMARY") Specify the projection
+\item{projection}{\code{character(1)} (default: "SUMMARY") Specify the projection
 type for data retrieval for details see API documentation}
 
-\item{molecularProfileIds}{character() A vector of molecular profile IDs}
+\item{molecularProfileIds}{\code{character()} A vector of molecular profile IDs}
 
-\item{entrezGeneIds}{numeric() A vector indicating entrez gene IDs}
+\item{entrezGeneIds}{\code{numeric()} A vector indicating entrez gene IDs}
 
-\item{sampleIds}{character() Sample identifiers}
+\item{sampleIds}{\code{character()} Sample identifiers}
+
+\item{molecularProfileId}{\code{character(1)} Indicates a molecular profile ID}
+
+\item{sampleListId}{\code{character(1)} A sample list identifier as obtained from
+\code{sampleLists()}}
 
 \item{discreteCopyNumberEventType}{\code{character(1)} The copy number event type
 to filter on. Must be one of "HOMDEL_AND_AMP" (default), "HOMDEL", "AMP",
 "GAIN", "HETLOSS", "DIPLOID", or "ALL"}
 
-\item{keyword}{character(1) Keyword or pattern for searching through
+\item{keyword}{\code{character(1)} Keyword or pattern for searching through
 available operations}
 
-\item{sampleListIds}{character() A vector of 'sampleListId' as obtained from
+\item{sampleListIds}{\code{character()} A vector of 'sampleListId' as obtained from
 \code{sampleLists}}
 
-\item{genePanelId}{character(1) Identifies the gene panel, as obtained
-from the \code{genePanels} function}
+\item{genePanelId}{\code{character(1)} Identifies the gene panel, as obtained from
+the \code{genePanels} function}
 
-\item{molecularProfileId}{character(1) Indicates a molecular profile ID}
+\item{pageSize}{\code{numeric(1)} The number of rows in the table to return}
 
-\item{sampleListId}{character(1) A sample list identifier as obtained from
-`sampleLists()``}
-
-\item{pageSize}{numeric(1) The number of rows in the table to return}
-
-\item{pageNumber}{numeric(1) The pagination page number}
+\item{pageNumber}{\code{numeric(1)} The pagination page number}
 
 \item{...}{Additional arguments to lower level API functions}
 
-\item{by}{character(1) Either 'entrezGeneId' or 'hugoGeneSymbol' for row
+\item{by}{\code{character(1)} Either 'entrezGeneId' or 'hugoGeneSymbol' for row
 metadata (default: 'entrezGeneId')}
 
-\item{genes}{character() Either Entrez gene identifiers or Hugo gene
-symbols. When included, the 'by' argument indicates the type of
-identifier provided and 'genePanelId' is ignored. Preference is
-given to Entrez IDs due to faster query responses.}
+\item{genes}{\code{character()} Either Entrez gene identifiers or Hugo gene
+symbols. When included, the 'by' argument indicates the type of identifier
+provided and 'genePanelId' is ignored. Preference is given to Entrez IDs
+due to faster query responses.}
 }
 \value{
-\if{html}{\out{<div class="sourceCode">}}\preformatted{cBioPortal: An API object of class 'cBioPortal'
-
-cBioPortalData: A data object of class 'MultiAssayExperiment'
-}\if{html}{\out{</div>}}
+\itemize{
+\item cBioPortal: An API object of class 'cBioPortal'
+\item cBioPortalData: A data object of class 'MultiAssayExperiment'
+}
 }
 \description{
-This section of the documentation lists the functions that
-allow users to access the cBioPortal API. The main representation of the
-API can be obtained from the \code{cBioPortal} function. The supporting
-functions listed here give access to specific parts of the API and
-allow the user to explore the API with individual calls. Many of the
-functions here are listed for documentation purposes and are
-recommended for advanced usage only. Users should only need to use the
-\code{cBioPortalData} main function to obtain data.
+This section of the documentation lists the functions that allow
+users to access the cBioPortal API. The main representation of the API can
+be obtained from the \code{cBioPortal} function. The supporting functions listed
+here give access to specific parts of the API and allow the user to explore
+the API with individual calls. Many of the functions here are listed for
+documentation purposes and are recommended for advanced usage only. Users
+should only need to use the \code{cBioPortalData} main function to obtain data.
 }
 \section{API Metadata}{
 
-* getStudies - Obtain a table of studies and associated metadata and
+\itemize{
+\item getStudies: Obtain a table of studies and associated metadata and
 optionally include a \code{buildReport} status (default FALSE) for each
 study. When enabled, the 'api_build' and 'pack_build' columns will
 be added to the table and will show if \code{MultiAssayExperiment} objects
@@ -210,53 +209,76 @@ can be generated for that particular study identifier (\code{studyId}). The
 'api_build' column corresponds to datasets obtained with
 \code{cBioPortalData} and the 'pack_build' column corresponds to datsets
 loaded via \code{cBioDataPack}.
+}
 
 
-* searchOps - Search through API operations with a keyword
+\itemize{
+\item searchOps - Search through API operations with a keyword
+}
 
 
-* sampleLists - obtain all \code{sampleListIds} for a particular \code{studyId}
+\itemize{
+\item sampleLists - obtain all \code{sampleListIds} for a particular \code{studyId}
+}
 
 
-* allSamples - obtain all samples within a particular \code{studyId}
+\itemize{
+\item allSamples - obtain all samples within a particular \code{studyId}
+}
 
 
-* genePanels - Show all available gene panels
+\itemize{
+\item genePanels - Show all available gene panels
+}
 
 
-* geneTable - Get a table of all genes by 'entrezGeneId' and
+\itemize{
+\item geneTable - Get a table of all genes by 'entrezGeneId' and
 'hugoGeneSymbol'
+}
 
 
-* queryGeneTable - Get a table for only the \code{genes} or \code{genePanelId} of
+\itemize{
+\item queryGeneTable - Get a table for only the \code{genes} or \code{genePanelId} of
 interest. Gene inputs are identified with the \code{by} argument
+}
 }
 
 \section{Patient Data}{
 
-* clinicalData - Obtain clinical data for a particular study identifier
+\itemize{
+\item clinicalData - Obtain clinical data for a particular study identifier
 ('studyId')
+}
 }
 
 \section{Molecular Profiles}{
 
-* molecularProfiles - Produce a molecular profiles dataset for a given
+\itemize{
+\item molecularProfiles - Produce a molecular profiles dataset for a given
 study identifier ('studyId')
+}
 }
 
 \section{Molecular Data}{
 
-* fetchData - A convenience function to download both mutation and
+\itemize{
+\item fetchData - A convenience function to download both mutation and
 molecular data with \code{molecularProfileId}, \code{entrezGeneIds}, and
 \code{sampleIds}
+}
 
 
-* mutationData - Produce a dataset of mutation data using
+\itemize{
+\item mutationData - Produce a dataset of mutation data using
 \code{molecularProfileId}, \code{entrezGeneIds}, and \code{sampleIds}
+}
 
 
-* molecularData - Produce a dataset of molecular profile data based on
+\itemize{
+\item molecularData - Produce a dataset of molecular profile data based on
 \code{molecularProfileId}, \code{entrezGeneIds}, and \code{sampleIds}
+}
 }
 
 \section{Copy Number Data}{
@@ -270,31 +292,43 @@ molecular data with \code{molecularProfileId}, \code{entrezGeneIds}, and
 
 \section{Sample Data}{
 
-* samplesInSampleLists - get all samples associated with a 'sampleListId'
+\itemize{
+\item samplesInSampleLists - get all samples associated with a 'sampleListId'
+}
 
 
-* getSampleInfo - Obtain sample metadata for a particular \code{studyId} or
+\itemize{
+\item getSampleInfo - Obtain sample metadata for a particular \code{studyId} or
 \code{sampleListId}
+}
 }
 
 \section{Gene Panels}{
 
-* getGenePanels - Obtain the gene panel for a particular 'genePanelId'
+\itemize{
+\item getGenePanels - Obtain the gene panel for a particular 'genePanelId'
+}
 
 
-* genePanelMolecular - get gene panel data for a particular
+\itemize{
+\item genePanelMolecular - get gene panel data for a particular
 \code{molecularProfileId} and either a vector of \code{sampleListId} or \code{sampleId}
+}
 
 
-* getGenePanelMolecular - get gene panel data for multiple
+\itemize{
+\item getGenePanelMolecular - get gene panel data for multiple
 \code{molecularProfileId}s and a vector of \code{sampleIds}
+}
 }
 
 \section{Genes}{
 
-* getDataByGenes - Download data for a number of genes within
+\itemize{
+\item getDataByGenes - Download data for a number of genes within
 \code{molecularProfileId} indicators, optionally a \code{sampleListId} can be
 provided.
+}
 }
 
 \examples{
@@ -302,43 +336,24 @@ cbio <- cBioPortal()
 
 getStudies(api = cbio)
 
-searchOps(api = cbio, keyword = "molecular")
+clinicalData(cbio, "acc_tcga")
 
-## obtain clinical data
-acc_clin <- clinicalData(api = cbio, studyId = "acc_tcga")
-acc_clin
+molecularProfiles(cbio, "acc_tcga")
 
-molecularProfiles(api = cbio, studyId = "acc_tcga")
-
-genePanels(cbio)
-
-(gp <- getGenePanel(cbio, "AmpliSeq"))
-
-muts <- mutationData(
+mutationData(
     api = cbio,
     molecularProfileIds = "acc_tcga_mutations",
     entrezGeneIds = 1:1000,
     sampleIds = c("TCGA-OR-A5J1-01", "TCGA-OR-A5J2-01")
 )
-exps <- molecularData(
+
+molecularData(
     api = cbio,
     molecularProfileIds = c("acc_tcga_rna_seq_v2_mrna", "acc_tcga_rppa"),
-    entrezGeneIds = 1:1000,
+    entrezGeneIds = 1:100,
     sampleIds = c("TCGA-OR-A5J1-01", "TCGA-OR-A5J2-01")
 )
 
-sampleLists(api = cbio, studyId = "acc_tcga")
-
-samplesInSampleLists(
-    api = cbio,
-    sampleListIds = c("acc_tcga_rppa", "acc_tcga_cnaseq")
-)
-
-genePanels(api = cbio)
-
-getGenePanel(api = cbio, genePanelId = "IMPACT341")
-
-queryGeneTable(api = cbio, by = "entrezGeneId", genes = 7157)
 copyNumberData(
     api = cbio,
     molecularProfileId = "acc_tcga_gistic",
@@ -346,14 +361,28 @@ copyNumberData(
     sampleListId = "acc_tcga_all"
 )
 
-clinicalData(cbio, "acc_tcga")
+searchOps(api = cbio, keyword = "molecular")
 
+samplesInSampleLists(
+    api = cbio,
+    sampleListIds = c("acc_tcga_rppa", "acc_tcga_cnaseq")
+)
+
+sampleLists(api = cbio, studyId = "acc_tcga")
+
+genePanels(cbio)
+
+getGenePanel(cbio, "AmpliSeq")
+
+queryGeneTable(api = cbio, by = "entrezGeneId", genes = 7157)
 
 getDataByGenes(
-    cbio, studyId = "acc_tcga", genes = 1:3,
-    by = c("entrezGeneId", "hugoGeneSymbol"),
-    molecularProfileIds = "acc_tcga_rppa",
-    sampleListId = "acc_tcga_rppa"
+    api = cbio,
+    studyId = "acc_tcga",
+    genes = 1,
+    by = "entrezGeneId",
+    molecularProfileIds = "acc_tcga_rna_seq_v2_mrna",
+    sampleListId = "acc_tcga_rna_seq_v2_mrna"
 )
 
 }

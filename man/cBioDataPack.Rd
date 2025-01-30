@@ -15,24 +15,25 @@ cBioDataPack(
 )
 }
 \arguments{
-\item{cancer_study_id}{character(1) The study identifier from cBioPortal as
+\item{cancer_study_id}{\code{character(1)} The study identifier from cBioPortal as
 seen in the dataset links at \url{https://www.cbioportal.org/datasets}.}
 
-\item{use_cache}{logical(1) (default TRUE) create the default cache location
-and use it to track downloaded data. If data found in the cache, data will
-not be re-downloaded. A path can also be provided to data cache location.}
+\item{use_cache}{\code{logical(1)} (default TRUE) create the default cache
+location and use it to track downloaded data. If data found in the cache,
+data will not be re-downloaded. A path can also be provided to data cache
+location.}
 
-\item{names.field}{character() Possible column names for the
-column that will used to label ranges for data such as mutations or copy
-number (default:
-\code{c("Hugo_Symbol", "Entrez_Gene_Id", "Gene", "Composite.Element.REF")}).
-Values are cycled through and eliminated when no data present, or duplicates
-are found. Values in the corresponding column must be unique in each row.}
+\item{names.field}{\code{character()} Possible column names for the column that
+will used to label ranges for data such as mutations or copy number
+(defaults: "Hugo_Symbol", "Entrez_Gene_Id", "Gene", and
+"Composite.Element.REF"). Values are cycled through and eliminated when no
+data present, or duplicates are found. Values in the corresponding column
+must be unique in each row.}
 
-\item{cleanup}{logical(1) whether to delete the \code{untar}-red contents from
+\item{cleanup}{\code{logical(1)} whether to delete the \code{untar}-red contents from
 the \code{exdir} folder (default TRUE)}
 
-\item{ask}{logical(1) Whether to prompt the the user before downloading and
+\item{ask}{\code{logical(1)} Whether to prompt the the user before downloading and
 loading study \code{MultiAssayExperiment} that is not currently building based
 on previous testing. Set to \code{interactive()} by default. In a
 non-interactive session, data download will be attempted; equivalent to

@@ -16,114 +16,66 @@
     c(Authorization = paste("Bearer", token))
 }
 
-#' @rdname cBioPortal
+#' The R interface to the cBioPortal API Data Service
 #'
-#' @aliases cBioPortal
+#' @description This section of the documentation lists the functions that allow
+#'   users to access the cBioPortal API. The main representation of the API can
+#'   be obtained from the `cBioPortal` function. The supporting functions listed
+#'   here give access to specific parts of the API and allow the user to explore
+#'   the API with individual calls. Many of the functions here are listed for
+#'   documentation purposes and are recommended for advanced usage only. Users
+#'   should only need to use the `cBioPortalData` main function to obtain data.
 #'
-#' @title The R interface to the cBioPortal API Data Service
+#' @param api An API object of class `cBioPortal` from the `cBioPortal` function
 #'
-#' @description This section of the documentation lists the functions that
-#'     allow users to access the cBioPortal API. The main representation of the
-#'     API can be obtained from the `cBioPortal` function. The supporting
-#'     functions listed here give access to specific parts of the API and
-#'     allow the user to explore the API with individual calls. Many of the
-#'     functions here are listed for documentation purposes and are
-#'     recommended for advanced usage only. Users should only need to use the
-#'     `cBioPortalData` main function to obtain data.
+#' @param hostname `character(1)` The internet location of the service (default:
+#'   'www.cbioportal.org')
 #'
-#' @param api An API object of class `cBioPortal` from the `cBioPortal`
-#'     function
+#' @param protocol `character(1)` The internet protocol used to access the
+#'   hostname (default: 'https')
 #'
-#' @param hostname character(1) The internet location of the service
-#'     (default: 'www.cbioportal.org')
+#' @param api. `character(1)` The directory location of the API protocol within
+#'   the hostname (default: '/api/v2/api-docs')
 #'
-#' @param protocol character(1) The internet protocol used to access the
-#'     hostname (default: 'https')
+#' @param token `character(1)` The Authorization Bearer token e.g.,
+#'   "63eba81c-2591-4e15-9d1c-fb6e8e51e35d" or a path to text file.
 #'
-#' @param api. character(1) The directory location of the API protocol within
-#'     the hostname (default: '/api/v2/api-docs')
+#' @param studyId `character(1)` Indicates the "studyId" as taken from
+#'   `getStudies`
 #'
-#' @param token character(1) The Authorization Bearer token e.g.,
-#'     "63eba81c-2591-4e15-9d1c-fb6e8e51e35d" or a path to text file.
+#' @param buildReport `logical(1)` Indicates whether to append the build
+#'   information to the `getStudies()` table (default FALSE)
 #'
-#' @param studyId character(1) Indicates the "studyId" as taken from
-#'     `getStudies`
+#' @param keyword `character(1)` Keyword or pattern for searching through
+#'   available operations
 #'
-#' @param buildReport logical(1) Indicates whether to append the build
-#'     information to the `getStudies()` table (default FALSE)
+#' @param molecularProfileId `character(1)` Indicates a molecular profile ID
 #'
-#' @param keyword character(1) Keyword or pattern for searching through
-#'     available operations
+#' @param molecularProfileIds `character()` A vector of molecular profile IDs
 #'
-#' @param molecularProfileId character(1) Indicates a molecular profile ID
+#' @param entrezGeneIds `numeric()` A vector indicating entrez gene IDs
 #'
-#' @param molecularProfileIds character() A vector of molecular profile IDs
+#' @param sampleIds `character()` Sample identifiers
 #'
-#' @param entrezGeneIds numeric() A vector indicating entrez gene IDs
+#' @param genes `character()` Either Entrez gene identifiers or Hugo gene
+#'   symbols. When included, the 'by' argument indicates the type of identifier
+#'   provided and 'genePanelId' is ignored. Preference is given to Entrez IDs
+#'   due to faster query responses.
 #'
-#' @param sampleIds character() Sample identifiers
+#' @param genePanelId `character(1)` Identifies the gene panel, as obtained from
+#'   the `genePanels` function
 #'
-#' @param genes character() Either Entrez gene identifiers or Hugo gene
-#'     symbols. When included, the 'by' argument indicates the type of
-#'     identifier provided and 'genePanelId' is ignored. Preference is
-#'     given to Entrez IDs due to faster query responses.
-#'
-#' @param genePanelId character(1) Identifies the gene panel, as obtained
-#'     from the `genePanels` function
-#'
-#' @param by character(1) Either 'entrezGeneId' or 'hugoGeneSymbol' for row
-#'     metadata (default: 'entrezGeneId')
-#'
+#' @param by `character(1)` Either 'entrezGeneId' or 'hugoGeneSymbol' for row
+#'   metadata (default: 'entrezGeneId')
+#' 
 #' @return
-#'
-#'     cBioPortal: An API object of class 'cBioPortal'
-#'
-#'     cBioPortalData: A data object of class 'MultiAssayExperiment'
+#'   * cBioPortal: An API object of class 'cBioPortal'
+#'   * cBioPortalData: A data object of class 'MultiAssayExperiment'
 #'
 #' @importFrom AnVIL Service
 #'
 #' @examples
 #' cbio <- cBioPortal()
-#'
-#' getStudies(api = cbio)
-#'
-#' searchOps(api = cbio, keyword = "molecular")
-#'
-#' ## obtain clinical data
-#' acc_clin <- clinicalData(api = cbio, studyId = "acc_tcga")
-#' acc_clin
-#'
-#' molecularProfiles(api = cbio, studyId = "acc_tcga")
-#'
-#' genePanels(cbio)
-#'
-#' (gp <- getGenePanel(cbio, "AmpliSeq"))
-#'
-#' muts <- mutationData(
-#'     api = cbio,
-#'     molecularProfileIds = "acc_tcga_mutations",
-#'     entrezGeneIds = 1:1000,
-#'     sampleIds = c("TCGA-OR-A5J1-01", "TCGA-OR-A5J2-01")
-#' )
-#' exps <- molecularData(
-#'     api = cbio,
-#'     molecularProfileIds = c("acc_tcga_rna_seq_v2_mrna", "acc_tcga_rppa"),
-#'     entrezGeneIds = 1:1000,
-#'     sampleIds = c("TCGA-OR-A5J1-01", "TCGA-OR-A5J2-01")
-#' )
-#'
-#' sampleLists(api = cbio, studyId = "acc_tcga")
-#'
-#' samplesInSampleLists(
-#'     api = cbio,
-#'     sampleListIds = c("acc_tcga_rppa", "acc_tcga_cnaseq")
-#' )
-#'
-#' genePanels(api = cbio)
-#'
-#' getGenePanel(api = cbio, genePanelId = "IMPACT341")
-#'
-#' queryGeneTable(api = cbio, by = "entrezGeneId", genes = 7157)
 #'
 #' @export
 cBioPortal <- function(
@@ -182,17 +134,20 @@ cBioPortal <- function(
     denv
 }
 
-#' @name cBioPortal
+#' @rdname cBioPortal
 #'
 #' @section API Metadata:
-#'     * getStudies - Obtain a table of studies and associated metadata and
-#'     optionally include a `buildReport` status (default FALSE) for each
-#'     study. When enabled, the 'api_build' and 'pack_build' columns will
-#'     be added to the table and will show if `MultiAssayExperiment` objects
-#'     can be generated for that particular study identifier (`studyId`). The
-#'     'api_build' column corresponds to datasets obtained with
-#'     `cBioPortalData` and the 'pack_build' column corresponds to datsets
-#'     loaded via `cBioDataPack`.
+#' * getStudies: Obtain a table of studies and associated metadata and
+#'   optionally include a `buildReport` status (default FALSE) for each
+#'   study. When enabled, the 'api_build' and 'pack_build' columns will
+#'   be added to the table and will show if `MultiAssayExperiment` objects
+#'   can be generated for that particular study identifier (`studyId`). The
+#'   'api_build' column corresponds to datasets obtained with
+#'   `cBioPortalData` and the 'pack_build' column corresponds to datsets
+#'   loaded via `cBioDataPack`.
+#' 
+#' @examples
+#' getStudies(api = cbio)
 #'
 #' @export
 getStudies <- function(api, buildReport = FALSE) {
@@ -221,11 +176,11 @@ getStudies <- function(api, buildReport = FALSE) {
     studytable
 }
 
-#' @name cBioPortal
+#' @rdname cBioPortal
 #'
 #' @section Patient Data:
-#'      * clinicalData - Obtain clinical data for a particular study identifier
-#'      ('studyId')
+#' * clinicalData - Obtain clinical data for a particular study identifier
+#'   ('studyId')
 #'
 #' @examples
 #' clinicalData(cbio, "acc_tcga")
@@ -251,15 +206,18 @@ clinicalData <- function(api, studyId = NA_character_) {
     dplyr::full_join(att_tab, clin_tab, by = "patientId")
 }
 
-#' @name cBioPortal
+#' @rdname cBioPortal
 #'
 #' @section Molecular Profiles:
-#'      * molecularProfiles - Produce a molecular profiles dataset for a given
-#'      study identifier ('studyId')
+#' * molecularProfiles - Produce a molecular profiles dataset for a given
+#'   study identifier ('studyId')
 #'
-#' @param projection character(default: "SUMMARY") Specify the projection
+#' @param projection `character(1)` (default: "SUMMARY") Specify the projection
 #'   type for data retrieval for details see API documentation
 #'
+#' @examples
+#' molecularProfiles(cbio, "acc_tcga")
+#' 
 #' @export
 molecularProfiles <- function(api, studyId = NA_character_,
     projection = c("SUMMARY", "ID", "DETAILED", "META"))
@@ -309,12 +267,12 @@ molecularProfiles <- function(api, studyId = NA_character_,
     Filter(length, datalist)
 }
 
-#' @name cBioPortal
+#' @rdname cBioPortal
 #'
 #' @section Molecular Data:
-#'     * fetchData - A convenience function to download both mutation and
-#'     molecular data with `molecularProfileId`, `entrezGeneIds`, and
-#'     `sampleIds`
+#' * fetchData - A convenience function to download both mutation and
+#'   molecular data with `molecularProfileId`, `entrezGeneIds`, and
+#'   `sampleIds`
 #'
 #' @export
 fetchData <-
@@ -338,12 +296,20 @@ fetchData <-
     .FilterLengthWarn(byGeneList)
 }
 
-#' @name cBioPortal
+#' @rdname cBioPortal
 #'
 #' @section Molecular Data:
-#'     * mutationData - Produce a dataset of mutation data using
-#'     `molecularProfileId`, `entrezGeneIds`, and `sampleIds`
+#' * mutationData - Produce a dataset of mutation data using
+#'   `molecularProfileId`, `entrezGeneIds`, and `sampleIds`
 #'
+#' @examples
+#' mutationData(
+#'     api = cbio,
+#'     molecularProfileIds = "acc_tcga_mutations",
+#'     entrezGeneIds = 1:1000,
+#'     sampleIds = c("TCGA-OR-A5J1-01", "TCGA-OR-A5J2-01")
+#' )
+#' 
 #' @export
 mutationData <- function(api, molecularProfileIds = NA_character_,
     entrezGeneIds = NULL, sampleIds = NULL)
@@ -384,12 +350,20 @@ mutationData <- function(api, molecularProfileIds = NA_character_,
         split(byGene, byGene[["molecularProfileId"]])
 }
 
-#' @name cBioPortal
+#' @rdname cBioPortal
 #'
 #' @section Molecular Data:
-#'     * molecularData - Produce a dataset of molecular profile data based on
-#'     `molecularProfileId`, `entrezGeneIds`, and `sampleIds`
+#' * molecularData - Produce a dataset of molecular profile data based on
+#'   `molecularProfileId`, `entrezGeneIds`, and `sampleIds`
 #'
+#' @examples
+#' molecularData(
+#'     api = cbio,
+#'     molecularProfileIds = c("acc_tcga_rna_seq_v2_mrna", "acc_tcga_rppa"),
+#'     entrezGeneIds = 1:100,
+#'     sampleIds = c("TCGA-OR-A5J1-01", "TCGA-OR-A5J2-01")
+#' )
+#' 
 #' @export
 molecularData <- function(api, molecularProfileIds = NA_character_,
     entrezGeneIds = NULL, sampleIds = NULL)
@@ -432,7 +406,7 @@ molecularData <- function(api, molecularProfileIds = NA_character_,
 #' @rdname cBioPortal
 #' 
 #' @section Copy Number Data:
-#'   * copyNumberData - Produce a dataset of copy number data based on
+#' * copyNumberData - Produce a dataset of copy number data based on
 #'   `molecularProfileId`, `sampleListId`, `discreteCopyNumberEventType`, and
 #'   `projection`
 #' 
@@ -479,25 +453,34 @@ copyNumberData <- function(
     )
 }
 
-#' @name cBioPortal
+#' @rdname cBioPortal
 #'
 #' @section API Metadata:
-#'     * searchOps - Search through API operations with a keyword
+#' * searchOps - Search through API operations with a keyword
 #'
+#' @examples
+#' searchOps(api = cbio, keyword = "molecular")
+#' 
 #' @export
 searchOps <- function(api, keyword) {
     grep(keyword, names(AnVIL::operations(api)),
         value = TRUE, ignore.case = TRUE)
 }
 
-#' @name cBioPortal
+#' @rdname cBioPortal
 #'
 #' @section Sample Data:
-#'     * samplesInSampleLists - get all samples associated with a 'sampleListId'
+#' * samplesInSampleLists - get all samples associated with a 'sampleListId'
 #'
-#' @param sampleListIds character() A vector of 'sampleListId' as obtained from
-#'     `sampleLists`
+#' @param sampleListIds `character()` A vector of 'sampleListId' as obtained from
+#'   `sampleLists`
 #'
+#' @examples
+#' samplesInSampleLists(
+#'     api = cbio,
+#'     sampleListIds = c("acc_tcga_rppa", "acc_tcga_cnaseq")
+#' )
+#' 
 #' @export
 samplesInSampleLists <-
     function(api, sampleListIds = NA_character_) {
@@ -523,10 +506,13 @@ samplesInSampleLists <-
     res
 }
 
-#' @name cBioPortal
+#' @rdname cBioPortal
 #'
 #' @section API Metadata:
-#'     * sampleLists - obtain all `sampleListIds` for a particular `studyId`
+#' * sampleLists - obtain all `sampleListIds` for a particular `studyId`
+#'
+#' @examples
+#' sampleLists(api = cbio, studyId = "acc_tcga")
 #'
 #' @export
 sampleLists <- function(api, studyId = NA_character_) {
@@ -536,10 +522,10 @@ sampleLists <- function(api, studyId = NA_character_) {
         studyId = studyId)
 }
 
-#' @name cBioPortal
+#' @rdname cBioPortal
 #'
 #' @section API Metadata:
-#'     * allSamples - obtain all samples within a particular `studyId`
+#' * allSamples - obtain all samples within a particular `studyId`
 #'
 #' @export
 allSamples <- function(api, studyId = NA_character_) {
@@ -549,11 +535,12 @@ allSamples <- function(api, studyId = NA_character_) {
         studyId = list(studyId = studyId))
 }
 
-#' @name cBioPortal
+#' @rdname cBioPortal
 #'
 #' @section Sample Data:
-#'     * getSampleInfo - Obtain sample metadata for a particular `studyId` or
-#'     `sampleListId`
+#' * getSampleInfo - Obtain sample metadata for a particular `studyId` or
+#'   `sampleListId`
+#'
 #' @export
 getSampleInfo <-
     function(api, studyId = NA_character_, sampleListIds = NULL,
@@ -576,10 +563,13 @@ getSampleInfo <-
     )
 }
 
-#' @name cBioPortal
+#' @rdname cBioPortal
 #'
 #' @section API Metadata:
-#'     * genePanels - Show all available gene panels
+#' * genePanels - Show all available gene panels
+#'
+#' @examples
+#' genePanels(cbio)
 #'
 #' @export
 genePanels <- function(api) {
@@ -589,10 +579,13 @@ genePanels <- function(api) {
     .invoke_bind(api, "getAllGenePanelsUsingGET")
 }
 
-#' @name cBioPortal
+#' @rdname cBioPortal
 #'
 #' @section Gene Panels:
-#'     * getGenePanels - Obtain the gene panel for a particular 'genePanelId'
+#' * getGenePanels - Obtain the gene panel for a particular 'genePanelId'
+#'
+#' @examples
+#' getGenePanel(cbio, "AmpliSeq")
 #'
 #' @export
 getGenePanel <- function(api, genePanelId = NA_character_) {
@@ -604,20 +597,20 @@ getGenePanel <- function(api, genePanelId = NA_character_) {
     dplyr::bind_rows(res)
 }
 
-#' @name cBioPortal
+#' @rdname cBioPortal
 #'
 #' @section Gene Panels:
-#'     * genePanelMolecular - get gene panel data for a particular
-#'     `molecularProfileId` and either a vector of `sampleListId` or `sampleId`
+#' * genePanelMolecular - get gene panel data for a particular
+#'   `molecularProfileId` and either a vector of `sampleListId` or `sampleId`
 #'
-#' @param sampleListId character(1) A sample list identifier as obtained from
-#'     `sampleLists()``
+#' @param sampleListId `character(1)` A sample list identifier as obtained from
+#'     `sampleLists()`
 #'
 #' @export
-genePanelMolecular <-
-    function(api, molecularProfileId = NA_character_, sampleListId = NULL,
-        sampleIds = NULL)
-{
+genePanelMolecular <- function(
+    api, molecularProfileId = NA_character_,
+    sampleListId = NULL, sampleIds = NULL
+) {
     if (missing(api))
         stop("Provide a valid 'api' from 'cBioPortal()'")
 
@@ -635,11 +628,11 @@ genePanelMolecular <-
         stop("Provide either 'sampleIds' or a 'sampleListId'")
 }
 
-#' @name cBioPortal
+#' @rdname cBioPortal
 #'
 #' @section Gene Panels:
-#'     * getGenePanelMolecular - get gene panel data for multiple
-#'     `molecularProfileId`s and a vector of `sampleIds`
+#' * getGenePanelMolecular - get gene panel data for multiple
+#'   `molecularProfileId`s and a vector of `sampleIds`
 #'
 #' @export
 getGenePanelMolecular <-
@@ -665,15 +658,15 @@ getGenePanelMolecular <-
     )
 }
 
-#' @name cBioPortal
+#' @rdname cBioPortal
 #'
 #' @section API Metadata:
-#'     * geneTable - Get a table of all genes by 'entrezGeneId' and
-#'     'hugoGeneSymbol'
+#' * geneTable - Get a table of all genes by 'entrezGeneId' and
+#'   'hugoGeneSymbol'
 #'
-#' @param pageSize numeric(1) The number of rows in the table to return
+#' @param pageSize `numeric(1)` The number of rows in the table to return
 #'
-#' @param pageNumber numeric(1) The pagination page number
+#' @param pageNumber `numeric(1)` The pagination page number
 #'
 #' @param ... Additional arguments to lower level API functions
 #'
@@ -686,11 +679,14 @@ geneTable <- function(api, pageSize = 1000, pageNumber = 0, ...) {
         pageNumber = pageNumber, ...)
 }
 
-#' @name cBioPortal
+#' @rdname cBioPortal
 #'
 #' @section API Metadata:
-#'     * queryGeneTable - Get a table for only the `genes` or `genePanelId` of
-#'     interest. Gene inputs are identified with the `by` argument
+#' * queryGeneTable - Get a table for only the `genes` or `genePanelId` of
+#'   interest. Gene inputs are identified with the `by` argument
+#'
+#' @examples
+#' queryGeneTable(api = cbio, by = "entrezGeneId", genes = 7157)
 #'
 #' @export
 queryGeneTable <- function(
@@ -716,20 +712,21 @@ queryGeneTable <- function(
         getGenePanel(api, genePanelId = genePanelId)
 }
 
-#' @name cBioPortal
+#' @rdname cBioPortal
 #'
 #' @section Genes:
-#'     * getDataByGenes - Download data for a number of genes within
-#'     `molecularProfileId` indicators, optionally a `sampleListId` can be
-#'     provided.
+#' * getDataByGenes - Download data for a number of genes within
+#'   `molecularProfileId` indicators, optionally a `sampleListId` can be
+#'   provided.
 #'
 #' @examples
-#'
 #' getDataByGenes(
-#'     cbio, studyId = "acc_tcga", genes = 1:3,
-#'     by = c("entrezGeneId", "hugoGeneSymbol"),
-#'     molecularProfileIds = "acc_tcga_rppa",
-#'     sampleListId = "acc_tcga_rppa"
+#'     api = cbio,
+#'     studyId = "acc_tcga",
+#'     genes = 1,
+#'     by = "entrezGeneId",
+#'     molecularProfileIds = "acc_tcga_rna_seq_v2_mrna",
+#'     sampleListId = "acc_tcga_rna_seq_v2_mrna"
 #' )
 #'
 #' @export
@@ -755,7 +752,7 @@ getDataByGenes <-
         entrezGeneIds = feats[["entrezGeneId"]],
         sampleIds = sampleIds
     )
-    molData <- lapply(
+    lapply(
         molData,
         function(x) suppressMessages({
             dplyr::left_join(x, feats)

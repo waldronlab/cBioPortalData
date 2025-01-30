@@ -207,7 +207,7 @@ update.args <- function(args) {
 #'     `FALSE` if using alternative `hostnames`, e.g.,
 #'     'pedcbioportal.kidsfirstdrc.org'
 #'
-#' @param ask logical(1) Whether to prompt the the user before downloading and
+#' @param ask `logical(1)` Whether to prompt the the user before downloading and
 #'   loading study `MultiAssayExperiment` that is not currently building based
 #'   on previous testing. Set to `interactive()` by default. In a
 #'   non-interactive session, data download will be attempted; equivalent to

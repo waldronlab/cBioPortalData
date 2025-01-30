@@ -27,7 +27,7 @@ future downloads will go to this folder.}
 
 \item{verbose}{Whether to print descriptive messages}
 
-\item{cancer_study_id}{character(1) The \code{studyId} from \code{getStudies}}
+\item{cancer_study_id}{\code{character(1)} The \code{studyId} from \code{getStudies}}
 
 \item{dry.run}{logical Whether or not to remove cache files (default TRUE).}
 }

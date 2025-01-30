@@ -18,28 +18,27 @@ cBioPortalData(
 )
 }
 \arguments{
-\item{api}{An API object of class \code{cBioPortal} from the \code{cBioPortal}
-function}
+\item{api}{An API object of class \code{cBioPortal} from the \code{cBioPortal} function}
 
-\item{studyId}{character(1) Indicates the "studyId" as taken from
+\item{studyId}{\code{character(1)} Indicates the "studyId" as taken from
 \code{getStudies}}
 
-\item{genePanelId}{character(1) Identifies the gene panel, as obtained
-from the \code{genePanels} function}
+\item{genePanelId}{\code{character(1)} Identifies the gene panel, as obtained from
+the \code{genePanels} function}
 
-\item{genes}{character() Either Entrez gene identifiers or Hugo gene
-symbols. When included, the 'by' argument indicates the type of
-identifier provided and 'genePanelId' is ignored. Preference is
-given to Entrez IDs due to faster query responses.}
+\item{genes}{\code{character()} Either Entrez gene identifiers or Hugo gene
+symbols. When included, the 'by' argument indicates the type of identifier
+provided and 'genePanelId' is ignored. Preference is given to Entrez IDs
+due to faster query responses.}
 
-\item{molecularProfileIds}{character() A vector of molecular profile IDs}
+\item{molecularProfileIds}{\code{character()} A vector of molecular profile IDs}
 
-\item{sampleListId}{character(1) A sample list identifier as obtained from
-`sampleLists()``}
+\item{sampleListId}{\code{character(1)} A sample list identifier as obtained from
+\code{sampleLists()}}
 
-\item{sampleIds}{character() Sample identifiers}
+\item{sampleIds}{\code{character()} Sample identifiers}
 
-\item{by}{character(1) Either 'entrezGeneId' or 'hugoGeneSymbol' for row
+\item{by}{\code{character(1)} Either 'entrezGeneId' or 'hugoGeneSymbol' for row
 metadata (default: 'entrezGeneId')}
 
 \item{check_build}{logical(1L) Whether to check the build status of the
@@ -47,7 +46,7 @@ metadata (default: 'entrezGeneId')}
 \code{FALSE} if using alternative \code{hostnames}, e.g.,
 'pedcbioportal.kidsfirstdrc.org'}
 
-\item{ask}{logical(1) Whether to prompt the the user before downloading and
+\item{ask}{\code{logical(1)} Whether to prompt the the user before downloading and
 loading study \code{MultiAssayExperiment} that is not currently building based
 on previous testing. Set to \code{interactive()} by default. In a
 non-interactive session, data download will be attempted; equivalent to

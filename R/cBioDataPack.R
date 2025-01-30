@@ -184,81 +184,78 @@ cbioportal2clinicaldf <- function(files) {
 #' @title Manually download, untar, and load study tarballs
 #'
 #' @description **Note** that these functions should be used when a particular
-#' study is _not_ currently available as a `MultiAssayExperiment`
-#' representation. Otherwise, use `cBioDataPack`. Provide a `cancer_study_id`
-#' from `getStudies` and retrieve the study tarball from the cBio
-#' Genomics Portal.  These functions are used by `cBioDataPack` under the hood
-#' to download,untar, and load the tarball datasets with caching. As stated in
-#' `?cBioDataPack`, not all studies are currently working as
-#' `MultiAssayExperiment` objects. As of July 2020, about ~80% of
-#' datasets can be successfully imported into the `MultiAssayExperiment` data
-#' class. Please open an issue if you would like the team to prioritize a
-#' study. You may also check `getStudies(buildReport = TRUE)$pack_build`
-#' for the current status.
+#'   study is _not_ currently available as a `MultiAssayExperiment`
+#'   representation. Otherwise, use `cBioDataPack`. Provide a `cancer_study_id`
+#'   from `getStudies` and retrieve the study tarball from the cBio Genomics
+#'   Portal.  These functions are used by `cBioDataPack` under the hood to
+#'   download,untar, and load the tarball datasets with caching. As stated in
+#'   `?cBioDataPack`, not all studies are currently working as
+#'   `MultiAssayExperiment` objects. As of July 2020, about ~80% of datasets can
+#'   be successfully imported into the `MultiAssayExperiment` data class. Please
+#'   open an issue if you would like the team to prioritize a study. You may
+#'   also check `getStudies(buildReport = TRUE)$pack_build` for the current
+#'   status.
 #'
-#' @details When attempting to load a dataset using `loadStudy`, note that
-#' the `cleanup` argument is set to `TRUE` by default. Change the argument
-#' to `FALSE` if you would like to keep the untarred data in the `exdir`
-#' location. `downloadStudy` and `untarStudy` are not affected by this change.
-#' The tarball of the downloaded data is cached via `BiocFileCache` when
-#' `use_cache` is `TRUE`.
+#' @details When attempting to load a dataset using `loadStudy`, note that the
+#'   `cleanup` argument is set to `TRUE` by default. Change the argument to
+#'   `FALSE` if you would like to keep the untarred data in the `exdir`
+#'   location. `downloadStudy` and `untarStudy` are not affected by this change.
+#'   The tarball of the downloaded data is cached via `BiocFileCache` when
+#'   `use_cache` is `TRUE`.
 #'
-#' @param cancer_study_id character(1) The study identifier from cBioPortal as
-#' seen in the dataset links at <https://www.cbioportal.org/datasets>.
+#' @param cancer_study_id `character(1)` The study identifier from cBioPortal as
+#'   seen in the dataset links at <https://www.cbioportal.org/datasets>.
 #'
-#' @param use_cache logical(1) (default TRUE) create the default cache location
-#' and use it to track downloaded data. If data found in the cache, data will
-#' not be re-downloaded. A path can also be provided to data cache location.
+#' @param use_cache `logical(1)` (default TRUE) create the default cache
+#'   location and use it to track downloaded data. If data found in the cache,
+#'   data will not be re-downloaded. A path can also be provided to data cache
+#'   location.
 #'
-#' @param ask logical(1) Whether to prompt the the user before downloading and
+#' @param ask `logical(1)` Whether to prompt the the user before downloading and
 #'   loading study `MultiAssayExperiment` that is not currently building based
 #'   on previous testing. Set to `interactive()` by default. In a
 #'   non-interactive session, data download will be attempted; equivalent to
 #'   `ask = FALSE`. The argument will also be used when a cache directory needs
 #'   to be created when using `downloadStudy`.
 #'
-#' @param force logical(1) (default FALSE) whether to force re-download data
-#' from remote location
+#' @param force `logical(1)` (default FALSE) whether to force re-download data
+#'   from remote location
 #'
-#' @param url_location character(1)
-#' (default "https://cbioportal-datahub.s3.amazonaws.com") the URL location for
-#' downloading packaged data. Can be set using the 'cBio_URL' option (see
-#' `?cBioDataPack` for more details)
+#' @param url_location `character(1)` (default
+#'   "https://cbioportal-datahub.s3.amazonaws.com") the URL location for
+#'   downloading packaged data. Can be set using the 'cBio_URL' option (see
+#'   `?cBioDataPack` for more details)
 #'
-#' @param names.field character() Possible column names for the
-#' column that will used to label ranges for data such as mutations or copy
-#' number (default:
-#' `c("Hugo_Symbol", "Entrez_Gene_Id", "Gene", "Composite.Element.REF")`).
-#' Values are cycled through and eliminated when no data present, or duplicates
-#' are found. Values in the corresponding column must be unique in each row.
+#' @param names.field `character()` Possible column names for the column that
+#'   will used to label ranges for data such as mutations or copy number
+#'   (defaults: "Hugo_Symbol", "Entrez_Gene_Id", "Gene", and
+#'   "Composite.Element.REF"). Values are cycled through and eliminated when no
+#'   data present, or duplicates are found. Values in the corresponding column
+#'   must be unique in each row.
 #'
-#' @param cancer_study_file character(1) indicates the on-disk location
-#' of the downloaded tarball
+#' @param cancer_study_file `character(1)` indicates the on-disk location of the
+#'   downloaded tarball
 #'
-#' @param exdir character(1) indicates the folder location to *put*
-#' the contents of the tarball (default `tempdir()`; see also `?untar`)
+#' @param exdir `character(1)` indicates the folder location to *put* the
+#'   contents of the tarball (default `tempdir()`; see also `?untar`)
 #'
-#' @param filepath character(1) indicates the folder location where
-#' the contents of the tarball are *located* (usually the same as `exdir`)
+#' @param filepath `character(1)` indicates the folder location where the
+#'   contents of the tarball are *located* (usually the same as `exdir`)
 #'
-#' @param cleanup logical(1) whether to delete the `untar`-red contents from
-#' the `exdir` folder (default TRUE)
+#' @param cleanup `logical(1)` whether to delete the `untar`-red contents from
+#'   the `exdir` folder (default TRUE)
 #'
 #' @return
-#'   * downloadStudy - The file location of the data tarball
-#'   * untarStudy - The directory location of the contents
-#'   * loadStudy - A MultiAssayExperiment-class object
+#' * downloadStudy - The file location of the data tarball
+#' * untarStudy - The directory location of the contents
+#' * loadStudy - A MultiAssayExperiment-class object
 #'
 #' @seealso [cBioDataPack],
-#' [MultiAssayExperiment][MultiAssayExperiment::MultiAssayExperiment-class]
+#'   [MultiAssayExperiment][MultiAssayExperiment::MultiAssayExperiment-class]
 #'
 #' @examples
-#'
-#' (acc_file <- downloadStudy("acc_tcga"))
-#'
-#' (file_dir <- untarStudy(acc_file, tempdir()))
-#'
-#' loadStudy(file_dir)
+#' acc_file <- downloadStudy("acc_tcga")
+#' acc_file
 #'
 #' @export
 downloadStudy <- function(cancer_study_id, use_cache = TRUE, force = FALSE,
@@ -291,6 +288,10 @@ downloadStudy <- function(cancer_study_id, use_cache = TRUE, force = FALSE,
 
 #' @rdname downloadStudy
 #'
+#' @examples
+#' file_dir <- untarStudy(acc_file, tempdir())
+#' file_dir
+#' 
 #' @export
 untarStudy <- function(cancer_study_file, exdir = tempdir()) {
     exarg <- if (identical(.Platform$OS.type, "unix") &&
@@ -404,6 +405,9 @@ untarStudy <- function(cancer_study_file, exdir = tempdir()) {
 }
 
 #' @rdname downloadStudy
+#'
+#' @examples
+#' loadStudy(file_dir)
 #'
 #' @export
 loadStudy <- function(

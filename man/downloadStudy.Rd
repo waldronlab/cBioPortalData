@@ -23,45 +23,46 @@ loadStudy(
 )
 }
 \arguments{
-\item{cancer_study_id}{character(1) The study identifier from cBioPortal as
+\item{cancer_study_id}{\code{character(1)} The study identifier from cBioPortal as
 seen in the dataset links at \url{https://www.cbioportal.org/datasets}.}
 
-\item{use_cache}{logical(1) (default TRUE) create the default cache location
-and use it to track downloaded data. If data found in the cache, data will
-not be re-downloaded. A path can also be provided to data cache location.}
+\item{use_cache}{\code{logical(1)} (default TRUE) create the default cache
+location and use it to track downloaded data. If data found in the cache,
+data will not be re-downloaded. A path can also be provided to data cache
+location.}
 
-\item{force}{logical(1) (default FALSE) whether to force re-download data
+\item{force}{\code{logical(1)} (default FALSE) whether to force re-download data
 from remote location}
 
-\item{url_location}{character(1)
-(default "https://cbioportal-datahub.s3.amazonaws.com") the URL location for
+\item{url_location}{\code{character(1)} (default
+"https://cbioportal-datahub.s3.amazonaws.com") the URL location for
 downloading packaged data. Can be set using the 'cBio_URL' option (see
 \code{?cBioDataPack} for more details)}
 
-\item{ask}{logical(1) Whether to prompt the the user before downloading and
+\item{ask}{\code{logical(1)} Whether to prompt the the user before downloading and
 loading study \code{MultiAssayExperiment} that is not currently building based
 on previous testing. Set to \code{interactive()} by default. In a
 non-interactive session, data download will be attempted; equivalent to
 \code{ask = FALSE}. The argument will also be used when a cache directory needs
 to be created when using \code{downloadStudy}.}
 
-\item{cancer_study_file}{character(1) indicates the on-disk location
-of the downloaded tarball}
+\item{cancer_study_file}{\code{character(1)} indicates the on-disk location of the
+downloaded tarball}
 
-\item{exdir}{character(1) indicates the folder location to \emph{put}
-the contents of the tarball (default \code{tempdir()}; see also \code{?untar})}
+\item{exdir}{\code{character(1)} indicates the folder location to \emph{put} the
+contents of the tarball (default \code{tempdir()}; see also \code{?untar})}
 
-\item{filepath}{character(1) indicates the folder location where
-the contents of the tarball are \emph{located} (usually the same as \code{exdir})}
+\item{filepath}{\code{character(1)} indicates the folder location where the
+contents of the tarball are \emph{located} (usually the same as \code{exdir})}
 
-\item{names.field}{character() Possible column names for the
-column that will used to label ranges for data such as mutations or copy
-number (default:
-\code{c("Hugo_Symbol", "Entrez_Gene_Id", "Gene", "Composite.Element.REF")}).
-Values are cycled through and eliminated when no data present, or duplicates
-are found. Values in the corresponding column must be unique in each row.}
+\item{names.field}{\code{character()} Possible column names for the column that
+will used to label ranges for data such as mutations or copy number
+(defaults: "Hugo_Symbol", "Entrez_Gene_Id", "Gene", and
+"Composite.Element.REF"). Values are cycled through and eliminated when no
+data present, or duplicates are found. Values in the corresponding column
+must be unique in each row.}
 
-\item{cleanup}{logical(1) whether to delete the \code{untar}-red contents from
+\item{cleanup}{\code{logical(1)} whether to delete the \code{untar}-red contents from
 the \code{exdir} folder (default TRUE)}
 }
 \value{
@@ -75,29 +76,30 @@ the \code{exdir} folder (default TRUE)}
 \strong{Note} that these functions should be used when a particular
 study is \emph{not} currently available as a \code{MultiAssayExperiment}
 representation. Otherwise, use \code{cBioDataPack}. Provide a \code{cancer_study_id}
-from \code{getStudies} and retrieve the study tarball from the cBio
-Genomics Portal.  These functions are used by \code{cBioDataPack} under the hood
-to download,untar, and load the tarball datasets with caching. As stated in
+from \code{getStudies} and retrieve the study tarball from the cBio Genomics
+Portal.  These functions are used by \code{cBioDataPack} under the hood to
+download,untar, and load the tarball datasets with caching. As stated in
 \code{?cBioDataPack}, not all studies are currently working as
-\code{MultiAssayExperiment} objects. As of July 2020, about ~80\% of
-datasets can be successfully imported into the \code{MultiAssayExperiment} data
-class. Please open an issue if you would like the team to prioritize a
-study. You may also check \code{getStudies(buildReport = TRUE)$pack_build}
-for the current status.
+\code{MultiAssayExperiment} objects. As of July 2020, about ~80\% of datasets can
+be successfully imported into the \code{MultiAssayExperiment} data class. Please
+open an issue if you would like the team to prioritize a study. You may
+also check \code{getStudies(buildReport = TRUE)$pack_build} for the current
+status.
 }
 \details{
-When attempting to load a dataset using \code{loadStudy}, note that
-the \code{cleanup} argument is set to \code{TRUE} by default. Change the argument
-to \code{FALSE} if you would like to keep the untarred data in the \code{exdir}
+When attempting to load a dataset using \code{loadStudy}, note that the
+\code{cleanup} argument is set to \code{TRUE} by default. Change the argument to
+\code{FALSE} if you would like to keep the untarred data in the \code{exdir}
 location. \code{downloadStudy} and \code{untarStudy} are not affected by this change.
 The tarball of the downloaded data is cached via \code{BiocFileCache} when
 \code{use_cache} is \code{TRUE}.
 }
 \examples{
+acc_file <- downloadStudy("acc_tcga")
+acc_file
 
-(acc_file <- downloadStudy("acc_tcga"))
-
-(file_dir <- untarStudy(acc_file, tempdir()))
+file_dir <- untarStudy(acc_file, tempdir())
+file_dir
 
 loadStudy(file_dir)
 
