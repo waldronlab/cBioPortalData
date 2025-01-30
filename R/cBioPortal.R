@@ -415,6 +415,13 @@ molecularData <- function(api, molecularProfileIds = NA_character_,
 #'   "GAIN", "HETLOSS", "DIPLOID", or "ALL"
 #'
 #' @examples
+#' ## obtain molecularProfileId for discrete copy number alteration data
+#' molecularProfiles(cbio, "acc_tcga") |>
+#'     dplyr::filter(
+#'         molecularAlterationType == "COPY_NUMBER_ALTERATION" &
+#'         datatype == "DISCRETE"
+#'     )
+#'
 #' copyNumberData(
 #'     api = cbio,
 #'     molecularProfileId = "acc_tcga_gistic",

@@ -354,6 +354,13 @@ molecularData(
     sampleIds = c("TCGA-OR-A5J1-01", "TCGA-OR-A5J2-01")
 )
 
+## obtain molecularProfileId for discrete copy number alteration data
+molecularProfiles(cbio, "acc_tcga") |>
+    dplyr::filter(
+        molecularAlterationType == "COPY_NUMBER_ALTERATION" &
+        datatype == "DISCRETE"
+    )
+
 copyNumberData(
     api = cbio,
     molecularProfileId = "acc_tcga_gistic",
