@@ -274,12 +274,23 @@ molecularProfiles <- function(api, studyId = NA_character_,
 #'   molecular data with `molecularProfileId`, `entrezGeneIds`, and
 #'   `sampleIds`
 #'
+#' @examples
+#' fetchData(
+#'     api = cbio, studyId = "acc_tcga",
+#'     molecularProfileIds = c(
+#'         "acc_tcga_mutations", "acc_tcga_gistic", "acc_tcga_rppa"
+#'     ),
+#'     entrezGeneIds = 1:1000,
+#'     sampleIds = c("TCGA-OR-A5J1-01", "TCGA-OR-A5J2-01")
+#' )
 #' @export
 fetchData <-
     function(
-        api, molecularProfileIds = NA_character_,
+        api, studyId, molecularProfileIds = NA_character_,
         entrezGeneIds = NULL, sampleIds = NULL
 ) {
+    if (missing(studyId))
+        stop("Provide a valid 'studyId' from 'cBioPortal()'")
     byGeneList <- vector("list", length(molecularProfileIds))
     names(byGeneList) <- molecularProfileIds
 
@@ -288,11 +299,25 @@ fetchData <-
         api = api, molecularProfileIds = molecularProfileIds[mutation],
         entrezGeneIds = entrezGeneIds, sampleIds = sampleIds
     )
-    molecularList <- molecularData(
-        api = api, molecularProfileIds = molecularProfileIds[!mutation],
+    
+    molecularProfileIds <- molecularProfileIds[!mutation]
+    dcn_molprofs <- subset(
+        molecularProfiles(api = api, studyId = studyId),
+        molecularAlterationType == "COPY_NUMBER_ALTERATION" &
+            datatype == "DISCRETE"
+    )[["molecularProfileId"]]
+    dcn <- molecularProfileIds %in% dcn_molprofs
+    
+    dcnList <- copyNumberData(
+        api = api, molecularProfileIds = molecularProfileIds[dcn],
         entrezGeneIds = entrezGeneIds, sampleIds = sampleIds
     )
-    byGeneList <- c(mutationList, molecularList)
+    
+    molecularList <- molecularData(
+        api = api, molecularProfileIds = molecularProfileIds[!dcn],
+        entrezGeneIds = entrezGeneIds, sampleIds = sampleIds
+    )
+    byGeneList <- c(mutationList, dcnList, molecularList)
     .FilterLengthWarn(byGeneList)
 }
 
@@ -424,14 +449,14 @@ molecularData <- function(api, molecularProfileIds = NA_character_,
 #'
 #' copyNumberData(
 #'     api = cbio,
-#'     molecularProfileId = "acc_tcga_gistic",
+#'     molecularProfileIds = "acc_tcga_gistic",
 #'     entrezGeneIds = 25,
 #'     sampleListId = "acc_tcga_all"
 #' )
 #'
 #' @export
 copyNumberData <- function(
-    api, molecularProfileId = NA_character_,
+    api, molecularProfileIds = NA_character_,
     entrezGeneIds = NULL,
     sampleIds = NULL, sampleListId = NULL,
     discreteCopyNumberEventType = c(
@@ -448,15 +473,29 @@ copyNumberData <- function(
     if (is.null(sampleListId) && is.null(sampleIds))
         stop("Provide either a 'sampleListId' or 'sampleIds'")
     
-    endpoint <- "fetchDiscreteCopyNumbersInMolecularProfileUsingPOST"
-    .invoke_bind(
-        api, endpoint,
-        molecularProfileId = molecularProfileId,
-        entrezGeneIds = sort(entrezGeneIds),
-        sampleListId = sampleListId,
-        sampleIds = sort(sampleIds),
-        discreteCopyNumberEventType = discreteCopyNumberEventType,
-        projection = projection
+    if (!length(molecularProfileIds) || all(is.na(molecularProfileIds)))
+        return(
+            structure(
+                vector("list", length(molecularProfileIds)),
+                .Names = molecularProfileIds
+            )
+        )
+    
+    names(molecularProfileIds) <- molecularProfileIds
+    lapply(
+        molecularProfileIds,
+        function(molecularProfileId) {
+            endpoint <- "fetchDiscreteCopyNumbersInMolecularProfileUsingPOST"
+            .invoke_bind(
+                api, endpoint,
+                molecularProfileId = molecularProfileId,
+                entrezGeneIds = sort(entrezGeneIds),
+                sampleListId = sampleListId,
+                sampleIds = sort(sampleIds),
+                discreteCopyNumberEventType = discreteCopyNumberEventType,
+                projection = projection
+            )
+        }
     )
 }
 
@@ -755,6 +794,7 @@ getDataByGenes <-
 
     molData <- fetchData(
         api = api,
+        studyId = studyId,
         molecularProfileIds = molecularProfileIds,
         entrezGeneIds = feats[["entrezGeneId"]],
         sampleIds = sampleIds

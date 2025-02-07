@@ -42,6 +42,7 @@ molecularProfiles(
 
 fetchData(
   api,
+  studyId,
   molecularProfileIds = NA_character_,
   entrezGeneIds = NULL,
   sampleIds = NULL
@@ -63,7 +64,7 @@ molecularData(
 
 copyNumberData(
   api,
-  molecularProfileId = NA_character_,
+  molecularProfileIds = NA_character_,
   entrezGeneIds = NULL,
   sampleIds = NULL,
   sampleListId = NULL,
@@ -151,8 +152,6 @@ type for data retrieval for details see API documentation}
 
 \item{sampleIds}{\code{character()} Sample identifiers}
 
-\item{molecularProfileId}{\code{character(1)} Indicates a molecular profile ID}
-
 \item{sampleListId}{\code{character(1)} A sample list identifier as obtained from
 \code{sampleLists()}}
 
@@ -168,6 +167,8 @@ available operations}
 
 \item{genePanelId}{\code{character(1)} Identifies the gene panel, as obtained from
 the \code{genePanels} function}
+
+\item{molecularProfileId}{\code{character(1)} Indicates a molecular profile ID}
 
 \item{pageSize}{\code{numeric(1)} The number of rows in the table to return}
 
@@ -340,6 +341,14 @@ clinicalData(cbio, "acc_tcga")
 
 molecularProfiles(cbio, "acc_tcga")
 
+fetchData(
+    api = cbio, studyId = "acc_tcga",
+    molecularProfileIds = c(
+        "acc_tcga_mutations", "acc_tcga_gistic", "acc_tcga_rppa"
+    ),
+    entrezGeneIds = 1:1000,
+    sampleIds = c("TCGA-OR-A5J1-01", "TCGA-OR-A5J2-01")
+)
 mutationData(
     api = cbio,
     molecularProfileIds = "acc_tcga_mutations",
@@ -363,7 +372,7 @@ molecularProfiles(cbio, "acc_tcga") |>
 
 copyNumberData(
     api = cbio,
-    molecularProfileId = "acc_tcga_gistic",
+    molecularProfileIds = "acc_tcga_gistic",
     entrezGeneIds = 25,
     sampleListId = "acc_tcga_all"
 )
