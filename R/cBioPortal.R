@@ -294,7 +294,11 @@ fetchData <-
     byGeneList <- vector("list", length(molecularProfileIds))
     names(byGeneList) <- molecularProfileIds
 
-    mutation <- grepl("mutation", molecularProfileIds)
+    all_profs <- molecularProfiles(api = api, studyId = studyId)
+    mut_profs <- subset(
+        all_profs, molecularAlterationType == "MUTATION_EXTENDED"
+    )[["molecularProfileId"]]
+    mutation <- molecularProfileIds %in% mut_profs
     mutationList <- mutationData(
         api = api, molecularProfileIds = molecularProfileIds[mutation],
         entrezGeneIds = entrezGeneIds, sampleIds = sampleIds
@@ -302,7 +306,7 @@ fetchData <-
     
     molecularProfileIds <- molecularProfileIds[!mutation]
     dcn_molprofs <- subset(
-        molecularProfiles(api = api, studyId = studyId),
+        all_profs,
         molecularAlterationType == "COPY_NUMBER_ALTERATION" &
             datatype == "DISCRETE"
     )[["molecularProfileId"]]

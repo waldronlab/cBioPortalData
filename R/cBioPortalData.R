@@ -21,13 +21,26 @@
     })
     sampleMap <- dplyr::bind_rows(sampmap)
 
+    molProfs <- molecularProfiles(api = api, studyId = studyId)
+    mut_profs <- subset(
+        molProfs, molecularAlterationType == "MUTATION_EXTENDED"
+    )[["molecularProfileId"]]
+    cn_profs <- subset(
+        molProfs,
+        molecularAlterationType == "COPY_NUMBER_ALTERATION" &
+            datatype == "DISCRETE"
+    )[["molecularProfileId"]]
+    
     experlist <- lapply(setNames(nm = names(expers)),
         function(molprof) {
             byGene <- expers[[molprof]]
-            isMut <- grepl("mutation", molprof, ignore.case = TRUE)
+            isMut <- molprof %in% mut_profs
+            isCopyNum <- molprof %in% cn_profs
             if (isMut)
                 colsOI <- c(by, "chr", "startPosition", "endPosition",
                     "ncbiBuild", "sampleId", "mutationType")
+            else if (isCopyNum)
+                colsOI <- c(by, "sampleId", "alteration")
             else
                 colsOI <- c(by, "sampleId", "value")
             if (length(byGene)) {
@@ -42,6 +55,12 @@
                         )
                     )
                     .getMutationData(res, by)
+                } else if (isCopyNum) {
+                    res <- tidyr::pivot_wider(byGene[, colsoi],
+                        names_from = "sampleId",
+                        values_from = "alteration"
+                    )
+                    .getMixedData(res, by)
                 } else {
                     res <- tidyr::pivot_wider(byGene[, colsoi],
                         names_from = "sampleId",
