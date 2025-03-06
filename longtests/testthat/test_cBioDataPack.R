@@ -1,4 +1,4 @@
-test_that("cBioDataPack works on at least 70% of studies", {
+test_that("cBioDataPack works on at least 80% of studies", {
 
     cbioportal <- cBioPortal()
     studies <- stats::setNames(nm = getStudies(cbioportal)[["studyId"]])
