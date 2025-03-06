@@ -16,12 +16,6 @@ test_that("cBioPortal API is working with most studies", {
             )
         })
         isMAE[api_stud] <- is(result, "MultiAssayExperiment")
-        removeDataCache(
-            api = cbio,
-            studyId = api_stud,
-            genePanelId = "IMPACT341",
-            dry.run = FALSE
-        )
     }
 
     successrate <- (100 * sum(isMAE)) / length(isMAE)
