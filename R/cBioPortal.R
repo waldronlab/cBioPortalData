@@ -67,7 +67,7 @@
 #'
 #' @param by `character(1)` Either 'entrezGeneId' or 'hugoGeneSymbol' for row
 #'   metadata (default: 'entrezGeneId')
-#' 
+#'
 #' @return
 #'   * cBioPortal: An API object of class 'cBioPortal'
 #'   * cBioPortalData: A data object of class 'MultiAssayExperiment'
@@ -145,7 +145,7 @@ cBioPortal <- function(
 #'   'api_build' column corresponds to datasets obtained with
 #'   `cBioPortalData` and the 'pack_build' column corresponds to datsets
 #'   loaded via `cBioDataPack`.
-#' 
+#'
 #' @examples
 #' getStudies(api = cbio)
 #'
@@ -217,7 +217,7 @@ clinicalData <- function(api, studyId = NA_character_) {
 #'
 #' @examples
 #' molecularProfiles(cbio, "acc_tcga")
-#' 
+#'
 #' @export
 molecularProfiles <- function(api, studyId = NA_character_,
     projection = c("SUMMARY", "ID", "DETAILED", "META"))
@@ -303,7 +303,7 @@ fetchData <-
         api = api, molecularProfileIds = molecularProfileIds[mutation],
         entrezGeneIds = entrezGeneIds, sampleIds = sampleIds
     )
-    
+
     molecularProfileIds <- molecularProfileIds[!mutation]
     dcn_molprofs <- subset(
         all_profs,
@@ -311,12 +311,12 @@ fetchData <-
             datatype == "DISCRETE"
     )[["molecularProfileId"]]
     dcn <- molecularProfileIds %in% dcn_molprofs
-    
+
     dcnList <- copyNumberData(
         api = api, molecularProfileIds = molecularProfileIds[dcn],
         entrezGeneIds = entrezGeneIds, sampleIds = sampleIds
     )
-    
+
     molecularList <- molecularData(
         api = api, molecularProfileIds = molecularProfileIds[!dcn],
         entrezGeneIds = entrezGeneIds, sampleIds = sampleIds
@@ -338,7 +338,7 @@ fetchData <-
 #'     entrezGeneIds = 1:1000,
 #'     sampleIds = c("TCGA-OR-A5J1-01", "TCGA-OR-A5J2-01")
 #' )
-#' 
+#'
 #' @export
 mutationData <- function(api, molecularProfileIds = NA_character_,
     entrezGeneIds = NULL, sampleIds = NULL)
@@ -392,7 +392,7 @@ mutationData <- function(api, molecularProfileIds = NA_character_,
 #'     entrezGeneIds = 1:100,
 #'     sampleIds = c("TCGA-OR-A5J1-01", "TCGA-OR-A5J2-01")
 #' )
-#' 
+#'
 #' @export
 molecularData <- function(api, molecularProfileIds = NA_character_,
     entrezGeneIds = NULL, sampleIds = NULL)
@@ -433,12 +433,12 @@ molecularData <- function(api, molecularProfileIds = NA_character_,
 }
 
 #' @rdname cBioPortal
-#' 
+#'
 #' @section Copy Number Data:
 #' * copyNumberData - Produce a dataset of copy number data based on
 #'   `molecularProfileId`, `sampleListId`, `discreteCopyNumberEventType`, and
 #'   `projection`
-#' 
+#'
 #' @param discreteCopyNumberEventType `character(1)` The copy number event type
 #'   to filter on. Must be one of "HOMDEL_AND_AMP" (default), "HOMDEL", "AMP",
 #'   "GAIN", "HETLOSS", "DIPLOID", or "ALL"
@@ -476,7 +476,7 @@ copyNumberData <- function(
         stop("Provide a character vector of 'entrezGeneIds'")
     if (is.null(sampleListId) && is.null(sampleIds))
         stop("Provide either a 'sampleListId' or 'sampleIds'")
-    
+
     if (!length(molecularProfileIds) || all(is.na(molecularProfileIds)))
         return(
             structure(
@@ -484,7 +484,7 @@ copyNumberData <- function(
                 .Names = molecularProfileIds
             )
         )
-    
+
     names(molecularProfileIds) <- molecularProfileIds
     lapply(
         molecularProfileIds,
@@ -510,7 +510,7 @@ copyNumberData <- function(
 #'
 #' @examples
 #' searchOps(api = cbio, keyword = "molecular")
-#' 
+#'
 #' @export
 searchOps <- function(api, keyword) {
     grep(keyword, names(AnVIL::operations(api)),
@@ -530,7 +530,7 @@ searchOps <- function(api, keyword) {
 #'     api = cbio,
 #'     sampleListIds = c("acc_tcga_rppa", "acc_tcga_cnaseq")
 #' )
-#' 
+#'
 #' @export
 samplesInSampleLists <-
     function(api, sampleListIds = NA_character_) {

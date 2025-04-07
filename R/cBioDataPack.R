@@ -291,7 +291,7 @@ downloadStudy <- function(cancer_study_id, use_cache = TRUE, force = FALSE,
 #' @examples
 #' file_dir <- untarStudy(acc_file, tempdir())
 #' file_dir
-#' 
+#'
 #' @export
 untarStudy <- function(cancer_study_file, exdir = tempdir()) {
     exarg <- if (identical(.Platform$OS.type, "unix") &&
