@@ -2,8 +2,20 @@
 
 ### New features
 
+* Add `copyNumberData` helper function to `cBioPortalData`
+* Add `studyId` argument to the `fetchData` function
+* Use `molecularProfiles` to determine mutation or copy number molecular profile
+type; previously this was deduced from the data name
+* Add example for filtering discrete copy number data
+
+### Bug fixes and minor improvements
+
 * Caching calls removed from `cBioPortalData`. API requests will always
 be performed. `cBioDataPack` will continue to cache data files.
+* Filter out `NULL` parameters in internal `.invoke_fun()` API calls
+* Fix edge case in clinical data parsing when only a single file is present
+* Update long unit tests expectations to reflect current study coverage (80%)
+* Various documentation and example improvements
 
 ## Changes in version 2.16.0
 
