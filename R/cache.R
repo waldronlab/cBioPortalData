@@ -160,9 +160,9 @@ removePackCache <- function(cancer_study_id, dry.run = TRUE) {
     .getHashCache(digi)
 }
 
-#' @name cBioCache-deprecated
+#' @name cBioCache-defunct
 #'
-#' @title Deprecated cache helper functions
+#' @title Defunct cache helper functions
 #'
 #' @description `cBioPortalData` no longer caches data from API responses;
 #'   therefore, `removeDataCache` is no longer needed. It will be removed
@@ -213,29 +213,9 @@ removeDataCache <- function(api, studyId = NA_character_,
     by = c("entrezGeneId", "hugoGeneSymbol"),
     dry.run = TRUE, ...)
 {
-    if (missing(api))
-        stop("Provide a valid 'api' from 'cBioPortal()'")
-
     lifeCycle(
         package = "cBioPortalData",
-        title = "cBioCache"
+        title = "cBioCache",
+        cycle = "defunct"
     )
-
-    by <- match.arg(by)
-
-    formals <- formals()
-    formals[["by"]] <- by
-    call <- std.args(match.call(), formals)
-    exargs <- match.args(.portalExperiments, call)
-    exargs <- eval.args(exargs)
-    exargs <- update.args(exargs)
-    cachelocs <- c(
-        experiment_cache = do.call(.molDataCache, exargs),
-        clinical_cache = .clinDataCache(exargs[["api"]], exargs[["studyId"]])
-    )
-
-    if (!dry.run)
-        vapply(cachelocs, file.remove, logical(1L))
-    else
-        cachelocs[vapply(cachelocs, file.exists, logical(1L))]
 }
