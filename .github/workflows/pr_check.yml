@@ -21,12 +21,17 @@ jobs:
     runs-on: ubuntu-24.04
     outputs:
       matrix: ${{ steps.set.outputs.matrix }}
+      dockerfile_exists: ${{ steps.dockerfile.outputs.exists }}
     steps:
       - name: Set Matrix Bioconductor Version
         id: set
         run: |
           MATRIX="{\"include\":[{\"bioc_version\":\"$GITHUB_REF_NAME\"}]}"
           echo "matrix=$MATRIX" >> $GITHUB_OUTPUT
+      - name: Check for Dockerfile
+        id: dockerfile
+        run: |
+          echo "exists=$( [ -f ./inst/docker/pkg/Dockerfile ] && echo true || echo false )" >> $GITHUB_OUTPUT
 
   check:
     needs: set-matrix
@@ -48,7 +53,6 @@ jobs:
         shell: Rscript {0}
 
       - name: Cache R packages
-        if: runner.os != 'Windows'
         uses: actions/cache@v4
         with:
           path: /usr/local/lib/R/site-library
@@ -117,9 +121,11 @@ jobs:
           path: docs
 
   dock:
-    if: ${{ github.ref == 'refs/heads/devel' }}
+    needs:
+      - check
+      - set-matrix
     runs-on: ubuntu-24.04
-    needs: check
+    if: ${{ github.ref == 'refs/heads/devel' && needs.set-matrix.outputs.dockerfile_exists == 'true' }}
     steps:
       - name: Checkout Repository
         if: ${{ success() && github.event_name != 'pull_request' }}
@@ -162,3 +168,4 @@ jobs:
         if: ${{ github.ref == format('refs/heads/{0}', env.BIOC_RELEASE) && github.event_name != 'pull_request' }}
         id: deployment
         uses: actions/deploy-pages@v4
+
