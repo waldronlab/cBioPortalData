@@ -1,3 +1,11 @@
+## Changes in version 2.22.0
+
+### New features
+
+* Defunct `removeDataCache` for `cBioPortalData` as caching mechanism is
+no longer used. Run `cBioCache()` to get the cache location for deletion.
+Note that `cBioDataPack` will continue to cache data files at that location.
+
 ## Changes in version 2.20.0
 
 ### New features
