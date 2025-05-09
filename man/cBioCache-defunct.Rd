@@ -76,13 +76,4 @@ cBioPortalData(
         c("acc_tcga_rppa", "acc_tcga_linear_CNA", "acc_tcga_mutations")
 )
 
-removeDataCache(
-    cbio, by = "hugoGeneSymbol",
-    studyId = "acc_tcga",
-    genePanelId = "AmpliSeq",
-    molecularProfileIds =
-        c("acc_tcga_rppa", "acc_tcga_linear_CNA", "acc_tcga_mutations"),
-    dry.run = TRUE
-)
-
 }

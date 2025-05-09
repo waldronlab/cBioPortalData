@@ -192,15 +192,6 @@ removePackCache <- function(cancer_study_id, dry.run = TRUE) {
 #'         c("acc_tcga_rppa", "acc_tcga_linear_CNA", "acc_tcga_mutations")
 #' )
 #'
-#' removeDataCache(
-#'     cbio, by = "hugoGeneSymbol",
-#'     studyId = "acc_tcga",
-#'     genePanelId = "AmpliSeq",
-#'     molecularProfileIds =
-#'         c("acc_tcga_rppa", "acc_tcga_linear_CNA", "acc_tcga_mutations"),
-#'     dry.run = TRUE
-#' )
-#'
 #' @returns removeDataCache: The path to the cache location when
 #'   `dry.run = FALSE` if the file exists. Otherwise, when `dry.run = TRUE`,
 #'   the function return the output of the `file.remove` operation.
