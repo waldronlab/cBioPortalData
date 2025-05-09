@@ -27,6 +27,8 @@
 inst/rsconnect
 inst/docker
 .*_cache
+.*_data
+.*_files
 .BBSoptions
 ^\.httr-oauth$
 ^README\.Rmd
