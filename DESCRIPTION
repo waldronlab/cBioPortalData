@@ -1,6 +1,6 @@
 Package: cBioPortalData
 Title: Exposes and Makes Available Data from the cBioPortal Web Resources
-Version: 2.21.2
+Version: 2.21.3
 Authors@R: c(
     person("Levi", "Waldron", , "lwaldron.research@gmail.com", "aut"),
     person("Marcel", "Ramos", , "marcel.ramos@sph.cuny.edu",
@@ -22,7 +22,7 @@ Imports:
     BiocFileCache (>= 1.5.3),
     digest,
     dplyr,
-    GenomeInfoDb,
+    Seqinfo,
     GenomicRanges,
     httr,
     IRanges,

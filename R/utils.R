@@ -13,7 +13,7 @@
     if (build) {
         buildno <- unique(RTCGAToolbox:::.getBuild(annotation, "ncbibuild"))
         isbuild <- TCGAutils::correctBuild(buildno, "NCBI")
-        GenomeInfoDb::genome(x) <- isbuild
+        Seqinfo::genome(x) <- isbuild
     }
     x
 }
