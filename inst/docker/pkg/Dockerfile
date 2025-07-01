@@ -1,4 +1,3 @@
-
 FROM bioconductor/bioconductor_docker:devel
 
 WORKDIR /home/rstudio
@@ -6,8 +5,8 @@ WORKDIR /home/rstudio
 COPY --chown=rstudio:rstudio . /home/rstudio/
 
 ENV R_REMOTES_NO_ERRORS_FROM_WARNINGS=true
-ENV CRAN='https://packagemanager.posit.co/cran/__linux__/jammy/latest'
+ENV CRAN='https://packagemanager.posit.co/cran/__linux__/noble/latest'
 
 RUN Rscript -e "BiocManager::install(update = TRUE, ask=FALSE)"
-RUN Rscript -e "devtools::install(dependencies=TRUE, build_vignettes=TRUE, repos = BiocManager::repositories())"
+RUN Rscript -e "remotes::install_local(dependencies=TRUE, build_vignettes=TRUE, repos = BiocManager::repositories())"
 
