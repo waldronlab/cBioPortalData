@@ -4,4 +4,4 @@ channels:
 dependencies:
   - r-base=4.4
   - bioconductor-cbioportaldata
-  - r-devtools
+  - r-remotes

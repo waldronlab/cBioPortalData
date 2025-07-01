@@ -9,13 +9,6 @@ RUN conda env update -n base --file environment.yml
 # Make RUN commands use the new environment:
 # SHELL ["conda", "run", "-n", "cbioportaldata", "/bin/bash", "-c"]
 
-COPY DESCRIPTION /app
-COPY NAMESPACE /app
-COPY R /app/R
-COPY inst/docker/scripts /app/scripts
-COPY man /app/man
-COPY tests /app/tests
-COPY vignettes /app/vignettes
+COPY . /app
 
-RUN ./scripts/installdev.sh
-
+RUN ["Rscript", "-e", "remotes::install_local(dependencies=FALSE, repos = BiocManager::repositories())"]
