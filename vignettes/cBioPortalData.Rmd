@@ -45,14 +45,11 @@ We demonstrate common use cases of `cBioPortalData` and `curatedTCGAData`
 during Bioconductor conference
 [workshops](https://waldronlab.io/MultiAssayWorkshop/).
 
-We use the [MultiAssayExperiment][1] (@Ramos2017-og) package to integrate,
+We use the `MultiAssayExperiment` [@Ramos2017-og] package to integrate,
 represent, and coordinate multiple experiments for the studies available in the
 cBioPortal. This package in conjunction with `curatedTCGAData` give access to
 a large trove of publicly available bioinformatic data. Please see our
-JCO Clinical Cancer Informatics publication [here][2] (@Ramos2020-ya).
-
-[1]: https://dx.doi.org/10.1158/0008-5472.CAN-17-0344
-[2]: https://dx.doi.org/10.1200/CCI.19.00119
+JCO Clinical Cancer Informatics publication [@Ramos2020-ya].
 
 # Citations
 
