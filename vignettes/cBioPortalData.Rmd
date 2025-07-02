@@ -111,8 +111,9 @@ molecular profile.
 
 ### cBioDataPack: Obtain Study Data as Zipped Tarballs
 
-This function will access the packaged data from \url{cBioPortal.org/datasets}
-and return an integrative MultiAssayExperiment representation.
+This function will access the packaged data from
+<https://cbioportal.org/datasets> and return an integrative
+`MultiAssayExperiment` representation.
 
 ```{r,message=FALSE,warning=FALSE}
 ## Use ask=FALSE for non-interactive use
@@ -187,9 +188,9 @@ cat(
 For this reason, we have also provided the `downloadStudy`, `untarStudy`, and
 `loadStudy` functions to allow researchers to simply download the data and
 potentially, manually curate it. Generally, we advise researchers to report
-inconsistencies in the data in the [cBioPortal][3] data repository.
+inconsistencies in the data in the cBioPortal [data repository][].
 
-[3]: https://github.com/cbioportal/datahub
+[data repository]: https://github.com/cbioportal/datahub
 
 ## Clearing the cache
 
@@ -255,11 +256,11 @@ ggsurvplot(fit, data = colData(laml), risk.table = TRUE)
 ### Data update requests
 
 If you are interested in a particular study dataset that is not currently
-building, please open an issue at our [GitHub repository][4] and we will do our
+building, please open an issue at our [GitHub repository][] and we will do our
 best to resolve the issues with the code base. Data issues can be opened at
-the cBioPortal [data repository][3].
+the cBioPortal [data repository][].
 
-[4]: https://github.com/waldronlab/cBioPortalData/issues
+[GitHub repository]: https://github.com/waldronlab/cBioPortalData/issues
 
 We appreciate your feedback!
 
