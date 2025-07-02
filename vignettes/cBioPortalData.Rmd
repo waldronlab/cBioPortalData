@@ -126,13 +126,26 @@ laml
 ### cBioPortalData: Obtain data from the cBioPortal API
 
 This function provides a more flexible and granular way to request a
-`MultiAssayExperiment` object from a study ID, molecular profile, gene panel,
-sample list.
+`MultiAssayExperiment` object from a study ID, molecular profile, set of genes,
+and a sample list.
+
+In this example, we will obtain data from the Adrenocortical carcinoma (ACC;
+`acc_tcga`) study. The list of `genes` below are based on potential driving
+alterations including amplifications, deletions, and point mutations. Also
+included are a set of genes known to initiate familial syndromes including
+adrenocortical neoplasms as described in @Zheng2016-au.
+
 
 ```{r,warning=FALSE}
-acc <- cBioPortalData(api = cbio, by = "hugoGeneSymbol", studyId = "acc_tcga",
-    genePanelId = "IMPACT341",
-    molecularProfileIds = c("acc_tcga_rppa", "acc_tcga_linear_CNA")
+acc <- cBioPortalData(
+    api = cbio,
+    by = "hugoGeneSymbol",
+    studyId = "acc_tcga",
+    genes = c(
+        "TERT", "TERF2", "CDK4", "ZNRF3", "CDKN2A", "RB1", "RPL22",
+        "TP53", "CTNNB1", "PRKAR1A", "MEN1"
+    ),
+    molecularProfileIds = c("acc_tcga_linear_CNA", "acc_tcga_mutations"),
 )
 acc
 ```
