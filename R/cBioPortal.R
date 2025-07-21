@@ -295,9 +295,10 @@ fetchData <-
     names(byGeneList) <- molecularProfileIds
 
     all_profs <- molecularProfiles(api = api, studyId = studyId)
-    mut_profs <- subset(
-        all_profs, molecularAlterationType == "MUTATION_EXTENDED"
-    )[["molecularProfileId"]]
+    mut_profs <- all_profs[
+        all_profs[["molecularAlterationType"]] == "MUTATION_EXTENDED",
+    ] |>
+        dplyr::pull("molecularProfileId")
     mutation <- molecularProfileIds %in% mut_profs
     mutationList <- mutationData(
         api = api, molecularProfileIds = molecularProfileIds[mutation],
@@ -305,11 +306,11 @@ fetchData <-
     )
 
     molecularProfileIds <- molecularProfileIds[!mutation]
-    dcn_molprofs <- subset(
-        all_profs,
-        molecularAlterationType == "COPY_NUMBER_ALTERATION" &
-            datatype == "DISCRETE"
-    )[["molecularProfileId"]]
+    dcn_molprofs <- all_profs[
+        all_profs[["molecularAlterationType"]] == "COPY_NUMBER_ALTERATION" &
+            all_profs[["datatype"]] == "DISCRETE",
+    ] |>
+        dplyr::pull("molecularProfileId")
     dcn <- molecularProfileIds %in% dcn_molprofs
 
     dcnList <- copyNumberData(

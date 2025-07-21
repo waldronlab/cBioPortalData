@@ -22,15 +22,16 @@
     sampleMap <- dplyr::bind_rows(sampmap)
 
     molProfs <- molecularProfiles(api = api, studyId = studyId)
-    mut_profs <- subset(
-        molProfs, molecularAlterationType == "MUTATION_EXTENDED"
-    )[["molecularProfileId"]]
-    cn_profs <- subset(
-        molProfs,
-        molecularAlterationType == "COPY_NUMBER_ALTERATION" &
-            datatype == "DISCRETE"
-    )[["molecularProfileId"]]
-    
+    mut_profs <- molProfs[
+        molProfs[["molecularAlterationType"]] == "MUTATION_EXTENDED",
+    ] |>
+        dplyr::pull("molecularProfileId")
+    cn_profs <- molProfs[
+        molProfs[["molecularAlterationType"]] == "COPY_NUMBER_ALTERATION" &
+            molProfs[["datatype"]] == "DISCRETE",
+    ] |>
+        dplyr::pull("molecularProfileId")
+
     experlist <- lapply(setNames(nm = names(expers)),
         function(molprof) {
             byGene <- expers[[molprof]]
