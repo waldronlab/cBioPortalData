@@ -21,7 +21,7 @@ knitr::opts_chunk$set(cache = TRUE)
 
 Please use the devel version of the `AnVIL` Bioconductor package.
 
-```{r,include=TRUE,results="hide",message=FALSE,warning=FALSE}
+```{r installation, include=TRUE,results="hide",message=FALSE,warning=FALSE}
 library(cBioPortalData)
 library(AnVIL)
 ```
@@ -70,7 +70,7 @@ of genes of interest or a gene panel identifier.
 
 Obtaining the cBioPortal API representation object
 
-```{r}
+```{r cbioportal_client}
 (cbio <- cBioPortal())
 ```
 
@@ -78,14 +78,14 @@ Obtaining the cBioPortal API representation object
 
 Check available tags, operations, and descriptions as a `tibble`:
 
-```{r}
+```{r tags}
 tags(cbio)
 head(tags(cbio)$operation)
 ```
 
 ### Searching through the API
 
-```{r}
+```{r search_ops}
 searchOps(cbio, "clinical")
 ```
 
@@ -93,7 +93,7 @@ searchOps(cbio, "clinical")
 
 Get the list of studies available:
 
-```{r}
+```{r get_studies}
 getStudies(cbio)
 ```
 
@@ -101,7 +101,7 @@ getStudies(cbio)
 
 Obtain the clinical data for a particular study:
 
-```{r}
+```{r clinical_data}
 clinicalData(cbio, "acc_tcga")
 ```
 
@@ -110,7 +110,7 @@ clinicalData(cbio, "acc_tcga")
 A table of molecular profiles for a particular study can be obtained by
 running the following:
 
-```{r}
+```{r molecular_profiles}
 mols <- molecularProfiles(cbio, "acc_tcga")
 mols[["molecularProfileId"]]
 ```
@@ -120,7 +120,7 @@ mols[["molecularProfileId"]]
 The data for a molecular profile can be obtained with prior knowledge of
 available `entrezGeneIds`:
 
-```{r}
+```{r molecular_data}
 molecularData(cbio, molecularProfileIds = "acc_tcga_rna_seq_v2_mrna",
     entrezGeneIds = c(1, 2),
     sampleIds = c("TCGA-OR-A5J1-01",  "TCGA-OR-A5J2-01")
@@ -134,13 +134,13 @@ molecularData(cbio, molecularProfileIds = "acc_tcga_rna_seq_v2_mrna",
 A list of all the genes provided by the API service including hugo symbols,
 and entrez gene IDs can be obtained by using the `geneTable` function:
 
-```{r}
+```{r gene_table}
 geneTable(cbio)
 ```
 
 ### Gene Panels
 
-```{r}
+```{r gene_panels}
 genePanels(cbio)
 getGenePanel(cbio, "IMPACT341")
 ```
@@ -149,7 +149,7 @@ getGenePanel(cbio, "IMPACT341")
 
 ### genePanelMolecular
 
-```{r}
+```{r gene_panel_molecular}
 gprppa <- genePanelMolecular(cbio,
     molecularProfileId = "acc_tcga_rppa",
     sampleListId = "acc_tcga_all")
@@ -158,7 +158,7 @@ gprppa
 
 ### getGenePanelMolecular
 
-```{r}
+```{r get_gene_panel_molecular}
 getGenePanelMolecular(cbio,
     molecularProfileIds = c("acc_tcga_rppa", "acc_tcga_gistic"),
     sampleIds = allSamples(cbio, "acc_tcga")$sampleId
@@ -167,7 +167,7 @@ getGenePanelMolecular(cbio,
 
 ### getDataByGenes
 
-```{r}
+```{r get_data_by_genes}
 getDataByGenes(cbio, "acc_tcga", genePanelId = "IMPACT341",
     molecularProfileIds = "acc_tcga_rppa", sampleListId = "acc_tcga_rppa")
 ```
@@ -182,7 +182,7 @@ It uses the `getAllGenesUsingGET` function from the API.
 To display all available sample list identifiers for a particular study ID,
 one can use the `sampleLists` function:
 
-```{r}
+```{r sample_lists}
 sampleLists(cbio, "acc_tcga")
 ```
 
@@ -192,26 +192,26 @@ One can obtain the barcodes / identifiers for each sample using a specific
 sample list identifier, in this case we want all the copy number alteration
 samples:
 
-```{r}
+```{r samples_in_sample_list}
 samplesInSampleLists(cbio, "acc_tcga_cna")
 ```
 
 This returns a `CharacterList` of all identifiers for each sample list
 identifier input:
 
-```{r}
+```{r samples_cna}
 samplesInSampleLists(cbio, c("acc_tcga_cna", "acc_tcga_cnaseq"))
 ```
 
 ### All samples within a study ID
 
-```{r}
+```{r all_samples}
 allSamples(cbio, "acc_tcga")
 ```
 
 ### Info on Samples
 
-```{r}
+```{r sample_info}
 getSampleInfo(cbio, studyId = "acc_tcga",
     sampleListIds = c("acc_tcga_rppa", "acc_tcga_cna"))
 ```
@@ -226,19 +226,19 @@ to access the endpoints.
 First the user should see the input for a particular endpoint as detailed
 in the API:
 
-```{r}
+```{r cbio_getGeneUsingGET}
 cbio$getGeneUsingGET
 ```
 
 Then the user can provide such input:
 
-```{r}
+```{r cbio_getGeneUsingGET_example}
 (resp <- cbio$getGeneUsingGET("BRCA1"))
 ```
 
 which will require the user to 'translate' the response using `httr::content`:
 
-```{r}
+```{r translate_response}
 httr::content(resp)
 ```
 
@@ -247,13 +247,13 @@ httr::content(resp)
 For users who wish to clear the entire `cBioPortalData` cache, it is
 recommended that they use:
 
-```{r,eval=FALSE}
+```{r clear_cache, eval=FALSE}
 unlink("~/.cache/cBioPortalData/")
 ```
 
 # sessionInfo
 
-```{r}
+```{r sessioninfo}
 sessionInfo()
 ```
 
