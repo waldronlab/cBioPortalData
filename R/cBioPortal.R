@@ -522,8 +522,8 @@ searchOps <- function(api, keyword) {
 #' @section Sample Data:
 #' * samplesInSampleLists - get all samples associated with a 'sampleListId'
 #'
-#' @param sampleListIds `character()` A vector of 'sampleListId' as obtained from
-#'   `sampleLists`
+#' @param sampleListIds `character()` A vector of 'sampleListId' as obtained
+#'   from `sampleLists`
 #'
 #' @examples
 #' samplesInSampleLists(
