@@ -257,7 +257,7 @@ update.args <- function(args) {
 #'   [MultiAssayExperiment][MultiAssayExperiment::MultiAssayExperiment-class]
 #'   object
 #'
-#' @seealso [cBioDataPack], [removeDataCache]
+#' @seealso [cBioDataPack]
 #'
 #' @export
 cBioPortalData <-

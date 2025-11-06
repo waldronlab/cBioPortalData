@@ -100,5 +100,5 @@ acc_tcga <- cBioPortalData(
 
 }
 \seealso{
-\link{cBioDataPack}, \link{removeDataCache}
+\link{cBioDataPack}
 }

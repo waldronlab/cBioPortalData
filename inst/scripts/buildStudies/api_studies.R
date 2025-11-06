@@ -26,11 +26,6 @@ if (identical(tolower(Sys.getenv("IS_BIOC_BUILD_MACHINE")), "true")) {
             comp_api[[api_stud]] <- success
         else
             err_api[[api_stud]] <- dats
-        ## clean up data
-        removeDataCache(
-            cbioportal, studyId = api_stud, genePanelId = "IMPACT341",
-            dry.run = FALSE
-        )
     }
 
 } else if (identical(Sys.getenv("IS_SUPERMICRO_MACHINE"), "TRUE")) {
@@ -54,10 +49,6 @@ if (identical(tolower(Sys.getenv("IS_BIOC_BUILD_MACHINE")), "true")) {
                 err <- dats
             else
                 err <- ""
-            removeDataCache(
-                cbioportal, studyId = api_stud, genePanelId = "IMPACT341",
-                dry.run = FALSE
-            )
             list(comp_api = comp, err_api = err)
         }, BPPARAM = params
     )
