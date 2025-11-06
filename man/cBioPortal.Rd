@@ -162,8 +162,8 @@ to filter on. Must be one of "HOMDEL_AND_AMP" (default), "HOMDEL", "AMP",
 \item{keyword}{\code{character(1)} Keyword or pattern for searching through
 available operations}
 
-\item{sampleListIds}{\code{character()} A vector of 'sampleListId' as obtained from
-\code{sampleLists}}
+\item{sampleListIds}{\code{character()} A vector of 'sampleListId' as obtained
+from \code{sampleLists}}
 
 \item{genePanelId}{\code{character(1)} Identifies the gene panel, as obtained from
 the \code{genePanels} function}
