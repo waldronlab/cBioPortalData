@@ -134,6 +134,24 @@ cBioPortal <- function(
     denv
 }
 
+.SENTINEL_STUDY_DATA <- tibble::tibble(
+    name = character(),
+    description = character(),
+    publicStudy = logical(),
+    pmid = character(),
+    citation = character(),
+    groups = character(),
+    status = integer(),
+    importDate = character(),
+    allSampleCount = integer(),
+    readPermission = logical(),
+    ## remove problematic nested list
+    ## resourceCounts = list(),
+    studyId = character(),
+    cancerTypeId = character(),
+    referenceGenome = character()
+)
+
 #' @rdname cBioPortal
 #'
 #' @section API Metadata:
@@ -144,7 +162,9 @@ cBioPortal <- function(
 #'   can be generated for that particular study identifier (`studyId`). The
 #'   'api_build' column corresponds to datasets obtained with
 #'   `cBioPortalData` and the 'pack_build' column corresponds to datsets
-#'   loaded via `cBioDataPack`.
+#'   loaded via `cBioDataPack`. Note that `resourceCounts` is removed from
+#'   the returned table for simplicity. To get the resource counts manually,
+#'   use `api$getStudyUsingGET()`.
 #'
 #' @examples
 #' getStudies(api = cbio)
@@ -156,14 +176,10 @@ getStudies <- function(api, buildReport = FALSE) {
 
     query <- .invoke_fun(api, "getAllStudiesUsingGET")
     studies <- httr::content(query)
-    studies <- lapply(studies, function(x) {
-        if (is.null(x[["pmid"]]))
-            x[["pmid"]] <- NA_character_
-        if (is.null(x[["citation"]]))
-            x[["citation"]] <- NA_character_
-        x
-    })
-    studytable <- dplyr::bind_rows(studies)
+    ## remove resourceCounts nested list
+    studies <-
+        lapply(studies, function(study) study[names(study) != "resourceCounts"])
+    studytable <- dplyr::bind_rows(.SENTINEL_STUDY_DATA, studies)
 
     if (buildReport) {
         denv <- .loadReportData()

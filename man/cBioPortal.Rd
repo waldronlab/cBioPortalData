@@ -209,7 +209,9 @@ be added to the table and will show if \code{MultiAssayExperiment} objects
 can be generated for that particular study identifier (\code{studyId}). The
 'api_build' column corresponds to datasets obtained with
 \code{cBioPortalData} and the 'pack_build' column corresponds to datsets
-loaded via \code{cBioDataPack}.
+loaded via \code{cBioDataPack}. Note that \code{resourceCounts} is removed from
+the returned table for simplicity. To get the resource counts manually,
+use \code{api$getStudyUsingGET()}.
 }
 
 
