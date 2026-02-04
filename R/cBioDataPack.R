@@ -180,8 +180,8 @@ cbioportal2clinicaldf <- function(files) {
     }, error = function(e) {
         if (!file.size(tmpFile))
             file.remove(tmpFile)
-        warning(
-            "Unable to download file.\nreason: ", conditionMessage(e),
+        stop(
+            "Unable to download file.\n  reason: ", conditionMessage(e),
             call. = FALSE
         )
     })
