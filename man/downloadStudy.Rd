@@ -10,7 +10,7 @@ downloadStudy(
   cancer_study_id,
   use_cache = TRUE,
   force = FALSE,
-  url_location = getOption("cBio_URL", .url_location),
+  url_location = getOption("cBio_URL", .CBIOPORTAL_DATA_URL),
   ask = interactive()
 )
 
