@@ -173,8 +173,18 @@ cbioportal2clinicaldf <- function(files) {
         message("Downloading study file: ", cancer_study_id, ".tar.gz")
 
     tmpFile <- file.path(tempdir(), paste0(cancer_study_id, ".tar.gz"))
-    utils::download.file(fileURL, destfile = tmpFile, quiet = TRUE,
-        method = "wget")
+    tryCatch({
+        utils::download.file(
+            fileURL, destfile = tmpFile, quiet = TRUE, method = "wget"
+        )
+    }, error = function(e) {
+        if (!file.size(tmpFile))
+            file.remove(tmpFile)
+        warning(
+            "Unable to download file.\nreason: ", conditionMessage(e),
+            call. = FALSE
+        )
+    })
 
     .manageLocalFile(cancer_study_id, tmpFile)
 }
