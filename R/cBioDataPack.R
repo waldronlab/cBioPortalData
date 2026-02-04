@@ -1,5 +1,4 @@
-# previously http://download.cbioportal.org
-.url_location <- "https://cbioportal-datahub.s3.amazonaws.com"
+.CBIOPORTAL_DATA_URL <- "https://datahub.assets.cbioportal.org/"
 
 getRelevantFilesFromStudy <- function(filelist) {
     ## Remove files that are corrupt / hidden (start with ._)
@@ -259,7 +258,8 @@ cbioportal2clinicaldf <- function(files) {
 #'
 #' @export
 downloadStudy <- function(cancer_study_id, use_cache = TRUE, force = FALSE,
-    url_location = getOption("cBio_URL", .url_location), ask = interactive())
+    url_location = getOption("cBio_URL", .CBIOPORTAL_DATA_URL),
+    ask = interactive())
 {
     .validStudyID(cancer_study_id)
 
@@ -533,10 +533,10 @@ loadStudy <- function(
 #' By default, it points to an Amazon S3 bucket location. Previously, it
 #' pointed to 'http://download.cbioportal.org'. This recent change
 #' (> 2.1.17) should provide faster and more reliable downloads for all users.
-#' See the URL using `cBioPortalData:::.url_location`. This can be changed
-#' if there are mirrors that host this data by setting the `cBio_URL` option
-#' with `getOption("cBio_URL", "https://some.url.com/")` before running the
-#' function.
+#' See the URL using `cBioPortalData:::.CBIOPORTAL_DATA_URL`. This can be
+#' changed if there are mirrors that host this data by setting the `cBio_URL`
+#' option with `getOption("cBio_URL", "https://some.url.com/")` before running
+#' the function.
 #'
 #' @inheritParams downloadStudy
 #' @inheritParams cBioPortalData

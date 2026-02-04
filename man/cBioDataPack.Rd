@@ -73,10 +73,10 @@ The \code{cBioDataPack} function accesses data from the \code{cBio_URL} option.
 By default, it points to an Amazon S3 bucket location. Previously, it
 pointed to 'http://download.cbioportal.org'. This recent change
 (> 2.1.17) should provide faster and more reliable downloads for all users.
-See the URL using \code{cBioPortalData:::.url_location}. This can be changed
-if there are mirrors that host this data by setting the \code{cBio_URL} option
-with \code{getOption("cBio_URL", "https://some.url.com/")} before running the
-function.
+See the URL using \code{cBioPortalData:::.CBIOPORTAL_DATA_URL}. This can be
+changed if there are mirrors that host this data by setting the \code{cBio_URL}
+option with \code{getOption("cBio_URL", "https://some.url.com/")} before running
+the function.
 }
 
 \examples{
