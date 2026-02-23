@@ -130,62 +130,34 @@ cbioportal2clinicaldf <- function(files) {
         inTable
 }
 
-.download_data_file <-
-    function(fileURL, cancer_study_id, verbose = FALSE, force = FALSE)
-{
-    bfc <- .get_cache()
-    rid <- bfcquery(bfc, cancer_study_id, "rname", exact = TRUE)$rid
-    if (!length(rid)) {
-        rid <- names(bfcadd(bfc, cancer_study_id, fileURL, download = FALSE))
-    }
-    if (!.cache_exists(bfc, cancer_study_id) || force) {
-        if (verbose)
-            message("Downloading study file: ", cancer_study_id, ".tar.gz")
-            bfcdownload(bfc, rid, ask = FALSE)
-    } else
-        message("Study file in cache: ", cancer_study_id)
+.cache_url_file <- function(url, cache, force = FALSE) {
+    bfc <- BiocFileCache(cache = cache)
+    bquery <- bfcquery(bfc, url, "rname", exact = TRUE)
+    cached <- identical(nrow(bquery), 1L)
 
-    bfcrpath(bfc, rids = rid)
-}
-
-.manageLocalFile <- function(cancer_study_id, inpath) {
-    bfc <- .get_cache()
-    rid <- bfcquery(bfc, cancer_study_id, "rname", exact = TRUE)$rid
-    if (!length(rid))
-        stop("Can't update non-existing cache item")
-
-    cachedir <- bfccache(bfc)
-    finalname <- paste0(gsub("file", "", basename(tempfile())), "_",
-        cancer_study_id, ".tar.gz")
-    fileLoc <- file.path(cachedir, finalname)
-    file.copy(inpath, fileLoc)
-
-    bfcupdate(bfc, rids = rid, rpath = fileLoc)
-
-    file.remove(inpath)
-
-    bfcrpath(bfc, rids = rid)
-}
-
-.altDownload <- function(fileURL, cancer_study_id, verbose = FALSE) {
-    if (verbose)
-        message("Downloading study file: ", cancer_study_id, ".tar.gz")
-
-    tmpFile <- file.path(tempdir(), paste0(cancer_study_id, ".tar.gz"))
-    tryCatch({
-        utils::download.file(
-            fileURL, destfile = tmpFile, quiet = TRUE, method = "wget"
+    if (!force && cached)
+        return(
+            bfcrpath(
+                bfc, rnames = url, exact = TRUE, download = TRUE, rtype = "web"
+            )
         )
-    }, error = function(e) {
-        if (!file.size(tmpFile))
-            file.remove(tmpFile)
-        stop(
-            "Unable to download file.\n  reason: ", conditionMessage(e),
-            call. = FALSE
-        )
-    })
 
-    .manageLocalFile(cancer_study_id, tmpFile)
+    destfile <- file.path(cache, basename(url))
+    if (!dir.exists(cache))
+        dir.create(cache, recursive = TRUE, showWarnings = FALSE)
+    download.file(url = url, destfile = destfile)
+    if (!cached)
+        BiocFileCache::bfcadd(
+            x = bfc,
+            rname = url,
+            fpath = destfile,
+            rtype = "local",
+            action = "asis",
+            fname = "exact",
+            exact = TRUE
+        )
+    else
+        destfile
 }
 
 #' @name downloadStudy
@@ -259,6 +231,8 @@ cbioportal2clinicaldf <- function(files) {
 #' * untarStudy - The directory location of the contents
 #' * loadStudy - A MultiAssayExperiment-class object
 #'
+#' @importFrom BiocBaseUtils isScalarCharacter
+#'
 #' @seealso [cBioDataPack],
 #'   [MultiAssayExperiment][MultiAssayExperiment::MultiAssayExperiment-class]
 #'
@@ -273,27 +247,16 @@ downloadStudy <- function(cancer_study_id, use_cache = TRUE, force = FALSE,
 {
     .validStudyID(cancer_study_id)
 
-    url_file <- file.path(url_location, paste0(cancer_study_id, ".tar.gz"))
+    url_file <- paste0(url_location, paste0(cancer_study_id, ".tar.gz"))
 
-    if (is.character(use_cache) && length(use_cache) == 1L)
-        cBioCache(directory = use_cache)
+    if (isScalarCharacter(use_cache))
+        cache_dir <- cBioCache(directory = use_cache)
     else if (isTRUE(use_cache))
-        cBioCache(ask = ask)
-    else
-        stop("Use 'setCache' or specify a download location")
+        cache_dir <- cBioCache(ask = ask)
+    else if (!use_cache)
+        cache_dir <- tempdir()
 
-    tryCatch(
-        {
-            .download_data_file(
-                url_file, cancer_study_id, verbose = TRUE, force = force
-            )
-        },
-        error = function(cond) {
-            message("\n", cond)
-            message("\nRetrying download with alternative function...")
-            .altDownload(url_file, cancer_study_id, verbose = TRUE)
-        }
-    )
+    .cache_url_file(url_file, cache_dir, force = force)
 }
 
 #' @rdname downloadStudy

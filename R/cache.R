@@ -1,7 +1,8 @@
-.get_cache <- function() {
-    cache <- getOption("cBioCache", setCache(verbose = FALSE))
-
-    BiocFileCache(cache)
+.get_cache <- function(directory) {
+    cache <- getOption(
+        "cBioCache", setCache(directory = directory, verbose = FALSE)
+    )
+    BiocFileCache(cache = cache)
 }
 
 .cache_exists <- function(bfc, rname) {
