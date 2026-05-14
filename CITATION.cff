@@ -1,0 +1,92 @@
+# --------------------------------------------
+# CITATION file created with {cffr} R package
+# See also: https://docs.ropensci.org/cffr/
+# --------------------------------------------
+ 
+cff-version: 1.2.0
+message: 'To cite package "cBioPortalData" in publications use:'
+type: software
+license: AGPL-3.0-only
+title: 'cBioPortalData: Exposes and Makes Available Data from the cBioPortal Web Resources'
+version: 2.25.1
+doi: 10.1200/CCI.19.00119
+abstract: The cBioPortalData R package accesses study datasets from the cBio Cancer
+  Genomics Portal. It accesses the data either from the pre-packaged zip / tar files
+  or from the API interface that was recently implemented by the cBioPortal Data Team.
+  The package can provide data in either tabular format or with MultiAssayExperiment
+  object that uses familiar Bioconductor data representations.
+authors:
+- family-names: Waldron
+  given-names: Levi
+  email: lwaldron.research@gmail.com
+- family-names: Ramos
+  given-names: Marcel
+  email: marcel.ramos@sph.cuny.edu
+  orcid: https://orcid.org/0000-0002-3242-0582
+preferred-citation:
+  type: article
+  title: Multiomic Integration of Public Oncology Databases in Bioconductor
+  authors:
+  - family-names: Ramos
+    given-names: Marcel
+    email: marcel.ramos@sph.cuny.edu
+    orcid: https://orcid.org/0000-0002-3242-0582
+  - family-names: Geistlinger
+    given-names: Ludwig
+  - family-names: Oh
+    given-names: Sehyun
+  - family-names: Schiffer
+    given-names: Lucas
+  - family-names: Azhar
+    given-names: Rimsha
+  - family-names: Kodali
+    given-names: Hanish
+  - family-names: Bruijn
+    given-names: Ino
+    name-particle: de
+  - family-names: Gao
+    given-names: Jianjiong
+  - family-names: Carey
+    given-names: Vincent J.
+  - family-names: Morgan
+    given-names: Martin
+  - family-names: Waldron
+    given-names: Levi
+    email: lwaldron.research@gmail.com
+  journal: JCO Clinical Cancer Informatics
+  volume: '1'
+  issue: '4'
+  year: '2020'
+  doi: 10.1200/CCI.19.00119
+  notes: 'PMID: 33119407'
+  url: https://ascopubs.org/doi/pdf/10.1200/CCI.19.00119
+  start: 958-971
+repository: https://bioconductor.org/
+repository-code: https://github.com/waldronlab/cBioPortalData
+url: https://github.com/waldronlab/cBioPortalData
+date-released: '2026-02-23'
+contact:
+- family-names: Ramos
+  given-names: Marcel
+  email: marcel.ramos@sph.cuny.edu
+  orcid: https://orcid.org/0000-0002-3242-0582
+keywords:
+- bioconductor-package
+- nci-itcr
+- u24ca289073
+references:
+- type: manual
+  title: 'cBioPortalData: Exposes and Makes Available Data from the cBioPortal Web
+    Resources'
+  authors:
+  - family-names: Waldron
+    given-names: Levi
+    email: lwaldron.research@gmail.com
+  - family-names: Ramos
+    given-names: Marcel
+    email: marcel.ramos@sph.cuny.edu
+    orcid: https://orcid.org/0000-0002-3242-0582
+  year: '2026'
+  notes: R package version 2.25.1
+  url: https://github.com/waldronlab/cBioPortalData
+
