@@ -390,7 +390,7 @@ mutationData <- function(api, molecularProfileIds = NA_character_,
     if (!length(molecularProfileIds) || !length(byGene))
         structure(
             vector("list", length(molecularProfileIds)),
-            .Names = molecularProfileIds
+            names = molecularProfileIds
         )
     else
         split(byGene, byGene[["molecularProfileId"]])
@@ -443,7 +443,7 @@ molecularData <- function(api, molecularProfileIds = NA_character_,
     if (!length(molecularProfileIds) || !length(byGene))
         structure(
             vector("list", length(molecularProfileIds)),
-            .Names = molecularProfileIds
+            names = molecularProfileIds
         )
     else
         split(byGene, byGene[["molecularProfileId"]])
@@ -498,7 +498,7 @@ copyNumberData <- function(
         return(
             structure(
                 vector("list", length(molecularProfileIds)),
-                .Names = molecularProfileIds
+                names = molecularProfileIds
             )
         )
 
@@ -557,7 +557,7 @@ samplesInSampleLists <-
     sampleListIds <- setNames(sampleListIds, sampleListIds)
 
     meta <- structure(vector("list", length(sampleListIds)),
-        .Names = sampleListIds)
+        names = sampleListIds)
     res <- lapply(sampleListIds, function(x) {
         res <- .invoke_fun(
             api, "getSampleListUsingGET", sampleListId = x

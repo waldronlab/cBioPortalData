@@ -3,7 +3,7 @@ test_that("cBioPortal API is working with most studies", {
     cbio <- cBioPortal()
     studies <- getStudies(cbio)[["studyId"]]
 
-    isMAE <- structure(vector("logical", length(studies)), .Names = studies)
+    isMAE <- structure(vector("logical", length(studies)), names = studies)
 
     for (api_stud in studies) {
         message("Working on: ", api_stud)
