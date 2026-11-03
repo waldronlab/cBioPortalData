@@ -10,14 +10,14 @@
 \S4method{operations}{cBioPortal}(x, ..., .deprecated = FALSE)
 }
 \arguments{
-\item{x}{A \link[AnVIL:Services]{AnVIL} instance or API representation as
+\item{x}{A \link[AnVIL:Service-class]{AnVIL} instance or API representation as
 given by the \link{cBioPortal} function.}
 
 \item{...}{additional arguments passed to methods or, for
 \verb{operations,Service-method}, to the internal \code{get_operation()}
 function.}
 
-\item{.deprecated}{optional logical(1) include deprecated operations?}
+\item{.deprecated}{optional \code{logical(1)} include deprecated operations?}
 }
 \value{
 A \code{cBioPortal} class instance
@@ -26,14 +26,14 @@ A \code{cBioPortal} class instance
 The \code{cBioPortal} class is a representation of the \code{cBioPortal}
 API protocol that directly inherits from the \code{Service} class in the
 \code{AnVIL} package. For more information, see the
-\link[AnVIL:Services]{AnVIL} package.
+\link[AnVIL:Service-class]{AnVIL} package.
 }
 \details{
 This class takes the static API as provided at
 \url{https://www.cbioportal.org/api/v2/api-docs} and creates an R object
 with the help from underlying infrastructure (i.e.,
 \link[rapiclient:rapiclient-package]{rapiclient} and
-\link[AnVIL:Services]{AnVIL}) to give the user a unified representation
+\link[AnVIL:Service-class]{AnVIL}) to give the user a unified representation
 of the API specification provided by the cBioPortal group. Users are not
 expected to interact with this class other than to use it as input
 to the functionality provided by the rest of the package.
@@ -50,5 +50,5 @@ cBioPortal()
 
 }
 \seealso{
-\link{cBioPortal}, \link[AnVIL:Services]{AnVIL}
+\link{cBioPortal}, \link[AnVIL:Service-class]{AnVIL}
 }
