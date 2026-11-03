@@ -1,3 +1,31 @@
+## Changes in version 2.26.0
+
+### New features
+
+* Add `structuralVariantData` to download structural variant (e.g., gene
+fusion) data. The endpoint is listed only in the 'internal' group of the
+cBioPortal OpenAPI v3 specification and is therefore called directly.
+* Add `genericAssayData` and `genericAssayMeta` to download generic assay data
+(e.g., arm-level copy number, PanCancer Atlas methylation, phosphoprotein) and
+the corresponding entity identifiers (`stableId`)
+* `fetchData` routes 'STRUCTURAL_VARIANT' and 'GENERIC_ASSAY' molecular
+profiles to the new functions based on `molecularAlterationType`
+* Add `genericAssayStableIds` argument to `fetchData`
+
+### Bug fixes and minor improvements
+
+* `fetchData` uses all molecular profiles in the study (excluding
+'GENERIC_ASSAY') when `molecularProfileIds` is not specified (`NULL` or `NA`).
+Previously, no profiles were downloaded when using the default
+`molecularProfileIds` in `cBioPortalData` and `getDataByGenes`.
+* `getDataByGenes` returns data without an `entrezGeneId` column (i.e.,
+structural variant and generic assay data) as is rather than attempting to
+join gene metadata
+* `cBioPortalData` excludes 'STRUCTURAL_VARIANT' and 'GENERIC_ASSAY' profiles,
+which are not indexed by gene, and warns when they are explicitly requested
+* Add unit tests for structural variant, generic assay, and `fetchData`
+profile routing
+
 ## Changes in version 2.22.0
 
 ### New features
