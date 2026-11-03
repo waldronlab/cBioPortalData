@@ -5,7 +5,7 @@ on: workflow_dispatch
 jobs:
   apiUpdate:
     runs-on: ubuntu-latest
-    container: bioconductor/bioconductor_docker:devel
+    container: ghcr.io/bioconductor/bioconductor_docker:devel
 
     env:
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
