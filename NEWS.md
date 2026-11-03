@@ -23,6 +23,10 @@ structural variant and generic assay data) as is rather than attempting to
 join gene metadata
 * `cBioPortalData` excludes 'STRUCTURAL_VARIANT' and 'GENERIC_ASSAY' profiles,
 which are not indexed by gene, and warns when they are explicitly requested
+* Use the SHA-256 digest of the API specification in `cBioPortal()` to avoid
+the 'service version differs from validated version' warning; `AnVIL`
+now validates the specification with SHA-256 rather than MD5
+* Remove the version constraint on `AnVIL` in `DESCRIPTION`
 * Add unit tests for structural variant, generic assay, and `fetchData`
 profile routing
 
