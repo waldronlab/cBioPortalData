@@ -31,44 +31,68 @@ export(untarStudy)
 exportClasses(cBioPortal)
 exportMethods(operations)
 import(RTCGAToolbox)
-importFrom(AnVIL,Service)
-importFrom(AnVIL,operations)
-importFrom(BiocBaseUtils,checkInstalled)
-importFrom(BiocBaseUtils,isScalarCharacter)
-importFrom(BiocFileCache,BiocFileCache)
-importFrom(BiocFileCache,bfcadd)
-importFrom(BiocFileCache,bfccache)
-importFrom(BiocFileCache,bfcdownload)
-importFrom(BiocFileCache,bfcinfo)
-importFrom(BiocFileCache,bfcnew)
-importFrom(BiocFileCache,bfcquery)
-importFrom(BiocFileCache,bfcremove)
-importFrom(BiocFileCache,bfcrpath)
-importFrom(BiocFileCache,bfcupdate)
+importFrom(AnVIL,
+  Service,
+  operations
+)
+importFrom(BiocBaseUtils,
+  checkInstalled,
+  isScalarCharacter
+)
+importFrom(BiocFileCache,
+  BiocFileCache,
+  bfcadd,
+  bfccache,
+  bfcdownload,
+  bfcinfo,
+  bfcnew,
+  bfcquery,
+  bfcremove,
+  bfcrpath,
+  bfcupdate
+)
 importFrom(GenomicRanges,makeGRangesListFromDataFrame)
-importFrom(MultiAssayExperiment,ExperimentList)
-importFrom(MultiAssayExperiment,MultiAssayExperiment)
-importFrom(S4Vectors,"metadata<-")
-importFrom(S4Vectors,DataFrame)
-importFrom(S4Vectors,SimpleList)
-importFrom(S4Vectors,isSingleString)
-importFrom(S4Vectors,metadata)
-importFrom(Seqinfo,"genome<-")
-importFrom(Seqinfo,genome)
-importFrom(SummarizedExperiment,"rowData<-")
-importFrom(SummarizedExperiment,SummarizedExperiment)
-importFrom(SummarizedExperiment,rowData)
-importFrom(TCGAutils,TCGAbarcode)
-importFrom(TCGAutils,findGRangesCols)
-importFrom(TCGAutils,generateMap)
-importFrom(methods,as)
-importFrom(methods,callNextMethod)
-importFrom(methods,is)
-importFrom(methods,new)
-importFrom(readr,read_tsv)
-importFrom(readr,type_convert)
-importFrom(stats,na.omit)
-importFrom(stats,setNames)
-importFrom(utils,data)
-importFrom(utils,download.file)
-importFrom(utils,untar)
+importFrom(MultiAssayExperiment,
+  ExperimentList,
+  MultiAssayExperiment
+)
+importFrom(S4Vectors,
+  "metadata<-",
+  DataFrame,
+  SimpleList,
+  isSingleString,
+  metadata
+)
+importFrom(Seqinfo,
+  "genome<-",
+  genome
+)
+importFrom(SummarizedExperiment,
+  "rowData<-",
+  SummarizedExperiment,
+  rowData
+)
+importFrom(TCGAutils,
+  TCGAbarcode,
+  findGRangesCols,
+  generateMap
+)
+importFrom(methods,
+  as,
+  callNextMethod,
+  is,
+  new
+)
+importFrom(readr,
+  read_tsv,
+  type_convert
+)
+importFrom(stats,
+  na.omit,
+  setNames
+)
+importFrom(utils,
+  data,
+  download.file,
+  untar
+)
