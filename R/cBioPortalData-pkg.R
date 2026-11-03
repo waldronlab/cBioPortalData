@@ -7,7 +7,7 @@
 #' @importFrom TCGAutils generateMap TCGAbarcode findGRangesCols
 #' @import RTCGAToolbox
 #' @importFrom BiocFileCache BiocFileCache bfcquery bfcnew bfcinfo bfcadd
-#' bfcdownload bfcrpath bfcremove bfccache bfcupdate
+#' @importFrom BiocFileCache bfcdownload bfcrpath bfcremove bfccache bfcupdate
 #' @importFrom methods as is
 #' @importFrom stats na.omit setNames
 #' @importFrom utils data download.file untar
