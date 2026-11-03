@@ -307,10 +307,11 @@ fetchData <-
 ) {
     if (missing(studyId))
         stop("Provide a valid 'studyId' from 'cBioPortal()'")
-    byGeneList <- vector("list", length(molecularProfileIds))
-    names(byGeneList) <- molecularProfileIds
 
     all_profs <- molecularProfiles(api = api, studyId = studyId)
+    if (!length(molecularProfileIds) || all(is.na(molecularProfileIds)))
+        molecularProfileIds <- all_profs[["molecularProfileId"]]
+
     mut_profs <- all_profs[
         all_profs[["molecularAlterationType"]] == "MUTATION_EXTENDED",
     ] |>
