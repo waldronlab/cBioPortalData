@@ -17,6 +17,6 @@ if (!identical(oldmd5, md5)) {
     writeLines(updatedlines, con = file("R/cBioPortal.R"))
     quit(status = 0)
 } else {
-## failure -- API the same
-    quit(status = 1)
+    cat("::notice::API is unchanged; no update needed.\n")
+    quit(status = 0)
 }
