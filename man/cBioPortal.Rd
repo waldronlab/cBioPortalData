@@ -6,6 +6,9 @@
 \alias{clinicalData}
 \alias{molecularProfiles}
 \alias{fetchData}
+\alias{structuralVariantData}
+\alias{genericAssayMeta}
+\alias{genericAssayData}
 \alias{mutationData}
 \alias{molecularData}
 \alias{copyNumberData}
@@ -45,7 +48,29 @@ fetchData(
   studyId,
   molecularProfileIds = NA_character_,
   entrezGeneIds = NULL,
+  sampleIds = NULL,
+  genericAssayStableIds = NULL
+)
+
+structuralVariantData(
+  api,
+  molecularProfileIds = NA_character_,
+  entrezGeneIds = NULL,
   sampleIds = NULL
+)
+
+genericAssayMeta(
+  api,
+  molecularProfileId,
+  projection = c("SUMMARY", "ID", "DETAILED", "META")
+)
+
+genericAssayData(
+  api,
+  molecularProfileIds = NA_character_,
+  genericAssayStableIds = NULL,
+  sampleIds = NULL,
+  sampleListId = NULL
 )
 
 mutationData(
@@ -146,11 +171,21 @@ information to the \code{getStudies()} table (default FALSE)}
 \item{projection}{\code{character(1)} (default: "SUMMARY") Specify the projection
 type for data retrieval for details see API documentation}
 
-\item{molecularProfileIds}{\code{character()} A vector of molecular profile IDs}
+\item{molecularProfileIds}{\code{character()} A vector of molecular profile IDs.
+In \code{fetchData}, all non-'GENERIC_ASSAY' profiles in the study are used
+when not specified.}
 
 \item{entrezGeneIds}{\code{numeric()} A vector indicating entrez gene IDs}
 
 \item{sampleIds}{\code{character()} Sample identifiers}
+
+\item{genericAssayStableIds}{\code{character()} or named \code{list()} Generic assay
+entity identifiers, e.g., "1p_status" for arm-level copy number or probe
+IDs for methylation. Use a named list (by \code{molecularProfileIds}) to
+provide different identifiers per profile. When \code{NULL} (default), all
+entities in the profile are downloaded. See \code{genericAssayMeta}.}
+
+\item{molecularProfileId}{\code{character(1)} Indicates a molecular profile ID}
 
 \item{sampleListId}{\code{character(1)} A sample list identifier as obtained from
 \code{sampleLists()}}
@@ -167,8 +202,6 @@ from \code{sampleLists}}
 
 \item{genePanelId}{\code{character(1)} Identifies the gene panel, as obtained from
 the \code{genePanels} function}
-
-\item{molecularProfileId}{\code{character(1)} Indicates a molecular profile ID}
 
 \item{pageSize}{\code{numeric(1)} The number of rows in the table to return}
 
@@ -266,9 +299,14 @@ study identifier ('studyId')
 \section{Molecular Data}{
 
 \itemize{
-\item fetchData - A convenience function to download both mutation and
-molecular data with \code{molecularProfileId}, \code{entrezGeneIds}, and
-\code{sampleIds}
+\item fetchData - A convenience function to download mutation, copy number,
+structural variant, generic assay, and other molecular data with
+\code{molecularProfileIds}, \code{entrezGeneIds}, and \code{sampleIds}. Each profile is
+routed to the appropriate function based on its
+\code{molecularAlterationType}. When \code{molecularProfileIds} is not specified,
+all molecular profiles in the study are downloaded except 'GENERIC_ASSAY'
+profiles, which can be very large and are not indexed by gene; these
+must be requested explicitly.
 }
 
 
@@ -281,6 +319,39 @@ molecular data with \code{molecularProfileId}, \code{entrezGeneIds}, and
 \itemize{
 \item molecularData - Produce a dataset of molecular profile data based on
 \code{molecularProfileId}, \code{entrezGeneIds}, and \code{sampleIds}
+}
+}
+
+\section{Structural Variant Data}{
+
+\itemize{
+\item structuralVariantData - Produce a dataset of structural variants (e.g.,
+gene fusions) based on \code{molecularProfileIds}, \code{entrezGeneIds}, and
+optionally \code{sampleIds}. Each record describes two sites (\verb{site1*} and
+\verb{site2*} columns) rather than a single gene. Note that the underlying
+endpoint (\code{fetchStructuralVariantsUsingPOST}) is only listed in the
+'internal' group of the OpenAPI v3 specification
+(\url{https://www.cbioportal.org/api/v3/api-docs/internal}) and not in the
+v2 specification used by \code{cBioPortal()}; it is therefore called directly.
+}
+}
+
+\section{Generic Assay Data}{
+
+\itemize{
+\item genericAssayMeta - Obtain the generic assay entity identifiers
+(\code{stableId}) and, with \code{projection = "SUMMARY"}, their annotations for a
+'GENERIC_ASSAY' molecular profile
+}
+
+
+\itemize{
+\item genericAssayData - Produce a dataset of generic assay data (e.g.,
+arm-level copy number, PanCancer Atlas methylation, phosphoprotein,
+treatment response) based on \code{molecularProfileIds},
+\code{genericAssayStableIds}, and either \code{sampleIds} or \code{sampleListId}. The
+\code{value} column is returned as character because generic assay data may
+be either categorical or numeric.
 }
 }
 
@@ -351,6 +422,28 @@ fetchData(
     entrezGeneIds = 1:1000,
     sampleIds = c("TCGA-OR-A5J1-01", "TCGA-OR-A5J2-01")
 )
+## obtain molecularProfileId for structural variant data
+molecularProfiles(cbio, "brca_tcga_pan_can_atlas_2018") |>
+    dplyr::filter(molecularAlterationType == "STRUCTURAL_VARIANT")
+
+structuralVariantData(
+    api = cbio,
+    molecularProfileIds = "brca_tcga_pan_can_atlas_2018_structural_variants",
+    entrezGeneIds = 2064
+)
+
+genericAssayMeta(
+    api = cbio,
+    molecularProfileId = "brca_tcga_pan_can_atlas_2018_armlevel_cna"
+)
+
+genericAssayData(
+    api = cbio,
+    molecularProfileIds = "brca_tcga_pan_can_atlas_2018_armlevel_cna",
+    genericAssayStableIds = c("1p_status", "1q_status"),
+    sampleIds = c("TCGA-3C-AAAU-01", "TCGA-3C-AALI-01")
+)
+
 mutationData(
     api = cbio,
     molecularProfileIds = "acc_tcga_mutations",

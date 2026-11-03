@@ -51,7 +51,9 @@
 #'
 #' @param molecularProfileId `character(1)` Indicates a molecular profile ID
 #'
-#' @param molecularProfileIds `character()` A vector of molecular profile IDs
+#' @param molecularProfileIds `character()` A vector of molecular profile IDs.
+#'   In `fetchData`, all non-'GENERIC_ASSAY' profiles in the study are used
+#'   when not specified.
 #'
 #' @param entrezGeneIds `numeric()` A vector indicating entrez gene IDs
 #'
@@ -283,12 +285,30 @@ molecularProfiles <- function(api, studyId = NA_character_,
     Filter(length, datalist)
 }
 
+.profilesByType <- function(profiles, type) {
+    profiles[
+        profiles[["molecularAlterationType"]] %in% type,
+    ] |>
+        dplyr::pull("molecularProfileId")
+}
+
 #' @rdname cBioPortal
 #'
 #' @section Molecular Data:
-#' * fetchData - A convenience function to download both mutation and
-#'   molecular data with `molecularProfileId`, `entrezGeneIds`, and
-#'   `sampleIds`
+#' * fetchData - A convenience function to download mutation, copy number,
+#'   structural variant, generic assay, and other molecular data with
+#'   `molecularProfileIds`, `entrezGeneIds`, and `sampleIds`. Each profile is
+#'   routed to the appropriate function based on its
+#'   `molecularAlterationType`. When `molecularProfileIds` is not specified,
+#'   all molecular profiles in the study are downloaded except 'GENERIC_ASSAY'
+#'   profiles, which can be very large and are not indexed by gene; these
+#'   must be requested explicitly.
+#'
+#' @param genericAssayStableIds `character()` or named `list()` Generic assay
+#'   entity identifiers, e.g., "1p_status" for arm-level copy number or probe
+#'   IDs for methylation. Use a named list (by `molecularProfileIds`) to
+#'   provide different identifiers per profile. When `NULL` (default), all
+#'   entities in the profile are downloaded. See `genericAssayMeta`.
 #'
 #' @examples
 #' fetchData(
@@ -303,26 +323,40 @@ molecularProfiles <- function(api, studyId = NA_character_,
 fetchData <-
     function(
         api, studyId, molecularProfileIds = NA_character_,
-        entrezGeneIds = NULL, sampleIds = NULL
+        entrezGeneIds = NULL, sampleIds = NULL, genericAssayStableIds = NULL
 ) {
     if (missing(studyId))
         stop("Provide a valid 'studyId' from 'cBioPortal()'")
 
     all_profs <- molecularProfiles(api = api, studyId = studyId)
+    ga_profs <- .profilesByType(all_profs, "GENERIC_ASSAY")
     if (!length(molecularProfileIds) || all(is.na(molecularProfileIds)))
-        molecularProfileIds <- all_profs[["molecularProfileId"]]
+        molecularProfileIds <- setdiff(
+            all_profs[["molecularProfileId"]], ga_profs
+        )
 
-    mut_profs <- all_profs[
-        all_profs[["molecularAlterationType"]] == "MUTATION_EXTENDED",
-    ] |>
-        dplyr::pull("molecularProfileId")
+    mut_profs <- .profilesByType(all_profs, "MUTATION_EXTENDED")
     mutation <- molecularProfileIds %in% mut_profs
     mutationList <- mutationData(
         api = api, molecularProfileIds = molecularProfileIds[mutation],
         entrezGeneIds = entrezGeneIds, sampleIds = sampleIds
     )
-
     molecularProfileIds <- molecularProfileIds[!mutation]
+
+    sv_profs <- .profilesByType(all_profs, "STRUCTURAL_VARIANT")
+    sv <- molecularProfileIds %in% sv_profs
+    svList <- structuralVariantData(
+        api = api, molecularProfileIds = molecularProfileIds[sv],
+        entrezGeneIds = entrezGeneIds, sampleIds = sampleIds
+    )
+    molecularProfileIds <- molecularProfileIds[!sv]
+
+    ga <- molecularProfileIds %in% ga_profs
+    gaList <- genericAssayData(
+        api = api, molecularProfileIds = molecularProfileIds[ga],
+        genericAssayStableIds = genericAssayStableIds, sampleIds = sampleIds
+    )
+    molecularProfileIds <- molecularProfileIds[!ga]
     dcn_molprofs <- all_profs[
         all_profs[["molecularAlterationType"]] == "COPY_NUMBER_ALTERATION" &
             all_profs[["datatype"]] == "DISCRETE",
@@ -339,8 +373,164 @@ fetchData <-
         api = api, molecularProfileIds = molecularProfileIds[!dcn],
         entrezGeneIds = entrezGeneIds, sampleIds = sampleIds
     )
-    byGeneList <- c(mutationList, dcnList, molecularList)
+    byGeneList <- c(mutationList, svList, gaList, dcnList, molecularList)
     .FilterLengthWarn(byGeneList)
+}
+
+.emptyProfileList <- function(molecularProfileIds) {
+    structure(
+        vector("list", length(molecularProfileIds)),
+        names = molecularProfileIds
+    )
+}
+
+#' @rdname cBioPortal
+#'
+#' @section Structural Variant Data:
+#' * structuralVariantData - Produce a dataset of structural variants (e.g.,
+#'   gene fusions) based on `molecularProfileIds`, `entrezGeneIds`, and
+#'   optionally `sampleIds`. Each record describes two sites (`site1*` and
+#'   `site2*` columns) rather than a single gene. Note that the underlying
+#'   endpoint (`fetchStructuralVariantsUsingPOST`) is only listed in the
+#'   'internal' group of the OpenAPI v3 specification
+#'   (<https://www.cbioportal.org/api/v3/api-docs/internal>) and not in the
+#'   v2 specification used by `cBioPortal()`; it is therefore called directly.
+#'
+#' @examples
+#' ## obtain molecularProfileId for structural variant data
+#' molecularProfiles(cbio, "brca_tcga_pan_can_atlas_2018") |>
+#'     dplyr::filter(molecularAlterationType == "STRUCTURAL_VARIANT")
+#'
+#' structuralVariantData(
+#'     api = cbio,
+#'     molecularProfileIds = "brca_tcga_pan_can_atlas_2018_structural_variants",
+#'     entrezGeneIds = 2064
+#' )
+#'
+#' @export
+structuralVariantData <- function(api, molecularProfileIds = NA_character_,
+    entrezGeneIds = NULL, sampleIds = NULL)
+{
+    if (missing(api))
+        stop("Provide a valid 'api' from 'cBioPortal()'")
+    if (is.null(entrezGeneIds))
+        stop("Provide a vector of 'entrezGeneIds'")
+
+    if (!length(molecularProfileIds) || all(is.na(molecularProfileIds)))
+        return(.emptyProfileList(molecularProfileIds))
+
+    body <- list(entrezGeneIds = as.list(sort(as.integer(entrezGeneIds))))
+    if (is.null(sampleIds)) {
+        body[["molecularProfileIds"]] <- as.list(molecularProfileIds)
+    } else {
+        sampMolIds <- .sampleMolIds(molecularProfileIds, sampleIds)
+        body[["sampleMolecularIdentifiers"]] <- unname(Map(
+            function(molecularProfileId, sampleId)
+                list(molecularProfileId = molecularProfileId,
+                    sampleId = sampleId),
+            as.character(sampMolIds[["molecularProfileId"]]),
+            as.character(sampMolIds[["sampleId"]])
+        ))
+    }
+
+    rapi <- api@api
+    url <- paste0(
+        rapi[["schemes"]][[1L]], "://", rapi[["host"]], rapi[["basePath"]],
+        "/structural-variant/fetch"
+    )
+    res <- httr::POST(
+        url, api@config, httr::add_headers(.headers = .api_header(api)),
+        body = body, encode = "json"
+    )
+    msg <- httr::content(res)[["message"]]
+    if (length(msg))
+        message(msg)
+    httr::stop_for_status(res)
+    byGene <- .bind_content(res)
+
+    if (!length(byGene))
+        .emptyProfileList(molecularProfileIds)
+    else
+        split(byGene, byGene[["molecularProfileId"]])
+}
+
+#' @rdname cBioPortal
+#'
+#' @section Generic Assay Data:
+#' * genericAssayMeta - Obtain the generic assay entity identifiers
+#'   (`stableId`) and, with `projection = "SUMMARY"`, their annotations for a
+#'   'GENERIC_ASSAY' molecular profile
+#'
+#' @examples
+#' genericAssayMeta(
+#'     api = cbio,
+#'     molecularProfileId = "brca_tcga_pan_can_atlas_2018_armlevel_cna"
+#' )
+#'
+#' @export
+genericAssayMeta <- function(
+    api, molecularProfileId, projection = c("SUMMARY", "ID", "DETAILED", "META")
+) {
+    if (missing(api))
+        stop("Provide a valid 'api' from 'cBioPortal()'")
+    projection <- match.arg(projection)
+    .invoke_bind(
+        api, "getGenericAssayMetaUsingGET",
+        molecularProfileId = molecularProfileId, projection = projection
+    )
+}
+
+#' @rdname cBioPortal
+#'
+#' @section Generic Assay Data:
+#' * genericAssayData - Produce a dataset of generic assay data (e.g.,
+#'   arm-level copy number, PanCancer Atlas methylation, phosphoprotein,
+#'   treatment response) based on `molecularProfileIds`,
+#'   `genericAssayStableIds`, and either `sampleIds` or `sampleListId`. The
+#'   `value` column is returned as character because generic assay data may
+#'   be either categorical or numeric.
+#'
+#' @examples
+#' genericAssayData(
+#'     api = cbio,
+#'     molecularProfileIds = "brca_tcga_pan_can_atlas_2018_armlevel_cna",
+#'     genericAssayStableIds = c("1p_status", "1q_status"),
+#'     sampleIds = c("TCGA-3C-AAAU-01", "TCGA-3C-AALI-01")
+#' )
+#'
+#' @export
+genericAssayData <- function(api, molecularProfileIds = NA_character_,
+    genericAssayStableIds = NULL, sampleIds = NULL, sampleListId = NULL)
+{
+    if (missing(api))
+        stop("Provide a valid 'api' from 'cBioPortal()'")
+
+    if (!length(molecularProfileIds) || all(is.na(molecularProfileIds)))
+        return(.emptyProfileList(molecularProfileIds))
+
+    if (is.null(sampleListId) && is.null(sampleIds))
+        stop("Provide either a 'sampleListId' or 'sampleIds'")
+
+    names(molecularProfileIds) <- molecularProfileIds
+    lapply(molecularProfileIds, function(molecularProfileId) {
+        stableIds <- if (is.list(genericAssayStableIds))
+            genericAssayStableIds[[molecularProfileId]]
+        else
+            genericAssayStableIds
+        if (is.null(stableIds))
+            stableIds <- genericAssayMeta(
+                api = api, molecularProfileId = molecularProfileId
+            )[["stableId"]]
+        if (!length(stableIds))
+            return(NULL)
+        .invoke_bind(
+            api, "fetchGenericAssayDataInMolecularProfileUsingPOST",
+            molecularProfileId = molecularProfileId,
+            genericAssayStableIds = as.character(stableIds),
+            sampleIds = if (!is.null(sampleIds)) sort(sampleIds),
+            sampleListId = sampleListId
+        )
+    })
 }
 
 #' @rdname cBioPortal
@@ -823,8 +1013,14 @@ getDataByGenes <-
     )
     lapply(
         molData,
-        function(x) suppressMessages({
-            dplyr::left_join(x, feats)
-        })
+        function(x) {
+            ## structural variant and generic assay data are not indexed by
+            ## a single gene and are returned as is
+            if (!"entrezGeneId" %in% names(x))
+                return(x)
+            suppressMessages({
+                dplyr::left_join(x, feats)
+            })
+        }
     )
 }

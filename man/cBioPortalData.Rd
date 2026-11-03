@@ -31,7 +31,9 @@ symbols. When included, the 'by' argument indicates the type of identifier
 provided and 'genePanelId' is ignored. Preference is given to Entrez IDs
 due to faster query responses.}
 
-\item{molecularProfileIds}{\code{character()} A vector of molecular profile IDs}
+\item{molecularProfileIds}{\code{character()} A vector of molecular profile IDs.
+In \code{fetchData}, all non-'GENERIC_ASSAY' profiles in the study are used
+when not specified.}
 
 \item{sampleListId}{\code{character(1)} A sample list identifier as obtained from
 \code{sampleLists()}}

@@ -2,6 +2,30 @@
     api, by, genePanelId, genes, studyId, molecularProfileIds,
     sampleListId, sampleIds
 ) {
+    molProfs <- molecularProfiles(api = api, studyId = studyId)
+    ## structural variant and generic assay data are not indexed by gene;
+    ## see structuralVariantData() and genericAssayData()
+    notByGene <- molProfs[
+        molProfs[["molecularAlterationType"]] %in%
+            c("STRUCTURAL_VARIANT", "GENERIC_ASSAY"),
+    ] |>
+        dplyr::pull("molecularProfileId")
+    if (!length(molecularProfileIds) || all(is.na(molecularProfileIds))) {
+        molecularProfileIds <- setdiff(
+            molProfs[["molecularProfileId"]], notByGene
+        )
+    } else if (any(molecularProfileIds %in% notByGene)) {
+        warning(
+            "Skipping profiles not indexed by gene: ",
+            paste(intersect(molecularProfileIds, notByGene), collapse = ", "),
+            "\n  Use 'structuralVariantData()' or 'genericAssayData()'",
+            call. = FALSE
+        )
+        molecularProfileIds <- setdiff(molecularProfileIds, notByGene)
+        if (!length(molecularProfileIds))
+            stop("No gene-indexed 'molecularProfileIds' to download")
+    }
+
     expers <- getDataByGenes(
         api = api, genes = genes, genePanelId = genePanelId,
         studyId = studyId, molecularProfileIds = molecularProfileIds,
@@ -21,7 +45,6 @@
     })
     sampleMap <- dplyr::bind_rows(sampmap)
 
-    molProfs <- molecularProfiles(api = api, studyId = studyId)
     mut_profs <- molProfs[
         molProfs[["molecularAlterationType"]] == "MUTATION_EXTENDED",
     ] |>
