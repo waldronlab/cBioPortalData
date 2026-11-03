@@ -24,16 +24,17 @@ jobs:
         run: git config --global --add safe.directory /__w/cBioPortalData/cBioPortalData
 
       - name: Download API and write MD5
+        id: api_update
         run: Rscript -e "source('./inst/scripts/update_api-docs.R')"
 
       - name: Commit changes
-        if: ${{ success() }}
+        if: ${{ steps.api_update.outputs.api_changed == 'true' }}
         uses: EndBug/add-and-commit@v9
         with:
           message: 'Update API'
 
       - name: Push action
+        if: ${{ steps.api_update.outputs.api_changed == 'true' }}
         uses: ad-m/github-push-action@master
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
