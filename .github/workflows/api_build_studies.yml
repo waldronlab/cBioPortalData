@@ -1,0 +1,184 @@
+name: Build MultiAssayExperiment per study
+
+on:
+  workflow_dispatch:
+    inputs:
+      studies:
+        description: 'Comma-separated study IDs (empty for all studies)'
+        required: false
+        default: ''
+        type: string
+      gene_panel_id:
+        description: 'Gene panel used to select genes'
+        required: false
+        default: 'IMPACT341'
+        type: string
+      max_parallel:
+        description: 'Maximum concurrent jobs per batch'
+        required: false
+        default: 20
+        type: number
+      update_report:
+        description: 'Commit updated api_build.json and err_api_info.json'
+        required: false
+        default: false
+        type: boolean
+  schedule:
+    - cron: '17 6 * * 0'
+
+concurrency:
+  group: api-build-studies
+  cancel-in-progress: false
+
+# all jobs run in the image published by docker_image.yml from devel
+jobs:
+  setup:
+    name: List studies
+    runs-on: ubuntu-latest
+    permissions:
+      packages: read
+    container:
+      image: ghcr.io/waldronlab/cbioportaldata:devel
+      credentials:
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+    outputs:
+      studies: ${{ steps.batch.outputs.studies }}
+      batch1: ${{ steps.batch.outputs.batch1 }}
+      batch2: ${{ steps.batch.outputs.batch2 }}
+      batch3: ${{ steps.batch.outputs.batch3 }}
+    env:
+      STUDIES: ${{ inputs.studies }}
+    steps:
+      - name: Split studies into batches
+        id: batch
+        shell: Rscript {0}
+        run: |
+          ids <- trimws(strsplit(Sys.getenv("STUDIES"), ",")[[1L]])
+          ids <- ids[nzchar(ids)]
+          if (!length(ids))
+              ids <- cBioPortalData::getStudies(
+                  cBioPortalData::cBioPortal()
+              )[["studyId"]]
+          ids <- sort(unique(ids))
+          ## GitHub Actions allows at most 256 jobs per matrix
+          batches <- split(ids, ceiling(seq_along(ids) / 256))
+          if (length(batches) > 3L)
+              stop("More than 768 studies; add a batch job to the workflow")
+          out <- c(
+              sprintf("studies=%s", jsonlite::toJSON(ids)),
+              vapply(1:3, function(i) {
+                  batch <- if (i <= length(batches)) batches[[i]] else character(0L)
+                  sprintf("batch%d=%s", i, jsonlite::toJSON(batch))
+              }, character(1L))
+          )
+          cat(out, file = Sys.getenv("GITHUB_OUTPUT"), sep = "\n", append = TRUE)
+          message(length(ids), " studies in ", length(batches), " batch(es)")
+
+  batch-1:
+    name: Batch 1
+    needs: setup
+    if: needs.setup.outputs.batch1 != '[]'
+    permissions:
+      contents: read
+      packages: read
+    uses: ./.github/workflows/_build_study_batch.yml
+    with:
+      image: ghcr.io/waldronlab/cbioportaldata:devel
+      studies: ${{ needs.setup.outputs.batch1 }}
+      gene_panel_id: ${{ inputs.gene_panel_id || 'IMPACT341' }}
+      max_parallel: ${{ inputs.max_parallel || 20 }}
+
+  batch-2:
+    name: Batch 2
+    needs: setup
+    if: needs.setup.outputs.batch2 != '[]'
+    permissions:
+      contents: read
+      packages: read
+    uses: ./.github/workflows/_build_study_batch.yml
+    with:
+      image: ghcr.io/waldronlab/cbioportaldata:devel
+      studies: ${{ needs.setup.outputs.batch2 }}
+      gene_panel_id: ${{ inputs.gene_panel_id || 'IMPACT341' }}
+      max_parallel: ${{ inputs.max_parallel || 20 }}
+
+  batch-3:
+    name: Batch 3
+    needs: setup
+    if: needs.setup.outputs.batch3 != '[]'
+    permissions:
+      contents: read
+      packages: read
+    uses: ./.github/workflows/_build_study_batch.yml
+    with:
+      image: ghcr.io/waldronlab/cbioportaldata:devel
+      studies: ${{ needs.setup.outputs.batch3 }}
+      gene_panel_id: ${{ inputs.gene_panel_id || 'IMPACT341' }}
+      max_parallel: ${{ inputs.max_parallel || 20 }}
+
+  aggregate:
+    name: Summarize builds
+    needs: [setup, batch-1, batch-2, batch-3]
+    if: always() && needs.setup.result == 'success'
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: write
+      packages: read
+      pull-requests: write
+    container:
+      image: ghcr.io/waldronlab/cbioportaldata:devel
+      credentials:
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+    env:
+      RESULT_DIR: results
+      EXPECTED_STUDIES: ${{ needs.setup.outputs.studies }}
+      PARTIAL_RUN: ${{ inputs.studies != '' && inputs.studies != null }}
+      UPDATE_REPORT: ${{ github.event_name == 'schedule' || inputs.update_report }}
+      MIN_SUCCESS_RATE: 80
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Add safe directory
+        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
+
+      - name: Download results
+        uses: actions/download-artifact@v4
+        with:
+          pattern: result-*
+          path: results
+          merge-multiple: true
+
+      - name: Aggregate results
+        id: agg
+        run: Rscript inst/scripts/buildStudies/aggregate_api_build.R
+
+      - name: Commit build report
+        if: github.event_name == 'workflow_dispatch' && steps.agg.outputs.changed == 'true'
+        uses: EndBug/add-and-commit@v9
+        with:
+          add: inst/extdata/api/*.json
+          message: 'Update API build report'
+
+      - name: Open build report pull request
+        if: github.event_name == 'schedule' && steps.agg.outputs.changed == 'true'
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch: bot/api-build-report
+          add-paths: inst/extdata/api/*.json
+          commit-message: 'Update API build report'
+          title: 'Update API build report'
+          body: |
+            Weekly per-study API build: ${{ steps.agg.outputs.success_rate }}% of studies created a MultiAssayExperiment.
+
+            See the [workflow run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) summary for newly broken and fixed studies and per-study molecular profiles.
+
+      - name: Check success rate
+        if: steps.agg.outputs.passed != 'true'
+        run: |
+          echo "::error::Success rate ${{ steps.agg.outputs.success_rate }}% is not above ${MIN_SUCCESS_RATE}%"
+          exit 1
