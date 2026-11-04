@@ -1,0 +1,56 @@
+name: Build study batch
+
+on:
+  workflow_call:
+    inputs:
+      image:
+        description: 'Container image with cBioPortalData installed'
+        required: true
+        type: string
+      studies:
+        description: 'JSON array of at most 256 study IDs'
+        required: true
+        type: string
+      gene_panel_id:
+        required: true
+        type: string
+      max_parallel:
+        required: true
+        type: number
+
+jobs:
+  build:
+    name: ${{ matrix.studyId }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    container:
+      image: ${{ inputs.image }}
+      credentials:
+        username: ${{ github.actor }}
+        password: ${{ github.token }}
+    strategy:
+      fail-fast: false
+      max-parallel: ${{ inputs.max_parallel }}
+      matrix:
+        studyId: ${{ fromJSON(inputs.studies) }}
+    env:
+      GENE_PANEL_ID: ${{ inputs.gene_panel_id }}
+      RESULT_DIR: results
+
+    steps:
+      - name: Checkout build scripts
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: inst/scripts/buildStudies
+
+      - name: Build MultiAssayExperiment
+        run: Rscript inst/scripts/buildStudies/api_study_one.R "${{ matrix.studyId }}"
+
+      - name: Upload result
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: result-${{ matrix.studyId }}
+          path: results/*.json
+          retention-days: 14
+          if-no-files-found: ignore

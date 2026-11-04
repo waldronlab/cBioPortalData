@@ -26,6 +26,7 @@
 #----------------------------
 inst/rsconnect
 inst/docker
+^\.dockerignore$
 .*_cache
 .*_data
 .*_files
