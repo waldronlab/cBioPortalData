@@ -99,7 +99,7 @@ jobs:
       image: ghcr.io/waldronlab/cbioportaldata:devel
       studies: ${{ needs.setup.outputs.batch1 }}
       gene_panel_id: ${{ inputs.gene_panel_id || 'IMPACT341' }}
-      max_parallel: ${{ inputs.max_parallel || 20 }}
+      max_parallel: ${{ fromJSON(inputs.max_parallel || '20') }}
 
   batch-2:
     name: Batch 2
@@ -113,7 +113,7 @@ jobs:
       image: ghcr.io/waldronlab/cbioportaldata:devel
       studies: ${{ needs.setup.outputs.batch2 }}
       gene_panel_id: ${{ inputs.gene_panel_id || 'IMPACT341' }}
-      max_parallel: ${{ inputs.max_parallel || 20 }}
+      max_parallel: ${{ fromJSON(inputs.max_parallel || '20') }}
 
   batch-3:
     name: Batch 3
@@ -127,7 +127,7 @@ jobs:
       image: ghcr.io/waldronlab/cbioportaldata:devel
       studies: ${{ needs.setup.outputs.batch3 }}
       gene_panel_id: ${{ inputs.gene_panel_id || 'IMPACT341' }}
-      max_parallel: ${{ inputs.max_parallel || 20 }}
+      max_parallel: ${{ fromJSON(inputs.max_parallel || '20') }}
 
   aggregate:
     name: Summarize builds
