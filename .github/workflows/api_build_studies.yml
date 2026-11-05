@@ -78,7 +78,7 @@ jobs:
   batch-1:
     name: Batch 1
     needs: setup
-    if: needs.setup.outputs.batch1 != '[]'
+    if: ${{ fromJSON(needs.setup.outputs.batch1)[0] != null }}
     permissions:
       contents: read
       packages: read
@@ -92,7 +92,7 @@ jobs:
   batch-2:
     name: Batch 2
     needs: setup
-    if: needs.setup.outputs.batch2 != '[]'
+    if: ${{ fromJSON(needs.setup.outputs.batch2)[0] != null }}
     permissions:
       contents: read
       packages: read
@@ -106,7 +106,7 @@ jobs:
   batch-3:
     name: Batch 3
     needs: setup
-    if: needs.setup.outputs.batch3 != '[]'
+    if: ${{ fromJSON(needs.setup.outputs.batch3)[0] != null }}
     permissions:
       contents: read
       packages: read
