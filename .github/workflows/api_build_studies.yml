@@ -47,6 +47,9 @@ jobs:
       batch1: ${{ steps.batch.outputs.batch1 }}
       batch2: ${{ steps.batch.outputs.batch2 }}
       batch3: ${{ steps.batch.outputs.batch3 }}
+      has_batch1: ${{ steps.batch.outputs.has_batch1 }}
+      has_batch2: ${{ steps.batch.outputs.has_batch2 }}
+      has_batch3: ${{ steps.batch.outputs.has_batch3 }}
     env:
       STUDIES: ${{ inputs.studies }}
     steps:
@@ -69,7 +72,12 @@ jobs:
               sprintf("studies=%s", jsonlite::toJSON(ids)),
               vapply(1:3, function(i) {
                   batch <- if (i <= length(batches)) batches[[i]] else character(0L)
-                  sprintf("batch%d=%s", i, jsonlite::toJSON(batch))
+                  message("Batch ", i, ": ", length(batch), " studies")
+                  sprintf(
+                      "batch%d=%s\nhas_batch%d=%s", i,
+                      jsonlite::toJSON(batch), i,
+                      tolower(length(batch) > 0L)
+                  )
               }, character(1L))
           )
           cat(out, file = Sys.getenv("GITHUB_OUTPUT"), sep = "\n", append = TRUE)
@@ -78,7 +86,7 @@ jobs:
   batch-1:
     name: Batch 1
     needs: setup
-    if: ${{ fromJSON(needs.setup.outputs.batch1)[0] != null }}
+    if: needs.setup.outputs.has_batch1 == 'true'
     permissions:
       contents: read
       packages: read
@@ -92,7 +100,7 @@ jobs:
   batch-2:
     name: Batch 2
     needs: setup
-    if: ${{ fromJSON(needs.setup.outputs.batch2)[0] != null }}
+    if: needs.setup.outputs.has_batch2 == 'true'
     permissions:
       contents: read
       packages: read
@@ -106,7 +114,7 @@ jobs:
   batch-3:
     name: Batch 3
     needs: setup
-    if: ${{ fromJSON(needs.setup.outputs.batch3)[0] != null }}
+    if: needs.setup.outputs.has_batch3 == 'true'
     permissions:
       contents: read
       packages: read
