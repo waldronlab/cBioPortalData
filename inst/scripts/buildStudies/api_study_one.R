@@ -71,12 +71,11 @@ ok <- is(mae, "MultiAssayExperiment")
 error <- if (ok) "" else as.character(mae)
 expNames <- if (ok) names(mae) else character(0L)
 
+## `ok` is scalar, so avoid ifelse(!ok, ...) which would return length 1
 profs[["status"]] <- ifelse(
     profs[["molecularAlterationType"]] %in% notByGene, "skipped",
-    ifelse(!ok, "failed",
-        ifelse(profs[["molecularProfileId"]] %in% expNames,
-            "included", "empty")
-    )
+    ifelse(profs[["molecularProfileId"]] %in% expNames,
+        "included", if (ok) "empty" else "failed")
 )
 profs[["dims"]] <- vapply(profs[["molecularProfileId"]], function(id) {
     if (id %in% expNames) .dims(mae, id) else NA_character_
