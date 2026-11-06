@@ -85,8 +85,14 @@ jobs:
       ## ── Resolve bioc2u tag ───────────────────────────────────────────────
       - name: Resolve bioc2u base-image tag
         id: bioc2u_tag
+        env:
+          INPUT_TAG: ${{ github.event.inputs.bioc2u_tag }}
         run: |
-          TAG="${{ github.event.inputs.bioc2u_tag }}"
+          TAG="${INPUT_TAG:-noble}"
+          if ! [[ "$TAG" =~ ^[A-Za-z0-9][A-Za-z0-9._-]*$ ]]; then
+            echo "Invalid bioc2u_tag: $TAG" >&2
+            exit 1
+          fi
           echo "tag=${TAG:-noble}" >> "$GITHUB_OUTPUT"
 
       ## ── Build (and push on non-PR) ───────────────────────────────────────
