@@ -1,0 +1,74 @@
+## Emacs, make this -*- mode: sh; -*-
+
+## bioc2u-based image: installs cBioPortalData and its Bioconductor/CRAN
+## dependencies as pre-built Ubuntu .deb binaries via apt + bspm.
+## Bioc2u extends r2u to cover all Bioconductor packages, so installation
+## is fast and dependency resolution is handled by the system package manager.
+##
+## Usage:
+##   docker build -f inst/docker/bioc2u/Dockerfile -t cbioportaldata:bioc2u .
+##   docker run --rm -it --security-opt seccomp=unconfined cbioportaldata:bioc2u
+
+## Noble (Ubuntu 24.04) with r2u + bioc2u apt repositories and bspm pre-configured.
+## Pin to a full tag for reproducibility, e.g. noble-bioc-3.21-r-4.5.0
+ARG BIOC2U_TAG=noble
+FROM ghcr.io/bioconductor/bioc2u-user:${BIOC2U_TAG}
+
+LABEL org.opencontainers.image.source="https://github.com/waldronlab/cBioPortalData" \
+      org.opencontainers.image.description="cBioPortalData on bioc2u (r2u + bspm)" \
+      org.opencontainers.image.licenses="AGPL-3.0"
+
+## ── System libraries ────────────────────────────────────────────────────────
+## libssl / libcurl are needed by httr; libxml2 by xml2 / openssl chain.
+## Installing as .deb means no source compilation.
+RUN apt-get update -qq \
+    && apt-get install -y --no-install-recommends \
+        libssl-dev \
+        libcurl4-openssl-dev \
+        libxml2-dev \
+        libgit2-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+## ── R package dependencies (via apt / bspm) ─────────────────────────────────
+## bspm::enable() is already active in the base image, so install.packages()
+## transparently delegates to apt for any package that has a .deb binary.
+## All heavy Bioconductor deps (MultiAssayExperiment, SummarizedExperiment,
+## RaggedExperiment, GenomicRanges, BiocFileCache, TCGAutils, …) are resolved
+## by the Ubuntu package manager — no compilation required.
+RUN Rscript -e "\
+    options(warn = 2); \
+    pkgs <- c( \
+        'BiocManager', \
+        'MultiAssayExperiment', \
+        'SummarizedExperiment', \
+        'RaggedExperiment', \
+        'GenomicRanges', \
+        'GenomeInfoDb', \
+        'IRanges', \
+        'S4Vectors', \
+        'BiocFileCache', \
+        'TCGAutils', \
+        'RTCGAToolbox', \
+        'AnVIL', \
+        'httr', \
+        'readr', \
+        'dplyr', \
+        'tidyr', \
+        'tibble', \
+        'digest' \
+    ); \
+    install.packages(pkgs); \
+"
+
+## ── cBioPortalData itself ────────────────────────────────────────────────────
+## Install the release version from Bioconductor (available as a .deb via
+## bioc2u); for the devel version, switch to BiocManager::install() below.
+RUN Rscript -e "install.packages('cBioPortalData')"
+
+## To install from GitHub devel instead, comment the line above and use:
+# RUN Rscript -e "BiocManager::install('waldronlab/cBioPortalData')"
+
+## ── Smoke test ───────────────────────────────────────────────────────────────
+RUN Rscript -e "library(cBioPortalData); cbio <- cBioPortal(); stopifnot(is(cbio, 'cBioPortal'))"
+
+CMD ["R"]

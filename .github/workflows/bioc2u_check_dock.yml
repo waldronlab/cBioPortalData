@@ -1,0 +1,131 @@
+## GitHub Actions workflow: build, test, and push the bioc2u Docker image.
+##
+## Triggered by:
+##   - pushes to devel that touch R sources, the Dockerfile, or this workflow
+##   - pull requests targeting devel with the same path filters
+##   - a weekly schedule (keeps the image fresh when upstream bioc2u rebuilds)
+##   - manual dispatch (workflow_dispatch)
+##
+## Secrets required:
+##   GHCR_TOKEN  – a Personal Access Token with write:packages scope
+##                 (or use GITHUB_TOKEN if the repo has package-write permission)
+##
+## The image is pushed to:
+##   ghcr.io/<owner>/cbioportaldata:bioc2u
+##   ghcr.io/<owner>/cbioportaldata:bioc2u-noble
+
+name: bioc2u Docker
+
+on:
+  push:
+    branches: [devel]
+    paths:
+      - 'R/**'
+      - 'DESCRIPTION'
+      - 'inst/docker/bioc2u/Dockerfile'
+      - '.github/workflows/bioc2u_check_dock.yml'
+  pull_request:
+    branches: [devel]
+    paths:
+      - 'R/**'
+      - 'DESCRIPTION'
+      - 'inst/docker/bioc2u/Dockerfile'
+      - '.github/workflows/bioc2u_check_dock.yml'
+  schedule:
+    ## Every Sunday at 04:00 UTC – keeps the image in sync with bioc2u rebuilds
+    - cron: '0 4 * * 0'
+  workflow_dispatch:
+    inputs:
+      bioc2u_tag:
+        description: >
+          bioc2u base-image tag (e.g. noble, noble-bioc-3.21-r-4.5.0)
+        required: false
+        default: 'noble'
+
+env:
+  REGISTRY: ghcr.io
+  ## Image name follows the convention used by the existing devel_check_dock workflow
+  IMAGE_NAME: ${{ github.repository_owner }}/cbioportaldata
+
+jobs:
+  build-and-push:
+    name: Build bioc2u image
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      ## ── Layer cache ──────────────────────────────────────────────────────
+      ## Cache Docker layers keyed on the Dockerfile and DESCRIPTION so that
+      ## unchanged dependency layers are not re-downloaded on every run.
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Cache Docker layers
+        uses: actions/cache@v4
+        with:
+          path: /tmp/.buildx-cache-bioc2u
+          key: ${{ runner.os }}-buildx-bioc2u-${{ hashFiles('inst/docker/bioc2u/Dockerfile', 'DESCRIPTION') }}
+          restore-keys: |
+            ${{ runner.os }}-buildx-bioc2u-
+
+      ## ── Registry login ───────────────────────────────────────────────────
+      - name: Log in to GitHub Container Registry
+        if: github.event_name != 'pull_request'
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      ## ── Resolve bioc2u tag ───────────────────────────────────────────────
+      - name: Resolve bioc2u base-image tag
+        id: bioc2u_tag
+        run: |
+          TAG="${{ github.event.inputs.bioc2u_tag }}"
+          echo "tag=${TAG:-noble}" >> "$GITHUB_OUTPUT"
+
+      ## ── Build (and push on non-PR) ───────────────────────────────────────
+      - name: Build and push bioc2u image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: inst/docker/bioc2u/Dockerfile
+          ## bspm requires seccomp=unconfined inside the container at build
+          ## time only on older kernels; Buildx handles this transparently.
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: |
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:bioc2u
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:bioc2u-${{ steps.bioc2u_tag.outputs.tag }}
+          build-args: |
+            BIOC2U_TAG=${{ steps.bioc2u_tag.outputs.tag }}
+          cache-from: type=local,src=/tmp/.buildx-cache-bioc2u
+          cache-to:   type=local,dest=/tmp/.buildx-cache-bioc2u-new,mode=max
+
+      ## Rotate cache (avoids unbounded growth)
+      - name: Move cache
+        run: |
+          rm -rf /tmp/.buildx-cache-bioc2u
+          mv /tmp/.buildx-cache-bioc2u-new /tmp/.buildx-cache-bioc2u
+
+      ## ── Smoke test ───────────────────────────────────────────────────────
+      ## Run even on PRs (against the locally-built image that was not pushed).
+      - name: Smoke-test the image
+        run: |
+          docker run --rm \
+            --security-opt seccomp=unconfined \
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:bioc2u \
+            Rscript -e "
+              library(cBioPortalData)
+              cbio <- cBioPortal()
+              stopifnot(is(cbio, 'cBioPortal'))
+              message('cBioPortalData loaded successfully on bioc2u')
+            "
+        ## On PRs the image was not pushed to the registry; load it from the
+        ## local daemon instead (build-push-action loads it when push=false).
+        env:
+          DOCKER_DEFAULT_PLATFORM: linux/amd64
