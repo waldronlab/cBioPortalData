@@ -98,6 +98,9 @@ jobs:
           ## bspm requires seccomp=unconfined inside the container at build
           ## time only on older kernels; Buildx handles this transparently.
           push: ${{ github.event_name != 'pull_request' }}
+          ## load the image into the local daemon on PR runs so the
+          ## smoke-test step below can `docker run` it (it isn't pushed)
+          load: ${{ github.event_name == 'pull_request' }}
           tags: |
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:bioc2u
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:bioc2u-${{ steps.bioc2u_tag.outputs.tag }}
