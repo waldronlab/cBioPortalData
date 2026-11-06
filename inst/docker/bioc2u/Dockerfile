@@ -61,12 +61,13 @@ RUN Rscript -e "\
 "
 
 ## ── cBioPortalData itself ────────────────────────────────────────────────────
-## Install the release version from Bioconductor (available as a .deb via
-## bioc2u); for the devel version, switch to BiocManager::install() below.
-RUN Rscript -e "install.packages('cBioPortalData')"
-
-## To install from GitHub devel instead, comment the line above and use:
-# RUN Rscript -e "BiocManager::install('waldronlab/cBioPortalData')"
+## Install the checked-out source (the build context) so the image reflects
+## the code in this repo/PR. Any remaining dependencies declared in
+## DESCRIPTION are resolved by remotes (and delegated to apt via bspm).
+COPY . /tmp/cBioPortalData
+RUN Rscript -e "install.packages('remotes'); \
+        remotes::install_local('/tmp/cBioPortalData', dependencies = TRUE, upgrade = 'never')" \
+    && rm -rf /tmp/cBioPortalData
 
 ## ── Smoke test ───────────────────────────────────────────────────────────────
 RUN Rscript -e "library(cBioPortalData); cbio <- cBioPortal(); stopifnot(is(cbio, 'cBioPortal'))"
