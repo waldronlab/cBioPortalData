@@ -1,8 +1,14 @@
 ## GitHub Actions workflow: build, test, and push the bioc2u Docker image.
 ##
+## DISCLAIMER: The bioc2u image is for TESTING PURPOSES ONLY. It combines the
+## devel branch of cBioPortalData with a Bioconductor *release* base image,
+## a combination that Bioconductor does not support. For regular use, pull the
+## image built on bioconductor/bioconductor_docker:devel instead:
+##   docker pull ghcr.io/waldronlab/cbioportaldata:devel
+## (built by .github/workflows/docker_image.yml from inst/docker/bioc/Dockerfile)
+##
 ## Triggered by:
 ##   - pushes to devel that touch R sources, the Dockerfile, or this workflow
-##   - pull requests targeting devel with the same path filters
 ##   - a weekly schedule (keeps the image fresh when upstream bioc2u rebuilds)
 ##   - manual dispatch (workflow_dispatch)
 ##
@@ -10,21 +16,23 @@
 ##   Uses the built-in GITHUB_TOKEN (packages: write permission is granted
 ##   to the job below); no additional secret is required.
 ##
-## The image is pushed to:
-##   ghcr.io/<owner>/cbioportaldata:bioc2u
-##   ghcr.io/<owner>/cbioportaldata:bioc2u-noble
+## Image tags name the Ubuntu, Bioconductor and R versions actually present
+## in the built image (read from the image itself, not from the base tag):
+##   ghcr.io/<owner>/cbioportaldata:bioc2u-<codename>-bioc-<x.y>
+##   ghcr.io/<owner>/cbioportaldata:bioc2u-<codename>-bioc-<x.y>-r-<x.y.z>
+## e.g. bioc2u-noble-bioc-3.23 and bioc2u-noble-bioc-3.23-r-4.6.1.
+##
+## bioc2u only publishes Bioconductor *release* base images, so the tags carry
+## no "devel" label even though the image is built from the devel branch of
+## cBioPortalData. Revisit once bioc2u publishes a Bioconductor devel base.
+##
+## Images are only pushed from the devel branch; a manual dispatch from any
+## other branch builds and smoke-tests the image without pushing it.
 
 name: bioc2u Docker
 
 on:
   push:
-    branches: [devel]
-    paths:
-      - 'R/**'
-      - 'DESCRIPTION'
-      - 'inst/docker/bioc2u/Dockerfile'
-      - '.github/workflows/bioc2u_check_dock.yml'
-  pull_request:
     branches: [devel]
     paths:
       - 'R/**'
@@ -38,9 +46,11 @@ on:
     inputs:
       bioc2u_tag:
         description: >
-          bioc2u base-image tag (e.g. noble, noble-bioc-3.21-r-4.5.0)
+          Tag of ghcr.io/bioconductor/bioc2u-user to build on
+          (e.g. noble, noble-bioc-3.21-r-4.5.0)
         required: false
         default: 'noble'
+        type: string
 
 env:
   REGISTRY: ghcr.io
@@ -74,7 +84,7 @@ jobs:
 
       ## ── Registry login ───────────────────────────────────────────────────
       - name: Log in to GitHub Container Registry
-        if: github.event_name != 'pull_request'
+        if: github.ref == 'refs/heads/devel'
         uses: docker/login-action@v3
         with:
           registry: ${{ env.REGISTRY }}
@@ -85,14 +95,16 @@ jobs:
       - name: Resolve bioc2u base-image tag
         id: bioc2u_tag
         env:
-          INPUT_TAG: ${{ github.event.inputs.bioc2u_tag }}
+          ## empty for push / schedule events
+          INPUT_TAG: ${{ inputs.bioc2u_tag }}
         run: |
+          ## default must match ARG BIOC2U_TAG in inst/docker/bioc2u/Dockerfile
           TAG="${INPUT_TAG:-noble}"
           if ! [[ "$TAG" =~ ^[A-Za-z0-9][A-Za-z0-9._-]*$ ]]; then
             echo "Invalid bioc2u_tag: $TAG" >&2
             exit 1
           fi
-          echo "tag=${TAG:-noble}" >> "$GITHUB_OUTPUT"
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
 
       ## ── Build (loaded locally, not pushed) ───────────────────────────────
       - name: Build bioc2u image
@@ -106,9 +118,8 @@ jobs:
           ## load the image into the local daemon so it can be smoke-tested
           ## before anything is published
           load: true
-          tags: |
-            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:bioc2u
-            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:bioc2u-${{ steps.bioc2u_tag.outputs.tag }}
+          ## local-only name; the published tags are computed after the build
+          tags: cbioportaldata:ci
           build-args: |
             BIOC2U_TAG=${{ steps.bioc2u_tag.outputs.tag }}
           cache-from: type=local,src=/tmp/.buildx-cache-bioc2u
@@ -126,7 +137,7 @@ jobs:
         run: |
           docker run --rm \
             --security-opt seccomp=unconfined \
-            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:bioc2u \
+            cbioportaldata:ci \
             Rscript -e "
               library(cBioPortalData)
               cbio <- cBioPortal()
@@ -136,17 +147,42 @@ jobs:
         env:
           DOCKER_DEFAULT_PLATFORM: linux/amd64
 
-      ## ── Push (only after the smoke test passes) ──────────────────────────
+      ## ── Image tags ───────────────────────────────────────────────────────
+      ## Read the Ubuntu codename, Bioconductor version and R version from the
+      ## built image so the tags describe what is actually inside it.
+      - name: Compute image tags
+        id: tags
+        run: |
+          CODENAME=$(docker run --rm cbioportaldata:ci \
+            sh -c '. /etc/os-release && printf %s "$VERSION_CODENAME"')
+          BIOC=$(docker run --rm --security-opt seccomp=unconfined cbioportaldata:ci \
+            Rscript -e 'cat(as.character(BiocManager::version()))')
+          RVER=$(docker run --rm --security-opt seccomp=unconfined cbioportaldata:ci \
+            Rscript -e 'cat(as.character(getRversion()))')
+          [[ "$CODENAME" =~ ^[a-z]+$ ]] \
+            || { echo "Bad codename: $CODENAME" >&2; exit 1; }
+          [[ "$BIOC" =~ ^[0-9]+\.[0-9]+$ ]] \
+            || { echo "Bad Bioc version: $BIOC" >&2; exit 1; }
+          [[ "$RVER" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]] \
+            || { echo "Bad R version: $RVER" >&2; exit 1; }
+          BASE="${REGISTRY}/${IMAGE_NAME}:bioc2u-${CODENAME}-bioc-${BIOC}"
+          {
+            echo "tags<<EOF"
+            echo "$BASE"
+            echo "$BASE-r-${RVER}"
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
+          echo "Image tags: $BASE, $BASE-r-${RVER}"
+
+      ## ── Push (devel only, after the smoke test passes) ───────────────────
+      ## Pushes the exact image that was smoke-tested (no rebuild).
       - name: Push bioc2u image
-        if: github.event_name != 'pull_request'
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          file: inst/docker/bioc2u/Dockerfile
-          push: true
-          tags: |
-            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:bioc2u
-            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:bioc2u-${{ steps.bioc2u_tag.outputs.tag }}
-          build-args: |
-            BIOC2U_TAG=${{ steps.bioc2u_tag.outputs.tag }}
-          cache-from: type=local,src=/tmp/.buildx-cache-bioc2u
+        if: github.ref == 'refs/heads/devel'
+        env:
+          TAGS: ${{ steps.tags.outputs.tags }}
+        run: |
+          while read -r tag; do
+            [ -n "$tag" ] || continue
+            docker tag cbioportaldata:ci "$tag"
+            docker push "$tag"
+          done <<< "$TAGS"

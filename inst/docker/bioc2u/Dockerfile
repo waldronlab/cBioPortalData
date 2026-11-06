@@ -5,6 +5,13 @@
 ## Bioc2u extends r2u to cover all Bioconductor packages, so installation
 ## is fast and dependency resolution is handled by the system package manager.
 ##
+## DISCLAIMER: This image is for TESTING PURPOSES ONLY. It combines the devel
+## branch of cBioPortalData with a Bioconductor *release* base image, a
+## combination that Bioconductor does not support. For regular use, pull the
+## image built on bioconductor/bioconductor_docker:devel instead:
+##   docker pull ghcr.io/waldronlab/cbioportaldata:devel
+## (built from inst/docker/bioc/Dockerfile)
+##
 ## Usage:
 ##   docker build -f inst/docker/bioc2u/Dockerfile -t cbioportaldata:bioc2u .
 ##   docker run --rm -it --security-opt seccomp=unconfined cbioportaldata:bioc2u
@@ -15,7 +22,7 @@ ARG BIOC2U_TAG=noble
 FROM ghcr.io/bioconductor/bioc2u-user:${BIOC2U_TAG}
 
 LABEL org.opencontainers.image.source="https://github.com/waldronlab/cBioPortalData" \
-      org.opencontainers.image.description="cBioPortalData on bioc2u (r2u + bspm)" \
+      org.opencontainers.image.description="FOR TESTING ONLY: cBioPortalData (devel) on a bioc2u Bioconductor release base. For regular use, see ghcr.io/waldronlab/cbioportaldata:devel" \
       org.opencontainers.image.licenses="AGPL-3.0"
 
 ## ── System libraries ────────────────────────────────────────────────────────
