@@ -73,7 +73,7 @@ RUN Rscript -e "\
 ## DESCRIPTION are resolved by remotes (and delegated to apt via bspm).
 COPY . /tmp/cBioPortalData
 RUN Rscript -e "install.packages('remotes'); \
-        remotes::install_local('/tmp/cBioPortalData', dependencies = TRUE, upgrade = 'never')" \
+        remotes::install_local('/tmp/cBioPortalData', dependencies = TRUE, upgrade = 'never', repos = BiocManager::repositories())" \
     && rm -rf /tmp/cBioPortalData
 
 ## ── Smoke test ───────────────────────────────────────────────────────────────
