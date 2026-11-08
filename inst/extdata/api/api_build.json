@@ -129,7 +129,7 @@
   },
   {
     "studyId": "cesc_tcga",
-    "api_build": true
+    "api_build": false
   },
   {
     "studyId": "chol_tcga",
@@ -149,7 +149,7 @@
   },
   {
     "studyId": "cellline_ccle_broad",
-    "api_build": true
+    "api_build": false
   },
   {
     "studyId": "ccrcc_irc_2014",
@@ -197,7 +197,7 @@
   },
   {
     "studyId": "cesc_tcga_pan_can_atlas_2018",
-    "api_build": true
+    "api_build": false
   },
   {
     "studyId": "chol_tcga_pan_can_atlas_2018",
@@ -205,7 +205,7 @@
   },
   {
     "studyId": "breast_msk_2018",
-    "api_build": true
+    "api_build": false
   },
   {
     "studyId": "coad_caseccc_2015",
@@ -217,7 +217,7 @@
   },
   {
     "studyId": "ccle_broad_2019",
-    "api_build": true
+    "api_build": false
   },
   {
     "studyId": "coad_cptac_2019",
@@ -249,7 +249,7 @@
   },
   {
     "studyId": "brca_mapk_hp_msk_2021",
-    "api_build": true
+    "api_build": false
   },
   {
     "studyId": "brca_pareja_msk_2020",
@@ -281,7 +281,7 @@
   },
   {
     "studyId": "desm_broad_2015",
-    "api_build": true
+    "api_build": false
   },
   {
     "studyId": "esca_broad",
@@ -305,7 +305,7 @@
   },
   {
     "studyId": "coadread_dfci_2016",
-    "api_build": true
+    "api_build": false
   },
   {
     "studyId": "dlbc_broad_2012",
@@ -317,7 +317,7 @@
   },
   {
     "studyId": "coadread_tcga_pan_can_atlas_2018",
-    "api_build": true
+    "api_build": false
   },
   {
     "studyId": "dlbc_tcga_pan_can_atlas_2018",
@@ -329,7 +329,7 @@
   },
   {
     "studyId": "dlbcl_duke_2017",
-    "api_build": true
+    "api_build": false
   },
   {
     "studyId": "dlbcl_dfci_2018",
@@ -489,7 +489,7 @@
   },
   {
     "studyId": "lgg_tcga",
-    "api_build": true
+    "api_build": false
   },
   {
     "studyId": "lihc_tcga",
@@ -521,7 +521,7 @@
   },
   {
     "studyId": "lgggbm_tcga_pub",
-    "api_build": true
+    "api_build": false
   },
   {
     "studyId": "lihc_amc_prv",
@@ -533,7 +533,7 @@
   },
   {
     "studyId": "luad_broad",
-    "api_build": true
+    "api_build": false
   },
   {
     "studyId": "liad_inserm_fr_2014",
@@ -561,7 +561,7 @@
   },
   {
     "studyId": "lgg_tcga_pan_can_atlas_2018",
-    "api_build": true
+    "api_build": false
   },
   {
     "studyId": "lihc_tcga_pan_can_atlas_2018",
@@ -569,19 +569,19 @@
   },
   {
     "studyId": "luad_mskcc_2020",
-    "api_build": true
+    "api_build": false
   },
   {
     "studyId": "luad_msk_npjpo_2021",
-    "api_build": true
+    "api_build": false
   },
   {
     "studyId": "luad_cptac_2020",
-    "api_build": true
+    "api_build": false
   },
   {
     "studyId": "lgsoc_mapk_msk_2022",
-    "api_build": true
+    "api_build": false
   },
   {
     "studyId": "luad_tcga",
@@ -637,7 +637,7 @@
   },
   {
     "studyId": "lusc_tcga_pan_can_atlas_2018",
-    "api_build": true
+    "api_build": false
   },
   {
     "studyId": "lung_msk_pdx",
@@ -657,7 +657,7 @@
   },
   {
     "studyId": "mel_dfci_2019",
-    "api_build": true
+    "api_build": false
   },
   {
     "studyId": "lung_smc_2016",
@@ -669,11 +669,11 @@
   },
   {
     "studyId": "mel_mskimpact_2020",
-    "api_build": true
+    "api_build": false
   },
   {
     "studyId": "lusc_cptac_2021",
-    "api_build": true
+    "api_build": false
   },
   {
     "studyId": "mds_iwg_2022",
@@ -685,7 +685,7 @@
   },
   {
     "studyId": "mm_broad",
-    "api_build": true
+    "api_build": false
   },
   {
     "studyId": "nbl_amc_2012",
@@ -749,7 +749,7 @@
   },
   {
     "studyId": "mixed_allen_2018",
-    "api_build": true
+    "api_build": false
   },
   {
     "studyId": "mpn_cimr_2013",
@@ -761,11 +761,11 @@
   },
   {
     "studyId": "metastatic_solid_tumors_mich_2017",
-    "api_build": true
+    "api_build": false
   },
   {
     "studyId": "nsclc_mskcc_2018",
-    "api_build": true
+    "api_build": false
   },
   {
     "studyId": "ntrk_msk_2019",
@@ -785,7 +785,7 @@
   },
   {
     "studyId": "msk_access_2021",
-    "api_build": false
+    "api_build": true
   },
   {
     "studyId": "mixed_msk_tcga_2021",
@@ -805,7 +805,7 @@
   },
   {
     "studyId": "mixed_impact_subset_2022",
-    "api_build": false
+    "api_build": true
   },
   {
     "studyId": "ov_tcga",
@@ -817,11 +817,11 @@
   },
   {
     "studyId": "pcpg_tcga",
-    "api_build": true
+    "api_build": false
   },
   {
     "studyId": "prad_tcga",
-    "api_build": true
+    "api_build": false
   },
   {
     "studyId": "prad_fhcrc",
@@ -897,7 +897,7 @@
   },
   {
     "studyId": "pcpg_tcga_pub",
-    "api_build": true
+    "api_build": false
   },
   {
     "studyId": "prad_eururol_2017",
@@ -913,7 +913,7 @@
   },
   {
     "studyId": "pcpg_tcga_pan_can_atlas_2018",
-    "api_build": true
+    "api_build": false
   },
   {
     "studyId": "pediatric_dkfz_2017",
@@ -929,11 +929,11 @@
   },
   {
     "studyId": "pptc_2019",
-    "api_build": true
+    "api_build": false
   },
   {
     "studyId": "prad_cdk12_mskcc_2020",
-    "api_build": true
+    "api_build": false
   },
   {
     "studyId": "prad_mcspc_mskcc_2020",
@@ -989,11 +989,11 @@
   },
   {
     "studyId": "skcm_yale",
-    "api_build": true
+    "api_build": false
   },
   {
     "studyId": "prad_tcga_pub",
-    "api_build": true
+    "api_build": false
   },
   {
     "studyId": "rms_nih_2014",
@@ -1037,7 +1037,7 @@
   },
   {
     "studyId": "prad_tcga_pan_can_atlas_2018",
-    "api_build": true
+    "api_build": false
   },
   {
     "studyId": "sarc_tcga_pan_can_atlas_2018",
@@ -1065,7 +1065,7 @@
   },
   {
     "studyId": "rbl_cfdna_msk_2020",
-    "api_build": true
+    "api_build": false
   },
   {
     "studyId": "rbl_mskcc_2020",
@@ -1073,7 +1073,7 @@
   },
   {
     "studyId": "prostate_pcbm_swiss_2019",
-    "api_build": true
+    "api_build": false
   },
   {
     "studyId": "tgct_tcga",
@@ -1089,11 +1089,11 @@
   },
   {
     "studyId": "ucec_tcga",
-    "api_build": true
+    "api_build": false
   },
   {
     "studyId": "ucs_tcga",
-    "api_build": true
+    "api_build": false
   },
   {
     "studyId": "ucs_jhu_2014",
@@ -1101,7 +1101,7 @@
   },
   {
     "studyId": "ucec_tcga_pub",
-    "api_build": true
+    "api_build": false
   },
   {
     "studyId": "stes_tcga_pub",
@@ -1133,11 +1133,11 @@
   },
   {
     "studyId": "thym_tcga_pan_can_atlas_2018",
-    "api_build": true
+    "api_build": false
   },
   {
     "studyId": "ucec_tcga_pan_can_atlas_2018",
-    "api_build": true
+    "api_build": false
   },
   {
     "studyId": "ucs_tcga_pan_can_atlas_2018",
@@ -1149,7 +1149,7 @@
   },
   {
     "studyId": "ucec_msk_2018",
-    "api_build": true
+    "api_build": false
   },
   {
     "studyId": "uccc_nih_2017",
@@ -1161,15 +1161,15 @@
   },
   {
     "studyId": "utuc_cornell_baylor_mdacc_2019",
-    "api_build": true
+    "api_build": false
   },
   {
     "studyId": "utuc_msk_2019",
-    "api_build": true
+    "api_build": false
   },
   {
     "studyId": "utuc_pdx_msk_2019",
-    "api_build": true
+    "api_build": false
   },
   {
     "studyId": "usarc_msk_2020",
@@ -1201,15 +1201,15 @@
   },
   {
     "studyId": "cfdna_msk_2019",
-    "api_build": false
+    "api_build": true
   },
   {
     "studyId": "blca_bcan_hcrn_2022",
-    "api_build": false
+    "api_build": true
   },
   {
     "studyId": "sarcoma_mskcc_2022",
-    "api_build": true
+    "api_build": false
   },
   {
     "studyId": "nsclc_ctdx_msk_2022",
@@ -1233,7 +1233,7 @@
   },
   {
     "studyId": "acyc_mskcc_2013",
-    "api_build": true
+    "api_build": false
   },
   {
     "studyId": "brca_mskcc_2019",
@@ -1273,7 +1273,7 @@
   },
   {
     "studyId": "lung_msk_2017",
-    "api_build": true
+    "api_build": false
   },
   {
     "studyId": "mds_mskcc_2020",
@@ -1281,7 +1281,7 @@
   },
   {
     "studyId": "luad_mskimpact_2021",
-    "api_build": true
+    "api_build": false
   },
   {
     "studyId": "lung_pdx_msk_2021",
@@ -1293,7 +1293,7 @@
   },
   {
     "studyId": "msk_impact_2017",
-    "api_build": true
+    "api_build": false
   },
   {
     "studyId": "odg_msk_2017",
@@ -1309,7 +1309,7 @@
   },
   {
     "studyId": "prad_mskcc_2017",
-    "api_build": true
+    "api_build": false
   },
   {
     "studyId": "prad_mskcc_cheny1_organoids_2014",
@@ -1317,7 +1317,7 @@
   },
   {
     "studyId": "prad_p1000",
-    "api_build": true
+    "api_build": false
   },
   {
     "studyId": "scco_mskcc",
@@ -1325,7 +1325,7 @@
   },
   {
     "studyId": "thyroid_mskcc_2016",
-    "api_build": false
+    "api_build": true
   },
   {
     "studyId": "skcm_vanderbilt_mskcc_2015",
@@ -1377,7 +1377,7 @@
   },
   {
     "studyId": "acyc_mgh_2016",
-    "api_build": true
+    "api_build": false
   },
   {
     "studyId": "hccihch_pku_2019",
@@ -1393,7 +1393,7 @@
   },
   {
     "studyId": "lung_nci_2022",
-    "api_build": true
+    "api_build": false
   },
   {
     "studyId": "msk_met_2021",
@@ -1421,15 +1421,15 @@
   },
   {
     "studyId": "msk_spectrum_tme_2022",
-    "api_build": false
-  },
-  {
-    "studyId": "crc_msk_2017",
     "api_build": true
   },
   {
-    "studyId": "makeanimpact_ccr_2023",
+    "studyId": "crc_msk_2017",
     "api_build": false
+  },
+  {
+    "studyId": "makeanimpact_ccr_2023",
+    "api_build": true
   },
   {
     "studyId": "prad_organoids_msk_2022",
@@ -1441,7 +1441,7 @@
   },
   {
     "studyId": "nst_nfosi_ntap",
-    "api_build": true
+    "api_build": false
   },
   {
     "studyId": "coadread_mskresistance_2022",
@@ -1461,11 +1461,11 @@
   },
   {
     "studyId": "brca_metabric",
-    "api_build": true
+    "api_build": false
   },
   {
     "studyId": "mtnn_msk_2022",
-    "api_build": false
+    "api_build": true
   },
   {
     "studyId": "pog570_bcgsc_2020",
@@ -1473,7 +1473,7 @@
   },
   {
     "studyId": "luad_tcga_pan_can_atlas_2018",
-    "api_build": true
+    "api_build": false
   },
   {
     "studyId": "sarcoma_msk_2023",
@@ -1481,15 +1481,11 @@
   },
   {
     "studyId": "bowel_colitis_msk_2022",
-    "api_build": false
+    "api_build": true
   },
   {
     "studyId": "luad_mskcc_2023_met_organotropism",
     "api_build": false
-  },
-  {
-    "studyId": "bladder_mskcc_2022",
-    "api_build": true
   },
   {
     "studyId": "aml_ohsu_2022",
@@ -1501,7 +1497,7 @@
   },
   {
     "studyId": "paac_msk_jco_2023",
-    "api_build": false
+    "api_build": true
   },
   {
     "studyId": "nbl_msk_2023",
@@ -1521,6 +1517,686 @@
   },
   {
     "studyId": "egc_trap_ccr_msk_2023",
+    "api_build": true
+  },
+  {
+    "studyId": "acc_tcga_gdc",
+    "api_build": false
+  },
+  {
+    "studyId": "alal_target_gdc",
+    "api_build": false
+  },
+  {
+    "studyId": "alk_msk_2026",
+    "api_build": false
+  },
+  {
+    "studyId": "aml_stjude_2024",
+    "api_build": true
+  },
+  {
+    "studyId": "aml_tcga_gdc",
+    "api_build": true
+  },
+  {
+    "studyId": "angs_painter_2025",
+    "api_build": false
+  },
+  {
+    "studyId": "asclc_msk_2024",
+    "api_build": true
+  },
+  {
+    "studyId": "astr_ut_2026",
+    "api_build": true
+  },
+  {
+    "studyId": "biliary_tract_adc_targets_msk_2026",
+    "api_build": true
+  },
+  {
+    "studyId": "biliary_tract_msk_2026",
+    "api_build": true
+  },
+  {
+    "studyId": "bladder_aubmc_2026",
+    "api_build": false
+  },
+  {
+    "studyId": "bladder_columbia_msk_2018",
+    "api_build": true
+  },
+  {
+    "studyId": "bladder_msk_2023",
+    "api_build": true
+  },
+  {
+    "studyId": "bladder_msk_2024",
+    "api_build": false
+  },
+  {
+    "studyId": "blca_iatlas_imvigor210_2017",
+    "api_build": false
+  },
+  {
+    "studyId": "blca_msk_2024",
+    "api_build": true
+  },
+  {
+    "studyId": "blca_msk_2025",
+    "api_build": true
+  },
+  {
+    "studyId": "blca_pdx_msk_2025",
+    "api_build": true
+  },
+  {
+    "studyId": "blca_tcga_gdc",
+    "api_build": false
+  },
+  {
+    "studyId": "bll_target_gdc",
+    "api_build": false
+  },
+  {
+    "studyId": "bm_nsclc_mskcc_2023",
+    "api_build": true
+  },
+  {
+    "studyId": "braf_msk_archer_2024",
+    "api_build": false
+  },
+  {
+    "studyId": "braf_msk_impact_2024",
+    "api_build": true
+  },
+  {
+    "studyId": "brain_cptac_gdc",
+    "api_build": false
+  },
+  {
+    "studyId": "brca_aurora_2023",
+    "api_build": false
+  },
+  {
+    "studyId": "brca_dfci_2020",
+    "api_build": true
+  },
+  {
+    "studyId": "brca_dldccc_2022",
+    "api_build": true
+  },
+  {
+    "studyId": "brca_fuscc_2020",
+    "api_build": true
+  },
+  {
+    "studyId": "brca_iatlas_anders_2022",
+    "api_build": true
+  },
+  {
+    "studyId": "brca_msk_2025",
+    "api_build": true
+  },
+  {
+    "studyId": "brca_msk_erbb2_2026",
+    "api_build": true
+  },
+  {
+    "studyId": "brca_tcga_gdc",
+    "api_build": false
+  },
+  {
+    "studyId": "breast_cptac_gdc",
+    "api_build": false
+  },
+  {
+    "studyId": "breast_msk_2025",
+    "api_build": false
+  },
+  {
+    "studyId": "breast_msk_2026",
+    "api_build": false
+  },
+  {
+    "studyId": "breast_msk_cfdna_2026",
+    "api_build": true
+  },
+  {
+    "studyId": "ccle_broad_2025",
+    "api_build": false
+  },
+  {
+    "studyId": "ccle_genentech_2014",
+    "api_build": true
+  },
+  {
+    "studyId": "ccrcc_iatlas_choueiri_2016",
+    "api_build": false
+  },
+  {
+    "studyId": "ccrcc_sjuh_2023",
+    "api_build": true
+  },
+  {
+    "studyId": "ccrcc_tcga_gdc",
+    "api_build": false
+  },
+  {
+    "studyId": "cervix_msk_2023",
+    "api_build": true
+  },
+  {
+    "studyId": "cesc_tcga_gdc",
+    "api_build": false
+  },
+  {
+    "studyId": "chl_sccc_2023",
+    "api_build": true
+  },
+  {
+    "studyId": "chol_tcga_gdc",
+    "api_build": true
+  },
+  {
+    "studyId": "chrcc_tcga_gdc",
+    "api_build": true
+  },
+  {
+    "studyId": "cll_broad_2022",
+    "api_build": true
+  },
+  {
+    "studyId": "cllsll_msk_2026",
+    "api_build": true
+  },
+  {
+    "studyId": "coad_cptac_gdc",
+    "api_build": false
+  },
+  {
+    "studyId": "coad_tcga_gdc",
+    "api_build": false
+  },
+  {
+    "studyId": "coadread_cass_2020",
+    "api_build": true
+  },
+  {
+    "studyId": "crc_eo_2020",
+    "api_build": false
+  },
+  {
+    "studyId": "crc_hta11_htan_2021",
+    "api_build": false
+  },
+  {
+    "studyId": "crc_hta8_htan_2024",
+    "api_build": true
+  },
+  {
+    "studyId": "crc_msk_2026",
+    "api_build": false
+  },
+  {
+    "studyId": "crc_orion_2024",
+    "api_build": false
+  },
+  {
+    "studyId": "crc_sysucc_2022",
+    "api_build": false
+  },
+  {
+    "studyId": "cscc_ranson_2022",
+    "api_build": false
+  },
+  {
+    "studyId": "csf_msk_2024",
+    "api_build": true
+  },
+  {
+    "studyId": "difg_glass",
+    "api_build": true
+  },
+  {
+    "studyId": "difg_msk_2023",
+    "api_build": true
+  },
+  {
+    "studyId": "difg_tcga_gdc",
+    "api_build": false
+  },
+  {
+    "studyId": "dlbclnos_tcga_gdc",
+    "api_build": false
+  },
+  {
+    "studyId": "egc_msk_2023",
+    "api_build": true
+  },
+  {
+    "studyId": "es_dsrct_msk_2023",
+    "api_build": true
+  },
+  {
+    "studyId": "esca_tcga_gdc",
+    "api_build": false
+  },
+  {
+    "studyId": "gbm_iatlas_prins_2019",
+    "api_build": true
+  },
+  {
+    "studyId": "gbm_tcga_gdc",
+    "api_build": false
+  },
+  {
+    "studyId": "gist_msk_2025",
+    "api_build": true
+  },
+  {
+    "studyId": "hcc_clca_2024",
+    "api_build": true
+  },
+  {
+    "studyId": "hcc_jcopo_msk_2023",
+    "api_build": true
+  },
+  {
+    "studyId": "hcc_msk_2024",
+    "api_build": true
+  },
+  {
+    "studyId": "hcc_tcga_gdc",
+    "api_build": false
+  },
+  {
+    "studyId": "hdcn_msk_2025",
+    "api_build": true
+  },
+  {
+    "studyId": "heme_msk_impact_2022",
+    "api_build": false
+  },
+  {
+    "studyId": "hgsoc_tcga_gdc",
+    "api_build": false
+  },
+  {
+    "studyId": "hnsc_a5consortium_2025",
+    "api_build": false
+  },
+  {
+    "studyId": "hnsc_tcga_gdc",
+    "api_build": false
+  },
+  {
+    "studyId": "ilc_msk_2023",
+    "api_build": true
+  },
+  {
+    "studyId": "lgg_ctf_synodos_2025",
+    "api_build": true
+  },
+  {
+    "studyId": "lipo_msk_2024",
+    "api_build": true
+  },
+  {
+    "studyId": "lipo_msk_2026",
+    "api_build": true
+  },
+  {
+    "studyId": "lms_msk_2024",
+    "api_build": true
+  },
+  {
+    "studyId": "lms_msk_2026",
+    "api_build": false
+  },
+  {
+    "studyId": "luad_cas_2020",
+    "api_build": true
+  },
+  {
+    "studyId": "luad_cptac_gdc",
+    "api_build": false
+  },
+  {
+    "studyId": "luad_tcga_gdc",
+    "api_build": false
+  },
+  {
+    "studyId": "lusc_cptac_gdc",
+    "api_build": false
+  },
+  {
+    "studyId": "lusc_tcga_gdc",
+    "api_build": false
+  },
+  {
+    "studyId": "mbn_msk_2024",
+    "api_build": false
+  },
+  {
+    "studyId": "mbn_sfu_2023",
+    "api_build": false
+  },
+  {
+    "studyId": "mel_iatlas_gide_2019",
+    "api_build": true
+  },
+  {
+    "studyId": "mel_iatlas_hugo_ucla_2016",
+    "api_build": false
+  },
+  {
+    "studyId": "mel_iatlas_liu_2019",
+    "api_build": false
+  },
+  {
+    "studyId": "mel_iatlas_riaz_nivolumab_2017",
+    "api_build": false
+  },
+  {
+    "studyId": "mnet_tcga_gdc",
+    "api_build": false
+  },
+  {
+    "studyId": "msk_ch_2023",
+    "api_build": false
+  },
+  {
+    "studyId": "msk_chord_2024",
+    "api_build": false
+  },
+  {
+    "studyId": "msk_ctdna_vte_2024",
+    "api_build": false
+  },
+  {
+    "studyId": "msk_impact_50k_2026",
+    "api_build": false
+  },
+  {
+    "studyId": "mycf_msk_2026",
+    "api_build": false
+  },
+  {
+    "studyId": "nbl_target_gdc",
+    "api_build": false
+  },
+  {
+    "studyId": "nfib_ctf_biobank_2025",
+    "api_build": false
+  },
+  {
+    "studyId": "normal_skin_fibroblast_2024",
+    "api_build": true
+  },
+  {
+    "studyId": "normal_skin_keratinocytes_2024",
+    "api_build": true
+  },
+  {
+    "studyId": "normal_skin_melanocytes_2024",
+    "api_build": true
+  },
+  {
+    "studyId": "nsgct_tcga_gdc",
+    "api_build": false
+  },
+  {
+    "studyId": "ohnca_cptac_gdc",
+    "api_build": false
+  },
+  {
+    "studyId": "os_target_gdc",
+    "api_build": true
+  },
+  {
+    "studyId": "ovarian_msk_2025",
+    "api_build": true
+  },
+  {
+    "studyId": "ovary_cptac_gdc",
+    "api_build": false
+  },
+  {
+    "studyId": "ovary_geomx_gray_foundation_2024",
+    "api_build": true
+  },
+  {
+    "studyId": "paad_iatlas_prince_2022",
+    "api_build": false
+  },
+  {
+    "studyId": "paad_msk_2025",
+    "api_build": true
+  },
+  {
+    "studyId": "paad_tcga_gdc",
+    "api_build": false
+  },
+  {
+    "studyId": "pan_pdo_wcm_2026",
+    "api_build": false
+  },
+  {
+    "studyId": "pancan_hcmi_2025",
+    "api_build": false
+  },
+  {
+    "studyId": "pancan_mappyacts_2022",
+    "api_build": false
+  },
+  {
+    "studyId": "pancan_mimsi_msk_2024",
+    "api_build": false
+  },
+  {
+    "studyId": "pancan_pdmr_2025",
+    "api_build": false
+  },
+  {
+    "studyId": "pancan_pdx_uthsa_2023",
+    "api_build": true
+  },
+  {
+    "studyId": "pancan_ped_mai_msk_2025",
+    "api_build": true
+  },
+  {
+    "studyId": "pancreas_cptac_gdc",
+    "api_build": false
+  },
+  {
+    "studyId": "pancreas_ctdna_msk_2025",
+    "api_build": true
+  },
+  {
+    "studyId": "pancreas_msk_2024",
+    "api_build": true
+  },
+  {
+    "studyId": "panet_msk_2018",
+    "api_build": true
+  },
+  {
+    "studyId": "panet_msk_erc_2023",
+    "api_build": true
+  },
+  {
+    "studyId": "pcm_msk_2026",
+    "api_build": true
+  },
+  {
+    "studyId": "pcnsl_msk_2024",
+    "api_build": false
+  },
+  {
+    "studyId": "pdac_msk_2024",
+    "api_build": false
+  },
+  {
+    "studyId": "plmeso_msk_2024",
+    "api_build": true
+  },
+  {
+    "studyId": "plmeso_tcga_gdc",
+    "api_build": false
+  },
+  {
+    "studyId": "prad_idhmut_msk_2025",
+    "api_build": true
+  },
+  {
+    "studyId": "prad_msk_2025",
+    "api_build": true
+  },
+  {
+    "studyId": "prad_msk_mdanderson_2023",
+    "api_build": false
+  },
+  {
+    "studyId": "prad_tcga_gdc",
+    "api_build": false
+  },
+  {
+    "studyId": "prcc_tcga_gdc",
+    "api_build": false
+  },
+  {
+    "studyId": "prostate_msk_2024",
+    "api_build": false
+  },
+  {
+    "studyId": "ptad_msk_2024",
+    "api_build": false
+  },
+  {
+    "studyId": "ptad_msk_2026",
+    "api_build": false
+  },
+  {
+    "studyId": "rcc_cptac_gdc",
+    "api_build": false
+  },
+  {
+    "studyId": "rcc_iatlas_immotion150_2018",
+    "api_build": false
+  },
+  {
+    "studyId": "read_tcga_gdc",
+    "api_build": false
+  },
+  {
+    "studyId": "rectal_radiation_msk_2024",
+    "api_build": false
+  },
+  {
+    "studyId": "rms_msk_2026",
+    "api_build": true
+  },
+  {
+    "studyId": "sarcoma_dfci_genie_2026",
+    "api_build": true
+  },
+  {
+    "studyId": "sarcoma_msk_2022",
+    "api_build": false
+  },
+  {
+    "studyId": "sarcoma_msk_2026",
+    "api_build": true
+  },
+  {
+    "studyId": "sarcoma_ucla_2024",
+    "api_build": true
+  },
+  {
+    "studyId": "schw_ctf_synodos_2025",
+    "api_build": false
+  },
+  {
+    "studyId": "sft_sysucc_2023",
+    "api_build": false
+  },
+  {
+    "studyId": "skcm_tcga_gdc",
+    "api_build": false
+  },
+  {
+    "studyId": "soft_tissue_msk_2023",
+    "api_build": true
+  },
+  {
+    "studyId": "soft_tissue_msk_2025",
+    "api_build": true
+  },
+  {
+    "studyId": "soft_tissue_myod1_msk_2025",
+    "api_build": true
+  },
+  {
+    "studyId": "soft_tissue_tcga_gdc",
+    "api_build": false
+  },
+  {
+    "studyId": "stad_tcga_gdc",
+    "api_build": false
+  },
+  {
+    "studyId": "thpa_tcga_gdc",
+    "api_build": false
+  },
+  {
+    "studyId": "thym_tcga_gdc",
+    "api_build": false
+  },
+  {
+    "studyId": "thyroid_gatci_2024",
+    "api_build": false
+  },
+  {
+    "studyId": "ucec_ancestry_cds_msk_2023",
+    "api_build": false
+  },
+  {
+    "studyId": "ucec_msk_2024",
+    "api_build": false
+  },
+  {
+    "studyId": "ucec_msk_dacruzpaula_2025",
+    "api_build": false
+  },
+  {
+    "studyId": "ucec_tcga_gdc",
+    "api_build": false
+  },
+  {
+    "studyId": "ucs_msk_2024",
+    "api_build": false
+  },
+  {
+    "studyId": "ucs_tcga_gdc",
+    "api_build": false
+  },
+  {
+    "studyId": "uec_cptac_gdc",
+    "api_build": false
+  },
+  {
+    "studyId": "uec_msk_2024",
+    "api_build": true
+  },
+  {
+    "studyId": "um_tcga_gdc",
+    "api_build": false
+  },
+  {
+    "studyId": "wt_target_gdc",
     "api_build": true
   }
 ]
