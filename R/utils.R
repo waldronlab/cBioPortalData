@@ -1,7 +1,11 @@
 .biocExtract <- function(object, names.field, colnames) {
     hasRanged <- RTCGAToolbox:::.hasRangeNames(object)
     if (hasRanged) {
-        RTCGAToolbox:::.convertRangeBioc(object, names.field = names.field)
+        ## mutations are always a RaggedExperiment, whatever the number of
+        ## samples (as in RTCGAToolbox::biocExtract)
+        RTCGAToolbox:::.convertRangeBioc(
+            object, names.field = names.field, ragged = TRUE
+        )
     } else {
         RTCGAToolbox:::.makeSummarizedExperimentFromDataFrame(
             object, names.field = names.field, colnames = colnames)
