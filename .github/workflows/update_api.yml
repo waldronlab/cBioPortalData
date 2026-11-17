@@ -1,40 +1,76 @@
-name: Update to cBio Portal API
+name: Check cBioPortal API specification
 
-on: workflow_dispatch
+## cBioPortal() builds its client from the live API specification. This
+## workflow compares the sha256 digest of the live specification with the
+## last reviewed digest in .github/api-docs.sha256 and opens an issue when
+## they differ. After reviewing the changes, update the digest with:
+##   curl -s https://www.cbioportal.org/api/v2/api-docs | sha256sum |
+##       cut -d ' ' -f 1 > .github/api-docs.sha256
+
+on:
+  schedule:
+    - cron: '23 5 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
 
 jobs:
-  apiUpdate:
+  apiCheck:
     runs-on: ubuntu-latest
-    container: ghcr.io/bioconductor/bioconductor_docker:devel
 
     env:
-      R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
-      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      API_URL: https://www.cbioportal.org/api/v2/api-docs
+      ISSUE_TITLE: cBioPortal API specification changed
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
+        uses: actions/checkout@v4
 
-      - name: Install Dependencies
-        run: Rscript -e "install.packages('digest')"
+      - name: Compare live and reviewed API digests
+        id: api_check
+        run: |
+          curl -fsS --retry 3 -o api-docs.json "$API_URL"
+          observed=$(sha256sum api-docs.json | cut -d ' ' -f 1)
+          expected=$(tr -d '[:space:]' < .github/api-docs.sha256)
+          echo "observed=$observed" >> "$GITHUB_OUTPUT"
+          echo "expected=$expected" >> "$GITHUB_OUTPUT"
+          if [ "$observed" = "$expected" ]; then
+            echo "::notice::API is unchanged; no review needed."
+            echo "api_changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "::warning::API digest changed: $expected -> $observed"
+            echo "api_changed=true" >> "$GITHUB_OUTPUT"
+          fi
 
-      - name: Add safe directory
-        run: git config --global --add safe.directory /__w/cBioPortalData/cBioPortalData
-
-      - name: Download API and write sha256
-        id: api_update
-        run: Rscript -e "source('./inst/scripts/update_api-docs.R')"
-
-      - name: Commit changes
-        if: ${{ steps.api_update.outputs.api_changed == 'true' }}
-        uses: EndBug/add-and-commit@v9
-        with:
-          message: 'Update API'
-
-      - name: Push action
-        if: ${{ steps.api_update.outputs.api_changed == 'true' }}
-        uses: ad-m/github-push-action@master
-        with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Open or update issue
+        if: ${{ steps.api_check.outputs.api_changed == 'true' }}
+        env:
+          OBSERVED: ${{ steps.api_check.outputs.observed }}
+          EXPECTED: ${{ steps.api_check.outputs.expected }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          body=$(printf '%s\n' \
+            "The live cBioPortal API specification differs from the last reviewed version." \
+            "" \
+            "- service url: $API_URL" \
+            "- observed sha256: \`$OBSERVED\`" \
+            "- reviewed sha256: \`$EXPECTED\`" \
+            "- workflow run: $RUN_URL" \
+            "" \
+            "Review the changes against the operations used by the package, then" \
+            "update \`.github/api-docs.sha256\` (see \`.github/workflows/update_api.yml\`).")
+          number=$(gh issue list --repo "$GITHUB_REPOSITORY" --state open \
+            --search "\"$ISSUE_TITLE\" in:title" --json number --jq '.[0].number')
+          if [ -z "$number" ]; then
+            gh issue create --repo "$GITHUB_REPOSITORY" \
+              --title "$ISSUE_TITLE" --body "$body"
+          elif ! gh issue view "$number" --repo "$GITHUB_REPOSITORY" \
+              --json body,comments --jq '.body, .comments[].body' |
+              grep -q "$OBSERVED"; then
+            gh issue comment "$number" --repo "$GITHUB_REPOSITORY" --body "$body"
+          else
+            echo "::notice::Issue #$number already reports $OBSERVED"
+          fi

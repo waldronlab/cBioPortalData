@@ -90,21 +90,23 @@ cBioPortal <- function(
         token <- .handle_token(token)
 
     apiUrl <- paste0(protocol, "://", hostname, api.)
+    config <- httr::config(
+        ssl_verifypeer = 0L, ssl_verifyhost = 0L, http_version = 0L
+    )
+    ## the API specification may require authentication
+    if (length(token))
+        config <- c(config, httr::add_headers(.headers = token))
     service <- withCallingHandlers({
+        ## build the service from the live API specification
         Service(
             service = "cBioPortal",
             host = hostname,
-            config = httr::config(
-                ssl_verifypeer = 0L, ssl_verifyhost = 0L, http_version = 0L
-            ),
+            config = config,
             authenticate = FALSE,
-            api_reference_url = apiUrl,
-            ## AnVIL >= 1.25.2 validates against the sha256 digest
-            api_reference_sha256 =
-                "ebfcbe3486c4b34e2a78c8397a03c119a0282418506e09f041f3956fb19ec037",
-            api_reference_headers = token,
+            api_url = apiUrl,
             package = "cBioPortalData",
-            schemes = protocol
+            schemes = protocol,
+            ext = "json"
         )
     }, warning = function(w) {
         if (!grepl("incomplete final line", w))
