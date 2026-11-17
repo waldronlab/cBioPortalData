@@ -1,21 +1,28 @@
 # setwd("~/gh/cBioPortalData")
 file_loc <- "inst/service/cBioPortal/api.json"
+r_file <- "R/cBioPortal.R"
+sha_regex <- "\"[0-9a-f]{64}\""
 
 download.file(
     url = "https://www.cbioportal.org/api/v2/api-docs",
     destfile = file_loc
 )
 
-md5 <- digest::digest(file_loc, file = TRUE)
-cbiolines <- readLines("R/cBioPortal.R")
-mdline <- grep("\"[0-9a-f]{32}\"", cbiolines, value = TRUE)
-oldmd5 <- unlist(strsplit(mdline, "\""))[[2]]
-updatedlines <- gsub("\"[0-9a-f]{32}\"", dQuote(md5, FALSE), cbiolines)
+sha256 <- digest::digest(file_loc, algo = "sha256", file = TRUE)
+cbiolines <- readLines(r_file)
+shaline <- grep(sha_regex, cbiolines, value = TRUE)
+if (length(shaline) != 1L)
+    stop(
+        "expected exactly one sha256 digest in ", r_file,
+        ", found ", length(shaline)
+    )
+oldsha256 <- unlist(strsplit(shaline, "\""))[[2]]
+updatedlines <- gsub(sha_regex, dQuote(sha256, FALSE), cbiolines)
 github_output <- Sys.getenv("GITHUB_OUTPUT")
 
-## success -- updated API files and MD5
-if (!identical(oldmd5, md5)) {
-    writeLines(updatedlines, con = file("R/cBioPortal.R"))
+## success -- updated API files and sha256
+if (!identical(oldsha256, sha256)) {
+    writeLines(updatedlines, con = r_file)
     if (nzchar(github_output)) {
         cat("api_changed=true\n", file = github_output, append = TRUE)
     }

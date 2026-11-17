@@ -100,8 +100,8 @@ cBioPortal <- function(
             authenticate = FALSE,
             api_reference_url = apiUrl,
             ## AnVIL >= 1.25.2 validates against the sha256 digest
-            api_reference_md5sum =
-                "99265965e66b2bc7418869bc22264beed0cbc8785c70d94b7bb63d871fd67628",
+            api_reference_sha256 =
+                "ebfcbe3486c4b34e2a78c8397a03c119a0282418506e09f041f3956fb19ec037",
             api_reference_headers = token,
             package = "cBioPortalData",
             schemes = protocol

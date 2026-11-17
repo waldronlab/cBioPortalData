@@ -23,7 +23,7 @@ jobs:
       - name: Add safe directory
         run: git config --global --add safe.directory /__w/cBioPortalData/cBioPortalData
 
-      - name: Download API and write MD5
+      - name: Download API and write sha256
         id: api_update
         run: Rscript -e "source('./inst/scripts/update_api-docs.R')"
 
