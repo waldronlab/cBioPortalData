@@ -57,10 +57,6 @@
 
     annote <- x[, !samplesAsCols, drop = FALSE]
     hasRanged <- RTCGAToolbox:::.hasRangeNames(annote)
-    if (hasRanged) {
-        rowranges <- RTCGAToolbox:::.makeGRangesFromDataFrame(annote)
-        rowranges <- .setBuild(rowranges, annote)
-    }
 
     x <- data.matrix(x[, samplesAsCols])
 
@@ -72,6 +68,12 @@
         annote <- as.data.frame(annote[!nasdu, ])
         rownames(x) <- rnames[!nasdu]
         rownames(annote) <- rnames[!nasdu]
+    }
+
+    ## build ranges only after all row filtering so they stay parallel to x
+    if (hasRanged) {
+        rowranges <- RTCGAToolbox:::.makeGRangesFromDataFrame(annote)
+        rowranges <- .setBuild(rowranges, annote)
     }
 
     x <- RTCGAToolbox:::.standardizeBC(x)
