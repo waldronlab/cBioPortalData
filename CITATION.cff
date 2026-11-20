@@ -8,7 +8,7 @@ message: 'To cite package "cBioPortalData" in publications use:'
 type: software
 license: AGPL-3.0-only
 title: 'cBioPortalData: Exposes and Makes Available Data from the cBioPortal Web Resources'
-version: 2.25.7
+version: 2.25.8
 doi: 10.1200/CCI.19.00119
 abstract: The cBioPortalData R package accesses study datasets from the cBio Cancer
   Genomics Portal. It accesses the data either from the pre-packaged zip / tar files
