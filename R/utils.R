@@ -18,10 +18,50 @@
     x
 }
 
+.hasGRangesCols <- function(x) {
+    !anyNA(TCGAutils::findGRangesCols(names(x))[c("seqnames", "start", "end")])
+}
+
+## drop rows with missing coordinates up front so that the ranges and the
+## assay stay parallel; warn rather than drop silently
+.dropNARanges <- function(x) {
+    idx <- TCGAutils::findGRangesCols(names(x))[c("seqnames", "start", "end")]
+    cols <- names(x)[idx]
+    nas <- Reduce(`|`, lapply(cols, function(cl) is.na(x[[cl]])))
+    if (any(nas)) {
+        warning(
+            "Dropped ", sum(nas), " of ", length(nas),
+            " row(s) with missing genomic coordinates (",
+            paste(cols, collapse = ", "), ")", call. = FALSE
+        )
+        x <- x[!nas, , drop = FALSE]
+    }
+    x
+}
+
+.makeGRanges <- function(x) {
+    idx <- TCGAutils::findGRangesCols(names(x))
+    fld <- function(f)
+        if (is.na(idx[[f]])) NA_character_ else names(x)[idx[[f]]]
+    strand <- fld("strand")
+    noStrand <- is.na(strand) || all(is.na(x[[strand]]))
+    gr <- GenomicRanges::makeGRangesFromDataFrame(
+        x, keep.extra.columns = TRUE, seqnames.field = fld("seqnames"),
+        start.field = fld("start"), end.field = fld("end"),
+        strand.field = if (noStrand) "strand" else strand,
+        ignore.strand = noStrand
+    )
+    ## row names come from the assay; leftover data.frame row names (e.g.,
+    ## after dropping rows) would otherwise conflict with them
+    names(gr) <- NULL
+    gr
+}
+
 .getMutationData <- function(x, row.field) {
+    x <- .dropNARanges(x)
     ridx <- na.omit(TCGAutils::findGRangesCols(names(x)))
     ranged <- x[, ridx]
-    rowranges <- RTCGAToolbox:::.makeGRangesFromDataFrame(ranged)
+    rowranges <- .makeGRanges(ranged)
     rowranges <- .setBuild(rowranges, x)
 
     others <- match(c("ncbibuild", "entrezgeneid", "hugogenesymbol"),
@@ -46,8 +86,16 @@
     SummarizedExperiment::SummarizedExperiment(x)
 }
 
+## GISTIC files require only peak_start / peak_end; region_start / region_end
+## are optional extras and are preferred when present
 .getGisticData <- function(x) {
-    RTCGAToolbox:::.makeGRangesFromDataFrame(x)
+    pfx <- if (all(c("region_start", "region_end") %in% names(x)))
+        "region" else "peak"
+    GenomicRanges::makeGRangesFromDataFrame(
+        x, keep.extra.columns = TRUE, seqnames.field = "chromosome",
+        start.field = paste0(pfx, "_start"), end.field = paste0(pfx, "_end"),
+        ignore.strand = TRUE
+    )
 }
 
 .getMixedData <- function(x, name.field) {
@@ -56,7 +104,11 @@
     if (!any(samplesAsCols)) { return(.getcbiodata(x, name.field)) }
 
     annote <- x[, !samplesAsCols, drop = FALSE]
-    hasRanged <- RTCGAToolbox:::.hasRangeNames(annote)
+    hasRanged <- .hasGRangesCols(annote)
+    if (hasRanged) {
+        x <- .dropNARanges(x)
+        annote <- x[, !samplesAsCols, drop = FALSE]
+    }
 
     x <- data.matrix(x[, samplesAsCols])
 
@@ -72,7 +124,7 @@
 
     ## build ranges only after all row filtering so they stay parallel to x
     if (hasRanged) {
-        rowranges <- RTCGAToolbox:::.makeGRangesFromDataFrame(annote)
+        rowranges <- .makeGRanges(annote)
         rowranges <- .setBuild(rowranges, annote)
     }
 
