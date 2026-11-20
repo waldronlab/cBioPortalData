@@ -1,3 +1,13 @@
+## Changes in version 2.28.0
+
+### Bug fixes and minor improvements
+
+* `cBioDataPack` and `loadStudy` import ranged data with gene names (e.g.,
+mutations) as a `RaggedExperiment` regardless of the number of samples.
+Previously, data with a single sample, or with the same ranges in every
+sample, could not be imported ("'names.field' is not found") and the
+experiment was dropped with a warning.
+
 ## Changes in version 2.26.0
 
 ### New features
@@ -14,11 +24,6 @@ profiles to the new functions based on `molecularAlterationType`
 
 ### Bug fixes and minor improvements
 
-* `cBioDataPack` and `loadStudy` import ranged data with gene names (e.g.,
-mutations) as a `RaggedExperiment` regardless of the number of samples.
-Previously, data with a single sample, or with the same ranges in every
-sample, could not be imported ("'names.field' is not found") and the
-experiment was dropped with a warning.
 * `fetchData` uses all molecular profiles in the study (excluding
 'GENERIC_ASSAY') when `molecularProfileIds` is not specified (`NULL` or `NA`).
 Previously, no profiles were downloaded when using the default
