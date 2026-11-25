@@ -1,11 +1,11 @@
 [
   {
     "studyId": "acc_tcga",
-    "api_build": false
+    "api_build": true
   },
   {
     "studyId": "all_stjude_2015",
-    "api_build": true
+    "api_build": false
   },
   {
     "studyId": "all_stjude_2013",
@@ -17,7 +17,7 @@
   },
   {
     "studyId": "acyc_fmi_2014",
-    "api_build": false
+    "api_build": true
   },
   {
     "studyId": "acyc_jhu_2016",
@@ -37,11 +37,11 @@
   },
   {
     "studyId": "all_phase2_target_2018_pub",
-    "api_build": false
+    "api_build": true
   },
   {
     "studyId": "acc_tcga_pan_can_atlas_2018",
-    "api_build": false
+    "api_build": true
   },
   {
     "studyId": "aml_ohsu_2018",
@@ -321,7 +321,7 @@
   },
   {
     "studyId": "dlbc_tcga_pan_can_atlas_2018",
-    "api_build": false
+    "api_build": true
   },
   {
     "studyId": "esca_tcga_pan_can_atlas_2018",
@@ -469,7 +469,7 @@
   },
   {
     "studyId": "gbm_cptac_2021",
-    "api_build": false
+    "api_build": true
   },
   {
     "studyId": "hcc_meric_2021",
@@ -493,7 +493,7 @@
   },
   {
     "studyId": "lihc_tcga",
-    "api_build": false
+    "api_build": true
   },
   {
     "studyId": "kirp_tcga",
@@ -593,7 +593,7 @@
   },
   {
     "studyId": "luad_tcga_pub",
-    "api_build": true
+    "api_build": false
   },
   {
     "studyId": "luad_tsp",
@@ -653,7 +653,7 @@
   },
   {
     "studyId": "luad_oncosg_2020",
-    "api_build": false
+    "api_build": true
   },
   {
     "studyId": "mel_dfci_2019",
@@ -1025,7 +1025,7 @@
   },
   {
     "studyId": "sarc_tcga_pub",
-    "api_build": false
+    "api_build": true
   },
   {
     "studyId": "sclc_cancercell_gardner_2017",
@@ -1265,7 +1265,7 @@
   },
   {
     "studyId": "luad_mskcc_2015",
-    "api_build": true
+    "api_build": false
   },
   {
     "studyId": "hnc_mskcc_2016",
@@ -1281,7 +1281,7 @@
   },
   {
     "studyId": "luad_mskimpact_2021",
-    "api_build": true
+    "api_build": false
   },
   {
     "studyId": "lung_pdx_msk_2021",
@@ -1349,7 +1349,7 @@
   },
   {
     "studyId": "acc_2019",
-    "api_build": true
+    "api_build": false
   },
   {
     "studyId": "lung_msk_mind_2020",
@@ -1377,7 +1377,7 @@
   },
   {
     "studyId": "acyc_mgh_2016",
-    "api_build": false
+    "api_build": true
   },
   {
     "studyId": "hccihch_pku_2019",
@@ -1405,7 +1405,7 @@
   },
   {
     "studyId": "thca_tcga_pub",
-    "api_build": true
+    "api_build": false
   },
   {
     "studyId": "skcm_tcga_pub_2015",
@@ -1525,7 +1525,7 @@
   },
   {
     "studyId": "alal_target_gdc",
-    "api_build": false
+    "api_build": true
   },
   {
     "studyId": "alk_msk_2026",
@@ -2097,7 +2097,7 @@
   },
   {
     "studyId": "rms_msk_2026",
-    "api_build": false
+    "api_build": true
   },
   {
     "studyId": "sarcoma_dfci_genie_2026",
@@ -2201,6 +2201,14 @@
   },
   {
     "studyId": "mfs_msk_2026",
+    "api_build": true
+  },
+  {
+    "studyId": "aml_target_gdc",
+    "api_build": false
+  },
+  {
+    "studyId": "egc_msk_2026",
     "api_build": true
   }
 ]
